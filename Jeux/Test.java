@@ -7,6 +7,9 @@ public class Test {
 
         inventory.displayInventory();
 
-        MainMenu mainMenu = new MainMenu();
+        //MainMenu mainMenu = new MainMenu();
+
+        Map test = new Map(5, 5);
+        AffichageTemporaire.affiche(test.getGrid());
     }
 }

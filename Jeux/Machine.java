@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 
 public class Machine {
-    private String type; // "usine" ou "r"colteuse"
+    private String type; // "usine" ou "récolteuse"
     private ArrayList<Ressource> stock; 
 
     public Machine(String type) {

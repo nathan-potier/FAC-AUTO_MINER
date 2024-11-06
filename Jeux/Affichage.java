@@ -8,13 +8,16 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener  {
     private JButton settingsButton;
     private JButton quitButton;
     
+    private KeyPressListener listener;
 
-    public Affichage() {
+    public Affichage(KeyPressListener listener) {
+        this.listener = listener;
         this.setTitle("Main Menu");
         this.setSize(800, 600);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.addKeyListener(this);    // Ajoute le KeyListener au JFrame
         this.setFocusable(true);      // Rend le frame focusable pour recevoir les événements clavier
+    
 
         JPanel panel = new JPanel();
         continueButton = new JButton("Poursuivre la Partie");
@@ -58,25 +61,9 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener  {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        // Vérifie quelle touche a été pressée
-        switch (e.getKeyCode()) {
-            case KeyEvent.VK_UP:
-                System.out.println("Flèche Haut");
-                break;
-            case KeyEvent.VK_DOWN:
-                System.out.println("Flèche Bas");
-                break;
-            case KeyEvent.VK_LEFT:
-                System.out.println("Flèche Gauche");
-                break;
-            case KeyEvent.VK_RIGHT:
-                System.out.println("Flèche Droite");
-                break;
-            case KeyEvent.VK_ESCAPE:
-                System.out.println("Touche Échap pressée");
-                // Action pour Échap, par exemple quitter le jeu
-                System.exit(0); // Quitte l'application
-                break;
+        // Notifie la classe principale de la touche pressée
+        if (listener != null) {
+            listener.onKeyPress(e.getKeyCode());
         }
     }
 

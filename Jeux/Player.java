@@ -17,4 +17,11 @@ public class Player {
         inventory = new Inventory();
         this.position = position;
     }
+
+    public void setPos(Position p){
+        this.position = p;
+    }
+    public Position getPos(){return position;}
+
+    
 }

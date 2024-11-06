@@ -1,5 +1,5 @@
 public class Spawn{
-    private Position pos;
+    private static Position pos;
 
     public Spawn(Position p){
         pos = p;

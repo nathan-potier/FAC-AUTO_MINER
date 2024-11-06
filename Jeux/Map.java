@@ -19,6 +19,26 @@ public class Map {
 
     }
 
+    public void déplacer(Player p, Direction d){
+
+        Position nouvelle = d.move(p.getPos());
+        if (!(nouvelle.getX() >= 0 && nouvelle.getY() >= 0 && nouvelle.getX() < width && nouvelle.getY() < height )){
+
+        }
+        else if(grid[nouvelle.getY()][nouvelle.getX()] == null){
+            grid[nouvelle.getY()][nouvelle.getX()] = new Cell(nouvelle, p);
+            grid[p.getPos().getY()][p.getPos().getX()] = null;
+            p.setPos(nouvelle);
+
+        }
+
+
+    }
+
+    public void verifSpawnAffichage(){
+        
+    }
+
     private void generateRessource(){
 
         Random rand = new Random();

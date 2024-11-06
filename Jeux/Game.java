@@ -1,7 +1,6 @@
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
-public class Game {
+public class Game implements KeyPressListener {
     private Map gameMap;
     private Player player;
     private Market market;
@@ -15,11 +14,43 @@ public class Game {
 
         gameMap = new Map(width, height, player);
 
-        Affichage affichage = new Affichage();
+        Affichage affichage = new Affichage(this);
         AffichageTemporaire.affiche(this.getMap().getGrid());
-
+        this.onKeyPress(height);
 
     }
+
+    @Override
+    public void onKeyPress(int keyCode) {
+        // Gère les touches pressées
+        
+        switch (keyCode) {
+            case KeyEvent.VK_UP:
+                gameMap.déplacer(player, Direction.UP);
+                AffichageTemporaire.affiche(this.getMap().getGrid());
+                break;
+            case KeyEvent.VK_DOWN:
+            gameMap.déplacer(player, Direction.DOWN);
+            AffichageTemporaire.affiche(this.getMap().getGrid());
+                break;
+            case KeyEvent.VK_LEFT:
+            gameMap.déplacer(player, Direction.LEFT);
+            AffichageTemporaire.affiche(this.getMap().getGrid());
+                break;
+            case KeyEvent.VK_RIGHT:
+            gameMap.déplacer(player, Direction.RIGHT);
+            AffichageTemporaire.affiche(this.getMap().getGrid());
+                break;
+            case KeyEvent.VK_ESCAPE:
+                System.out.println("Échap pressée - Sortie.");
+                System.exit(0);
+                break;
+            default:
+                System.out.println("Autre touche pressée.");
+        }
+    }
+
+    
     
 
     public Game(String pseudo){

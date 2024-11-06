@@ -1,12 +1,20 @@
 public class Test {
     public static void main(String[] args) {
         Inventory inventory = new Inventory();
-        inventory.addResource("Wood", 10);
-        inventory.addResource("Iron", 5);
-        inventory.addResource("Wood", 15); 
+        Wood wood = new Wood(10);
+        Iron iron = new Iron(60);
+        inventory.addResource(wood);
+        inventory.addResource(iron);
+
+        Iron moreIron = new Iron(4);
+        inventory.addResource(moreIron);
 
         inventory.displayInventory();
 
-        MainMenu mainMenu = new MainMenu();
+        inventory.removeResource(wood, 100);
+
+        inventory.displayInventory();
+
+        //MainMenu mainMenu = new MainMenu();
     }
 }

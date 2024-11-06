@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 
 public class Machine {
-    private String type; // "usine" ou "r"colteuse"
+    private String type; // "usine" ou "récolteuse"
     private ArrayList<Ressource> stock; 
 
     public Machine(String type) {
@@ -39,5 +39,13 @@ public class Machine {
             // Logique de récolte pour ajouter la ressource au stock
             ajouterRessource(ressource);
         }
+    }
+    
+
+    // Méthode utilitaire pour créer des instances spécifiques de ressources
+    private Ressource createResourceOfType(String name, int quantity) {
+        if ("Wood".equals(name)) { return new Wood(quantity); }
+        if ("Iron".equals(name)) { return new Iron(quantity); }
+        return null;
     }
 }

@@ -28,6 +28,10 @@ public class Cell {
         return "Cell[" + position + ", content=" + content + "]";
     }
 
+    public Boolean equals(Cell bis){
+        return this.toString().equals(bis.toString());
+    }
+
 
 
     

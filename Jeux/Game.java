@@ -12,7 +12,7 @@ public class Game implements KeyPressListener {
         
         
 
-        gameMap = new Map(width, height, player);
+        gameMap = new Map(width, height, player, spawn);
 
         Affichage affichage = new Affichage(this);
         AffichageTemporaire.affiche(this.getMap().getGrid());

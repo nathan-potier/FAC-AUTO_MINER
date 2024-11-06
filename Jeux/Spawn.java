@@ -6,7 +6,7 @@ public class Spawn{
 
     }
 
-    public Position getPos(){return pos;}
+    public static Position getPos(){return pos;}
 
 
 

@@ -1,19 +1,29 @@
 import java.util.Random;
 public class Map {
     private Cell[][] grid;
+    private int width, height;
 
-    public Map(int width, int height) {
-        grid = new Cell[width][height];
-        generateMap(width, height);
+    public Map(int width, int height, Player p) {
+        grid = new Cell[height][width];
+        this.width = width;
+        this.height = height; 
+        generateMap(p);
     }
 
-    private void generateMap(int width, int height) {
+    private void generateMap(Player p) {
+        
+  
+        grid[height - 1][width - (width - 2)] = new Cell(new Position( width - (width - 2), height - 1), p);
+
+
+
+    }
+
+    private void generateRessource(){
+
         Random rand = new Random();
-        Cell start = new Cell(new Position( width - (width - 2), height - 1), null);
         int aleatoireIntLargeur = rand.nextInt(width);
         int aleatoireIntHauteur = rand.nextInt(height);
-
-
     }
 
 

@@ -1,15 +1,20 @@
 import javax.swing.*;
+import java.awt.event.KeyEvent;      // Import de KeyEvent
+import java.awt.event.KeyListener;   // Import de KeyListener
 
-public class MainMenu extends JFrame implements VueGenerale {
+public class Affichage extends JFrame implements VueGenerale, KeyListener  {
     private JButton continueButton;
     private JButton newGameButton;
     private JButton settingsButton;
     private JButton quitButton;
+    
 
-    public MainMenu() {
+    public Affichage() {
         this.setTitle("Main Menu");
         this.setSize(800, 600);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.addKeyListener(this);    // Ajoute le KeyListener au JFrame
+        this.setFocusable(true);      // Rend le frame focusable pour recevoir les événements clavier
 
         JPanel panel = new JPanel();
         continueButton = new JButton("Poursuivre la Partie");
@@ -48,5 +53,40 @@ public class MainMenu extends JFrame implements VueGenerale {
        
         System.out.println("Action transmise : " + action);
        
+    }
+
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        // Vérifie quelle touche a été pressée
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_UP:
+                System.out.println("Flèche Haut");
+                break;
+            case KeyEvent.VK_DOWN:
+                System.out.println("Flèche Bas");
+                break;
+            case KeyEvent.VK_LEFT:
+                System.out.println("Flèche Gauche");
+                break;
+            case KeyEvent.VK_RIGHT:
+                System.out.println("Flèche Droite");
+                break;
+            case KeyEvent.VK_ESCAPE:
+                System.out.println("Touche Échap pressée");
+                // Action pour Échap, par exemple quitter le jeu
+                System.exit(0); // Quitte l'application
+                break;
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        // Tu peux ajouter des actions ici si nécessaire
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        // Pas utilisé pour les flèches ou Échap
     }
 }

@@ -7,9 +7,15 @@ public class Test {
 
         inventory.displayInventory();
 
-        //MainMenu mainMenu = new MainMenu();
+        
 
-        Map test = new Map(5, 5);
-        AffichageTemporaire.affiche(test.getGrid());
+
+        
+
+        Game g = new Game("nathan");
+        g.start();
+        
+ 
+       
     }
 }

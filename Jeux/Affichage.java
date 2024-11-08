@@ -7,23 +7,33 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener  {
     private JButton newGameButton;
     private JButton settingsButton;
     private JButton quitButton;
+    private Game game;
     
     private KeyPressListener listener;
 
-    public Affichage(KeyPressListener listener) {
-        this.listener = listener;
+    public Affichage(Game g) {
+
+        game = g;
+        
+      
+        
+
+       
+        
         this.setTitle("Main Menu");
         this.setSize(800, 600);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.addKeyListener(this);    // Ajoute le KeyListener au JFrame
-        this.setFocusable(true);      // Rend le frame focusable pour recevoir les événements clavier
-    
-
+       
         JPanel panel = new JPanel();
         continueButton = new JButton("Poursuivre la Partie");
         newGameButton = new JButton("Nouvelle Partie");
         settingsButton = new JButton("Réglages");
         quitButton = new JButton("Quitter");
+        
+        continueButton.setFocusable(false);
+        newGameButton.setFocusable(false);
+        settingsButton.setFocusable(false);
+        quitButton.setFocusable(false);
 
         // Ajout des écouteurs d'événements pour les boutons
         continueButton.addActionListener(e -> transmettreAction("Poursuivre"));
@@ -38,6 +48,15 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener  {
 
         this.add(panel);
         this.setVisible(true);
+    }
+
+
+    public void setEcoute(KeyPressListener listener){
+        this.listener = listener;
+        this.addKeyListener(this);    // Ajoute le KeyListener au JFrame
+        this.setFocusable(true);      // Rend le frame focusable pour recevoir les événements clavier
+    
+
     }
 
     @Override
@@ -55,6 +74,8 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener  {
     public void transmettreAction(String action) {
        
         System.out.println("Action transmise : " + action);
+        game.start();
+        setEcoute(game);
        
     }
 

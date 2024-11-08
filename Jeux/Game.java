@@ -6,19 +6,16 @@ public class Game implements KeyPressListener {
     private Market market;
     private Spawn spawn;
     private int width, height;
+    
 
     public void start() {
-
-        
         
 
         gameMap = new Map(width, height, player, spawn);
-
-        Affichage affichage = new Affichage(this);
         AffichageTemporaire.affiche(this.getMap().getGrid());
-        this.onKeyPress(height);
 
     }
+
 
     @Override
     public void onKeyPress(int keyCode) {
@@ -57,7 +54,7 @@ public class Game implements KeyPressListener {
         width = 8;
         height = 5;
         spawn = new Spawn(new Position( width - (width - 2), height - 1));
-        player = new Player(pseudo, spawn.getPos());
+        player = new Player(pseudo, Spawn.getPos());
 
 
     }

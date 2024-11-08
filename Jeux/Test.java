@@ -11,9 +11,9 @@ public class Test {
 
 
         
-
-        Game g = new Game("nathan");
-        g.start();
+        Game game = new Game("nathan");
+        Affichage affichage = new Affichage(game);
+        
         
  
        

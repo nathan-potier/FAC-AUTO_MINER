@@ -65,18 +65,26 @@ public class Usine extends Machine {
             inventaire.removeResource(ingredient, ingredient.getQuantity());
         }
 
-        // Ajouter la ressource produite
+        // Créer la ressource produite et l'ajouter au stock de l'usine
         Ressource ressourceProduite;
         if ("Pickaxe".equalsIgnoreCase(nomRecette)) {
             ressourceProduite = new Pickaxe(1);
         } else if ("Bloc de Fer".equalsIgnoreCase(nomRecette)) {
-            ressourceProduite = new BlocDeFerTempo(1); // Bloc de fer représenté par un seul objet Iron avec quantité 1
+            ressourceProduite = new BlocDeFerTempo(1);
         } else {
             System.out.println("Erreur lors de la production.");
             return;
         }
 
-        inventaire.addResource(ressourceProduite);
-        System.out.println(nomRecette + " produite et ajoutée à l'inventaire.");
+        ajouterRessource(ressourceProduite);
+        System.out.println(nomRecette + " produite et ajoutée au stock de l'usine.");
+    }
+
+    public void recuperer() {
+        while (!getStock().isEmpty()) {
+            Ressource ressource = getStock().remove(0); // Supprime la ressource du stock de l'usine
+            inventaire.addResource(ressource); // Ajoute la ressource à l'inventaire
+        }
+        System.out.println("Stock de l'usine transféré à l'inventaire.");
     }
 }

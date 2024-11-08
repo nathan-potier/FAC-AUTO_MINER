@@ -44,11 +44,15 @@ public class Map {
         }
     }
 
-    private void generateRessource(){
+    public void generateRessource(){
 
         Random rand = new Random();
         int aleatoireIntLargeur = rand.nextInt(width);
         int aleatoireIntHauteur = rand.nextInt(height);
+
+        Position posWood1 = new Position(2, 1);
+        Wood wood = new Wood(1);
+        grid[posWood1.getY()][posWood1.getX()] = new Cell(posWood1, wood);
     }
 
 

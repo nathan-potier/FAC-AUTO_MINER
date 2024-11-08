@@ -12,7 +12,11 @@ public class Game implements KeyPressListener {
         
 
         gameMap = new Map(width, height, player, spawn);
+        gameMap.generateRessource();
+        //player.collectResource(new Wood(3));    -> TESTING
+        
         AffichageTemporaire.affiche(this.getMap().getGrid());
+        
 
     }
 
@@ -42,6 +46,11 @@ public class Game implements KeyPressListener {
                 System.out.println("Échap pressée - Sortie.");
                 System.exit(0);
                 break;
+            case KeyEvent.VK_SPACE:
+                System.out.println("Échap pressée - Sortie.");
+                player.getInv().displayInventory();
+                break;
+            
             default:
                 System.out.println("Autre touche pressée.");
         }

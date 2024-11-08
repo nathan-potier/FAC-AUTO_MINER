@@ -9,7 +9,7 @@ public class Player {
     }
     
     public void collectResource(Ressource resource) {
-        // Code pour la récolte des ressources
+        inventory.addResource(resource.getName(), 1);
     }
 
     public Player(String pseudo, Position position){
@@ -23,5 +23,7 @@ public class Player {
     }
     public Position getPos(){return position;}
 
+    public Inventory getInv() {return inventory;}
+    
     
 }

@@ -40,4 +40,12 @@ public class Machine {
             ajouterRessource(ressource);
         }
     }
+    
+
+    // Méthode utilitaire pour créer des instances spécifiques de ressources
+    private Ressource createResourceOfType(String name, int quantity) {
+        if ("Wood".equals(name)) { return new Wood(quantity); }
+        if ("Iron".equals(name)) { return new Iron(quantity); }
+        return null;
+    }
 }

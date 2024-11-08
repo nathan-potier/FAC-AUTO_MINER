@@ -1,28 +1,28 @@
 import java.util.ArrayList;
 import java.util.List;
 
-class Inventory {
+public class Inventory {
     private List<Ressource> ressources;
 
     public Inventory() {
         ressources = new ArrayList<>();
     }
 
-    public void addResource(String name, int quantity) {
-        for (Ressource resource : ressources) {
-            if (resource.getName().equals(name)) {
-                resource.addQuantity(quantity);
+    public void addResource(Ressource ressource) {
+        for (Ressource r : ressources) {
+            if (r.getName().equals(ressource.getName())) {
+                r.addQuantity(ressource.getQuantity());
                 return;
             }
         }
-        ressources.add(new Ressource(name, quantity));
+        ressources.add(ressource);
     }
 
-    public void removeResource(String name, int quantity) {
-        for (Ressource resource : ressources) {
-            if (resource.getName().equals(name)) {
-                resource.removeQuantity(quantity);
-                break;
+    public void removeResource(Ressource ressource, int quantity) {
+        for (Ressource r : ressources) {
+            if (r.getName().equals(ressource.getName())) {
+                r.removeQuantity(quantity);
+                return;
             }
         }
     }
@@ -37,4 +37,3 @@ class Inventory {
 
 
 }
-

@@ -1,4 +1,4 @@
-class Ressource {
+public abstract class Ressource {
     private String name;
     private int quantity;
 

@@ -19,7 +19,7 @@ public class Game implements KeyPressListener {
         player.collectResource(new Wood(3));
         player.collectResource(new Iron(100));
         
-        AffichageTemporaire.affiche(this.getMap().getGrid());
+        //AffichageTemporaire.affiche(this.getMap().getGrid());
         
         Usine usine = new Usine(player.getInv());
 
@@ -50,19 +50,19 @@ public class Game implements KeyPressListener {
         switch (keyCode) {
             case KeyEvent.VK_UP:
                 gameMap.déplacer(player, Direction.UP);
-                AffichageTemporaire.affiche(this.getMap().getGrid());
+                //AffichageTemporaire.affiche(this.getMap().getGrid());
                 break;
             case KeyEvent.VK_DOWN:
-            gameMap.déplacer(player, Direction.DOWN);
-            AffichageTemporaire.affiche(this.getMap().getGrid());
+                gameMap.déplacer(player, Direction.DOWN);
+                //AffichageTemporaire.affiche(this.getMap().getGrid());
                 break;
             case KeyEvent.VK_LEFT:
-            gameMap.déplacer(player, Direction.LEFT);
-            AffichageTemporaire.affiche(this.getMap().getGrid());
+                gameMap.déplacer(player, Direction.LEFT);
+                //AffichageTemporaire.affiche(this.getMap().getGrid());
                 break;
             case KeyEvent.VK_RIGHT:
-            gameMap.déplacer(player, Direction.RIGHT);
-            AffichageTemporaire.affiche(this.getMap().getGrid());
+                gameMap.déplacer(player, Direction.RIGHT);
+                //AffichageTemporaire.affiche(this.getMap().getGrid());
                 break;
             case KeyEvent.VK_ESCAPE:
                 System.out.println("Échap pressée - Sortie.");
@@ -76,6 +76,7 @@ public class Game implements KeyPressListener {
             default:
                 System.out.println("Autre touche pressée.");
         }
+        
     }
 
     
@@ -90,6 +91,10 @@ public class Game implements KeyPressListener {
 
     }
     public Map getMap(){return gameMap;}
+
+    public int getHeight(){return height;}
+    public int getWidth(){return width;}
+    public Player getPlayer(){return player;}
 }
 
 

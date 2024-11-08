@@ -48,5 +48,20 @@ public class Inventory {
         
     }
 
+    public String[] getResInvName(){
+        String [] res = new String[ressources.size()];
+        for (int i = 0; i < ressources.size(); i++){
+            res[i] = ressources.get(i).getName();
+        }
+        return res;
+    }
+
+    public int[] getResInvQuant(){
+        int [] res = new int[ressources.size()];
+        for (int i = 0; i < ressources.size(); i++){
+            res[i] = ressources.get(i).getQuantity();
+        }
+        return res;
+    }
 
 }

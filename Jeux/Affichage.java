@@ -16,6 +16,8 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener  {
     private JPanel inventoryPanel;
     private JPanel menuPanel;
     private boolean inventaireAfficher = false;
+    private int sizeWidth = 800;
+    private int sizeHeight = 600;
     
     private KeyPressListener listener;
 
@@ -29,7 +31,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener  {
        
         
         this.setTitle("Main Menu");
-        this.setSize(800, 600);
+        this.setSize(sizeWidth, sizeHeight);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
        
         mainPanel = new JPanel(new BorderLayout());
@@ -60,7 +62,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener  {
         // Création des panneaux pour le plateau de jeu et l'inventaire
         gamePanel = new JPanel(new GridLayout(game.getHeight(), game.getWidth()));
         inventoryPanel = new JPanel(new GridLayout(3, 3));  
-        JPanel centerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
+        JPanel centerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, sizeHeight/4));
 
         centerPanel.add(gamePanel); // Ajoute gamePanel au centre
         mainPanel.add(centerPanel, BorderLayout.CENTER); // Ajoute le panel centré dans le mainPanel
@@ -75,6 +77,8 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener  {
    public void afficherCarte() {
     
     gamePanel.removeAll();  // Supprime les anciens éléments
+
+
         for (Cell[] row : game.getMap().getGrid()) {
             for (Cell cell : row) {
                 JPanel cellPanel = new JPanel();
@@ -91,6 +95,8 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener  {
         }
         gamePanel.revalidate();
         gamePanel.repaint();
+
+
     }
     // Méthode pour afficher l'inventaire
     public void afficherInventaire() {
@@ -100,6 +106,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener  {
         int [] resInvQuant = game.getPlayer().getInv().getResInvQuant();
 
         for (int i = 0; i < resInvName.length ; i ++) {  
+            inventoryPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
             JLabel itemLabel = new JLabel(resInvName[i] +" " + resInvQuant[i]);
             inventoryPanel.add(itemLabel);
         }
@@ -141,6 +148,9 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener  {
                 game.start();
                 setEcoute(game);
                 afficherCarte();
+                JLabel leftLabel = new JLabel("\"ESPACE\" => ouvre l'inventaire");
+
+                mainPanel.add(leftLabel, BorderLayout.WEST); // Ajoute le label à gauche de mainPanel
             
 
             default:

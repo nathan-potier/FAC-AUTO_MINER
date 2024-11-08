@@ -30,6 +30,10 @@ public class Inventory {
     public void displayInventory() {
         for (Ressource resource : ressources) {
             System.out.println(resource.getName() + ": " + resource.getQuantity());
+
         }
+        
     }
+
+
 }

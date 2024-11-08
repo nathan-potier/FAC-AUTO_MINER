@@ -1,21 +1,39 @@
 import javax.swing.*;
+import java.awt.event.KeyEvent;      // Import de KeyEvent
+import java.awt.event.KeyListener;   // Import de KeyListener
 
-public class MainMenu extends JFrame implements VueGenerale {
+public class Affichage extends JFrame implements VueGenerale, KeyListener  {
     private JButton continueButton;
     private JButton newGameButton;
     private JButton settingsButton;
     private JButton quitButton;
+    private Game game;
+    
+    private KeyPressListener listener;
 
-    public MainMenu() {
+    public Affichage(Game g) {
+
+        game = g;
+        
+      
+        
+
+       
+        
         this.setTitle("Main Menu");
         this.setSize(800, 600);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+       
         JPanel panel = new JPanel();
         continueButton = new JButton("Poursuivre la Partie");
         newGameButton = new JButton("Nouvelle Partie");
         settingsButton = new JButton("Réglages");
         quitButton = new JButton("Quitter");
+        
+        continueButton.setFocusable(false);
+        newGameButton.setFocusable(false);
+        settingsButton.setFocusable(false);
+        quitButton.setFocusable(false);
 
         // Ajout des écouteurs d'événements pour les boutons
         continueButton.addActionListener(e -> transmettreAction("Poursuivre"));
@@ -30,6 +48,15 @@ public class MainMenu extends JFrame implements VueGenerale {
 
         this.add(panel);
         this.setVisible(true);
+    }
+
+
+    public void setEcoute(KeyPressListener listener){
+        this.listener = listener;
+        this.addKeyListener(this);    // Ajoute le KeyListener au JFrame
+        this.setFocusable(true);      // Rend le frame focusable pour recevoir les événements clavier
+    
+
     }
 
     @Override
@@ -47,6 +74,27 @@ public class MainMenu extends JFrame implements VueGenerale {
     public void transmettreAction(String action) {
        
         System.out.println("Action transmise : " + action);
+        game.start();
+        setEcoute(game);
        
+    }
+
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        // Notifie la classe principale de la touche pressée
+        if (listener != null) {
+            listener.onKeyPress(e.getKeyCode());
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        // Tu peux ajouter des actions ici si nécessaire
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        // Pas utilisé pour les flèches ou Échap
     }
 }

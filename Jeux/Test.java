@@ -11,10 +11,15 @@ public class Test {
 
         inventory.displayInventory();
 
-        inventory.removeResource(wood, 100);
+        
 
-        inventory.displayInventory();
 
-        //MainMenu mainMenu = new MainMenu();
+        
+        Game game = new Game("nathan");
+        Affichage affichage = new Affichage(game);
+        
+        
+ 
+       
     }
 }

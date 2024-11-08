@@ -27,4 +27,12 @@ public class Cell {
     public String toString() {
         return "Cell[" + position + ", content=" + content + "]";
     }
+
+    public Boolean equals(Cell bis){
+        return this.toString().equals(bis.toString());
+    }
+
+
+
+    
 }

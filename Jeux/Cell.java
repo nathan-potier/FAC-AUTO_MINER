@@ -6,6 +6,7 @@ public class Cell {
         this.position = position;
         this.content = content;
     }
+    
 
     public Position getPosition() {
         return position;

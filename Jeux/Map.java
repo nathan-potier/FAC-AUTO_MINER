@@ -25,13 +25,15 @@ public class Map {
         
         Position nouvelle = d.move(p.getPos());
         if (!(nouvelle.getX() >= 0 && nouvelle.getY() >= 0 && nouvelle.getX() < width && nouvelle.getY() < height )){
-
+            return;
         }
         else if(grid[nouvelle.getY()][nouvelle.getX()] == null || grid[nouvelle.getY()][nouvelle.getX()].equals(grid[Spawn.getPos().getY()][Spawn.getPos().getX()])){
             grid[nouvelle.getY()][nouvelle.getX()] = new Cell(nouvelle, p);
             grid[p.getPos().getY()][p.getPos().getX()] = null;
             p.setPos(nouvelle);
 
+        }else if (grid[nouvelle.getY()][nouvelle.getX()].getContent() instanceof Ressource){
+            p.collectResource((Ressource)grid[nouvelle.getY()][nouvelle.getX()].getContent());
         }
         verifSpawnAffichage();
 

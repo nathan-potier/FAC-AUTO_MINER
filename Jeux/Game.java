@@ -48,7 +48,7 @@ public class Game implements KeyPressListener {
                 System.exit(0);
                 break;
             case KeyEvent.VK_SPACE:
-                System.out.println("Échap pressée - Sortie.");
+                System.out.println("Inventaire : ");
                 player.getInv().displayInventory();
                 break;
             

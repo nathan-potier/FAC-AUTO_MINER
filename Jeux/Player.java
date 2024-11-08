@@ -9,7 +9,7 @@ public class Player {
     }
     
     public void collectResource(Ressource resource) {
-        inventory.addResource(resource.getName(), 1);
+        inventory.addResource(resource.getName(), resource.getQuantity());
     }
 
     public Player(String pseudo, Position position){

@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 public class Machine {
     private String type; // "usine" ou "récolteuse"
-    private ArrayList<Ressource> stock; 
+    private ArrayList<Ressource> stock; // seulement pour la recolteuse
 
     public Machine(String type) {
         this.type = type;
@@ -27,11 +27,7 @@ public class Machine {
     }
 
     // Méthode de production spécifique aux usines
-    public void produire() {
-        if ("usine".equals(type)) {
-            // Logique de production en fonction des recettes et des ressources disponibles
-        }
-    }
+    public void produire() {}
 
     // Méthode de récolte spécifique aux récolteuses
     public void recolter(Ressource ressource) {
@@ -41,11 +37,4 @@ public class Machine {
         }
     }
     
-
-    // Méthode utilitaire pour créer des instances spécifiques de ressources
-    private Ressource createResourceOfType(String name, int quantity) {
-        if ("Wood".equals(name)) { return new Wood(quantity); }
-        if ("Iron".equals(name)) { return new Iron(quantity); }
-        return null;
-    }
 }

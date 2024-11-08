@@ -13,12 +13,21 @@ public class Game implements KeyPressListener {
 
         gameMap = new Map(width, height, player, spawn);
         gameMap.generateRessource();
-        //player.collectResource(new Wood(3));    //-> TESTING
-        //player.collectResource(new Wood(3));    //-> TESTING
-        //player.collectResource(new Iron(3));    //-> TESTING
+
+
+        player.collectResource(new Wood(3));
+        player.collectResource(new Wood(3));
+        player.collectResource(new Iron(3));
         
         AffichageTemporaire.affiche(this.getMap().getGrid());
-        
+
+        Usine usine = new Usine(player.getInv());
+
+        System.out.println("\nLancement de la production d'une pioche...");
+        usine.produire("Pickaxe");
+        player.getInv().displayInventory();
+        usine.produire("Bloc de Fer");
+        player.getInv().displayInventory();
         
 
     }

@@ -8,6 +8,11 @@ public class Inventory {
         ressources = new ArrayList<>();
     }
 
+    // Ajouter cette méthode pour accéder à la liste des ressources
+    public List<Ressource> getRessources() {
+        return ressources;
+    }
+
     public boolean addResource(Ressource ressource) {
         for (Ressource r : ressources) {
             if (r.getName().equals(ressource.getName())) {

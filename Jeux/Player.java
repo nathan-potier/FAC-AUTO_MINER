@@ -8,8 +8,8 @@ public class Player {
         // Code pour déplacer le joueur sur la carte
     }
     
-    public void collectResource(Ressource resource) {
-        inventory.addResource(resource);
+    public boolean collectResource(Ressource resource) {
+        return inventory.addResource(resource);
     }
 
     public Player(String pseudo, Position position){

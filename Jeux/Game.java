@@ -13,9 +13,9 @@ public class Game implements KeyPressListener {
 
         gameMap = new Map(width, height, player, spawn);
         gameMap.generateRessource();
-        player.collectResource(new Wood(3));    //-> TESTING
-        player.collectResource(new Wood(3));    //-> TESTING
-        player.collectResource(new Iron(3));    //-> TESTING
+        //player.collectResource(new Wood(3));    //-> TESTING
+        //player.collectResource(new Wood(3));    //-> TESTING
+        //player.collectResource(new Iron(3));    //-> TESTING
         
         AffichageTemporaire.affiche(this.getMap().getGrid());
         

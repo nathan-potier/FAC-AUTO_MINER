@@ -8,14 +8,22 @@ public class Inventory {
         ressources = new ArrayList<>();
     }
 
-    public void addResource(Ressource ressource) {
+    public boolean addResource(Ressource ressource) {
         for (Ressource r : ressources) {
             if (r.getName().equals(ressource.getName())) {
                 r.addQuantity(ressource.getQuantity());
-                return;
+                return true;
             }
         }
-        ressources.add(ressource);
+
+
+        if (ressources.size() < 10){
+            ressources.add(ressource);
+            return true;
+        }
+
+        return false;
+        
     }
 
     public void removeResource(Ressource ressource, int quantity) {

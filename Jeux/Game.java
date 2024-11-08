@@ -17,7 +17,7 @@ public class Game implements KeyPressListener {
         player.collectResource(new Wood(3));    //-> TESTING
         player.collectResource(new Iron(3));    //-> TESTING
         
-        AffichageTemporaire.affiche(this.getMap().getGrid());
+        //AffichageTemporaire.affiche(this.getMap().getGrid());
         
         
 
@@ -31,19 +31,19 @@ public class Game implements KeyPressListener {
         switch (keyCode) {
             case KeyEvent.VK_UP:
                 gameMap.déplacer(player, Direction.UP);
-                AffichageTemporaire.affiche(this.getMap().getGrid());
+                //AffichageTemporaire.affiche(this.getMap().getGrid());
                 break;
             case KeyEvent.VK_DOWN:
-            gameMap.déplacer(player, Direction.DOWN);
-            AffichageTemporaire.affiche(this.getMap().getGrid());
+                gameMap.déplacer(player, Direction.DOWN);
+                //AffichageTemporaire.affiche(this.getMap().getGrid());
                 break;
             case KeyEvent.VK_LEFT:
-            gameMap.déplacer(player, Direction.LEFT);
-            AffichageTemporaire.affiche(this.getMap().getGrid());
+                gameMap.déplacer(player, Direction.LEFT);
+                //AffichageTemporaire.affiche(this.getMap().getGrid());
                 break;
             case KeyEvent.VK_RIGHT:
-            gameMap.déplacer(player, Direction.RIGHT);
-            AffichageTemporaire.affiche(this.getMap().getGrid());
+                gameMap.déplacer(player, Direction.RIGHT);
+                //AffichageTemporaire.affiche(this.getMap().getGrid());
                 break;
             case KeyEvent.VK_ESCAPE:
                 System.out.println("Échap pressée - Sortie.");

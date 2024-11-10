@@ -164,7 +164,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener  {
        
     }
     public void actualise() {
-        Timer timer = new Timer(100, new ActionListener() {
+        Timer timer = new Timer(100 , new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 afficherCarte();

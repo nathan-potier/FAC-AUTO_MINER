@@ -14,7 +14,8 @@ public class Game implements KeyPressListener {
         gameMap = new Map(width, height, player, spawn);
         gameMap.generateRessource();    
 
-
+        //test :
+        /* 
         player.collectResource(new Wood(3));
         player.collectResource(new Wood(3));
         player.collectResource(new Iron(100));
@@ -36,6 +37,7 @@ public class Game implements KeyPressListener {
         usine.afficherStock();
 
         usine.recuperer();
+        */
 
        
         
@@ -83,8 +85,8 @@ public class Game implements KeyPressListener {
     
 
     public Game(String pseudo){
-        width = 8;
-        height = 5;
+        width = 10;
+        height = 10;
         spawn = new Spawn(new Position( width - (width - 2), height - 1));
         player = new Player(pseudo, Spawn.getPos());
 

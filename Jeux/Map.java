@@ -97,6 +97,12 @@ public class Map {
         Position posWood1 = new Position(2, 1);
         Wood wood = new Wood(1);
         grid[posWood1.getY()][posWood1.getX()] = new Cell(posWood1, wood);
+
+        Position posIron1 = new Position(6, 3);
+        Iron iron = new Iron(1);
+        grid[posIron1.getY()][posIron1.getX()] = new Cell(posIron1, iron);
+
+
     }
 
 

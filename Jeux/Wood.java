@@ -4,5 +4,8 @@ public class Wood extends Ressource {
         super("Wood", quantity, false);
 
     }
+    public Wood clone() {
+        return new Wood(this.getQuantity());
+    }
 
 }

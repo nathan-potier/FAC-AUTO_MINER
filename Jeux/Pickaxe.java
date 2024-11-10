@@ -4,4 +4,8 @@ public class Pickaxe extends Ressource {
         super("Pickaxe", quantity);
     }
 
+    public Pickaxe clone() {
+        return new Pickaxe(this.getQuantity());
+    }
+
 }

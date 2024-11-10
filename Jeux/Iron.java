@@ -4,4 +4,8 @@ public class Iron extends Ressource {
         super("Iron", quantity, true);
     }
 
+    public Iron clone() {
+        return new Iron(this.getQuantity());
+    }
+
 }

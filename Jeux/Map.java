@@ -33,9 +33,12 @@ public class Map {
             public void actionPerformed(ActionEvent e) {
                 //System.out.println("5 secondes écoulées");
                 if(grid[position.getY()][position.getX()] != null){
-                    attendreReplace(position, cell, 100) ;
+                    attendreReplace(position, cell, 10) ;
+                    
                 }else{
+                   
                     grid[position.getY()][position.getX()] = cell;
+                    
                 }
 
                 ((Timer) e.getSource()).stop();
@@ -62,12 +65,13 @@ public class Map {
             //generateRessource();
 
         }else if (grid[nouvelle.getY()][nouvelle.getX()].getContent() instanceof Ressource){
+            System.out.println(((Ressource)grid[nouvelle.getY()][nouvelle.getX()].getContent()).getQuantity());
             deplacerOnRessource(p, nouvelle);
             
 
         }
-        
-        verifSpawnAffichage();
+        //generateRessource();
+        verifSpawnAffichage();  
 
 
     }
@@ -91,7 +95,6 @@ public class Map {
         
         else if (isLaborieuse){
             //mettre les déplacement en pause ICI ( j'y arrive pas )
-
             attendreReplace(pos, cell, 10);
         }
     }
@@ -115,6 +118,11 @@ public class Map {
         Position posIron1 = new Position(6, 3);
         Iron iron = new Iron(1);
         grid[posIron1.getY()][posIron1.getX()] = new Cell(posIron1, iron);
+
+
+        Position posIron2 = new Position(1, 6);
+        
+        grid[posIron2.getY()][posIron2.getX()] = new Cell(posIron2, iron);
 
 
     }

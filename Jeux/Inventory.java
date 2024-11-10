@@ -23,7 +23,7 @@ public class Inventory {
 
 
         if (ressources.size() < 10){
-            ressources.add(ressource);
+            ressources.add(ressource.clone());
             return true;
         }
 

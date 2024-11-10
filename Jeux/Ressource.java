@@ -39,4 +39,7 @@ public abstract class Ressource {
     public boolean isTemporisée() {
         return temporisée;
     }
+
+
+    public abstract Ressource clone();
 }

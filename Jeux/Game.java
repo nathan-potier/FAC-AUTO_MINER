@@ -65,12 +65,12 @@ public class Game implements KeyPressListener {
                 //AffichageTemporaire.affiche(this.getMap().getGrid());
                 break;
             case KeyEvent.VK_ESCAPE:
-                System.out.println("Échap pressée - Sortie.");
+                //System.out.println("Échap pressée - Sortie.");
                 System.exit(0);
                 break;
             case KeyEvent.VK_SPACE:
-                System.out.println("Inventaire : ");
-                player.getInv().displayInventory();
+                //System.out.println("Inventaire : ");
+                //player.getInv().displayInventory();
                 break;
             
             default:

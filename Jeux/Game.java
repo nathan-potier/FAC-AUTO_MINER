@@ -86,7 +86,7 @@ public class Game implements KeyPressListener {
 
     public Game(String pseudo){
         width = 10;
-        height = 10;
+        height = 8;
         spawn = new Spawn(new Position( width - (width - 2), height - 1));
         player = new Player(pseudo, Spawn.getPos());
 

@@ -29,7 +29,8 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener  {
         
       
         
-
+        sizeWidth = game.getWidth()*100;
+        sizeHeight = game.getHeight()*100;
        
         
         this.setTitle("Main Menu");

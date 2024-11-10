@@ -31,10 +31,17 @@ public class Map {
             grid[nouvelle.getY()][nouvelle.getX()] = new Cell(nouvelle, p);
             grid[p.getPos().getY()][p.getPos().getX()] = null;
             p.setPos(nouvelle);
+            generateRessource();
 
         }else if (grid[nouvelle.getY()][nouvelle.getX()].getContent() instanceof Ressource){
             p.collectResource((Ressource)grid[nouvelle.getY()][nouvelle.getX()].getContent());
+            grid[nouvelle.getY()][nouvelle.getX()] = new Cell(nouvelle, p);
+            grid[p.getPos().getY()][p.getPos().getX()] = null;
+            p.setPos(nouvelle);
+
+           
         }
+        
         verifSpawnAffichage();
 
 

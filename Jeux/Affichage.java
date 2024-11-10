@@ -75,17 +75,15 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener  {
 
    // Méthode pour afficher la carte
    public void afficherCarte() {
-    
-    gamePanel.removeAll();  // Supprime les anciens éléments
-
+        gamePanel.removeAll();  // Supprime les anciens éléments
 
         for (Cell[] row : game.getMap().getGrid()) {
             for (Cell cell : row) {
                 JPanel cellPanel = new JPanel();
                 cellPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                cellPanel.setPreferredSize(new Dimension(50, 50)); // Définit une taille fixe pour chaque case
                 
                 if (cell != null && cell.getContent() != null) {
-                    
                     JLabel contentLabel = new JLabel(cell.getContent().getClass().getSimpleName().substring(0, 1));
                     cellPanel.add(contentLabel);
                 }
@@ -95,9 +93,8 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener  {
         }
         gamePanel.revalidate();
         gamePanel.repaint();
-
-
     }
+
     // Méthode pour afficher l'inventaire
     public void afficherInventaire() {
         inventoryPanel.removeAll();  // Supprime les anciens éléments de l'inventaire

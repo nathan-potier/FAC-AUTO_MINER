@@ -65,7 +65,7 @@ public class Map {
             //generateRessource();
 
         }else if (grid[nouvelle.getY()][nouvelle.getX()].getContent() instanceof Ressource){
-            System.out.println(((Ressource)grid[nouvelle.getY()][nouvelle.getX()].getContent()).getQuantity());
+            
             deplacerOnRessource(p, nouvelle);
             
 

@@ -151,7 +151,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener  {
                 JLabel leftLabel = new JLabel("\"ESPACE\" => ouvre l'inventaire");
 
                 mainPanel.add(leftLabel, BorderLayout.WEST); // Ajoute le label à gauche de mainPanel
-                //actualise();
+                actualise();
 
             default:
                 break;
@@ -162,7 +162,19 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener  {
         
        
     }
-
+    public void actualise() {
+        Timer timer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                afficherCarte();
+                actualise();
+                ((Timer) e.getSource()).stop();
+            }
+        });
+        timer.setRepeats(false); // S'assure que le timer ne se répète pas
+        timer.start();
+        
+    }
 
 
     @Override

@@ -27,13 +27,13 @@ public class Map {
 
     
 
-    public void attendre(Position position, Cell cell, int temps) {
+    public void attendreReplace(Position position, Cell cell, int temps) {
         Timer timer = new Timer(temps, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //System.out.println("5 secondes écoulées");
                 if(grid[position.getY()][position.getX()] != null){
-                    attendre(position, cell, 100) ;
+                    attendreReplace(position, cell, 100) ;
                 }else{
                     grid[position.getY()][position.getX()] = cell;
                 }
@@ -45,6 +45,8 @@ public class Map {
         timer.start();
         
     }
+
+
 
 
     public void déplacer(Player p, Direction d){
@@ -60,26 +62,38 @@ public class Map {
             //generateRessource();
 
         }else if (grid[nouvelle.getY()][nouvelle.getX()].getContent() instanceof Ressource){
-            p.collectResource((Ressource)grid[nouvelle.getY()][nouvelle.getX()].getContent());
-
-            Cell cell = grid[nouvelle.getY()][nouvelle.getX()];
-            Position pos = new Position(nouvelle.getX(), nouvelle.getY());
-            Boolean isTemporisée = ((Ressource)grid[nouvelle.getY()][nouvelle.getX()].getContent()).isTemporisée();
-
-            grid[nouvelle.getY()][nouvelle.getX()] = new Cell(nouvelle, p);
-            grid[p.getPos().getY()][p.getPos().getX()] = null;
-            p.setPos(nouvelle);
-
-            if(isTemporisée){
-                attendre(pos, cell, 5000);
-                System.out.println("Ressource réaparait");
-            }
+            deplacerOnRessource(p, nouvelle);
+            
 
         }
         
         verifSpawnAffichage();
 
 
+    }
+
+    public void deplacerOnRessource(Player p, Position nouvelle){
+        p.collectResource((Ressource)grid[nouvelle.getY()][nouvelle.getX()].getContent());
+
+        Cell cell = grid[nouvelle.getY()][nouvelle.getX()];
+        Position pos = new Position(nouvelle.getX(), nouvelle.getY());
+        Boolean isTemporisée = ((Ressource)grid[nouvelle.getY()][nouvelle.getX()].getContent()).isTemporisée();
+        Boolean isLaborieuse = ((Ressource)grid[nouvelle.getY()][nouvelle.getX()].getContent()).isLaborieuse();
+
+        grid[nouvelle.getY()][nouvelle.getX()] = new Cell(nouvelle, p);
+        grid[p.getPos().getY()][p.getPos().getX()] = null;
+        p.setPos(nouvelle);
+
+        if(isTemporisée){
+            attendreReplace(pos, cell, 5000);
+            //System.out.println("Ressource réaparait");
+        }
+        
+        else if (isLaborieuse){
+            //mettre les déplacement en pause ICI ( j'y arrive pas )
+
+            attendreReplace(pos, cell, 10);
+        }
     }
 
     public void verifSpawnAffichage(){

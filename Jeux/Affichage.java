@@ -2,7 +2,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;      // Import de KeyEvent
 import java.awt.event.KeyListener;   // Import de KeyListener
-
+import javax.swing.Timer;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 
 public class Affichage extends JFrame implements VueGenerale, KeyListener  {
@@ -70,6 +72,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener  {
 
         this.add(mainPanel);
         this.setVisible(true);
+        
     }
 
 
@@ -148,7 +151,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener  {
                 JLabel leftLabel = new JLabel("\"ESPACE\" => ouvre l'inventaire");
 
                 mainPanel.add(leftLabel, BorderLayout.WEST); // Ajoute le label à gauche de mainPanel
-            
+                //actualise();
 
             default:
                 break;
@@ -159,6 +162,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener  {
         
        
     }
+
 
 
     @Override
@@ -179,6 +183,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener  {
             }
             
         }
+        
         // Notifie la classe principale de la touche pressée
         if (listener != null) {
             listener.onKeyPress(e.getKeyCode());

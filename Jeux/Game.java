@@ -23,13 +23,13 @@ public class Game implements KeyPressListener {
         
         Usine usine = new Usine(player.getInv());
 
-        System.out.println("\nLancement de la production d'une pioche...");
+        //System.out.println("\nLancement de la production d'une pioche...");
         usine.produire("Pickaxe");
 
         // Affichage du stock de l'usine
         usine.afficherStock();
 
-        System.out.println("\nLancement de la production d'un bloc de fer...");
+        //System.out.println("\nLancement de la production d'un bloc de fer...");
         usine.produire("Bloc de Fer");
 
         // Affichage du stock de l'usine

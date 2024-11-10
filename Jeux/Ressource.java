@@ -31,4 +31,12 @@ public abstract class Ressource {
     public void removeQuantity(int amount) {
         quantity = Math.max(0, quantity - amount);
     }
+
+    public boolean isLaborieuse() {
+        return laborieuse;
+    }
+
+    public boolean isTemporisée() {
+        return temporisée;
+    }
 }

@@ -1,4 +1,8 @@
 import java.util.Random;
+import javax.swing.Timer;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 public class Map {
     private Cell[][] grid;
     private int width, height;
@@ -21,6 +25,28 @@ public class Map {
 
     }
 
+    
+
+    public void attendre(Position position, Cell cell, int temps) {
+        Timer timer = new Timer(temps, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //System.out.println("5 secondes écoulées");
+                if(grid[position.getY()][position.getX()] != null){
+                    attendre(position, cell, 100) ;
+                }else{
+                    grid[position.getY()][position.getX()] = cell;
+                }
+
+                ((Timer) e.getSource()).stop();
+            }
+        });
+        timer.setRepeats(false); // S'assure que le timer ne se répète pas
+        timer.start();
+        
+    }
+
+
     public void déplacer(Player p, Direction d){
         
         Position nouvelle = d.move(p.getPos());
@@ -31,15 +57,24 @@ public class Map {
             grid[nouvelle.getY()][nouvelle.getX()] = new Cell(nouvelle, p);
             grid[p.getPos().getY()][p.getPos().getX()] = null;
             p.setPos(nouvelle);
-            generateRessource();
+            //generateRessource();
 
         }else if (grid[nouvelle.getY()][nouvelle.getX()].getContent() instanceof Ressource){
             p.collectResource((Ressource)grid[nouvelle.getY()][nouvelle.getX()].getContent());
+
+            Cell cell = grid[nouvelle.getY()][nouvelle.getX()];
+            Position pos = new Position(nouvelle.getX(), nouvelle.getY());
+            Boolean isTemporisée = ((Ressource)grid[nouvelle.getY()][nouvelle.getX()].getContent()).isTemporisée();
+
             grid[nouvelle.getY()][nouvelle.getX()] = new Cell(nouvelle, p);
             grid[p.getPos().getY()][p.getPos().getX()] = null;
             p.setPos(nouvelle);
 
-           
+            if(isTemporisée){
+                attendre(pos, cell, 5000);
+                System.out.println("Ressource réaparait");
+            }
+
         }
         
         verifSpawnAffichage();

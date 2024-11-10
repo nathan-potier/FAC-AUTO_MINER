@@ -1,8 +1,8 @@
 public abstract class Ressource {
     private String name;
     private int quantity;
-    private boolean laborieuse;
-    private boolean temporisée;
+    private boolean laborieuse = false;
+    private boolean temporisée = false;
 
     public Ressource(String name, int quantity, Boolean laborieuse) {
         this.name = name;

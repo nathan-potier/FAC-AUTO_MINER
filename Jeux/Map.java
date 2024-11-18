@@ -2,6 +2,7 @@ import java.util.Random;
 import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Scanner;
 
 public class Map {
     private Cell[][] grid;
@@ -69,7 +70,12 @@ public class Map {
             deplacerOnRessource(p, nouvelle);
             
 
+        } else if (grid[nouvelle.getY()][nouvelle.getX()].getContent() instanceof Usine) {
+
+            deplacerOnUsine(p, nouvelle);
+
         }
+
         //generateRessource();
         verifSpawnAffichage();  
 
@@ -77,6 +83,7 @@ public class Map {
     }
 
     public void deplacerOnRessource(Player p, Position nouvelle){
+        
         p.collectResource((Ressource)grid[nouvelle.getY()][nouvelle.getX()].getContent());
 
         Cell cell = grid[nouvelle.getY()][nouvelle.getX()];
@@ -99,13 +106,37 @@ public class Map {
         }
     }
 
+
+    public void deplacerOnUsine(Player p, Position nouvelle) {
+        Usine usine = (Usine) grid[nouvelle.getY()][nouvelle.getX()].getContent();
+        Scanner scanner = new Scanner(System.in);
+    
+        // Interaction avec le joueur
+        System.out.println("Vous êtes sur une usine. Voulez-vous Récolter (R) ou Produire (P) ? (S) pour sortir");
+        String choix = scanner.nextLine().toUpperCase();
+    
+        if (choix.equals("R")) {
+            usine.recuperer(); // Récolte le stock de l'usine
+        } else if (choix.equals("P")) {
+            System.out.println("Quelle recette souhaitez-vous produire (Pickaxe ou Bloc de Fer) ?");
+            String recetteChoisie = scanner.nextLine();
+            usine.produire(recetteChoisie);
+        }else if (choix.equals("S")) {
+            System.out.println("Vous avez quitté l'usine");
+        } else {
+            System.out.println("Choix invalide.");
+        }
+
+    }
+    
+
     public void verifSpawnAffichage(){
         if(grid[Spawn.getPos().getY()][Spawn.getPos().getX()] == null){
             grid[Spawn.getPos().getY()][Spawn.getPos().getX()] = new Cell(Spawn.getPos(), spawn);
         }
     }
 
-    public void generateRessource(){
+    public void generateRessource(Player p){
 
         Random rand = new Random();
         int aleatoireIntLargeur = rand.nextInt(width);
@@ -124,6 +155,15 @@ public class Map {
         
         grid[posIron2.getY()][posIron2.getX()] = new Cell(posIron2, iron);
 
+        // Placer une usine à côté de la position de `Wood`
+        Position posUsine = new Position(posWood1.getX() + 1, posWood1.getY()); // Position adjacente
+        Usine usine = new Usine(p.getInv());
+        grid[posUsine.getY()][posUsine.getX()] = new Cell(posUsine, usine);
+
+        // Placer une récolteuse à côté de la position de `Iron`
+        Position posRecolteuse = new Position(posIron1.getX() + 1, posIron1.getY()); // Position adjacente
+        Recolteuse recolteuse = new Recolteuse(posRecolteuse, 10, p.getInv(), iron);  // 10 est la capacité du stock max
+        grid[posRecolteuse.getY()][posRecolteuse.getX()] = new Cell(posRecolteuse, recolteuse);
 
     }
 

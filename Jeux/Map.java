@@ -27,13 +27,14 @@ public class Map {
 
     
 
-    public void attendreReplace(Position position, Cell cell, int temps) {
+    public void attendreReplace(Position position, Cell cell, Player p, int temps) {
         Timer timer = new Timer(temps, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //System.out.println("5 secondes écoulées");
                 if(grid[position.getY()][position.getX()] != null){
-                    attendreReplace(position, cell, 10) ;
+                    p.setEcoute(true);
+                    attendreReplace(position, cell, p, 10) ;
                     
                 }else{
                    
@@ -55,7 +56,7 @@ public class Map {
     public void déplacer(Player p, Direction d){
         
         Position nouvelle = d.move(p.getPos());
-        if (!(nouvelle.getX() >= 0 && nouvelle.getY() >= 0 && nouvelle.getX() < width && nouvelle.getY() < height )){
+        if (!(nouvelle.getX() >= 0 && nouvelle.getY() >= 0 && nouvelle.getX() < width && nouvelle.getY() < height ) || !p.isEcoute()){
             return;
         }
         else if(grid[nouvelle.getY()][nouvelle.getX()] == null || grid[nouvelle.getY()][nouvelle.getX()].equals(grid[Spawn.getPos().getY()][Spawn.getPos().getX()])){
@@ -89,14 +90,14 @@ public class Map {
         p.setPos(nouvelle);
 
         if(isTemporisée){
-            attendreReplace(pos, cell, 5000);
+            attendreReplace(pos, cell, p, 5000);
             //System.out.println("Ressource réaparait");
         }
         
         else if (isLaborieuse){
             //mettre les déplacement en pause ICI ( j'y arrive pas )
-            
-            attendreReplace(pos, cell, 10);
+            p.setEcoute(false);
+            attendreReplace(pos, cell, p, 5000);
         }
     }
 

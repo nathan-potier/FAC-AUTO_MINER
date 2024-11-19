@@ -21,7 +21,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener  {
     private int sizeWidth = 800;
     private int sizeHeight = 600;
     
-    private KeyPressListener listener;
+    private Controle listener;
 
     public Affichage(Game g) {
 
@@ -116,7 +116,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener  {
     }
 
 
-    public void setEcoute(KeyPressListener listener){
+    public void setEcoute(Controle listener){
         this.listener = listener;
         this.addKeyListener(this);    // Ajoute le KeyListener au JFrame
         this.setFocusable(true);      // Rend le frame focusable pour recevoir les événements clavier

@@ -1,6 +1,6 @@
 import java.awt.event.KeyEvent;
 
-public class Game implements KeyPressListener {
+public class Game implements Controle {
     private Map gameMap;
     private Player player;
     private Market market;

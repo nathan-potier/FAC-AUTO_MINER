@@ -95,6 +95,7 @@ public class Map {
         
         else if (isLaborieuse){
             //mettre les déplacement en pause ICI ( j'y arrive pas )
+            
             attendreReplace(pos, cell, 10);
         }
     }

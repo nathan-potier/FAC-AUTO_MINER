@@ -87,6 +87,8 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener {
                     ImageIcon icon = getIconForType(cell.getContent().getClass().getSimpleName());
                     if (icon != null) {
                         JLabel contentLabel = new JLabel(icon);
+                        contentLabel.setIcon(new ImageIcon(icon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH))); // Ajuste la taille
+                        contentLabel.setHorizontalAlignment(SwingConstants.CENTER);
                         cellPanel.add(contentLabel);
                     }
                 }
@@ -135,7 +137,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener {
             JLabel quantityLabel = new JLabel(String.valueOf(resInvQuant[i]));
             quantityLabel.setHorizontalAlignment(SwingConstants.RIGHT);
             quantityLabel.setVerticalAlignment(SwingConstants.BOTTOM);
-            quantityLabel.setForeground(Color.WHITE); // Texte blanc
+            quantityLabel.setForeground(Color.BLACK); // Texte blanc
             quantityLabel.setFont(new Font("Arial", Font.BOLD, 14));
 
             // Superposition (icône + quantité)
@@ -167,8 +169,8 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener {
                 return new ImageIcon("assets/player.png");
             case "Wood":
                 return new ImageIcon("assets/Wood.png");
-            case "Rock":
-                return new ImageIcon("assets/rock.png");
+            case "Iron":
+                return new ImageIcon("assets/Iron.png");
             default:
                 return null;
         }

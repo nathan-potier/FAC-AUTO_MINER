@@ -12,11 +12,11 @@ public class Game implements Controle {
         
 
         gameMap = new Map(width, height, player, spawn);
-        gameMap.generateRessource();    
+        gameMap.generateRessource(player);
+        player.collectResource(new Wood(3));
 
         //test :
         /* 
-        player.collectResource(new Wood(3));
         player.collectResource(new Wood(3));
         player.collectResource(new Iron(100));
         

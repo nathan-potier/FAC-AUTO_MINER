@@ -81,10 +81,14 @@ public class Usine extends Machine {
     }
 
     public void recuperer() {
-        while (!getStock().isEmpty()) {
-            Ressource ressource = getStock().remove(0); // Supprime la ressource du stock de l'usine
-            inventaire.addResource(ressource); // Ajoute la ressource à l'inventaire
+        if(getStock().isEmpty()){
+            System.out.println("Il n'y a rien à récolter dans cette usine");
+        }else{
+            while (!getStock().isEmpty()) {
+                Ressource ressource = getStock().remove(0); // Supprime la ressource du stock de l'usine
+                inventaire.addResource(ressource); // Ajoute la ressource à l'inventaire
+            }
+            System.out.println("Stock de l'usine transféré à l'inventaire.");
         }
-        System.out.println("Stock de l'usine transféré à l'inventaire.");
     }
 }

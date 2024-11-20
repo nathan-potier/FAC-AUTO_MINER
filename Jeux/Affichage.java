@@ -7,17 +7,16 @@ import java.awt.event.ActionListener;
 
 
 public class Affichage extends JFrame implements VueGenerale, KeyListener {
-    private JButton continueButton;
-    private JButton newGameButton;
-    private JButton settingsButton;
-    private JButton quitButton;
+
     private Game game;
     private JPanel mainPanel;
     private JPanel gamePanel;
     private JPanel inventoryPanel;
-    private JPanel menuPanel;
+
     private boolean inventaireAfficher = false;
+
     private Controle listener;
+    private MenuPanel menuPanel;
 
     public Affichage(Game g) {
         game = g;
@@ -30,48 +29,35 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener {
         this.setSize(sizeWidth, sizeHeight);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // Initialisation des panels
+        // Initialisation des panneaux
         mainPanel = new JPanel(new BorderLayout());
-        menuPanel = new JPanel();
         gamePanel = new JPanel(new GridLayout(game.getHeight(), game.getWidth()));
         inventoryPanel = new JPanel(new GridLayout(3, 3));
+        menuPanel = new MenuPanel(e -> transmettreAction(((JButton) e.getSource()).getText()));
 
-        // Initialisation des boutons
-        continueButton = createStyledButton("Poursuivre la Partie");
-        newGameButton = createStyledButton("Nouvelle Partie");
-        settingsButton = createStyledButton("Réglages");
-        quitButton = createStyledButton("Quitter");
-
-        // Ajout des écouteurs d'événements pour les boutons
-        continueButton.addActionListener(e -> transmettreAction("Poursuivre"));
-        newGameButton.addActionListener(e -> transmettreAction("Nouvelle Partie"));
-        settingsButton.addActionListener(e -> transmettreAction("Réglages"));
-        quitButton.addActionListener(e -> transmettreAction("Quitter"));
-
-        // Organisation du menu
-        menuPanel.add(continueButton);
-        menuPanel.add(newGameButton);
-        menuPanel.add(settingsButton);
-        menuPanel.add(quitButton);
+        // Ajout des panneaux à la fenêtre principale
         mainPanel.add(menuPanel, BorderLayout.NORTH);
-
-        // Ajout du panneau de jeu et de l'inventaire
         mainPanel.add(gamePanel, BorderLayout.CENTER);
         mainPanel.add(inventoryPanel, BorderLayout.EAST);
 
         this.add(mainPanel);
         this.setVisible(true);
     }
+        // Méthode pour afficher le menu principal
+    public void afficherMenuPrincipal() {
+        // Masque les autres panneaux
+        gamePanel.setVisible(false);
+        inventoryPanel.setVisible(false);
 
-    // Création de boutons avec style personnalisé
-    private JButton createStyledButton(String text) {
-        JButton button = new JButton(text);
-        button.setFont(new Font("Arial", Font.BOLD, 14));
-        button.setBackground(new Color(34, 139, 34));
-        button.setForeground(Color.WHITE);
-        button.setFocusable(false);
-        return button;
+        // Affiche le panneau du menu
+        menuPanel.setVisible(true);
+
+        // Réactualise l'affichage
+        mainPanel.revalidate();
+        mainPanel.repaint();
     }
+
+
 
     // Afficher la carte avec des images
     public void afficherCarte() {
@@ -200,11 +186,17 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener {
                 break;
             case "Nouvelle Partie":
                 menuPanel.setVisible(false);
+                inventaireAfficher = false;
                 game.start();
                 setEcoute(game);
                 actualiseAffichage(100);
                 afficherCarte();
                 break;
+            case "Poursuivre la Partie":
+                menuPanel.setVisible(false);
+                inventaireAfficher = false;
+
+                afficherCarte();
             default:
                 break;
         }
@@ -227,8 +219,10 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener {
             }
         }
 
-        if (listener != null) {
+        if (listener != null && e.getKeyCode() != KeyEvent.VK_ESCAPE) {
             listener.onKeyPress(e.getKeyCode());
+        }else{
+            afficherMenuPrincipal();
         }
     }
 

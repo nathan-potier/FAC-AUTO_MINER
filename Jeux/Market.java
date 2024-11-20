@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.List;
 
-public class Market {
+public class Market implements Serializable{
     private List<Ressource> resourcesForSale;
     private List<Machine> machinesForSale;
 

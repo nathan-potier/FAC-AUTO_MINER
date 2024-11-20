@@ -1,7 +1,8 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
-public class Machine {
+public class Machine implements Serializable{
     private String type; // "usine" ou "récolteuse"
     private ArrayList<Ressource> stock;
 

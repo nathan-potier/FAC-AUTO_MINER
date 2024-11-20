@@ -91,7 +91,8 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener {
     @Override
     public void transmettreAction(String action) {
         switch (action) {
-            case "Quitter":
+            case "Sauvegarder et Quitter":
+                game.sauvegarderCarte("Sauvegarde_1");
                 System.exit(0);
                 break;
             case "Nouvelle Partie":
@@ -101,6 +102,17 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener {
                 cartePanel.actualiseAffichage(100);
                 setEcoute(game);
                 afficherCarte();
+                break;
+            case "Charger une Partie":
+                Map nouvellePartie = Game.chargerCarte("Sauvegarde_1");
+                
+                if (nouvellePartie != null) {
+                    game.start(nouvellePartie);
+                    cartePanel.actualiseAffichage(100);
+                    setEcoute(game);
+                    afficherCarte();
+                    
+                }
                 break;
             default:
                 break;

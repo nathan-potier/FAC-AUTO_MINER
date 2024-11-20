@@ -1,4 +1,6 @@
-public class Spawn{
+import java.io.Serializable;
+
+public class Spawn implements Serializable{
     private static Position pos;
     
 

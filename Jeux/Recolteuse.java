@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Recolteuse extends Machine {
+public class Recolteuse extends Machine implements Serializable{
     private Position position; // Position actuelle de la récolteuse
     private Inventory inventaire;
     private int stockMax; // Capacité maximale du stock

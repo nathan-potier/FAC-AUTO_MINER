@@ -1,5 +1,6 @@
+import java.io.Serializable;
 
-public class Player {
+public class Player implements Serializable{
     private Inventory inventory;
     private Position position; // Position du joueur sur la carte
     private String pseudo;
@@ -30,6 +31,7 @@ public class Player {
     public Position getPos(){return position;}
 
     public Inventory getInv() {return inventory;}
+    public String getPseudo(){return pseudo;}
     
     
 }

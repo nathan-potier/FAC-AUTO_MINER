@@ -1,4 +1,6 @@
-public abstract class Ressource {
+import java.io.Serializable;
+
+public abstract class Ressource implements Serializable{
     private String name;
     private int quantity;
     private boolean laborieuse = false;

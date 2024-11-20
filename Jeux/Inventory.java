@@ -1,7 +1,8 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Inventory {
+public class Inventory implements Serializable{
     private List<Ressource> ressources;
 
     public Inventory() {

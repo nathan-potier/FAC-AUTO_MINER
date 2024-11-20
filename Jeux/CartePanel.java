@@ -14,6 +14,8 @@ public class CartePanel extends JPanel {
         this.setLayout(new GridLayout(game.getHeight(), game.getWidth()));
     }
 
+    public void setGame(Game g){game = g;}
+
     public void afficherCarte() {
         this.removeAll(); // Supprimer les anciens éléments
 

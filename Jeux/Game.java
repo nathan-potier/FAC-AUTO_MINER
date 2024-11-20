@@ -1,6 +1,18 @@
 import java.awt.event.KeyEvent;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
-public class Game implements Controle {
+
+public class Game implements Controle, Serializable  {
     private Map gameMap;
     private Player player;
     private Market market;
@@ -15,34 +27,18 @@ public class Game implements Controle {
         gameMap.generateRessource(player);
         player.collectResource(new Wood(3));
 
-        //test :
-        /* 
-        player.collectResource(new Wood(3));
-        player.collectResource(new Iron(100));
-        
-        //AffichageTemporaire.affiche(this.getMap().getGrid());
-        
-        Usine usine = new Usine(player.getInv());
-
-        //System.out.println("\nLancement de la production d'une pioche...");
-        usine.produire("Pickaxe");
-
-        // Affichage du stock de l'usine
-        usine.afficherStock();
-
-        //System.out.println("\nLancement de la production d'un bloc de fer...");
-        usine.produire("Bloc de Fer");
-
-        // Affichage du stock de l'usine
-        usine.afficherStock();
-
-        usine.recuperer();
-        */
-
-       
-        
 
     }
+
+    public void start(Map m) {
+        
+
+        gameMap = m;
+
+
+
+    }
+
 
 
     @Override
@@ -97,6 +93,25 @@ public class Game implements Controle {
     public int getHeight(){return height;}
     public int getWidth(){return width;}
     public Player getPlayer(){return player;}
+
+    public void sauvegarderCarte(String nomFichier) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(nomFichier))) {
+            oos.writeObject(this);  // Sérialise l'objet Game complet
+            System.out.println("Carte sauvegardée dans " + nomFichier);
+        } catch (IOException e) {
+            System.err.println("Erreur lors de la sauvegarde : " + e.getMessage());
+        }
+    }
+    
+    public static Game chargerCarte(String nomFichier) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(nomFichier))) {
+            return (Game) ois.readObject();  // Charge l'objet Game complet
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();  // Affiche la pile d'erreur complète
+            System.err.println("Erreur lors du chargement : " + e.getMessage());
+            return null;
+        }
+    }
 }
 
 

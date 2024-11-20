@@ -112,7 +112,7 @@ public class Map {
         Scanner scanner = new Scanner(System.in);
     
         // Interaction avec le joueur
-        System.out.println("Vous êtes sur une usine. Voulez-vous Récolter (R) ou Produire (P) ? (S) pour sortir");
+        System.out.println("Vous êtes sur une usine. Voulez-vous Récolter (R) ou Produire (P) ou voir le Stock (S)? (E) pour sortir");
         String choix = scanner.nextLine().toUpperCase();
     
         if (choix.equals("R")) {
@@ -121,9 +121,12 @@ public class Map {
             System.out.println("Quelle recette souhaitez-vous produire (Pickaxe ou Bloc de Fer) ?");
             String recetteChoisie = scanner.nextLine();
             usine.produire(recetteChoisie);
-        }else if (choix.equals("S")) {
+        }else if (choix.equals("E")) {
             System.out.println("Vous avez quitté l'usine");
-        } else {
+        }else if (choix.equals("S")) {
+            usine.afficherStock();
+            deplacerOnUsine(p, nouvelle);
+        }else {
             System.out.println("Choix invalide.");
         }
 
@@ -161,9 +164,9 @@ public class Map {
         grid[posUsine.getY()][posUsine.getX()] = new Cell(posUsine, usine);
 
         // Placer une récolteuse à côté de la position de `Iron`
-        Position posRecolteuse = new Position(posIron1.getX() + 1, posIron1.getY()); // Position adjacente
-        Recolteuse recolteuse = new Recolteuse(posRecolteuse, 10, p.getInv(), iron);  // 10 est la capacité du stock max
-        grid[posRecolteuse.getY()][posRecolteuse.getX()] = new Cell(posRecolteuse, recolteuse);
+        // Position posRecolteuse = new Position(posIron1.getX() + 1, posIron1.getY()); // Position adjacente
+        // Recolteuse recolteuse = new Recolteuse(posRecolteuse, 10, p.getInv(), iron);  // 10 est la capacité du stock max
+        // grid[posRecolteuse.getY()][posRecolteuse.getX()] = new Cell(posRecolteuse, recolteuse);
 
     }
 

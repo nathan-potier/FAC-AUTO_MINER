@@ -99,7 +99,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener {
                 inventaireAfficher = false;
                 game.start();
                 cartePanel.actualiseAffichage(100);
-                setEcoute(game);
+                setEcoute(game);    
                 afficherCarte();
                 break;
             default:

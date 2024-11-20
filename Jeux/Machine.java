@@ -26,7 +26,6 @@ public class Machine {
         stock.remove(ressource);
     }
 
-    // Méthode de production spécifique aux usines
     public void produire() {}
 
     // Méthode de récolte spécifique aux récolteuses
@@ -37,9 +36,6 @@ public class Machine {
         }
     }
 
-
-
-    // Nouvelle méthode pour afficher le contenu du stock
     public void afficherStock() {
         if (stock.isEmpty()) {
             System.out.println("Le stock est vide.");

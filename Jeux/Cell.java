@@ -6,7 +6,6 @@ public class Cell {
         this.position = position;
         this.content = content;
     }
-    
 
     public Position getPosition() {
         return position;
@@ -31,9 +30,5 @@ public class Cell {
 
     public Boolean equals(Cell bis){
         return this.toString().equals(bis.toString());
-    }
-
-
-
-    
+    } 
 }

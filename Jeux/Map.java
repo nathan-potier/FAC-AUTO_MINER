@@ -18,11 +18,8 @@ public class Map {
     }
 
     private void generateMap(Player p) {
-        
   
         grid[height - 1][width - (width - 2)] = new Cell(new Position( width - (width - 2), height - 1), p);
-
-
 
     }
 
@@ -64,7 +61,6 @@ public class Map {
             grid[nouvelle.getY()][nouvelle.getX()] = new Cell(nouvelle, p);
             grid[p.getPos().getY()][p.getPos().getX()] = null;
             p.setPos(nouvelle);
-            //generateRessource();
 
         }else if (grid[nouvelle.getY()][nouvelle.getX()].getContent() instanceof Ressource){
             
@@ -77,7 +73,6 @@ public class Map {
 
         }
 
-        //generateRessource();
         verifSpawnAffichage();  
 
 
@@ -98,7 +93,6 @@ public class Map {
 
         if(isTemporisée){
             attendreReplace(pos, cell, p, 5000);
-            //System.out.println("Ressource réaparait");
         }
         
         else if (isLaborieuse){
@@ -113,12 +107,11 @@ public class Map {
         Usine usine = (Usine) grid[nouvelle.getY()][nouvelle.getX()].getContent();
         Scanner scanner = new Scanner(System.in);
     
-        // Interaction avec le joueur
         System.out.println("Vous êtes sur une usine. Voulez-vous Récolter (R) ou Produire (P) ou voir le Stock (S)? (E) pour sortir");
         String choix = scanner.nextLine().toUpperCase();
     
         if (choix.equals("R")) {
-            usine.recuperer(); // Récolte le stock de l'usine
+            usine.recuperer();
         } else if (choix.equals("P")) {
             System.out.println("Quelle recette souhaitez-vous produire (Pickaxe ou Bloc de Fer) ?");
             String recetteChoisie = scanner.nextLine();
@@ -131,7 +124,6 @@ public class Map {
         }else {
             System.out.println("Choix invalide.");
         }
-
     }
     
 

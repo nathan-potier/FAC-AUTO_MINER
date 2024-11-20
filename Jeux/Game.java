@@ -96,18 +96,18 @@ public class Game implements Controle, Serializable  {
 
     public void sauvegarderCarte(String nomFichier) {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(nomFichier))) {
-            oos.writeObject(gameMap); // Sérialiser uniquement la Map
+            oos.writeObject(this);  // Sérialise l'objet Game complet
             System.out.println("Carte sauvegardée dans " + nomFichier);
         } catch (IOException e) {
             System.err.println("Erreur lors de la sauvegarde : " + e.getMessage());
         }
     }
-
-    public static Map chargerCarte(String nomFichier) {
+    
+    public static Game chargerCarte(String nomFichier) {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(nomFichier))) {
-            return (Map) ois.readObject(); // Charger uniquement la Map
+            return (Game) ois.readObject();  // Charge l'objet Game complet
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace(); // Affiche la pile d'erreur complète
+            e.printStackTrace();  // Affiche la pile d'erreur complète
             System.err.println("Erreur lors du chargement : " + e.getMessage());
             return null;
         }

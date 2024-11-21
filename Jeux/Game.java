@@ -59,9 +59,3 @@ public class Game implements Controle {
     public int getWidth(){return width;}
     public Player getPlayer(){return player;}
 }
-
-
-
-
-
-

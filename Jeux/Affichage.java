@@ -1,16 +1,23 @@
 import javax.swing.*;
+
+import org.w3c.dom.events.MouseEvent;
+
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseListener;
 
 
-public class Affichage extends JFrame implements VueGenerale, KeyListener {
+
+public class Affichage extends JFrame implements VueGenerale, KeyListener, MouseListener {
 
     private Game game;
     private CartePanel cartePanel;
     private InventairePanel inventairePanel;
     private JPanel mainPanel;
     private MenuPanel menuPanel;
+    
+    private MenuButtonTest menuPanelV2;
 
     private boolean inventaireAfficher = false;
     private Controle listener;
@@ -25,15 +32,24 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener {
         mainPanel = new JPanel(new BorderLayout());
         cartePanel = new CartePanel(game);
         inventairePanel = new InventairePanel(game);
-        menuPanel = new MenuPanel(e -> transmettreAction(((JButton) e.getSource()).getText()));
+        //menuPanel = new MenuPanel(e -> transmettreAction(((JButton) e.getSource()).getText()));
+        menuPanelV2 = new MenuButtonTest();
 
-        mainPanel.add(menuPanel, BorderLayout.NORTH);
+        //mainPanel.add(menuPanel, BorderLayout.NORTH);
+        mainPanel.add(menuPanelV2, BorderLayout.NORTH);
+
         mainPanel.add(cartePanel, BorderLayout.CENTER);
         mainPanel.add(inventairePanel, BorderLayout.EAST);
 
         inventairePanel.setVisible(false);
         this.add(mainPanel);
+        this.pack();
+        this.setLocationRelativeTo(null);
         this.setVisible(true);
+
+        // Ajout du MouseListener
+        menuPanelV2.addMouseListener(this);
+        this.addMouseListener(this); // Pour détecter le clic sur toute la fenêtre
     }
 
     public void afficherCarte() {
@@ -62,7 +78,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener {
         if (listener != null && e.getKeyCode() != KeyEvent.VK_ESCAPE) {
             listener.onKeyPress(e.getKeyCode());
         } else {
-            menuPanel.setVisible(true);
+            menuPanelV2.setVisible(true);
         }
     }
 
@@ -95,7 +111,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener {
                 System.exit(0);
                 break;
             case "Nouvelle Partie":
-                menuPanel.setVisible(false);
+                menuPanelV2.setVisible(false);
                 inventaireAfficher = false;
                 game.start();
                 cartePanel.actualiseAffichage(100);
@@ -106,4 +122,40 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener {
                 break;
         }
     }
+
+
+    @Override
+    public void mousePressed(java.awt.event.MouseEvent e) {
+        // Vérifiez si le clic est sur le bouton du MenuButtonTest
+        if (menuPanelV2.isMouseOver(e.getPoint())) {
+            transmettreAction("Nouvelle Partie");
+        }
+    }
+
+    // Méthodes inutilisées pour l'instant, mais nécessaires
+
+
+    @Override
+    public void mouseClicked(java.awt.event.MouseEvent e) {
+       
+    }
+
+
+
+    @Override
+    public void mouseReleased(java.awt.event.MouseEvent e) {
+       
+    }
+
+    @Override
+    public void mouseEntered(java.awt.event.MouseEvent e) {
+       
+    }
+
+    @Override
+    public void mouseExited(java.awt.event.MouseEvent e) {
+       
+    }
+
+    
 }

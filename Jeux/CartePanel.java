@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -20,8 +19,9 @@ public class CartePanel extends JPanel {
         for (Cell[] row : game.getMap().getGrid()) {
             for (Cell cell : row) {
                 JPanel cellPanel = new JPanel();
-                cellPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                cellPanel.setBorder(BorderFactory.createLineBorder(Color.gray)); //Changer la couleur de la grille
                 cellPanel.setPreferredSize(new Dimension(50, 50));
+                cellPanel.setBackground(Color.DARK_GRAY);
 
                 if (cell != null && cell.getContent() != null) {
                     ImageIcon icon = getIconForType(cell.getContent().getClass().getSimpleName());

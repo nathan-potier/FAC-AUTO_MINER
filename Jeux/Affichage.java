@@ -51,7 +51,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
     }
 
     public void afficherCarte() {
-        cartePanel.afficherCarte();
+        cartePanel.repaint();
         cartePanel.setVisible(true);
         inventairePanel.setVisible(false);
     }
@@ -64,6 +64,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
 
     @Override
     public void keyPressed(KeyEvent e) {
+        
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             if (inventaireAfficher) {
                 afficherCarte();
@@ -111,15 +112,15 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
             case "Nouvelle Partie":
                 menuPanelV2.setVisible(false);
                 inventaireAfficher = false;
-                game.start();
-                cartePanel.actualiseAffichage(100);
+                game.start(); // Initialise le jeu
                 setEcoute(game);    
-                afficherCarte();
+                cartePanel.repaint();
                 break;
             default:
                 break;
         }
     }
+    
 
 
     @Override

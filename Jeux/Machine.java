@@ -5,15 +5,18 @@ import java.util.ArrayList;
 public class Machine implements Serializable{
     private String type; // "usine" ou "récolteuse"
     private ArrayList<Ressource> stock;
+    private int prix;
 
-    public Machine(String type) {
+    public Machine(String type, int prix) {
         this.type = type;
         this.stock = new ArrayList<>();
+        this.prix = prix;
     }
 
-    public String getType() {
+    public String getName() {
         return type;
     }
+    public int getPrix(){return prix;}
 
     public ArrayList<Ressource> getStock() {
         return stock;

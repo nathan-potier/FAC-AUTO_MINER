@@ -1,11 +1,8 @@
 import java.awt.event.KeyEvent;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -23,7 +20,7 @@ public class Game implements Controle, Serializable  {
     public void start() {
         
 
-        gameMap = new Map(width, height, player, spawn);
+        gameMap = new Map(width, height, player, spawn, market);
         gameMap.generateRessource(player);
         player.collectResource(new Wood(3));
 
@@ -81,8 +78,9 @@ public class Game implements Controle, Serializable  {
     
 
     public Game(String pseudo){
-        width = 10;
-        height = 8;
+        width = 13;
+        height = 10;
+        market = new Market();
         spawn = new Spawn(new Position( width - (width - 2), height - 1));
         player = new Player(pseudo, Spawn.getPos());
 

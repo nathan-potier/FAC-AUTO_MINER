@@ -8,7 +8,7 @@ public class Recolteuse extends Machine implements Serializable{
     private Ressource ressourceChoisie; // La ressource choisie pour la récolte
 
     public Recolteuse(Position position, int stockMax, Inventory inventaire, Ressource ressourceChoisi) {
-        super("recolteuse");
+        super("recolteuse", 500);
         this.position = position;
         this.stockMax = stockMax;
         this.inventaire = inventaire;

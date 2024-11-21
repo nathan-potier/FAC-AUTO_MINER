@@ -4,6 +4,7 @@ import java.util.List;
 
 public class Inventory implements Serializable{
     private List<Ressource> ressources;
+    private Machine machine;
 
     public Inventory() {
         ressources = new ArrayList<>();
@@ -13,6 +14,17 @@ public class Inventory implements Serializable{
     public List<Ressource> getRessources() {
         return ressources;
     }
+    public boolean addMachine(Machine m){
+        if (machine == null){
+            machine = m;
+            return true;
+        }
+        return false;
+        
+    }
+    public Machine getMachine(){return machine;}
+    public boolean hasMachine(Machine m){return machine.getName().equals(m.getName());}
+    public void removeMachine(){machine = null;}
 
     public boolean addResource(Ressource ressource) {
         for (Ressource r : ressources) {

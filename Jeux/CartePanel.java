@@ -65,6 +65,8 @@ public class CartePanel extends JPanel {
                 return new ImageIcon("assets/Wood.png");
             case "Iron":
                 return new ImageIcon("assets/Iron.png");
+            case "Market":
+            return new ImageIcon("assets/Market.png");
             default:
                 return null;
         }

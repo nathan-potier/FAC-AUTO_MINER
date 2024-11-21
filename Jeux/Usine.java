@@ -9,7 +9,7 @@ public class Usine extends Machine implements Serializable {
     private List<List<Ressource>> ingredients;
 
     public Usine(Inventory inventaire) {
-        super("usine");
+        super("usine", 100);
         this.inventaire = inventaire;
         initialiserRecettes();
     }

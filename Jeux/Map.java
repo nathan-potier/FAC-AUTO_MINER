@@ -9,12 +9,14 @@ public class Map implements Serializable{
     private Cell[][] grid;
     private int width, height;
     private Spawn spawn;
+    private Market market;
 
-    public Map(int width, int height, Player p, Spawn spawn) {
+    public Map(int width, int height, Player p, Spawn spawn, Market m) {
         grid = new Cell[height][width];
         this.width = width;
         this.height = height; 
         this.spawn = spawn;
+        this.market = m;
         generateMap(p);
     }
 
@@ -22,7 +24,7 @@ public class Map implements Serializable{
         
   
         grid[height - 1][width - (width - 2)] = new Cell(new Position( width - (width - 2), height - 1), p);
-
+        grid[(int)(height / 2)][width - 1] = new Cell(new Position( width - 1, (int)(height / 2)), market);
 
 
     }

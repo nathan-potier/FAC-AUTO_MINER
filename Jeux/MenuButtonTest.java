@@ -15,6 +15,14 @@ public class MenuButtonTest extends JPanel {
         // Configuration de la fenêtre (facultatif pour un rendu propre)
         setPreferredSize(new Dimension(800, 600));
         setBackground(Color.DARK_GRAY);
+        
+        addMouseMotionListener(new MouseAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                playButton.setMouseOver(playButton.getBounds().contains(e.getPoint()));
+                repaint(); // Repeindre pour refléter le changement d'état
+            }
+        });
     }
 
     @Override

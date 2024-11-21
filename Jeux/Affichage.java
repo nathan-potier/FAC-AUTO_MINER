@@ -33,11 +33,9 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         //menuPanel = new MenuPanel(e -> transmettreAction(((JButton) e.getSource()).getText()));
         menuPanelV2 = new MenuButtonTest();
 
-        //mainPanel.add(menuPanel, BorderLayout.NORTH);
-        mainPanel.add(menuPanelV2, BorderLayout.NORTH);
-
         mainPanel.add(cartePanel, BorderLayout.CENTER);
         mainPanel.add(inventairePanel, BorderLayout.EAST);
+        mainPanel.add(menuPanelV2, BorderLayout.SOUTH);
 
         inventairePanel.setVisible(false);
         this.add(mainPanel);
@@ -130,30 +128,12 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         }
     }
 
-    // Méthodes inutilisées pour l'instant, mais nécessaires
-
-
     @Override
-    public void mouseClicked(java.awt.event.MouseEvent e) {
-       
-    }
-
-
-
+    public void mouseClicked(java.awt.event.MouseEvent e) {}
     @Override
-    public void mouseReleased(java.awt.event.MouseEvent e) {
-       
-    }
-
+    public void mouseReleased(java.awt.event.MouseEvent e) {}
     @Override
-    public void mouseEntered(java.awt.event.MouseEvent e) {
-       
-    }
-
+    public void mouseEntered(java.awt.event.MouseEvent e) {}
     @Override
-    public void mouseExited(java.awt.event.MouseEvent e) {
-       
-    }
-
-    
+    public void mouseExited(java.awt.event.MouseEvent e) {}
 }

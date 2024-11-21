@@ -8,7 +8,7 @@ public class Test {
 
         Game game = new Game("nathan");
         Affichage affichage = new Affichage(game);
-        //AffichageBis affichage = new AffichageBis(game);
+
         
         
  

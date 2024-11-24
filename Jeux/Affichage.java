@@ -14,6 +14,8 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
     private final int width;
 
     private boolean inventaireAfficher = false;
+    private boolean menuBoutonClique = true;
+
     private Controle listener;
 
     private Timer movementTimer; // Timer pour les mouvements continus
@@ -42,6 +44,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         mainPanel.add(menuPanelV2, BorderLayout.NORTH);
         mainPanel.add(cartePanel, BorderLayout.CENTER);
         mainPanel.add(inventairePanel, BorderLayout.EAST);
+        mainPanel.add(menuPanelV2, BorderLayout.SOUTH);
 
         inventairePanel.setVisible(false);
         this.add(mainPanel);
@@ -174,20 +177,19 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
 
     @Override
     public void mousePressed(java.awt.event.MouseEvent e) {
-        if (menuPanelV2.isMouseOver(e.getPoint())) {
+        // Vérifiez si le clic est sur le bouton du MenuButtonTest
+        if (menuPanelV2.isMouseOver(e.getPoint()) && menuBoutonClique) {
             transmettreAction("Nouvelle Partie");
+            menuBoutonClique = false;
         }
     }
 
     @Override
     public void mouseClicked(java.awt.event.MouseEvent e) {}
-
     @Override
     public void mouseReleased(java.awt.event.MouseEvent e) {}
-
     @Override
     public void mouseEntered(java.awt.event.MouseEvent e) {}
-
     @Override
     public void mouseExited(java.awt.event.MouseEvent e) {}
 }

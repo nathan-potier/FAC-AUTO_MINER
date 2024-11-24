@@ -1,4 +1,6 @@
-public class Pickaxe extends Ressource {
+import java.io.Serializable;
+
+public class Pickaxe extends Ressource implements Serializable{
 
     public Pickaxe(int quantity) {
         super("Pickaxe", quantity);

@@ -2,18 +2,21 @@ import java.util.Random;
 import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Serializable;
 import java.util.Scanner;
 
-public class Map {
+public class Map implements Serializable{
     private Cell[][] grid;
     private int width, height;
     private Spawn spawn;
+    private Market market;
 
-    public Map(int width, int height, Player p, Spawn spawn) {
+    public Map(int width, int height, Player p, Spawn spawn, Market m) {
         grid = new Cell[height][width];
         this.width = width;
         this.height = height; 
         this.spawn = spawn;
+        this.market = m;
         generateMap(p);
     }
 
@@ -170,4 +173,5 @@ public class Map {
 
 
     public Cell[][] getGrid(){return grid;}
+    public void setGrid(Cell[][] ngrid){grid = ngrid;}
 }

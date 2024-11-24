@@ -9,6 +9,7 @@ public class InventairePanel extends JPanel {
         this.game = game;
         this.setLayout(new GridLayout(3, 9, 5, 5)); // Grille 9x3 avec marges
     }
+    public void setGame(Game g){game = g;}
 
     public void afficherInventaire() {
         this.removeAll(); // Nettoie les anciens slots

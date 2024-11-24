@@ -143,7 +143,8 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
     @Override
     public void transmettreAction(String action) {
         switch (action) {
-            case "Quitter":
+            case "Sauvegarder et Quitter":
+                game.sauvegarderCarte("Sauvegarde_1");
                 System.exit(0);
                 break;
             case "Nouvelle Partie":
@@ -152,6 +153,19 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
                 game.start(); // Initialise le jeu
                 setEcoute(game);
                 cartePanel.repaint();
+                break;
+            case "Charger une Partie":
+                Game nouvellePartie = Game.chargerCarte("Sauvegarde_1");
+                
+                if (nouvellePartie.getMap() != null) {
+                    game = nouvellePartie;
+                    cartePanel.setGame(nouvellePartie);
+                    inventairePanel.setGame(nouvellePartie);
+                    cartePanel.actualiseAffichage(100);
+                    setEcoute(game);
+                    afficherCarte();
+                    
+                }
                 break;
             default:
                 break;

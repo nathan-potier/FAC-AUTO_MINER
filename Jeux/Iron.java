@@ -1,7 +1,9 @@
-public class Iron extends Ressource {
+import java.io.Serializable;
+
+public class Iron extends Ressource implements Serializable{
 
     public Iron(int quantity) {
-        super("Iron", quantity, true);
+        super("Iron", quantity, true, 30);
     }
 
     public Iron clone() {

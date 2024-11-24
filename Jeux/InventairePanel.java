@@ -13,6 +13,7 @@ public class InventairePanel extends JPanel {
         this.setBorder(new LineBorder(Color.DARK_GRAY, 20));  // Bordure noire de 20 pixels
         this.setBackground(Color.DARK_GRAY); // Arrière-plan gris foncé pour l'ensemble du panneau
     }
+    public void setGame(Game g){game = g;}
 
     public void afficherInventaire() {
         this.removeAll(); // Nettoie les anciens slots

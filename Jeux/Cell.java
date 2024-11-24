@@ -1,4 +1,6 @@
-public class Cell {
+import java.io.Serializable;
+
+public class Cell implements Serializable{
     private Position position;
     private Object content; // Par exemple, une ressource, une machine, ou null si vide
     private String terreImage; // Image de Terre pour la cellule (fixe)

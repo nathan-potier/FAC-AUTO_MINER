@@ -1,13 +1,15 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.io.Serializable;
 
-public class Usine extends Machine {
+
+public class Usine extends Machine implements Serializable {
     private Inventory inventaire;
     private String[] recettes;
     private List<List<Ressource>> ingredients;
 
     public Usine(Inventory inventaire) {
-        super("usine");
+        super("usine", 100);
         this.inventaire = inventaire;
         initialiserRecettes();
     }

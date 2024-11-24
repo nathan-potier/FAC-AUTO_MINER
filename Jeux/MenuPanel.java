@@ -12,10 +12,10 @@ public class MenuPanel extends JPanel {
         this.setLayout(new FlowLayout());
 
         // Création des boutons
-        continueButton = createStyledButton("Poursuivre la Partie");
+        continueButton = createStyledButton("Charger une Partie");
         newGameButton = createStyledButton("Nouvelle Partie");
         settingsButton = createStyledButton("Réglages");
-        quitButton = createStyledButton("Quitter");
+        quitButton = createStyledButton("Sauvegarder et Quitter");
 
         // Ajout des écouteurs d'événements
         continueButton.addActionListener(listener);

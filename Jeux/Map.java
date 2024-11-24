@@ -2,18 +2,21 @@ import java.util.Random;
 import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Serializable;
 import java.util.Scanner;
 
-public class Map {
+public class Map implements Serializable{
     private Cell[][] grid;
     private int width, height;
     private Spawn spawn;
+    private Market market;
 
-    public Map(int width, int height, Player p, Spawn spawn) {
+    public Map(int width, int height, Player p, Spawn spawn, Market m) {
         grid = new Cell[height][width];
         this.width = width;
         this.height = height; 
         this.spawn = spawn;
+        this.market = m;
         generateMap(p);
     }
 
@@ -51,29 +54,33 @@ public class Map {
 
 
 
-    public void déplacer(Player p, Direction d){
+    public boolean déplacer(Player p, Direction d){
         
         Position nouvelle = d.move(p.getPos());
         if (!(nouvelle.getX() >= 0 && nouvelle.getY() >= 0 && nouvelle.getX() < width && nouvelle.getY() < height ) || !p.isEcoute()){
-            return;
+            
+            return false;
         }
         else if(grid[nouvelle.getY()][nouvelle.getX()] == null || grid[nouvelle.getY()][nouvelle.getX()].equals(grid[Spawn.getPos().getY()][Spawn.getPos().getX()])){
             grid[nouvelle.getY()][nouvelle.getX()] = new Cell(nouvelle, p);
             grid[p.getPos().getY()][p.getPos().getX()] = null;
             p.setPos(nouvelle);
+            verifSpawnAffichage(); 
+            return true;
 
         }else if (grid[nouvelle.getY()][nouvelle.getX()].getContent() instanceof Ressource){
             
             deplacerOnRessource(p, nouvelle);
-            
+            return true;
 
         } else if (grid[nouvelle.getY()][nouvelle.getX()].getContent() instanceof Usine) {
 
             deplacerOnUsine(p, nouvelle);
-
+            return true;
         }
 
-        verifSpawnAffichage();  
+
+        return false;
 
 
     }
@@ -96,7 +103,7 @@ public class Map {
         }
         
         else if (isLaborieuse){
-            //mettre les déplacement en pause ICI ( j'y arrive pas )
+            
             p.setEcoute(false);
             attendreReplace(pos, cell, p, 5000);
         }
@@ -149,8 +156,8 @@ public class Map {
 
 
         Position posIron2 = new Position(1, 6);
-        
-        grid[posIron2.getY()][posIron2.getX()] = new Cell(posIron2, iron);
+        Iron iron2 = new Iron(1);
+        grid[posIron2.getY()][posIron2.getX()] = new Cell(posIron2, iron2);
 
         // Placer une usine à côté de la position de `Wood`
         Position posUsine = new Position(posWood1.getX() + 1, posWood1.getY()); // Position adjacente
@@ -166,4 +173,5 @@ public class Map {
 
 
     public Cell[][] getGrid(){return grid;}
+    public void setGrid(Cell[][] ngrid){grid = ngrid;}
 }

@@ -18,6 +18,8 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
     private MenuButtonTest menuPanelV2;
 
     private boolean inventaireAfficher = false;
+    private boolean menuBoutonClique = true;
+
     private Controle listener;
 
     public Affichage(Game game) {
@@ -123,8 +125,9 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
     @Override
     public void mousePressed(java.awt.event.MouseEvent e) {
         // Vérifiez si le clic est sur le bouton du MenuButtonTest
-        if (menuPanelV2.isMouseOver(e.getPoint())) {
+        if (menuPanelV2.isMouseOver(e.getPoint()) && menuBoutonClique) {
             transmettreAction("Nouvelle Partie");
+            menuBoutonClique = false;
         }
     }
 

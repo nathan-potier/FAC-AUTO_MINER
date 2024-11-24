@@ -18,7 +18,7 @@ public class Game implements Controle, Serializable  {
     private GameListener listener ;
 
     public void start() {
-<<<<<<< Jeux/Game.java
+
         gameMap = new Map(width, height, player, spawn);
         gameMap.generateRessource(player);
         player.collectResource(new Wood(3)); 
@@ -34,15 +34,7 @@ public class Game implements Controle, Serializable  {
         
         listener.onMove(content, start, target);
         
-=======
-        
 
-        gameMap = new Map(width, height, player, spawn, market);
-        gameMap.generateRessource(player);
-        player.collectResource(new Wood(3));
-
-
->>>>>>> Jeux/Game.java
     }
 
     public void start(Map m) {

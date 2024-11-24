@@ -159,9 +159,9 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
                 
                 if (nouvellePartie.getMap() != null) {
                     game = nouvellePartie;
-                    cartePanel.setGame(nouvellePartie);
+                    //cartePanel.setGame(nouvellePartie);
                     inventairePanel.setGame(nouvellePartie);
-                    cartePanel.actualiseAffichage(100);
+                    //cartePanel.actualiseAffichage(100);
                     setEcoute(game);
                     afficherCarte();
                     

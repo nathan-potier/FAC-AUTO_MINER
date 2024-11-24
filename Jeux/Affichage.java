@@ -1,41 +1,45 @@
 import javax.swing.*;
-
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseListener;
-
-
+import java.awt.event.*;
+import java.util.ArrayList;
 
 public class Affichage extends JFrame implements VueGenerale, KeyListener, MouseListener {
-
     private Game game;
     private CartePanel cartePanel;
     private InventairePanel inventairePanel;
     private JPanel mainPanel;
     private MenuPanel menuPanel;
-    
     private MenuButtonTest menuPanelV2;
+    private final int height;
+    private final int width;
 
     private boolean inventaireAfficher = false;
     private Controle listener;
 
+    private Timer movementTimer; // Timer pour les mouvements continus
+    private ArrayList<Integer> activeKeys = new ArrayList<>(); // Liste des touches actuellement pressées
+    private long lastMovementTime = 0;
+    private static final long MIN_MOVEMENT_DELAY = 100;  // 100 ms minimum entre les mouvements
+    
+
+    
+
     public Affichage(Game game) {
         this.game = game;
+        width = game.getWidth() * 60;
+        height = game.getHeight() * 50;
 
         this.setTitle("Jeu de Gestion de Ressources");
-        this.setSize(game.getWidth() * 50, game.getHeight() * 50);
+
+        setPreferredSize(new Dimension(width, height));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         mainPanel = new JPanel(new BorderLayout());
         cartePanel = new CartePanel(game);
         inventairePanel = new InventairePanel(game);
-        //menuPanel = new MenuPanel(e -> transmettreAction(((JButton) e.getSource()).getText()));
-        menuPanelV2 = new MenuButtonTest();
+        menuPanelV2 = new MenuButtonTest(width/2, height/2);
 
-        //mainPanel.add(menuPanel, BorderLayout.NORTH);
         mainPanel.add(menuPanelV2, BorderLayout.NORTH);
-
         mainPanel.add(cartePanel, BorderLayout.CENTER);
         mainPanel.add(inventairePanel, BorderLayout.EAST);
 
@@ -45,9 +49,22 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         this.setLocationRelativeTo(null);
         this.setVisible(true);
 
-        // Ajout du MouseListener
         menuPanelV2.addMouseListener(this);
-        this.addMouseListener(this); // Pour détecter le clic sur toute la fenêtre
+        this.addMouseListener(this);
+
+
+        movementTimer = new Timer(50, e -> {
+            if (listener != null) {
+                long currentTime = System.currentTimeMillis();
+                if (currentTime - lastMovementTime >= MIN_MOVEMENT_DELAY) {
+                    for (int key : activeKeys) {  // Traite les touches actives
+                        listener.onKeyPress(key);
+                    }
+                    lastMovementTime = currentTime;  // Met à jour le temps du dernier mouvement
+                }
+            }
+        });
+        
     }
 
     public void afficherCarte() {
@@ -60,6 +77,19 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         inventairePanel.afficherInventaire();
         inventairePanel.setVisible(true);
         cartePanel.setVisible(false);
+    }
+
+
+    public void keyPressed(int key) {
+
+
+        if (!activeKeys.contains(key)) { // Ajoute la touche si elle n'est pas déjà dans la liste
+            activeKeys.add(key);
+        }
+
+        if (!movementTimer.isRunning()) { // Démarre le Timer si ce n'est pas déjà fait
+            movementTimer.start();
+        }
     }
 
     @Override
@@ -75,14 +105,21 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
             }
         }
         if (listener != null && e.getKeyCode() != KeyEvent.VK_ESCAPE) {
-            listener.onKeyPress(e.getKeyCode());
+            keyPressed(e.getKeyCode());
         } else {
             menuPanelV2.setVisible(true);
         }
     }
 
     @Override
-    public void keyReleased(KeyEvent e) {}
+    public void keyReleased(KeyEvent e) {
+        int key = e.getKeyCode();
+        activeKeys.remove((Integer) key); // Supprime la touche de la liste
+
+        if (activeKeys.isEmpty()) { // Stoppe le Timer si plus aucune touche n'est active
+            movementTimer.stop();
+        }
+    }
 
     @Override
     public void keyTyped(KeyEvent e) {}
@@ -113,48 +150,30 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
                 menuPanelV2.setVisible(false);
                 inventaireAfficher = false;
                 game.start(); // Initialise le jeu
-                setEcoute(game);    
+                setEcoute(game);
                 cartePanel.repaint();
                 break;
             default:
                 break;
         }
     }
-    
-
 
     @Override
     public void mousePressed(java.awt.event.MouseEvent e) {
-        // Vérifiez si le clic est sur le bouton du MenuButtonTest
         if (menuPanelV2.isMouseOver(e.getPoint())) {
             transmettreAction("Nouvelle Partie");
         }
     }
 
-    // Méthodes inutilisées pour l'instant, mais nécessaires
-
+    @Override
+    public void mouseClicked(java.awt.event.MouseEvent e) {}
 
     @Override
-    public void mouseClicked(java.awt.event.MouseEvent e) {
-       
-    }
-
-
+    public void mouseReleased(java.awt.event.MouseEvent e) {}
 
     @Override
-    public void mouseReleased(java.awt.event.MouseEvent e) {
-       
-    }
+    public void mouseEntered(java.awt.event.MouseEvent e) {}
 
     @Override
-    public void mouseEntered(java.awt.event.MouseEvent e) {
-       
-    }
-
-    @Override
-    public void mouseExited(java.awt.event.MouseEvent e) {
-       
-    }
-
-    
+    public void mouseExited(java.awt.event.MouseEvent e) {}
 }

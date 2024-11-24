@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CartePanel extends JPanel implements GameListener {
-    private final int CELL_SIZE = 50; // Taille d'une cellule
+    private final int CELL_SIZE = 40; // Taille d'une cellule
     private Map<Object, Point> animatedPositions = new HashMap<>();
 
 
@@ -14,6 +14,8 @@ public class CartePanel extends JPanel implements GameListener {
         this.setLayout(null);
         this.setPreferredSize(new Dimension(game.getWidth() * CELL_SIZE, game.getHeight() * CELL_SIZE));
         game.addGameListener(this); // S'abonner au modèle
+        this.setDoubleBuffered(true);
+
 
         
 

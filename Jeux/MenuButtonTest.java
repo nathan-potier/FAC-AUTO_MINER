@@ -7,9 +7,9 @@ public class MenuButtonTest extends JPanel {
 
     private MenuButton playButton;
 
-    public MenuButtonTest() {
+    public MenuButtonTest(int xpos, int ypos) {
         // Initialiser le bouton au centre de la fenêtre
-        playButton = new MenuButton(400, 300);
+        playButton = new MenuButton(xpos, ypos);
 
 
         // Configuration de la fenêtre (facultatif pour un rendu propre)

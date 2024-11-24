@@ -16,10 +16,11 @@ public class Game implements Controle, Serializable  {
     private Spawn spawn;
     private int width, height;
     private GameListener listener ;
+    private Market market;
 
     public void start() {
 
-        gameMap = new Map(width, height, player, spawn);
+        gameMap = new Map(width, height, player, spawn, market);
         gameMap.generateRessource(player);
         player.collectResource(new Wood(3)); 
         updateAffichage(true);
@@ -165,6 +166,3 @@ public class Game implements Controle, Serializable  {
 
 
 
-
-
->>>>>>> Jeux/Game.java

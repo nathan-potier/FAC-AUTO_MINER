@@ -8,7 +8,6 @@ public class Cell implements Serializable{
         this.position = position;
         this.content = content;
     }
-    
 
     public Position getPosition() {
         return position;
@@ -33,9 +32,5 @@ public class Cell implements Serializable{
 
     public Boolean equals(Cell bis){
         return this.toString().equals(bis.toString());
-    }
-
-
-
-    
+    } 
 }

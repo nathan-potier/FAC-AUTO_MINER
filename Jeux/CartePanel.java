@@ -1,74 +1,109 @@
 import javax.swing.*;
 import java.awt.*;
-import javax.swing.Timer;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+public class CartePanel extends JPanel implements GameListener {
+    private final int CELL_SIZE = 40; // Taille d'une cellule
+    private Map<Object, Point> animatedPositions = new HashMap<>();
 
 
-public class CartePanel extends JPanel {
-
-    private Game game;
 
     public CartePanel(Game game) {
-        this.game = game;
-        this.setLayout(new GridLayout(game.getHeight(), game.getWidth()));
+        this.setLayout(null);
+        this.setPreferredSize(new Dimension(game.getWidth() * CELL_SIZE, game.getHeight() * CELL_SIZE));
+        game.addGameListener(this); // S'abonner au modèle
+        this.setDoubleBuffered(true);
+
+
+        
+
     }
-
-    public void setGame(Game g){game = g;}
-
-    public void afficherCarte() {
-        this.removeAll(); // Supprimer les anciens éléments
-
-        for (Cell[] row : game.getMap().getGrid()) {
-            for (Cell cell : row) {
-                JPanel cellPanel = new JPanel();
-                cellPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-                cellPanel.setPreferredSize(new Dimension(50, 50));
-
-                if (cell != null && cell.getContent() != null) {
-                    ImageIcon icon = getIconForType(cell.getContent().getClass().getSimpleName());
-                    if (icon != null) {
-                        JLabel contentLabel = new JLabel(icon);
-                        contentLabel.setIcon(new ImageIcon(icon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH))); // Ajuste la taille
-                        contentLabel.setHorizontalAlignment(SwingConstants.CENTER);
-                        cellPanel.add(contentLabel);
-                    }
-                }
-
-                this.add(cellPanel);
-            }
+    @Override
+    public void updateObjects(ArrayList<Object> obj, ArrayList<Position> pos) {
+        animatedPositions.clear(); // On efface les objets précédents
+        for(int i = 0; i < obj.size(); i++){
+            animatedPositions.put(obj.get(i), new Point(pos.get(i).getX() * CELL_SIZE, pos.get(i).getY() * CELL_SIZE));
         }
-        this.revalidate();
-        this.repaint();
+        //repaint(); // Redessine le panneau
     }
-    public void actualiseAffichage(int temps) {
-        Timer timer = new Timer(temps, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                afficherCarte();
-                actualiseAffichage(10);
+    
+    
 
-                ((Timer) e.getSource()).stop();
+    @Override
+    public void onMove(Object content, Position startPos, Position targetPos) {
+        // Si une animation est déjà en cours, on ne commence pas une nouvelle animation
+
+        animateObjectMovement(content, startPos, targetPos, 100); // Animation sur 1000ms
+    
+    }
+
+    
+
+    /**
+     * Gère l'animation d'un objet à partir d'une position de départ vers une position cible.
+     */
+    public void animateObjectMovement(Object object, Position startPos, Position targetPos, int duration) {
+        Point start = new Point(startPos.getX() * CELL_SIZE, startPos.getY() * CELL_SIZE);
+        Point end = new Point(targetPos.getX() * CELL_SIZE, targetPos.getY() * CELL_SIZE);
+    
+        Timer timer = new Timer(5, null); // Intervalle réduit pour une fluidité accrue
+        long startTime = System.currentTimeMillis();
+    
+        timer.addActionListener(e -> {
+            long elapsedTime = System.currentTimeMillis() - startTime;
+            double progress = Math.min(1.0, (double) elapsedTime / duration);
+    
+            // Interpolation douce (ease-in-out)
+            double smoothProgress = progress * progress * (3 - 2 * progress);
+    
+            int newX = (int) (start.x + smoothProgress * (end.x - start.x));
+            int newY = (int) (start.y + smoothProgress * (end.y - start.y));
+    
+            animatedPositions.put(object, new Point(newX, newY));
+            this.repaint(); // Réactualiser l'affichage
+
+            if (progress >= 1.0) {
+                timer.stop();
+                animatedPositions.put(object, end); // Position finale
+                this.repaint(); // Dernière actualisation
             }
         });
-        timer.setRepeats(false); // S'assure que le timer ne se répète pas
+    
         timer.start();
-        
     }
+    
 
-    // Méthode pour obtenir une icône pour un type donné
-    private ImageIcon getIconForType(String type) {
-        switch (type) {
-            case "Player":
-                return new ImageIcon("assets/player.png");
-            case "Wood":
-                return new ImageIcon("assets/Wood.png");
-            case "Iron":
-                return new ImageIcon("assets/Iron.png");
-            case "Market":
-            return new ImageIcon("assets/Market.png");
-            default:
-                return null;
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        
+        // Dessiner tous les objets (y compris le joueur)
+        for (Map.Entry<Object, Point> entry : animatedPositions.entrySet()) {
+            Object content = entry.getKey();
+            Point position = entry.getValue();
+            ImageIcon icon = getIconForType(content.getClass().getSimpleName());
+        
+            if (icon != null) {
+                g.drawImage(icon.getImage(), position.x, position.y, CELL_SIZE, CELL_SIZE, this);
+            }
         }
     }
+    
+
+    /**
+     * Obtient l'icône correspondant au type d'objet.
+     */
+    private ImageIcon getIconForType(String type) {
+        String path = "assets/" + type + ".png";
+        
+        ImageIcon icon = new ImageIcon(path);
+        if (icon.getImageLoadStatus() != MediaTracker.COMPLETE) {
+            
+            return null;
+        }
+        return icon;
+    }
+    
 }

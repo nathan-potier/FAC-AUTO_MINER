@@ -1,4 +1,5 @@
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -12,12 +13,28 @@ import java.io.Serializable;
 public class Game implements Controle, Serializable  {
     private Map gameMap;
     private Player player;
-    private Market market;
     private Spawn spawn;
     private int width, height;
-    
+    private GameListener listener ;
 
     public void start() {
+<<<<<<< Jeux/Game.java
+        gameMap = new Map(width, height, player, spawn);
+        gameMap.generateRessource(player);
+        player.collectResource(new Wood(3)); 
+        updateAffichage(true);
+        
+    }
+
+    public void addGameListener(GameListener listener) {
+        this.listener = listener;
+    }
+    
+    private void notifyMove(Object content, Position start, Position target) {
+        
+        listener.onMove(content, start, target);
+        
+=======
         
 
         gameMap = new Map(width, height, player, spawn, market);
@@ -25,6 +42,7 @@ public class Game implements Controle, Serializable  {
         player.collectResource(new Wood(3));
 
 
+>>>>>>> Jeux/Game.java
     }
 
     public void start(Map m) {
@@ -41,22 +59,36 @@ public class Game implements Controle, Serializable  {
     @Override
     public void onKeyPress(int keyCode) {
         // Gère les touches pressées
-        
+        Position startPos = player.getPos();
         switch (keyCode) {
             case KeyEvent.VK_UP:
-                gameMap.déplacer(player, Direction.UP);
+                if (gameMap.déplacer(player, Direction.UP)){
+                    notifyMove(player,startPos, player.getPos());
+                    updateAffichage(false);
+                }else{updateAffichage(true);}
+                
                 //AffichageTemporaire.affiche(this.getMap().getGrid());
                 break;
             case KeyEvent.VK_DOWN:
-                gameMap.déplacer(player, Direction.DOWN);
+                if (gameMap.déplacer(player, Direction.DOWN)){
+                    notifyMove(player,startPos, player.getPos());
+                    updateAffichage(false);
+                }else{updateAffichage(true);}
+                
                 //AffichageTemporaire.affiche(this.getMap().getGrid());
                 break;
             case KeyEvent.VK_LEFT:
-                gameMap.déplacer(player, Direction.LEFT);
+                if (gameMap.déplacer(player, Direction.LEFT)){
+                    notifyMove(player,startPos, player.getPos());
+                    updateAffichage(false);
+                }else{updateAffichage(true);}
                 //AffichageTemporaire.affiche(this.getMap().getGrid());
                 break;
             case KeyEvent.VK_RIGHT:
-                gameMap.déplacer(player, Direction.RIGHT);
+                if (gameMap.déplacer(player, Direction.RIGHT)){
+                    notifyMove(player,startPos, player.getPos());
+                    updateAffichage(false);
+                }else{updateAffichage(true);}
                 //AffichageTemporaire.affiche(this.getMap().getGrid());
                 break;
             case KeyEvent.VK_ESCAPE:
@@ -70,12 +102,30 @@ public class Game implements Controle, Serializable  {
             
             default:
                 System.out.println("Autre touche pressée.");
+            
         }
+
         
+
     }
 
-    
-    
+    public void updateAffichage(boolean b){
+        ArrayList<Object> obj = new ArrayList<>();
+        ArrayList<Position> pos = new ArrayList<>();
+        for (Cell[] cells : gameMap.getGrid()){
+            for (Cell c: cells){
+                if(c != null && (!(c.getContent().getClass().equals(player.getClass())) || b) ){
+                    
+                    obj.add(c.getContent());
+                    pos.add(c.getPosition());
+                    
+
+                }
+            }
+        }
+
+        listener.updateObjects(obj, pos);
+    }
 
     public Game(String pseudo){
         width = 13;
@@ -83,14 +133,22 @@ public class Game implements Controle, Serializable  {
         market = new Market();
         spawn = new Spawn(new Position( width - (width - 2), height - 1));
         player = new Player(pseudo, Spawn.getPos());
-
-
     }
     public Map getMap(){return gameMap;}
-
     public int getHeight(){return height;}
     public int getWidth(){return width;}
     public Player getPlayer(){return player;}
+
+    public Object getObjectAtPosition(int x, int y) {
+        // Retourne l'objet à la position (x, y) de la gameMap
+        Cell c = gameMap.getGrid()[y][x];
+        if (c != null){
+            return c.getContent();
+        }
+        return c;
+    }
+    
+
 
     public void sauvegarderCarte(String nomFichier) {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(nomFichier))) {
@@ -117,3 +175,4 @@ public class Game implements Controle, Serializable  {
 
 
 
+>>>>>>> Jeux/Game.java

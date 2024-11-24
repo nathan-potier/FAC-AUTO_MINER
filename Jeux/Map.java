@@ -21,11 +21,8 @@ public class Map implements Serializable{
     }
 
     private void generateMap(Player p) {
-        
   
         grid[height - 1][width - (width - 2)] = new Cell(new Position( width - (width - 2), height - 1), p);
-        grid[(int)(height / 2)][width - 1] = new Cell(new Position( width - 1, (int)(height / 2)), market);
-
 
     }
 
@@ -57,31 +54,33 @@ public class Map implements Serializable{
 
 
 
-    public void déplacer(Player p, Direction d){
+    public boolean déplacer(Player p, Direction d){
         
         Position nouvelle = d.move(p.getPos());
         if (!(nouvelle.getX() >= 0 && nouvelle.getY() >= 0 && nouvelle.getX() < width && nouvelle.getY() < height ) || !p.isEcoute()){
-            return;
+            
+            return false;
         }
         else if(grid[nouvelle.getY()][nouvelle.getX()] == null || grid[nouvelle.getY()][nouvelle.getX()].equals(grid[Spawn.getPos().getY()][Spawn.getPos().getX()])){
             grid[nouvelle.getY()][nouvelle.getX()] = new Cell(nouvelle, p);
             grid[p.getPos().getY()][p.getPos().getX()] = null;
             p.setPos(nouvelle);
-            //generateRessource();
+            verifSpawnAffichage(); 
+            return true;
 
         }else if (grid[nouvelle.getY()][nouvelle.getX()].getContent() instanceof Ressource){
             
             deplacerOnRessource(p, nouvelle);
-            
+            return true;
 
         } else if (grid[nouvelle.getY()][nouvelle.getX()].getContent() instanceof Usine) {
 
             deplacerOnUsine(p, nouvelle);
-
+            return true;
         }
 
-        //generateRessource();
-        verifSpawnAffichage();  
+
+        return false;
 
 
     }
@@ -101,11 +100,10 @@ public class Map implements Serializable{
 
         if(isTemporisée){
             attendreReplace(pos, cell, p, 5000);
-            //System.out.println("Ressource réaparait");
         }
         
         else if (isLaborieuse){
-            //mettre les déplacement en pause ICI ( j'y arrive pas )
+            
             p.setEcoute(false);
             attendreReplace(pos, cell, p, 5000);
         }
@@ -116,12 +114,11 @@ public class Map implements Serializable{
         Usine usine = (Usine) grid[nouvelle.getY()][nouvelle.getX()].getContent();
         Scanner scanner = new Scanner(System.in);
     
-        // Interaction avec le joueur
         System.out.println("Vous êtes sur une usine. Voulez-vous Récolter (R) ou Produire (P) ou voir le Stock (S)? (E) pour sortir");
         String choix = scanner.nextLine().toUpperCase();
     
         if (choix.equals("R")) {
-            usine.recuperer(); // Récolte le stock de l'usine
+            usine.recuperer();
         } else if (choix.equals("P")) {
             System.out.println("Quelle recette souhaitez-vous produire (Pickaxe ou Bloc de Fer) ?");
             String recetteChoisie = scanner.nextLine();
@@ -134,7 +131,6 @@ public class Map implements Serializable{
         }else {
             System.out.println("Choix invalide.");
         }
-
     }
     
 
@@ -160,8 +156,8 @@ public class Map implements Serializable{
 
 
         Position posIron2 = new Position(1, 6);
-        
-        grid[posIron2.getY()][posIron2.getX()] = new Cell(posIron2, iron);
+        Iron iron2 = new Iron(1);
+        grid[posIron2.getY()][posIron2.getX()] = new Cell(posIron2, iron2);
 
         // Placer une usine à côté de la position de `Wood`
         Position posUsine = new Position(posWood1.getX() + 1, posWood1.getY()); // Position adjacente

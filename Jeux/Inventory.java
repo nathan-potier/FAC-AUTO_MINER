@@ -10,7 +10,6 @@ public class Inventory implements Serializable{
         ressources = new ArrayList<>();
     }
 
-    // Ajouter cette méthode pour accéder à la liste des ressources
     public List<Ressource> getRessources() {
         return ressources;
     }
@@ -34,7 +33,6 @@ public class Inventory implements Serializable{
             }
         }
 
-
         if (ressources.size() < 10){
             ressources.add(ressource.clone());
             return true;
@@ -56,9 +54,7 @@ public class Inventory implements Serializable{
     public void displayInventory() {
         for (Ressource resource : ressources) {
             System.out.println(resource.getName() + ": " + resource.getQuantity());
-
         }
-        
     }
 
     public String[] getResInvName(){

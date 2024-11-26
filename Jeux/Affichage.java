@@ -18,10 +18,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
 
     private Controle listener;
 
-    private Timer movementTimer; // Timer pour les mouvements continus
-    private ArrayList<Integer> activeKeys = new ArrayList<>(); // Liste des touches actuellement pressées
-    private long lastMovementTime = 0;
-    private static final long MIN_MOVEMENT_DELAY = 100;  // 100 ms minimum entre les mouvements
+ 
     
 
     
@@ -56,17 +53,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         this.addMouseListener(this);
 
 
-        movementTimer = new Timer(50, e -> {
-            if (listener != null) {
-                long currentTime = System.currentTimeMillis();
-                if (currentTime - lastMovementTime >= MIN_MOVEMENT_DELAY) {
-                    for (int key : activeKeys) {  // Traite les touches actives
-                        listener.onKeyPress(key);
-                    }
-                    lastMovementTime = currentTime;  // Met à jour le temps du dernier mouvement
-                }
-            }
-        });
+
         
     }
 
@@ -83,17 +70,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
     }
 
 
-    public void keyPressed(int key) {
 
-
-        if (!activeKeys.contains(key)) { // Ajoute la touche si elle n'est pas déjà dans la liste
-            activeKeys.add(key);
-        }
-
-        if (!movementTimer.isRunning()) { // Démarre le Timer si ce n'est pas déjà fait
-            movementTimer.start();
-        }
-    }
 
     @Override
     public void keyPressed(KeyEvent e) {
@@ -108,7 +85,8 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
             }
         }
         if (listener != null && e.getKeyCode() != KeyEvent.VK_ESCAPE) {
-            keyPressed(e.getKeyCode());
+            listener.onKeyPress(e.getKeyCode());
+            //keyPressed(e.getKeyCode());
         } else {
             menuPanelV2.setVisible(true);
         }
@@ -116,12 +94,6 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
 
     @Override
     public void keyReleased(KeyEvent e) {
-        int key = e.getKeyCode();
-        activeKeys.remove((Integer) key); // Supprime la touche de la liste
-
-        if (activeKeys.isEmpty()) { // Stoppe le Timer si plus aucune touche n'est active
-            movementTimer.stop();
-        }
     }
 
     @Override

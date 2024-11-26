@@ -70,6 +70,7 @@ public class CartePanel extends JPanel implements GameListener {
         int[] currentPixel = {0}; // Pixel actuel parcouru
 
         timer.addActionListener(e -> {
+            MouseInfo.getPointerInfo ();
             if (currentPixel[0] >= totalSteps) {
                 // Arrêt de l'animation une fois tous les pixels parcourus
                 timer.stop();

@@ -9,7 +9,9 @@ public class CartePanel extends JPanel implements GameListener {
     private final Map<Object, Point> animatedPositions = new HashMap<>();
     private final ArrayList<Runnable> animationList = new ArrayList<>();
     private boolean animated = false;
-    private int duration = 100;
+    private int duration = 100;  // Durée de l'animation en ms
+    private int totalDuration = 100;  // Durée initiale de l'animation
+    private Timer currentTimer = null;
 
     public CartePanel(Game game) {
         this.setLayout(null);
@@ -28,14 +30,32 @@ public class CartePanel extends JPanel implements GameListener {
 
     @Override
     public void onMove(Object content, Position startPos, Position targetPos) {
-        // Ajouter une nouvelle animation à la file
+        // Si une animation est déjà en cours, on l'arrête
+        if (animated) {
+            stopCurrentAnimation();
+            duration = (int) (totalDuration / 2); // Par exemple, on double la vitesse
+        }
 
+
+        // Ajouter la nouvelle animation à la file
         animationList.add(() -> animateObjectMovement(content, startPos, targetPos, duration));
-        
-        // Si aucune animation n'est en cours, démarrer le traitement
+
+        // Démarrer ou redémarrer le traitement des animations
         if (!animated) {
             processNextAnimation();
         }
+    }
+
+    private void stopCurrentAnimation() {
+        // Arrêter le timer actuel si une animation est en cours
+        if (currentTimer != null) {
+            currentTimer.stop();
+            currentTimer = null;
+        }
+
+        // Réinitialiser l'état pour démarrer une nouvelle animation
+        animationList.clear();
+        animated = false; // L'animation en cours est arrêtée
     }
 
     private void processNextAnimation() {
@@ -45,6 +65,7 @@ public class CartePanel extends JPanel implements GameListener {
             nextAnimation.run(); // Exécuter l'animation suivante
         } else {
             animated = false; // Plus d'animations en attente
+            duration = 100;
         }
     }
 
@@ -55,10 +76,11 @@ public class CartePanel extends JPanel implements GameListener {
         Point start = new Point(startPos.getX() * CELL_SIZE, startPos.getY() * CELL_SIZE);
         Point end = new Point(targetPos.getX() * CELL_SIZE, targetPos.getY() * CELL_SIZE);
 
-        Timer timer = new Timer(5, null); // Intervalle réduit pour une fluidité accrue
+        // Timer pour l'animation
+        currentTimer = new Timer(5, null); // Intervalle réduit pour une fluidité accrue
         long startTime = System.currentTimeMillis();
 
-        timer.addActionListener(e -> {
+        currentTimer.addActionListener(e -> {
             long elapsedTime = System.currentTimeMillis() - startTime;
             double progress = Math.min(1.0, (double) elapsedTime / duration);
 
@@ -72,17 +94,16 @@ public class CartePanel extends JPanel implements GameListener {
             this.repaint(); // Réactualiser l'affichage
 
             if (progress >= 1.0) {
-                
-                timer.stop();
+                currentTimer.stop();
+                currentTimer = null; // Reset du timer après l'animation
                 animatedPositions.put(object, end); // Position finale
                 this.repaint(); // Dernière actualisation
                 processNextAnimation(); // Passer à l'animation suivante
             }
         });
-        
-        timer.start();
-    }
 
+        currentTimer.start();
+    }
 
     @Override
     protected void paintComponent(Graphics g) {

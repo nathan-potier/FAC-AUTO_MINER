@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
+
 
 public class Affichage extends JFrame implements VueGenerale, KeyListener, MouseListener {
     private Game game;
@@ -18,7 +18,10 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
 
     private Controle listener;
 
- 
+    // Vitesse du jeu (délai entre deux actions)
+    private final int actionDelay = 50;  // Délai entre deux déplacements (en millisecondes)
+    private long lastActionTime = 0;  // Dernière fois qu'une action a été effectuée
+    
     
 
     
@@ -53,7 +56,6 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         this.addMouseListener(this);
 
 
-
         
     }
 
@@ -71,9 +73,17 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
 
 
 
-
     @Override
     public void keyPressed(KeyEvent e) {
+        long currentTime = System.currentTimeMillis();
+        
+        // Si l'action a eu lieu récemment (avant l'écoulement de 20ms), on ignore la nouvelle action
+        if (currentTime - lastActionTime < actionDelay) {
+            return;
+        }
+
+        lastActionTime = currentTime;  // Met à jour l'heure de la dernière action
+
         
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             if (inventaireAfficher) {
@@ -85,17 +95,17 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
             }
         }
         if (listener != null && e.getKeyCode() != KeyEvent.VK_ESCAPE) {
-            System.out.println(e.getKeyCode());
             listener.onKeyPress(e.getKeyCode());
-            //keyPressed(e.getKeyCode());
+            
         } else {
             menuPanelV2.setVisible(true);
         }
     }
 
     @Override
-    public void keyReleased(KeyEvent e) {
-    }
+    public void keyReleased(KeyEvent e) {}
+
+
 
     @Override
     public void keyTyped(KeyEvent e) {}

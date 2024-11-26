@@ -13,6 +13,8 @@ public class CartePanel extends JPanel implements GameListener {
     private int totalDuration = 100;  // Durée initiale de l'animation
     private Timer currentTimer = null;
 
+    private String parametreImg = "right";
+
     public CartePanel(Game game) {
         this.setLayout(null);
         this.setPreferredSize(new Dimension(game.getWidth() * CELL_SIZE, game.getHeight() * CELL_SIZE));
@@ -29,8 +31,9 @@ public class CartePanel extends JPanel implements GameListener {
     }
 
     @Override
-    public void onMove(Object content, Position startPos, Position targetPos) {
+    public void onMove(Object content, Position startPos, Position targetPos, String dir) {
         // Si une animation est déjà en cours, on l'arrête
+        parametreImg = dir;
         if (animated) {
             stopCurrentAnimation();
             duration = (int) (totalDuration / 2); // Par exemple, on double la vitesse
@@ -114,6 +117,10 @@ public class CartePanel extends JPanel implements GameListener {
             Object content = entry.getKey();
             Point position = entry.getValue();
             ImageIcon icon = getIconForType(content.getClass().getSimpleName());
+            if (parametreImg != null && content.getClass().getSimpleName().equals("Player") ){
+                icon = getIconForDirection();
+            }
+            
 
             if (icon != null) {
                 g.drawImage(icon.getImage(), position.x, position.y, CELL_SIZE, CELL_SIZE, this);
@@ -121,6 +128,20 @@ public class CartePanel extends JPanel implements GameListener {
         }
     }
 
+    
+    /**
+     * Obtient l'icône correspondant à la direction du joueur.
+     */
+    private ImageIcon getIconForDirection() {
+
+        String path = "assets/Player_" + parametreImg + ".png";
+
+        ImageIcon icon = new ImageIcon(path);
+        if (icon.getImageLoadStatus() != MediaTracker.COMPLETE) {
+            return null;
+        }
+        return icon;
+    }
     /**
      * Obtient l'icône correspondant au type d'objet.
      */

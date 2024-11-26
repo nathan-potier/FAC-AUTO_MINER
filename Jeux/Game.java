@@ -31,9 +31,9 @@ public class Game implements Controle, Serializable  {
         this.listener = listener;
     }
     
-    private void notifyMove(Object content, Position start, Position target) {
+    private void notifyMove(Object content, Position start, Position target, String dir) {
         
-        listener.onMove(content, start, target);
+        listener.onMove(content, start, target, dir);
         
 
     }
@@ -56,7 +56,7 @@ public class Game implements Controle, Serializable  {
         switch (keyCode) {
             case KeyEvent.VK_UP:
                 if (gameMap.déplacer(player, Direction.UP)){
-                    notifyMove(player,startPos, player.getPos());
+                    notifyMove(player,startPos, player.getPos(), "up");
                     updateAffichage(false);
                 }else{updateAffichage(true);}
                 
@@ -64,7 +64,7 @@ public class Game implements Controle, Serializable  {
                 break;
             case KeyEvent.VK_DOWN:
                 if (gameMap.déplacer(player, Direction.DOWN)){
-                    notifyMove(player,startPos, player.getPos());
+                    notifyMove(player,startPos, player.getPos(), "down");
                     updateAffichage(false);
                 }else{updateAffichage(true);}
                 
@@ -72,14 +72,14 @@ public class Game implements Controle, Serializable  {
                 break;
             case KeyEvent.VK_LEFT:
                 if (gameMap.déplacer(player, Direction.LEFT)){
-                    notifyMove(player,startPos, player.getPos());
+                    notifyMove(player,startPos, player.getPos(), "left");
                     updateAffichage(false);
                 }else{updateAffichage(true);}
                 //AffichageTemporaire.affiche(this.getMap().getGrid());
                 break;
             case KeyEvent.VK_RIGHT:
                 if (gameMap.déplacer(player, Direction.RIGHT)){
-                    notifyMove(player,startPos, player.getPos());
+                    notifyMove(player,startPos, player.getPos(), "right");
                     updateAffichage(false);
                 }else{updateAffichage(true);}
                 //AffichageTemporaire.affiche(this.getMap().getGrid());

@@ -7,7 +7,7 @@ public class Market implements Serializable {
     private List<Machine> machinesForSale;
 
     // Initialisation des ressources et des machines disponibles
-    public Market() {
+    public Market(){
         resourcesForSale = new ArrayList<>();
         machinesForSale = new ArrayList<>();
 
@@ -29,6 +29,16 @@ public class Market implements Serializable {
                 return player.getPseudo() + " a acheté " + r.getName() + " pour " + r.getPrix() + " coins.";
                 
             }
+        }
+        return "Ressource non disponible ou fonds insuffisants.";
+    }
+
+    public String buyResourceBis(Player player, Ressource resource) {
+        int prix = resource.getQuantity() * resource.getPrix();
+        if(player.getMoney() >= prix){
+            player.setMoney(player.getMoney() - prix);
+            player.collectResource(resource);
+            return player.getPseudo() + " a acheté " + resource.getName() + " pour " + prix + " coins.";
         }
         return "Ressource non disponible ou fonds insuffisants.";
     }

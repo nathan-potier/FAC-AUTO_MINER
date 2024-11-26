@@ -10,6 +10,7 @@ public class Map implements Serializable{
     private int width, height;
     private Spawn spawn;
     private Market market;
+    
 
     public Map(int width, int height, Player p, Spawn spawn, Market m) {
         grid = new Cell[height][width];
@@ -77,6 +78,10 @@ public class Map implements Serializable{
 
             deplacerOnUsine(p, nouvelle);
             return true;
+        } else if (grid[nouvelle.getY()][nouvelle.getX()].getContent() instanceof Market) {
+
+            deplacerOnMarket(p, nouvelle);
+            return true;
         }
 
 
@@ -131,6 +136,11 @@ public class Map implements Serializable{
         }else {
             System.out.println("Choix invalide.");
         }
+    }
+
+    public void deplacerOnMarket(Player p, Position nouvelle){
+        market.displayResourcesForSale();
+        market.displayMachinesForSale();
     }
     
 

@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 
 public class MarketPanel extends JPanel {
 
-    public MarketPanel(Affichage affichage, Market market, Player player) {
+    public MarketPanel(Affichage affichage, Market market) {
         this.setLayout(new GridLayout(3, 1, 10, 10));
         this.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         this.setBackground(Color.DARK_GRAY);

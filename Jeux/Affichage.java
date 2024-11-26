@@ -1,7 +1,7 @@
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import javax.swing.*;
 
 public class Affichage extends JFrame implements VueGenerale, KeyListener, MouseListener {
     private Game game;
@@ -22,6 +22,8 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
     private ArrayList<Integer> activeKeys = new ArrayList<>(); // Liste des touches actuellement pressées
     private long lastMovementTime = 0;
     private static final long MIN_MOVEMENT_DELAY = 100;  // 100 ms minimum entre les mouvements
+
+    
     
 
     

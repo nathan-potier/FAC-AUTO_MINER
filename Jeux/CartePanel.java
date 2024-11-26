@@ -7,8 +7,9 @@ import java.util.Map;
 public class CartePanel extends JPanel implements GameListener {
     private final int CELL_SIZE = 40; // Taille d'une cellule
     private final Map<Object, Point> animatedPositions = new HashMap<>();
-    private final ArrayList<Runnable> animationQueue = new ArrayList<>();
+    private final ArrayList<Runnable> animationList = new ArrayList<>();
     private boolean animated = false;
+    private int duration = 100;
 
     public CartePanel(Game game) {
         this.setLayout(null);
@@ -28,7 +29,8 @@ public class CartePanel extends JPanel implements GameListener {
     @Override
     public void onMove(Object content, Position startPos, Position targetPos) {
         // Ajouter une nouvelle animation à la file
-        animationQueue.add(() -> animateObjectMovement(content, startPos, targetPos, 150));
+
+        animationList.add(() -> animateObjectMovement(content, startPos, targetPos, duration));
         
         // Si aucune animation n'est en cours, démarrer le traitement
         if (!animated) {
@@ -37,60 +39,47 @@ public class CartePanel extends JPanel implements GameListener {
     }
 
     private void processNextAnimation() {
-        if (!animationQueue.isEmpty()) {
+        if (!animationList.isEmpty()) {
             animated = true; // Une animation est en cours
-            Runnable nextAnimation = animationQueue.remove(0);
+            Runnable nextAnimation = animationList.remove(0);
             nextAnimation.run(); // Exécuter l'animation suivante
         } else {
             animated = false; // Plus d'animations en attente
         }
     }
 
+    /**
+     * Gère l'animation d'un objet à partir d'une position de départ vers une position cible.
+     */
     public void animateObjectMovement(Object object, Position startPos, Position targetPos, int duration) {
-        // Calcul des positions de départ et d'arrivée
-        Point start = animatedPositions.getOrDefault(
-            object,
-            new Point(startPos.getX() * CELL_SIZE, startPos.getY() * CELL_SIZE)
-        );
+        Point start = new Point(startPos.getX() * CELL_SIZE, startPos.getY() * CELL_SIZE);
         Point end = new Point(targetPos.getX() * CELL_SIZE, targetPos.getY() * CELL_SIZE);
 
-        // Distances totales en pixels
-        int totalDistanceX = end.x - start.x;
-        int totalDistanceY = end.y - start.y;
-
-        // Calcul du nombre total de pixels à parcourir (diagonale max pour ne pas sauter de pixels)
-        int totalPixels = Math.max(Math.abs(totalDistanceX), Math.abs(totalDistanceY));
-
-        // Intervalle de temps réduit pour une animation fluide
-
-        int totalSteps = totalPixels; // 1 pixel par étape
-        int stepDuration = Math.max(1, duration / totalSteps); // Durée totale divisée par les étapes
-
-        Timer timer = new Timer(stepDuration, null);
-        int[] currentPixel = {0}; // Pixel actuel parcouru
+        Timer timer = new Timer(5, null); // Intervalle réduit pour une fluidité accrue
+        long startTime = System.currentTimeMillis();
 
         timer.addActionListener(e -> {
-            MouseInfo.getPointerInfo ();
-            if (currentPixel[0] >= totalSteps) {
-                // Arrêt de l'animation une fois tous les pixels parcourus
+            long elapsedTime = System.currentTimeMillis() - startTime;
+            double progress = Math.min(1.0, (double) elapsedTime / duration);
+
+            // Interpolation douce (ease-in-out)
+            double smoothProgress = progress * progress * (3 - 2 * progress);
+
+            int newX = (int) (start.x + smoothProgress * (end.x - start.x));
+            int newY = (int) (start.y + smoothProgress * (end.y - start.y));
+
+            animatedPositions.put(object, new Point(newX, newY));
+            this.repaint(); // Réactualiser l'affichage
+
+            if (progress >= 1.0) {
+                
                 timer.stop();
                 animatedPositions.put(object, end); // Position finale
-                this.repaint();
+                this.repaint(); // Dernière actualisation
                 processNextAnimation(); // Passer à l'animation suivante
-            } else {
-                // Calcul de la progression pour le pixel actuel
-                double progress = (double) currentPixel[0] / totalPixels;
-
-                // Interpolation linéaire
-                int newX = start.x + (int) (progress * totalDistanceX);
-                int newY = start.y + (int) (progress * totalDistanceY);
-
-                animatedPositions.put(object, new Point(newX, newY));
-                this.repaint();
-                currentPixel[0]++;
             }
         });
-
+        
         timer.start();
     }
 

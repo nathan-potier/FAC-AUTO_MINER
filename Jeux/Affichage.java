@@ -85,6 +85,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
             }
         }
         if (listener != null && e.getKeyCode() != KeyEvent.VK_ESCAPE) {
+            System.out.println(e.getKeyCode());
             listener.onKeyPress(e.getKeyCode());
             //keyPressed(e.getKeyCode());
         } else {

@@ -10,8 +10,12 @@ public class Map implements Serializable{
     private int width, height;
     private Spawn spawn;
     private Market market;
+
     private Game game;
     private boolean enAttente = false;
+
+    private VueGenerale vue;
+    
 
     public Map(int width, int height, Player p, Spawn spawn, Market m, Game game) {
         grid = new Cell[height][width];
@@ -24,11 +28,12 @@ public class Map implements Serializable{
     }
 
     private void generateMap(Player p) {
-  
+
         grid[height - 1][width - (width - 2)] = new Cell(new Position( width - (width - 2), height - 1), p);
-        grid[(int)(height / 2)][width - 1] = new Cell(new Position( width - 1, (int)(height / 2)), market);
+        grid[market.getPos().getY()][market.getPos().getX()] = new Cell(new Position(market.getPos().getX(), market.getPos().getY()), market);
     }
 
+    public void setVue(VueGenerale v){vue = v;}
     
 
     public void attendreReplace(Position position, Cell cell, Player p, int temps) {
@@ -81,6 +86,10 @@ public class Map implements Serializable{
         } else if (grid[nouvelle.getY()][nouvelle.getX()].getContent() instanceof Usine) {
 
             deplacerOnUsine(p, nouvelle);
+            return true;
+        } else if (grid[nouvelle.getY()][nouvelle.getX()].getContent() instanceof Market) {
+
+            vue.transmettreMarket();
             return true;
         }
 
@@ -138,6 +147,8 @@ public class Map implements Serializable{
             System.out.println("Choix invalide.");
         }
     }
+
+
     
 
     public void verifSpawnAffichage(){

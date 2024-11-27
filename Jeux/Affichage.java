@@ -1,14 +1,15 @@
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-
+import java.util.ArrayList;
+import javax.swing.*;
 
 public class Affichage extends JFrame implements VueGenerale, KeyListener, MouseListener {
     private Game game;
     private CartePanel cartePanel;
     private InventairePanel inventairePanel;
+    private MarketPanel marketPanel; // Panel supplémentaire
     private JPanel mainPanel;
-    private MenuPanel menuPanel;
+    private JLayeredPane layeredPane; // Pour superposer les panneaux
     private MenuButtonTest menuPanelV2;
     private final int height;
     private final int width;
@@ -28,30 +29,45 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
 
     public Affichage(Game game) {
         this.game = game;
-        width = game.getWidth() * 60;
-        height = game.getHeight() * 50;
+        width = 800;
+        height = 600;
 
         this.setTitle("Jeu de Gestion de Ressources");
-
         setPreferredSize(new Dimension(width, height));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        // Initialisation des composants
         mainPanel = new JPanel(new BorderLayout());
+        layeredPane = new JLayeredPane();
         cartePanel = new CartePanel(game);
         inventairePanel = new InventairePanel(game);
-        menuPanelV2 = new MenuButtonTest(width/2, height/2);
+        marketPanel = new MarketPanel(game.getMarket(), game.getPlayer());
+        menuPanelV2 = new MenuButtonTest(width / 2, height / 2);
 
-        mainPanel.add(menuPanelV2, BorderLayout.NORTH);
-        mainPanel.add(cartePanel, BorderLayout.CENTER);
-        mainPanel.add(inventairePanel, BorderLayout.EAST);
-        mainPanel.add(menuPanelV2, BorderLayout.SOUTH);
+        // Configuration des panneaux dans le layeredPane
+        cartePanel.setBounds(0, 0, width, height);
+        inventairePanel.setBounds(0, 0, width, height);
 
+
+        // Ajout des panneaux au layeredPane
+        layeredPane.add(cartePanel, Integer.valueOf(1));
+        layeredPane.add(inventairePanel, Integer.valueOf(3));
+        layeredPane.add(marketPanel, Integer.valueOf(2));
+
+        // Masquer les panneaux sauf la carte par défaut
         inventairePanel.setVisible(false);
+        marketPanel.setVisible(false);
+
+        // Ajout des composants au mainPanel
+        mainPanel.add(menuPanelV2, BorderLayout.SOUTH);
+        mainPanel.add(layeredPane, BorderLayout.CENTER);
+
         this.add(mainPanel);
         this.pack();
         this.setLocationRelativeTo(null);
         this.setVisible(true);
 
+        // Listener pour les interactions
         menuPanelV2.addMouseListener(this);
         this.addMouseListener(this);
 
@@ -72,6 +88,11 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
     }
 
 
+
+    @Override
+    public void transmettreMarket(){
+        marketPanel.setVisible(true);
+    }
 
     @Override
     public void keyPressed(KeyEvent e) {
@@ -118,7 +139,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
 
     @Override
     public void afficherMenu() {
-        menuPanel.setVisible(true);
+        //menuPanel.setVisible(true);
     }
 
     @Override
@@ -139,6 +160,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
                 game.start(); // Initialise le jeu
                 setEcoute(game);
                 cartePanel.repaint();
+                game.initVue(this);
                 break;
             case "Charger une Partie":
                 Game nouvellePartie = Game.chargerCarte("Sauvegarde_1");

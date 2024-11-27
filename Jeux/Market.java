@@ -5,9 +5,10 @@ import java.util.List;
 public class Market implements Serializable {
     private List<Ressource> resourcesForSale;
     private List<Machine> machinesForSale;
+    private Position pos;
 
     // Initialisation des ressources et des machines disponibles
-    public Market() {
+    public Market(Position pos){
         resourcesForSale = new ArrayList<>();
         machinesForSale = new ArrayList<>();
 
@@ -18,17 +19,16 @@ public class Market implements Serializable {
 
         // Ajouter des machines à la vente
         machinesForSale.add(new Usine(null));
+        this.pos = pos;
 
     }
 
     public String buyResource(Player player, Ressource resource) {
-        for (Ressource r : resourcesForSale) {
-            if (r.getName().equals(resource.getName()) && player.getMoney() >= r.getPrix()) {
-                player.setMoney(player.getMoney() - r.getPrix());
-                player.collectResource(r);
-                return player.getPseudo() + " a acheté " + r.getName() + " pour " + r.getPrix() + " coins.";
-                
-            }
+        int prix = resource.getQuantity() * resource.getPrix();
+        if(player.getMoney() >= prix){
+            player.setMoney(player.getMoney() - prix);
+            player.collectResource(resource);
+            return player.getPseudo() + " a acheté " + resource.getName() + " pour " + prix + " coins.";
         }
         return "Ressource non disponible ou fonds insuffisants.";
     }
@@ -84,5 +84,9 @@ public class Market implements Serializable {
             display.append(m.getName()).append(" - ").append(m.getPrix()).append(" coins\n");
         }
         return display.toString();
+    }
+
+    public Position getPos(){
+        return pos;
     }
 }

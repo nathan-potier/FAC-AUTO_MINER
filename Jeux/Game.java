@@ -1,13 +1,11 @@
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 
 public class Game implements Controle, Serializable  {
@@ -54,50 +52,54 @@ public class Game implements Controle, Serializable  {
         // Gère les touches pressées
         Position startPos = player.getPos();
         switch (keyCode) {
-            case KeyEvent.VK_UP:
-                if (gameMap.déplacer(player, Direction.UP)){
+            case KeyEvent.VK_UP -> {
+                if (gameMap.déplacer(player, Direction.UP)) {
                     notifyMove(player,startPos, player.getPos());
                     updateAffichage(false);
-                }else{updateAffichage(true);}
-                
+                    
+                } else {
+                    updateAffichage(true);
+                }
                 //AffichageTemporaire.affiche(this.getMap().getGrid());
-                break;
-            case KeyEvent.VK_DOWN:
-                if (gameMap.déplacer(player, Direction.DOWN)){
+            }
+            case KeyEvent.VK_DOWN -> {
+                if (gameMap.déplacer(player, Direction.DOWN)) {
                     notifyMove(player,startPos, player.getPos());
                     updateAffichage(false);
-                }else{updateAffichage(true);}
-                
+                } else {
+                    updateAffichage(true);
+                }
                 //AffichageTemporaire.affiche(this.getMap().getGrid());
-                break;
-            case KeyEvent.VK_LEFT:
-                if (gameMap.déplacer(player, Direction.LEFT)){
+            }
+            case KeyEvent.VK_LEFT -> {
+                if (gameMap.déplacer(player, Direction.LEFT)) {
                     notifyMove(player,startPos, player.getPos());
                     updateAffichage(false);
-                }else{updateAffichage(true);}
+                } else {
+                    updateAffichage(true);
+                }
                 //AffichageTemporaire.affiche(this.getMap().getGrid());
-                break;
-            case KeyEvent.VK_RIGHT:
-                if (gameMap.déplacer(player, Direction.RIGHT)){
+            }
+            case KeyEvent.VK_RIGHT -> {
+                if (gameMap.déplacer(player, Direction.RIGHT)) {
                     notifyMove(player,startPos, player.getPos());
                     updateAffichage(false);
-                }else{updateAffichage(true);}
+                } else {
+                    updateAffichage(true);
+                }
                 //AffichageTemporaire.affiche(this.getMap().getGrid());
-                break;
-            case KeyEvent.VK_ESCAPE:
-                //System.out.println("Échap pressée - Sortie.");
+            }
+            case KeyEvent.VK_ESCAPE -> //System.out.println("Échap pressée - Sortie.");
                 System.exit(0);
-                break;
-            case KeyEvent.VK_SPACE:
-                //System.out.println("Inventaire : ");
-                //player.getInv().displayInventory();
-                break;
+            case KeyEvent.VK_SPACE -> {
+            }
             
-            default:
-                System.out.println("Autre touche pressée.");
+            default -> System.out.println("Autre touche pressée.");
             
         }
-
+        //System.out.println("Inventaire : ");
+        //player.getInv().displayInventory();
+        
         
 
     }
@@ -123,7 +125,7 @@ public class Game implements Controle, Serializable  {
     public Game(String pseudo){
         width = 13;
         height = 10;
-        market = new Market();
+        market = new Market(new Position(width - 1, (int)(height / 2)));
         spawn = new Spawn(new Position( width - (width - 2), height - 1));
         player = new Player(pseudo, Spawn.getPos());
     }
@@ -161,6 +163,12 @@ public class Game implements Controle, Serializable  {
             return null;
         }
     }
+
+    public Market getMarket() {
+        return market;
+    }
+
+    public void initVue(VueGenerale v){gameMap.setVue(v);}
 }
 
 

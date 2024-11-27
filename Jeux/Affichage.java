@@ -152,7 +152,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
 
     @Override
     public void afficherMenu() {
-        menuPanel.setVisible(true);
+        //menuPanel.setVisible(true);
     }
 
     @Override

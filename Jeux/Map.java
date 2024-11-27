@@ -42,14 +42,10 @@ public class Map implements Serializable{
                     attendreReplace(position, cell, p, 10) ;
                     
                 }else{
-                    System.out.println("test");
+
                     grid[position.getY()][position.getX()] = cell;
                     game.updateAffichage(true);
-                    
-                    
-                    
-                    
-                    
+
                 }
 
                 ((Timer) e.getSource()).stop();

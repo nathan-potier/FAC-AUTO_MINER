@@ -18,7 +18,7 @@ public class MarketAffichTest {
         frame.setContentPane(layeredPane);  // Remplace le content pane par le JLayeredPane
 
         // Instancie le Market et le Player
-        Market market = new Market();
+        Market market = new Market(new Position(0, 0));
         Position position = new Position(0, 0);
         Player player = new Player("Joueur1", position);  // Le joueur a 100 coins
         player.collectResource(new Wood(3)); 

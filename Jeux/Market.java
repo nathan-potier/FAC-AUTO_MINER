@@ -5,9 +5,10 @@ import java.util.List;
 public class Market implements Serializable {
     private List<Ressource> resourcesForSale;
     private List<Machine> machinesForSale;
+    private Position pos;
 
     // Initialisation des ressources et des machines disponibles
-    public Market(){
+    public Market(Position pos){
         resourcesForSale = new ArrayList<>();
         machinesForSale = new ArrayList<>();
 
@@ -18,6 +19,7 @@ public class Market implements Serializable {
 
         // Ajouter des machines à la vente
         machinesForSale.add(new Usine(null));
+        this.pos = pos;
 
     }
 
@@ -82,5 +84,9 @@ public class Market implements Serializable {
             display.append(m.getName()).append(" - ").append(m.getPrix()).append(" coins\n");
         }
         return display.toString();
+    }
+
+    public Position getPos(){
+        return pos;
     }
 }

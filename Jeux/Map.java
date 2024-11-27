@@ -22,9 +22,9 @@ public class Map implements Serializable{
     }
 
     private void generateMap(Player p) {
-  
+        
         grid[height - 1][width - (width - 2)] = new Cell(new Position( width - (width - 2), height - 1), p);
-        grid[(int)(height / 2)][width - 1] = new Cell(new Position( width - 1, (int)(height / 2)), market);
+        grid[market.getPos().getY()][market.getPos().getX()] = new Cell(new Position(market.getPos().getX(), market.getPos().getY()), market);
     }
 
     

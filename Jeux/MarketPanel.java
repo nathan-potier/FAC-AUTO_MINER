@@ -57,10 +57,12 @@ public class MarketPanel extends JPanel {
         JScrollPane buyScrollPane = new JScrollPane(buyPanel);
         buyScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         buyScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        buyScrollPane.setBorder(BorderFactory.createEmptyBorder());
     
         JScrollPane sellScrollPane = new JScrollPane(sellPanel);
         sellScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         sellScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        sellScrollPane.setBorder(BorderFactory.createEmptyBorder());
     
         // Ajouter les JScrollPane au panneau central
         centerPanel.add(buyScrollPane);

@@ -23,7 +23,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
     private long lastMovementTime = 0;
     private static final long MIN_MOVEMENT_DELAY = 100;  // 100 ms minimum entre les mouvements
 
-    
+    private MarketPanel marketPanel;
     
 
     
@@ -48,6 +48,11 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         mainPanel.add(inventairePanel, BorderLayout.EAST);
         mainPanel.add(menuPanelV2, BorderLayout.SOUTH);
 
+        //marketPanel = new MarketPanel(game.getMarket(), game.getPlayer());
+        //marketPanel.setVisible(false);  // Ne pas afficher le MarketPanel initialement
+
+
+        
         inventairePanel.setVisible(false);
         this.add(mainPanel);
         this.pack();
@@ -57,6 +62,9 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         menuPanelV2.addMouseListener(this);
         this.addMouseListener(this);
 
+        // Ajoute les panneaux au JLayeredPane
+        //mainPanel.add(cartePanel, new Integer(1));  // Panneau d'accueil au fond
+        //mainPanel.add(marketPanel, new Integer(2));   // MarketPanel par-dessus le welcomePanel
 
         movementTimer = new Timer(50, e -> {
             if (listener != null) {
@@ -99,6 +107,9 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
 
     @Override
     public void keyPressed(KeyEvent e) {
+        if(e.getKeyCode() == KeyEvent.VK_ENTER){
+            //marketPanel.setVisible(true);
+        }
         
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             if (inventaireAfficher) {

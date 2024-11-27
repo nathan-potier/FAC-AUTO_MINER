@@ -56,6 +56,7 @@ public class Game implements Controle, Serializable  {
                 if (gameMap.déplacer(player, Direction.UP)) {
                     notifyMove(player,startPos, player.getPos());
                     updateAffichage(false);
+                    
                 } else {
                     updateAffichage(true);
                 }
@@ -166,6 +167,8 @@ public class Game implements Controle, Serializable  {
     public Market getMarket() {
         return market;
     }
+
+    public void initVue(VueGenerale v){gameMap.setVue(v);}
 }
 
 

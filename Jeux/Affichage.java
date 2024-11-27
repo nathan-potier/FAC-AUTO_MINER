@@ -107,10 +107,13 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
     }
 
     @Override
+    public void transmettreMarket(){
+        marketPanel.setVisible(true);
+    }
+
+    @Override
     public void keyPressed(KeyEvent e) {
-        if(e.getKeyCode() == KeyEvent.VK_ENTER){
-            marketPanel.setVisible(true);
-        }
+
         
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             if (inventaireAfficher) {
@@ -170,6 +173,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
                 game.start(); // Initialise le jeu
                 setEcoute(game);
                 cartePanel.repaint();
+                game.initVue(this);
                 break;
             case "Charger une Partie":
                 Game nouvellePartie = Game.chargerCarte("Sauvegarde_1");

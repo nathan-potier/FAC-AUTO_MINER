@@ -10,6 +10,7 @@ public class Map implements Serializable{
     private int width, height;
     private Spawn spawn;
     private Market market;
+    private VueGenerale vue;
     
 
     public Map(int width, int height, Player p, Spawn spawn, Market m) {
@@ -22,11 +23,12 @@ public class Map implements Serializable{
     }
 
     private void generateMap(Player p) {
-        
+
         grid[height - 1][width - (width - 2)] = new Cell(new Position( width - (width - 2), height - 1), p);
         grid[market.getPos().getY()][market.getPos().getX()] = new Cell(new Position(market.getPos().getX(), market.getPos().getY()), market);
     }
 
+    public void setVue(VueGenerale v){vue = v;}
     
 
     public void attendreReplace(Position position, Cell cell, Player p, int temps) {
@@ -80,7 +82,7 @@ public class Map implements Serializable{
             return true;
         } else if (grid[nouvelle.getY()][nouvelle.getX()].getContent() instanceof Market) {
 
-            deplacerOnMarket(p, nouvelle);
+            vue.transmettreMarket();
             return true;
         }
 
@@ -138,10 +140,7 @@ public class Map implements Serializable{
         }
     }
 
-    public void deplacerOnMarket(Player p, Position nouvelle){
-        market.displayResourcesForSale();
-        market.displayMachinesForSale();
-    }
+
     
 
     public void verifSpawnAffichage(){

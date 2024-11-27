@@ -20,7 +20,7 @@ public class Game implements Controle, Serializable  {
 
     public void start() {
 
-        gameMap = new Map(width, height, player, spawn, market);
+        gameMap = new Map(width, height, player, spawn, market, this);
         gameMap.generateRessource(player);
         player.collectResource(new Wood(3)); 
         updateAffichage(true);
@@ -58,7 +58,7 @@ public class Game implements Controle, Serializable  {
                 if (gameMap.déplacer(player, Direction.UP)){
                     notifyMove(player,startPos, player.getPos(), "up");
                     updateAffichage(false);
-                }else{updateAffichage(true);}
+                }
                 
                 //AffichageTemporaire.affiche(this.getMap().getGrid());
                 break;
@@ -66,7 +66,7 @@ public class Game implements Controle, Serializable  {
                 if (gameMap.déplacer(player, Direction.DOWN)){
                     notifyMove(player,startPos, player.getPos(), "down");
                     updateAffichage(false);
-                }else{updateAffichage(true);}
+                }
                 
                 //AffichageTemporaire.affiche(this.getMap().getGrid());
                 break;
@@ -74,14 +74,14 @@ public class Game implements Controle, Serializable  {
                 if (gameMap.déplacer(player, Direction.LEFT)){
                     notifyMove(player,startPos, player.getPos(), "left");
                     updateAffichage(false);
-                }else{updateAffichage(true);}
+                }
                 //AffichageTemporaire.affiche(this.getMap().getGrid());
                 break;
             case KeyEvent.VK_RIGHT:
                 if (gameMap.déplacer(player, Direction.RIGHT)){
                     notifyMove(player,startPos, player.getPos(), "right");
                     updateAffichage(false);
-                }else{updateAffichage(true);}
+                }
                 //AffichageTemporaire.affiche(this.getMap().getGrid());
                 break;
             case KeyEvent.VK_ESCAPE:

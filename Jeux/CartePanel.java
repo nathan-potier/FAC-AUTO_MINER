@@ -28,6 +28,7 @@ public class CartePanel extends JPanel implements GameListener {
         for (int i = 0; i < obj.size(); i++) {
             animatedPositions.put(obj.get(i), new Point(pos.get(i).getX() * CELL_SIZE, pos.get(i).getY() * CELL_SIZE));
         }
+        this.repaint();
     }
 
     @Override

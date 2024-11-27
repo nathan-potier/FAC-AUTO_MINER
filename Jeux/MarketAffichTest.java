@@ -21,6 +21,7 @@ public class MarketAffichTest {
         Market market = new Market();
         Position position = new Position(0, 0);
         Player player = new Player("Joueur1", position);  // Le joueur a 100 coins
+        player.collectResource(new Wood(3)); 
 
         // Instancie un panneau d'accueil (pour l'affichage initial)
         JPanel welcomePanel = new JPanel();
@@ -30,8 +31,6 @@ public class MarketAffichTest {
 
         // Instancie le MarketPanel avec le market et le player
         MarketPanel marketPanel = new MarketPanel(market, player);
-        marketPanel.setBounds(100, 50, 600, 400);  // Positionnement et taille plus petite pour MarketPanel
-        marketPanel.setBackground(new Color(0, 0, 0, 150));  // Fond semi-transparent
         marketPanel.setVisible(false);  // Ne pas afficher le MarketPanel initialement
 
         // Ajoute les panneaux au JLayeredPane

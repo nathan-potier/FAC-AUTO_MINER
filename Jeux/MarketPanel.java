@@ -69,7 +69,12 @@ public class MarketPanel extends JPanel {
         // Ajouter le panneau central à la fenêtre principale
         this.add(centerPanel, BorderLayout.CENTER);
 
-        // Bouton Fermer en bas
+        // Panneau pour le bouton "Fermer" avec marge
+        JPanel closeButtonPanel = new JPanel(new BorderLayout());
+        closeButtonPanel.setBackground(Color.DARK_GRAY);
+        closeButtonPanel.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0)); // Marge supérieure de 20 pixels
+
+        // Bouton Fermer
         JButton closeButton = new JButton("Fermer");
         closeButton.setFont(new Font("Arial", Font.BOLD, 14));
         closeButton.setBackground(Color.LIGHT_GRAY);
@@ -79,9 +84,12 @@ public class MarketPanel extends JPanel {
             this.setVisible(false);
         });
 
-        // Ajout du bouton en bas
-        closeButton.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
-        this.add(closeButton, BorderLayout.SOUTH);
+        // Ajouter le bouton au panneau
+        closeButtonPanel.add(closeButton, BorderLayout.CENTER);
+
+        // Ajouter le panneau contenant le bouton au bas du MarketPanel
+        this.add(closeButtonPanel, BorderLayout.SOUTH);
+
     }
 
     private void addItemToMarket(JPanel panel, String imagePath, String name, Ressource resource, JPanel inventoryPanel) {
@@ -155,8 +163,6 @@ public class MarketPanel extends JPanel {
                     player.setMoney(player.getMoney() + sellPrice);
                     updateMoneyLabel();
                     updateInventoryPanel(panel);
-                } else {
-                    JOptionPane.showMessageDialog(this, "Vous n'avez plus de " + resource.getName() + " à vendre.");
                 }
             });
             itemPanel.add(sellButton);

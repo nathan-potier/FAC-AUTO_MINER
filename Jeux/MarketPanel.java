@@ -21,7 +21,7 @@ public class MarketPanel extends JPanel {
         // Affichage de l'argent du joueur avec espace supplémentaire en dessous
         JPanel moneyPanel = new JPanel(new BorderLayout());
         moneyPanel.setBackground(Color.DARK_GRAY);
-        moneyPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0)); // 20 pixels en bas pour l'espacement
+        moneyPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
 
         moneyLabel = new JLabel("Argent: " + player.getMoney() + " coins");
         moneyLabel.setForeground(Color.WHITE);
@@ -68,6 +68,20 @@ public class MarketPanel extends JPanel {
     
         // Ajouter le panneau central à la fenêtre principale
         this.add(centerPanel, BorderLayout.CENTER);
+
+        // Bouton Fermer en bas
+        JButton closeButton = new JButton("Fermer");
+        closeButton.setFont(new Font("Arial", Font.BOLD, 14));
+        closeButton.setBackground(Color.LIGHT_GRAY);
+        closeButton.setForeground(Color.BLACK);
+        closeButton.addActionListener(e -> {
+            // Cache le MarketPanel au lieu de fermer toute la fenêtre
+            this.setVisible(false);
+        });
+
+        // Ajout du bouton en bas
+        closeButton.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+        this.add(closeButton, BorderLayout.SOUTH);
     }
 
     private void addItemToMarket(JPanel panel, String imagePath, String name, Ressource resource, JPanel inventoryPanel) {
@@ -159,19 +173,6 @@ public class MarketPanel extends JPanel {
     private void updateMoneyLabel() {
         moneyLabel.setText("Argent: " + player.getMoney() + " coins");
     }
-
-    // Bouton Fermer en bas
-    JButton closeButton = new JButton("Fermer");
-    closeButton.setFont(new Font("Arial", Font.BOLD, 14));
-    closeButton.setBackground(Color.LIGHT_GRAY);
-    closeButton.setForeground(Color.BLACK);
-    closeButton.addActionListener(e -> {
-        // Ferme la fenêtre contenant ce panel
-        SwingUtilities.getWindowAncestor(this).dispose();
-    });
-
-    // Ajout du bouton en bas
-    this.add(closeButton, BorderLayout.SOUTH);
 
 
 

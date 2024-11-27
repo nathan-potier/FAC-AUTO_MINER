@@ -18,10 +18,14 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
     private boolean menuBoutonClique = true;
 
     private Controle listener;
-    private Timer movementTimer;
-    private ArrayList<Integer> activeKeys = new ArrayList<>();
-    private long lastMovementTime = 0;
-    private static final long MIN_MOVEMENT_DELAY = 100;
+
+    // Vitesse du jeu (délai entre deux actions)
+    private final int actionDelay = 50;  // Délai entre deux déplacements (en millisecondes)
+    private long lastActionTime = 0;  // Dernière fois qu'une action a été effectuée
+    
+    
+
+    
 
     public Affichage(Game game) {
         this.game = game;
@@ -67,18 +71,8 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         menuPanelV2.addMouseListener(this);
         this.addMouseListener(this);
 
-        // Timer pour les mouvements
-        movementTimer = new Timer(50, e -> {
-            if (listener != null) {
-                long currentTime = System.currentTimeMillis();
-                if (currentTime - lastMovementTime >= MIN_MOVEMENT_DELAY) {
-                    for (int key : activeKeys) {
-                        listener.onKeyPress(key);
-                    }
-                    lastMovementTime = currentTime;
-                }
-            }
-        });
+
+        
     }
 
     public void afficherCarte() {
@@ -94,17 +88,6 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
     }
 
 
-    public void keyPressed(int key) {
-
-
-        if (!activeKeys.contains(key)) { // Ajoute la touche si elle n'est pas déjà dans la liste
-            activeKeys.add(key);
-        }
-
-        if (!movementTimer.isRunning()) { // Démarre le Timer si ce n'est pas déjà fait
-            movementTimer.start();
-        }
-    }
 
     @Override
     public void transmettreMarket(){
@@ -113,6 +96,14 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
 
     @Override
     public void keyPressed(KeyEvent e) {
+        long currentTime = System.currentTimeMillis();
+        
+        // Si l'action a eu lieu récemment (avant l'écoulement de 20ms), on ignore la nouvelle action
+        if (currentTime - lastActionTime < actionDelay) {
+            return;
+        }
+
+        lastActionTime = currentTime;  // Met à jour l'heure de la dernière action
 
         
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
@@ -125,21 +116,17 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
             }
         }
         if (listener != null && e.getKeyCode() != KeyEvent.VK_ESCAPE) {
-            keyPressed(e.getKeyCode());
+            listener.onKeyPress(e.getKeyCode());
+            
         } else {
             menuPanelV2.setVisible(true);
         }
     }
 
     @Override
-    public void keyReleased(KeyEvent e) {
-        int key = e.getKeyCode();
-        activeKeys.remove((Integer) key); // Supprime la touche de la liste
+    public void keyReleased(KeyEvent e) {}
 
-        if (activeKeys.isEmpty()) { // Stoppe le Timer si plus aucune touche n'est active
-            movementTimer.stop();
-        }
-    }
+
 
     @Override
     public void keyTyped(KeyEvent e) {}

@@ -10,15 +10,20 @@ public class Map implements Serializable{
     private int width, height;
     private Spawn spawn;
     private Market market;
+
+    private Game game;
+    private boolean enAttente = false;
+
     private VueGenerale vue;
     
 
-    public Map(int width, int height, Player p, Spawn spawn, Market m) {
+    public Map(int width, int height, Player p, Spawn spawn, Market m, Game game) {
         grid = new Cell[height][width];
         this.width = width;
         this.height = height; 
         this.spawn = spawn;
         this.market = m;
+        this.game = game;
         generateMap(p);
     }
 
@@ -32,6 +37,7 @@ public class Map implements Serializable{
     
 
     public void attendreReplace(Position position, Cell cell, Player p, int temps) {
+        
         Timer timer = new Timer(temps, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -41,9 +47,10 @@ public class Map implements Serializable{
                     attendreReplace(position, cell, p, 10) ;
                     
                 }else{
-                   
+
                     grid[position.getY()][position.getX()] = cell;
-                    
+                    game.updateAffichage(true);
+
                 }
 
                 ((Timer) e.getSource()).stop();
@@ -107,6 +114,7 @@ public class Map implements Serializable{
 
         if(isTemporisée){
             attendreReplace(pos, cell, p, 5000);
+            
         }
         
         else if (isLaborieuse){

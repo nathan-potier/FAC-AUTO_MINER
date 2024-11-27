@@ -18,7 +18,7 @@ public class Game implements Controle, Serializable  {
 
     public void start() {
 
-        gameMap = new Map(width, height, player, spawn, market);
+        gameMap = new Map(width, height, player, spawn, market, this);
         gameMap.generateRessource(player);
         player.collectResource(new Wood(3)); 
         updateAffichage(true);
@@ -29,9 +29,9 @@ public class Game implements Controle, Serializable  {
         this.listener = listener;
     }
     
-    private void notifyMove(Object content, Position start, Position target) {
+    private void notifyMove(Object content, Position start, Position target, String dir) {
         
-        listener.onMove(content, start, target);
+        listener.onMove(content, start, target, dir);
         
 
     }
@@ -52,40 +52,33 @@ public class Game implements Controle, Serializable  {
         // Gère les touches pressées
         Position startPos = player.getPos();
         switch (keyCode) {
-            case KeyEvent.VK_UP -> {
-                if (gameMap.déplacer(player, Direction.UP)) {
-                    notifyMove(player,startPos, player.getPos());
+            case KeyEvent.VK_UP:
+                if (gameMap.déplacer(player, Direction.UP)){
+                    notifyMove(player,startPos, player.getPos(), "up");
                     updateAffichage(false);
-                    
-                } else {
-                    updateAffichage(true);
+                }
+                
+                //AffichageTemporaire.affiche(this.getMap().getGrid());
+                break;
+            case KeyEvent.VK_DOWN:
+                if (gameMap.déplacer(player, Direction.DOWN)){
+                    notifyMove(player,startPos, player.getPos(), "down");
+                    updateAffichage(false);
+                }
+                
+                //AffichageTemporaire.affiche(this.getMap().getGrid());
+                break;
+            case KeyEvent.VK_LEFT:
+                if (gameMap.déplacer(player, Direction.LEFT)){
+                    notifyMove(player,startPos, player.getPos(), "left");
+                    updateAffichage(false);
                 }
                 //AffichageTemporaire.affiche(this.getMap().getGrid());
-            }
-            case KeyEvent.VK_DOWN -> {
-                if (gameMap.déplacer(player, Direction.DOWN)) {
-                    notifyMove(player,startPos, player.getPos());
+                break;
+            case KeyEvent.VK_RIGHT:
+                if (gameMap.déplacer(player, Direction.RIGHT)){
+                    notifyMove(player,startPos, player.getPos(), "right");
                     updateAffichage(false);
-                } else {
-                    updateAffichage(true);
-                }
-                //AffichageTemporaire.affiche(this.getMap().getGrid());
-            }
-            case KeyEvent.VK_LEFT -> {
-                if (gameMap.déplacer(player, Direction.LEFT)) {
-                    notifyMove(player,startPos, player.getPos());
-                    updateAffichage(false);
-                } else {
-                    updateAffichage(true);
-                }
-                //AffichageTemporaire.affiche(this.getMap().getGrid());
-            }
-            case KeyEvent.VK_RIGHT -> {
-                if (gameMap.déplacer(player, Direction.RIGHT)) {
-                    notifyMove(player,startPos, player.getPos());
-                    updateAffichage(false);
-                } else {
-                    updateAffichage(true);
                 }
                 //AffichageTemporaire.affiche(this.getMap().getGrid());
             }

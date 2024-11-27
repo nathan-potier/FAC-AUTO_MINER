@@ -49,53 +49,44 @@ public class Game implements Controle, Serializable  {
 
     @Override
     public void onKeyPress(int keyCode) {
-        // Gère les touches pressées
         Position startPos = player.getPos();
         switch (keyCode) {
             case KeyEvent.VK_UP:
                 if (gameMap.déplacer(player, Direction.UP)){
-                    notifyMove(player,startPos, player.getPos(), "up");
+                    notifyMove(player, startPos, player.getPos(), "up");
                     updateAffichage(false);
                 }
-                
-                //AffichageTemporaire.affiche(this.getMap().getGrid());
-                break;
+                break;  // Ajouter un break ici
             case KeyEvent.VK_DOWN:
                 if (gameMap.déplacer(player, Direction.DOWN)){
-                    notifyMove(player,startPos, player.getPos(), "down");
+                    notifyMove(player, startPos, player.getPos(), "down");
                     updateAffichage(false);
                 }
-                
-                //AffichageTemporaire.affiche(this.getMap().getGrid());
-                break;
+                break;  // Ajouter un break ici
             case KeyEvent.VK_LEFT:
                 if (gameMap.déplacer(player, Direction.LEFT)){
-                    notifyMove(player,startPos, player.getPos(), "left");
+                    notifyMove(player, startPos, player.getPos(), "left");
                     updateAffichage(false);
                 }
-                //AffichageTemporaire.affiche(this.getMap().getGrid());
-                break;
+                break;  // Ajouter un break ici
             case KeyEvent.VK_RIGHT:
                 if (gameMap.déplacer(player, Direction.RIGHT)){
-                    notifyMove(player,startPos, player.getPos(), "right");
+                    notifyMove(player, startPos, player.getPos(), "right");
                     updateAffichage(false);
                 }
-                //AffichageTemporaire.affiche(this.getMap().getGrid());
-            }
-            case KeyEvent.VK_ESCAPE -> //System.out.println("Échap pressée - Sortie.");
+                break;  // Ajouter un break ici
+            case KeyEvent.VK_ESCAPE:
                 System.exit(0);
-            case KeyEvent.VK_SPACE -> {
-            }
-            
-            default -> System.out.println("Autre touche pressée.");
-            
+                break;  // Ajouter un break ici
+            case KeyEvent.VK_SPACE:
+                // Gérer le cas pour la touche espace si nécessaire
+                break;
+            default:
+                System.out.println("Autre touche pressée.");
+                break;  // Ajouter un break ici
         }
-        //System.out.println("Inventaire : ");
-        //player.getInv().displayInventory();
-        
-        
-
     }
+    
 
     public void updateAffichage(boolean b){
         ArrayList<Object> obj = new ArrayList<>();

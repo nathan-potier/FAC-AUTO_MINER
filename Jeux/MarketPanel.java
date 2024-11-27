@@ -1,172 +1,95 @@
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import javax.swing.*;
 
 public class MarketPanel extends JPanel {
 
     private Market market;
-    private Player player;  // Assurez-vous que le joueur est passé au panel
-    private JLabel moneyLabel; // Label pour afficher l'argent du joueur
-    private int woodQuantity = 0;  // Quantité initiale de bois (modifiable)
-    private int ironQuantity = 0;  // Quantité initiale de fer (modifiable)
+    private Player player;  
+    private JLabel moneyLabel;  
 
-    // Panneau d'achat, qui sera affiché quand on clique sur "Acheter"
-    private JPanel buyPanel;
-
-    public MarketPanel(Affichage affichage, Market market, Player player) {
-        this.setLayout(null);
-        this.setBackground(Color.GRAY);
+    public MarketPanel(Market market, Player player) {
         this.market = market;
         this.player = player;
 
-        // Affichage de l'argent du joueur en haut à gauche
+        // Configuration de base du panel
+        this.setLayout(new BorderLayout());
+        this.setBackground(Color.DARK_GRAY);
+        this.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
+        // Panneau principal contenant la liste et les éléments
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        mainPanel.setBackground(Color.DARK_GRAY);
+
+        // Affichage de l'argent du joueur
         moneyLabel = new JLabel("Argent: " + player.getMoney() + " coins");
-        moneyLabel.setBounds(10, 10, 200, 30);
         moneyLabel.setForeground(Color.WHITE);
-        this.add(moneyLabel);
+        moneyLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        moneyLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        mainPanel.add(moneyLabel);
 
-        // Créer le bouton "Acheter" à gauche
-        Bouton2 buyButton = new Bouton2("assets/Acheter.png", 50, 200, 150, 100, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                showBuyOptions();  // Afficher les options d'achat
-            }
-        });
+        // Ajouter une ligne de séparation
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
 
-        // Créer le bouton "Vendre" à droite
-        Bouton2 sellButton = new Bouton2("assets/Vendre.png", 450, 200, 150, 100, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Vendre des ressources (logique non implémentée pour l'instant)
-                JOptionPane.showMessageDialog(MarketPanel.this, "Fonction de vente non implémentée.");
-            }
-        });
+        // Liste des items disponibles
+        // Ajouter les items au marché
+        addItemToMarket(mainPanel, "assets/Wood.png", "Wood", new Wood(1));
+        addItemToMarket(mainPanel, "assets/Iron.png", "Iron", new Iron(1));
 
-        // Ajouter les boutons à la fenêtre (panel)
-        this.add(buyButton);
-        this.add(sellButton);
 
-        // Initialiser le panneau d'achat, mais ne pas l'afficher encore
-        buyPanel = new JPanel();
-        buyPanel.setBounds(50, 350, 550, 250);  // Positionner le panneau
-        buyPanel.setBackground(Color.gray);
-        buyPanel.setLayout(new GridBagLayout());  // Utiliser GridBagLayout pour plus de contrôle
+        // Ajouter un bouton "Fermer" en bas
+        JButton closeButton = new JButton("Fermer");
+        closeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        closeButton.addActionListener(e -> this.setVisible(false));
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 20)));  // Espacement
+        mainPanel.add(closeButton);
 
-        // Créer un objet GridBagConstraints pour la gestion de l'alignement
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5, 5, 5, 5);  // Ajouter des espacements entre les composants
-        gbc.gridx = 0; // Positionnement horizontal des composants
-        gbc.gridy = 0; // Positionnement vertical des composants
+        // Ajouter un scrollPane pour la liste
+        JScrollPane scrollPane = new JScrollPane(mainPanel);
+        scrollPane.setBorder(null);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
-        // Bois
-        buyPanel.add(new JLabel("Bois:"), gbc);
-
-        // Bouton - Bois
-        JLabel woodQuantityLabel = new JLabel(String.valueOf(woodQuantity));
-
-        gbc.gridx = 1;
-        JButton woodMinusButton = new JButton("-");
-        woodMinusButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (woodQuantity > 0) {
-                    woodQuantity--;
-                    woodQuantityLabel.setText(String.valueOf(woodQuantity));  // Mise à jour de la quantité
-                }
-            }
-        });
-        buyPanel.add(woodMinusButton, gbc);
-
-        // Label de la quantité de bois
-        gbc.gridx = 2;
-        buyPanel.add(woodQuantityLabel, gbc);
-
-        // Bouton + Bois
-        gbc.gridx = 3;
-        JButton woodPlusButton = new JButton("+");
-        woodPlusButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                woodQuantity++;
-                woodQuantityLabel.setText(String.valueOf(woodQuantity));  // Mise à jour de la quantité
-            }
-        });
-        buyPanel.add(woodPlusButton, gbc);
-
-        // Bouton acheter Bois
-        gbc.gridx = 4;
-        JButton confirmWoodButton = new JButton("Acheter Bois");
-        confirmWoodButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Ressource wood = new Wood(woodQuantity);  // Créer la ressource bois avec la quantité choisie
-                String message = market.buyResourceBis(player, wood);
-                JOptionPane.showMessageDialog(MarketPanel.this, message);
-                updateMoneyLabel();  // Mettre à jour l'affichage de l'argent
-            }
-        });
-        buyPanel.add(confirmWoodButton, gbc);
-
-        // Fer
-        gbc.gridx = 0;
-        gbc.gridy = 1;  // Passer à la ligne suivante
-        buyPanel.add(new JLabel("Fer:"), gbc);
-
-        // Bouton - Fer
-        JLabel ironQuantityLabel = new JLabel(String.valueOf(ironQuantity));
-        gbc.gridx = 1;
-        JButton ironMinusButton = new JButton("-");
-        ironMinusButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (ironQuantity > 0) {
-                    ironQuantity--;
-                    ironQuantityLabel.setText(String.valueOf(ironQuantity));  // Mise à jour de la quantité
-                }
-            }
-        });
-        buyPanel.add(ironMinusButton, gbc);
-
-        // Label de la quantité de fer
-        gbc.gridx = 2;
-        buyPanel.add(ironQuantityLabel, gbc);
-
-        // Bouton + Fer
-        gbc.gridx = 3;
-        JButton ironPlusButton = new JButton("+");
-        ironPlusButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ironQuantity++;
-                ironQuantityLabel.setText(String.valueOf(ironQuantity));  // Mise à jour de la quantité
-            }
-        });
-        buyPanel.add(ironPlusButton, gbc);
-
-        // Bouton acheter Fer
-        gbc.gridx = 4;
-        JButton confirmIronButton = new JButton("Acheter Fer");
-        confirmIronButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Ressource iron = new Iron(ironQuantity);  // Créer la ressource fer avec la quantité choisie
-                String message = market.buyResource(player, iron);
-                JOptionPane.showMessageDialog(MarketPanel.this, message);
-                updateMoneyLabel();  // Mettre à jour l'affichage de l'argent
-            }
-        });
-        buyPanel.add(confirmIronButton, gbc);
-
-        this.add(buyPanel);  // Ajouter le panneau d'achat au panel principal
-        buyPanel.setVisible(false);  // Masquer le panneau d'achat au départ
+        this.add(scrollPane, BorderLayout.CENTER);
     }
 
-    // Cette méthode est appelée quand on appuie sur "Acheter"
-    private void showBuyOptions() {
-        // Rendre visible le panneau d'achat
-        buyPanel.setVisible(true);
+    private void addItemToMarket(JPanel panel, String imagePath, String name, Ressource resource) {
+        JPanel itemPanel = new JPanel();
+        itemPanel.setLayout(new BoxLayout(itemPanel, BoxLayout.X_AXIS));
+        itemPanel.setBackground(Color.DARK_GRAY);
+    
+        // Charger et redimensionner l'image
+        ImageIcon originalIcon = new ImageIcon(imagePath);
+        Image scaledImage = originalIcon.getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH);
+        ImageIcon scaledIcon = new ImageIcon(scaledImage);
+    
+        // Image de l'objet
+        JLabel imageLabel = new JLabel(scaledIcon);
+        itemPanel.add(imageLabel);
+    
+        // Nom de l'objet
+        JLabel nameLabel = new JLabel(name);
+        nameLabel.setForeground(Color.WHITE);
+        nameLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+        nameLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
+        itemPanel.add(nameLabel);
+    
+        // Récupérer le prix de la ressource
+        int price = resource.getPrix();
+    
+        // Bouton d'achat (prix)
+        JButton buyButton = new JButton(price + " coins");
+        buyButton.addActionListener(e -> {
+            String message = market.buyResource(player, resource);
+            JOptionPane.showMessageDialog(this, message);
+            updateMoneyLabel();
+        });
+        itemPanel.add(buyButton);
+    
+        // Ajouter un peu d'espacement autour de l'item
+        itemPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        panel.add(itemPanel);
     }
+    
 
     private void updateMoneyLabel() {
         moneyLabel.setText("Argent: " + player.getMoney() + " coins");

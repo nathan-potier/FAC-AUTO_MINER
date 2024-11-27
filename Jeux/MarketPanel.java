@@ -11,34 +11,37 @@ public class MarketPanel extends JPanel {
     public MarketPanel(Market market, Player player) {
         this.market = market;
         this.player = player;
-
-        // Configuration de base du panel
+    
+        // Configuration de base du panel   
         this.setLayout(new BorderLayout());
         this.setBackground(Color.DARK_GRAY);
-        this.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        this.setBorder(BorderFactory.createEmptyBorder(20, 40, 40, 40));
         this.setBounds(100, 50, 600, 400);
+    
+        // Affichage de l'argent du joueur avec espace supplémentaire en dessous
+        JPanel moneyPanel = new JPanel(new BorderLayout());
+        moneyPanel.setBackground(Color.DARK_GRAY);
+        moneyPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0)); // 20 pixels en bas pour l'espacement
 
-        // Affichage de l'argent du joueur
         moneyLabel = new JLabel("Argent: " + player.getMoney() + " coins");
         moneyLabel.setForeground(Color.WHITE);
         moneyLabel.setFont(new Font("Arial", Font.BOLD, 16));
         moneyLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        this.add(moneyLabel, BorderLayout.NORTH);
 
+        moneyPanel.add(moneyLabel, BorderLayout.CENTER);
+        this.add(moneyPanel, BorderLayout.NORTH);
+
+    
         // Panneau central pour afficher les items disponibles et l'inventaire
         JPanel centerPanel = new JPanel(new GridLayout(1, 2, 20, 0));  // 2 colonnes : Achats / Ventes
         centerPanel.setBackground(Color.DARK_GRAY);
-
+    
         // Panneau pour les objets à acheter
         JPanel buyPanel = new JPanel();
         buyPanel.setLayout(new BoxLayout(buyPanel, BoxLayout.Y_AXIS));
         buyPanel.setBackground(Color.DARK_GRAY);
         buyPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.WHITE), "À Acheter", 0, 0, new Font("Arial", Font.BOLD, 14), Color.WHITE));
-
-        // Ajouter des objets au marché
-        addItemToMarket(buyPanel, "assets/Wood.png", "Wood", new Wood(1));
-        addItemToMarket(buyPanel, "assets/Iron.png", "Iron", new Iron(1));
-
+    
         // Panneau pour les objets de l'inventaire
         JPanel sellPanel = new JPanel();
         sellPanel.setLayout(new BoxLayout(sellPanel, BoxLayout.Y_AXIS));
@@ -46,15 +49,28 @@ public class MarketPanel extends JPanel {
         sellPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.WHITE), "Inventaire", 0, 0, new Font("Arial", Font.BOLD, 14), Color.WHITE));
         updateInventoryPanel(sellPanel);
 
-        // Ajouter les deux panneaux au panneau central
-        centerPanel.add(buyPanel);
-        centerPanel.add(sellPanel);
-
+        // Ajouter des objets au marché
+        addItemToMarket(buyPanel, "assets/Wood.png", "Wood", new Wood(1), sellPanel);
+        addItemToMarket(buyPanel, "assets/Iron.png", "Iron", new Iron(1), sellPanel);
+    
+        // Ajout des panneaux dans des JScrollPane
+        JScrollPane buyScrollPane = new JScrollPane(buyPanel);
+        buyScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        buyScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+    
+        JScrollPane sellScrollPane = new JScrollPane(sellPanel);
+        sellScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        sellScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+    
+        // Ajouter les JScrollPane au panneau central
+        centerPanel.add(buyScrollPane);
+        centerPanel.add(sellScrollPane);
+    
         // Ajouter le panneau central à la fenêtre principale
         this.add(centerPanel, BorderLayout.CENTER);
     }
 
-    private void addItemToMarket(JPanel panel, String imagePath, String name, Ressource resource) {
+    private void addItemToMarket(JPanel panel, String imagePath, String name, Ressource resource, JPanel inventoryPanel) {
         JPanel itemPanel = new JPanel();
         itemPanel.setLayout(new BoxLayout(itemPanel, BoxLayout.X_AXIS));
         itemPanel.setBackground(Color.DARK_GRAY);
@@ -81,10 +97,10 @@ public class MarketPanel extends JPanel {
         // Bouton d'achat (prix)
         JButton buyButton = new JButton(price + " coins");
         buyButton.addActionListener(e -> {
-            String message = market.buyResourceBis(player, resource);
+            String message = market.buyResource(player, resource);
             JOptionPane.showMessageDialog(this, message);
             updateMoneyLabel();
-            updateInventoryPanel((JPanel) panel.getParent().getComponent(1)); // Rafraîchir le panneau de l'inventaire
+            updateInventoryPanel(inventoryPanel); // Utilise directement le panneau d'inventaire
         });
         itemPanel.add(buyButton);
     
@@ -92,29 +108,30 @@ public class MarketPanel extends JPanel {
         itemPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         panel.add(itemPanel);
     }
+    
 
     private void updateInventoryPanel(JPanel panel) {
         panel.removeAll();  // Supprime tous les composants actuels
         List<Ressource> inventory = player.getInv().getRessources();
-
+    
         for (Ressource resource : inventory) {
             JPanel itemPanel = new JPanel();
             itemPanel.setLayout(new BoxLayout(itemPanel, BoxLayout.X_AXIS));
             itemPanel.setBackground(Color.DARK_GRAY);
-
+    
             // Image de la ressource
             ImageIcon scaledIcon = new ImageIcon(new ImageIcon("assets/" + resource.getName() + ".png")
                     .getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH));
             JLabel imageLabel = new JLabel(scaledIcon);
             itemPanel.add(imageLabel);
-
+    
             // Nom et quantité
             JLabel nameLabel = new JLabel(resource.getName() + " x" + resource.getQuantity());
             nameLabel.setForeground(Color.WHITE);
             nameLabel.setFont(new Font("Arial", Font.PLAIN, 14));
             nameLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
             itemPanel.add(nameLabel);
-
+    
             // Bouton pour vendre (prix)
             int sellPrice = resource.getPrix();
             JButton sellButton = new JButton(sellPrice + " coins");
@@ -129,14 +146,33 @@ public class MarketPanel extends JPanel {
                 }
             });
             itemPanel.add(sellButton);
-
+    
+            // Ajouter l'item avec une bordure pour espacement
+            itemPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
             panel.add(itemPanel);
         }
         panel.revalidate();
         panel.repaint();
     }
+    
 
     private void updateMoneyLabel() {
         moneyLabel.setText("Argent: " + player.getMoney() + " coins");
     }
+
+    // Bouton Fermer en bas
+    JButton closeButton = new JButton("Fermer");
+    closeButton.setFont(new Font("Arial", Font.BOLD, 14));
+    closeButton.setBackground(Color.LIGHT_GRAY);
+    closeButton.setForeground(Color.BLACK);
+    closeButton.addActionListener(e -> {
+        // Ferme la fenêtre contenant ce panel
+        SwingUtilities.getWindowAncestor(this).dispose();
+    });
+
+    // Ajout du bouton en bas
+    this.add(closeButton, BorderLayout.SOUTH);
+
+
+
 }

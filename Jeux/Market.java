@@ -22,18 +22,6 @@ public class Market implements Serializable {
     }
 
     public String buyResource(Player player, Ressource resource) {
-        for (Ressource r : resourcesForSale) {
-            if (r.getName().equals(resource.getName()) && player.getMoney() >= r.getPrix()) {
-                player.setMoney(player.getMoney() - r.getPrix());
-                player.collectResource(r);
-                return player.getPseudo() + " a acheté " + r.getName() + " pour " + r.getPrix() + " coins.";
-                
-            }
-        }
-        return "Ressource non disponible ou fonds insuffisants.";
-    }
-
-    public String buyResourceBis(Player player, Ressource resource) {
         int prix = resource.getQuantity() * resource.getPrix();
         if(player.getMoney() >= prix){
             player.setMoney(player.getMoney() - prix);

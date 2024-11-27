@@ -1,14 +1,21 @@
-import javax.swing.*;
+import java.awt.Color;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import javax.swing.*;
 
 public class MarketAffichTest {
 
+    @SuppressWarnings("removal")
     public static void main(String[] args) {
         // Crée la fenêtre principale (JFrame)
         JFrame frame = new JFrame("Test Market Panel");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 600);  // Fenêtre plus grande que le MarketPanel
+        frame.setLayout(null);    // Utilisation du layout null pour positionnement absolu
+
+        // Crée un JLayeredPane pour gérer la superposition des composants
+        JLayeredPane layeredPane = new JLayeredPane();
+        frame.setContentPane(layeredPane);  // Remplace le content pane par le JLayeredPane
 
         // Instancie le Market et le Player
         Market market = new Market();
@@ -17,30 +24,27 @@ public class MarketAffichTest {
 
         // Instancie un panneau d'accueil (pour l'affichage initial)
         JPanel welcomePanel = new JPanel();
+        welcomePanel.setBounds(0, 0, 800, 600);  // Prendre toute la taille de la fenêtre
+        welcomePanel.setBackground(Color.BLACK);
         welcomePanel.add(new JLabel("Bienvenue ! Appuyez sur Entrée pour ouvrir le Marché"));
 
-        // Ajoute le panneau d'accueil à la fenêtre
-        frame.add(welcomePanel);
-        frame.setVisible(true);
+        // Instancie le MarketPanel avec le market et le player
+        MarketPanel marketPanel = new MarketPanel(market, player);
+        marketPanel.setBounds(100, 50, 600, 400);  // Positionnement et taille plus petite pour MarketPanel
+        marketPanel.setBackground(new Color(0, 0, 0, 150));  // Fond semi-transparent
+        marketPanel.setVisible(false);  // Ne pas afficher le MarketPanel initialement
+
+        // Ajoute les panneaux au JLayeredPane
+        layeredPane.add(welcomePanel, new Integer(1));  // Panneau d'accueil au fond
+        layeredPane.add(marketPanel, new Integer(2));   // MarketPanel par-dessus le welcomePanel
 
         // Ajouter un KeyListener pour détecter la touche "Entrée"
         frame.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    // Lorsque "Entrée" est pressée, remplacer le panneau d'accueil par le MarketPanel
-                    frame.remove(welcomePanel);  // Retirer le panneau d'accueil
-
-                    // Instancie le MarketPanel avec le market et le player
-                    MarketPanel marketPanel = new MarketPanel(market, player);
-
-                    // Ajoute le MarketPanel à la fenêtre
-                    frame.add(marketPanel);
-                    frame.revalidate();  // Revalidé le layout pour appliquer le changement
-                    frame.repaint();     // Repeint la fenêtre
-
-                    // Si besoin, vous pouvez désactiver les autres événements clavier après l'entrée
-                    frame.removeKeyListener(this);
+                    // Lorsque "Entrée" est pressée, afficher le MarketPanel
+                    marketPanel.setVisible(true);  // Afficher le MarketPanel
                 }
             }
         });
@@ -48,5 +52,8 @@ public class MarketAffichTest {
         // Nécessaire pour que la fenêtre puisse capter les événements clavier
         frame.setFocusable(true);
         frame.requestFocusInWindow();
+
+        // Affiche la fenêtre
+        frame.setVisible(true);
     }
 }

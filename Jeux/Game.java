@@ -58,34 +58,28 @@ public class Game implements Controle, Serializable  {
                     notifyMove(player, startPos, player.getPos(), "up");
                     updateAffichage(false);
                 }
-                break;  // Ajouter un break ici
+                break; 
             case KeyEvent.VK_DOWN:
                 if (gameMap.déplacer(player, Direction.DOWN) ){
                     notifyMove(player, startPos, player.getPos(), "down");
                     updateAffichage(false);
                 }
-                break;  // Ajouter un break ici
+                break; 
             case KeyEvent.VK_LEFT:
                 if (gameMap.déplacer(player, Direction.LEFT) ){
                     notifyMove(player, startPos, player.getPos(), "left");
                     updateAffichage(false);
                 }
-                break;  // Ajouter un break ici
+                break; 
             case KeyEvent.VK_RIGHT:
                 if (gameMap.déplacer(player, Direction.RIGHT) ){
                     notifyMove(player, startPos, player.getPos(), "right");
                     updateAffichage(false);
                 }
-                break;  // Ajouter un break ici
-            case KeyEvent.VK_ESCAPE:
-                System.exit(0);
-                break;  // Ajouter un break ici
-            case KeyEvent.VK_SPACE:
-                // Gérer le cas pour la touche espace si nécessaire
-                break;
+                break;  
             default:
                 System.out.println("Autre touche pressée.");
-                break;  // Ajouter un break ici
+                break;  
         }
     }
     

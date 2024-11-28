@@ -6,6 +6,7 @@ public class Player implements Serializable{
     private String pseudo;
     private boolean ecoute = true;
     private int money;
+    private MarketInterface marketInterface;
 
     public void setEcoute(boolean ecoute) {
         this.ecoute = ecoute;
@@ -17,7 +18,19 @@ public class Player implements Serializable{
     }
     
     public boolean collectResource(Ressource resource) {
-        return inventory.addResource(resource);
+        if(inventory.addResource(resource)){
+            try{
+                marketInterface.updateInventory();
+            }catch(Exception e){
+                
+            }
+            
+        }
+        
+        return false;
+    }
+    public void setMarketInterface(MarketInterface marketInterface) {
+        this.marketInterface = marketInterface;
     }
     public boolean addMachine(Machine machine) {
         return inventory.addMachine(machine);

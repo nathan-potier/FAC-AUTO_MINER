@@ -42,9 +42,14 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         // Initialisation des composants
         mainPanel = new JPanel(new BorderLayout());
         layeredPane = new JLayeredPane();
-        cartePanel = new CartePanel(game);
-        inventairePanel = new InventairePanel(game);
+
+        cartePanel = new CartePanel(game.getWidth(), game.getHeight());
+        game.addGameListener(cartePanel);
+
+        inventairePanel = new InventairePanel(game.getPlayer());
+
         marketPanel = new MarketPanel(game.getMarket(), game.getPlayer());
+
         menuPanelV2 = new MenuButtonTest(width / 2, height / 2);
 
         // Configuration des panneaux dans le layeredPane
@@ -158,31 +163,44 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
                 System.exit(0);
                 break;
             case "Nouvelle Partie":
-                menuPanelV2.setVisible(false);
-                inventaireAfficher = false;
-                game.start(); // Initialise le jeu
-                setEcoute(game);
-                cartePanel.repaint();
-                game.initVue(this);
-                GameStates.setMoveOn(true);
-                isRunning = true;
+                nouvellePartie();
                 break;
             case "Charger une Partie":
-                Game nouvellePartie = Game.chargerCarte("Sauvegarde_1");
-                
-                if (nouvellePartie.getMap() != null) {
-                    game = nouvellePartie;
-                    //cartePanel.setGame(nouvellePartie);
-                    inventairePanel.setGame(nouvellePartie);
-                    //cartePanel.actualiseAffichage(100);
-                    setEcoute(game);
-                    afficherCarte();
-                    isRunning = true;
-                    
-                }
+                chargerPartie();
                 break;
             default:
                 break;
+        }
+    }
+
+    private void nouvellePartie(){
+        menuPanelV2.setVisible(false);
+        inventaireAfficher = false;
+        game.start(); // Initialise le jeu
+        setEcoute(game);
+        cartePanel.repaint();
+        game.initVue(this);
+        GameStates.setMoveOn(true);
+        isRunning = true;
+        game.getPlayer().setMarketInterface(marketPanel);
+        marketPanel.setPlayer(game.getPlayer());
+        marketPanel.setMarket(game.getMarket());
+    }
+
+    private void chargerPartie(){
+        Game nouvellePartie = Game.chargerCarte("Sauvegarde_1");
+                
+        if (nouvellePartie.getMap() != null) {
+            game = nouvellePartie;
+
+            marketPanel.setMarket(game.getMarket());
+            marketPanel.setPlayer(game.getPlayer());
+            inventairePanel.setPlayer(game.getPlayer());
+            
+            setEcoute(game);
+            afficherCarte();
+            isRunning = true;
+            
         }
     }
 

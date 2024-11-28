@@ -5,21 +5,21 @@ import java.awt.*;
 
 public class InventairePanel extends JPanel {
 
-    private Game game;
+    private Player player;
 
-    public InventairePanel(Game game) {
-        this.game = game;
+    public InventairePanel(Player player) {
+        this.player = player;
         this.setLayout(new GridLayout(3, 9, 5, 5)); // Grille 9x3 avec marges
         this.setBorder(new LineBorder(Color.DARK_GRAY, 20));  // Bordure noire de 20 pixels
         this.setBackground(Color.DARK_GRAY); // Arrière-plan gris foncé pour l'ensemble du panneau
     }
-    public void setGame(Game g){game = g;}
+    public void setPlayer(Player p){player = p;}
 
     public void afficherInventaire() {
         this.removeAll(); // Nettoie les anciens slots
 
-        String[] resInvName = game.getPlayer().getInv().getResInvName();
-        int[] resInvQuant = game.getPlayer().getInv().getResInvQuant();
+        String[] resInvName = player.getInv().getResInvName();
+        int[] resInvQuant = player.getInv().getResInvQuant();
 
         for (int i = 0; i < resInvName.length; i++) {
             JPanel slot = new JPanel(new BorderLayout());

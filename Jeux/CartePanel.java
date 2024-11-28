@@ -15,10 +15,10 @@ public class CartePanel extends JPanel implements GameListener {
 
     private String parametreImg = "right";
 
-    public CartePanel(Game game) {
+    public CartePanel(int width, int height) {
         this.setLayout(null);
-        this.setPreferredSize(new Dimension(game.getWidth() * CELL_SIZE, game.getHeight() * CELL_SIZE));
-        game.addGameListener(this); // S'abonner au modèle
+        this.setPreferredSize(new Dimension(width * CELL_SIZE, height * CELL_SIZE));
+        
         this.setDoubleBuffered(true);
     }
 

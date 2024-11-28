@@ -2,11 +2,18 @@ import java.awt.*;
 import javax.swing.*;
 import java.util.List;
 
-public class MarketPanel extends JPanel {
+public class MarketPanel extends JPanel implements MarketInterface{
 
     private Market market;
     private Player player;  
     private JLabel moneyLabel;  
+    private JPanel sellPanel; 
+
+    public void setPlayer(Player player){
+        this.player = player;
+        updateMoneyLabel();
+        updateInventoryPanel(sellPanel);}
+    public void setMarket(Market market){this.market = market;}
 
     public MarketPanel(Market market, Player player) {
         this.market = market;
@@ -43,7 +50,7 @@ public class MarketPanel extends JPanel {
         buyPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.WHITE), "À Acheter", 0, 0, new Font("Arial", Font.BOLD, 14), Color.WHITE));
     
         // Panneau pour les objets de l'inventaire
-        JPanel sellPanel = new JPanel();
+        sellPanel = new JPanel();
         sellPanel.setLayout(new BoxLayout(sellPanel, BoxLayout.Y_AXIS));
         sellPanel.setBackground(Color.DARK_GRAY);
         sellPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.WHITE), "Inventaire", 0, 0, new Font("Arial", Font.BOLD, 14), Color.WHITE));
@@ -122,8 +129,7 @@ public class MarketPanel extends JPanel {
         // Bouton d'achat (prix)
         JButton buyButton = new JButton(price + " coins");
         buyButton.addActionListener(e -> {
-            String message = market.buyResource(player, resource);
-            JOptionPane.showMessageDialog(this, message);
+            market.buyResource(player, resource);
             updateMoneyLabel();
             updateInventoryPanel(inventoryPanel); // Utilise directement le panneau d'inventaire
         });
@@ -140,39 +146,41 @@ public class MarketPanel extends JPanel {
         List<Ressource> inventory = player.getInv().getRessources();
     
         for (Ressource resource : inventory) {
-            JPanel itemPanel = new JPanel();
-            itemPanel.setLayout(new BoxLayout(itemPanel, BoxLayout.X_AXIS));
-            itemPanel.setBackground(Color.DARK_GRAY);
-    
-            // Image de la ressource
-            ImageIcon scaledIcon = new ImageIcon(new ImageIcon("assets/" + resource.getName() + ".png")
-                    .getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH));
-            JLabel imageLabel = new JLabel(scaledIcon);
-            itemPanel.add(imageLabel);
-    
-            // Nom et quantité
-            JLabel nameLabel = new JLabel(resource.getName() + " x" + resource.getQuantity());
-            nameLabel.setForeground(Color.WHITE);
-            nameLabel.setFont(new Font("Arial", Font.PLAIN, 14));
-            nameLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
-            itemPanel.add(nameLabel);
-    
-            // Bouton pour vendre (prix)
-            int sellPrice = resource.getPrix();
-            JButton sellButton = new JButton(sellPrice + " coins");
-            sellButton.addActionListener(e -> {
-                if (resource.getQuantity() > 0) {
-                    resource.removeQuantity(1);
-                    player.setMoney(player.getMoney() + sellPrice);
-                    updateMoneyLabel();
-                    updateInventoryPanel(panel);
-                }
-            });
-            itemPanel.add(sellButton);
-    
-            // Ajouter l'item avec une bordure pour espacement
-            itemPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-            panel.add(itemPanel);
+            if (resource.getQuantity() > 0){
+                JPanel itemPanel = new JPanel();
+                itemPanel.setLayout(new BoxLayout(itemPanel, BoxLayout.X_AXIS));
+                itemPanel.setBackground(Color.DARK_GRAY);
+        
+                // Image de la ressource
+                ImageIcon scaledIcon = new ImageIcon(new ImageIcon("assets/" + resource.getName() + ".png")
+                        .getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH));
+                JLabel imageLabel = new JLabel(scaledIcon);
+                itemPanel.add(imageLabel);
+        
+                
+                JLabel nameLabel = new JLabel(resource.getName() + " x" + resource.getQuantity());
+                nameLabel.setForeground(Color.WHITE);
+                nameLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+                nameLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
+                itemPanel.add(nameLabel);
+        
+                // Bouton pour vendre (prix)
+                int sellPrice = resource.getPrix();
+                JButton sellButton = new JButton(sellPrice + " coins");
+                sellButton.addActionListener(e -> {
+                    if (resource.getQuantity() > 0) {
+                        resource.removeQuantity(1);
+                        player.setMoney(player.getMoney() + sellPrice);
+                        updateMoneyLabel();
+                        updateInventoryPanel(panel);
+                    }
+                });
+                itemPanel.add(sellButton);
+        
+                // Ajouter l'item avec une bordure pour espacement
+                itemPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+                panel.add(itemPanel);
+            }
         }
         panel.revalidate();
         panel.repaint();
@@ -183,6 +191,11 @@ public class MarketPanel extends JPanel {
         moneyLabel.setText("Argent: " + player.getMoney() + " coins");
     }
 
+    @Override
+    public void updateInventory(){
+        updateInventoryPanel(sellPanel);
+
+    }
 
 
 }

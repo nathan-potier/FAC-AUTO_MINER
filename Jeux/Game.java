@@ -16,12 +16,14 @@ public class Game implements Controle, Serializable  {
     private GameListener listener ;
     private Market market;
 
+
     public void start() {
 
         gameMap = new Map(width, height, player, spawn, market, this);
         gameMap.generateRessource(player);
         player.collectResource(new Wood(3)); 
         updateAffichage(true);
+
         
     }
 
@@ -52,25 +54,25 @@ public class Game implements Controle, Serializable  {
         Position startPos = player.getPos();
         switch (keyCode) {
             case KeyEvent.VK_UP:
-                if (gameMap.déplacer(player, Direction.UP)){
+                if (gameMap.déplacer(player, Direction.UP) ){
                     notifyMove(player, startPos, player.getPos(), "up");
                     updateAffichage(false);
                 }
                 break;  // Ajouter un break ici
             case KeyEvent.VK_DOWN:
-                if (gameMap.déplacer(player, Direction.DOWN)){
+                if (gameMap.déplacer(player, Direction.DOWN) ){
                     notifyMove(player, startPos, player.getPos(), "down");
                     updateAffichage(false);
                 }
                 break;  // Ajouter un break ici
             case KeyEvent.VK_LEFT:
-                if (gameMap.déplacer(player, Direction.LEFT)){
+                if (gameMap.déplacer(player, Direction.LEFT) ){
                     notifyMove(player, startPos, player.getPos(), "left");
                     updateAffichage(false);
                 }
                 break;  // Ajouter un break ici
             case KeyEvent.VK_RIGHT:
-                if (gameMap.déplacer(player, Direction.RIGHT)){
+                if (gameMap.déplacer(player, Direction.RIGHT) ){
                     notifyMove(player, startPos, player.getPos(), "right");
                     updateAffichage(false);
                 }
@@ -117,6 +119,9 @@ public class Game implements Controle, Serializable  {
     public int getHeight(){return height;}
     public int getWidth(){return width;}
     public Player getPlayer(){return player;}
+    public Market getMarket() {return market;}
+    public void initVue(VueGenerale v){gameMap.setVue(v);}
+    
 
     public Object getObjectAtPosition(int x, int y) {
         // Retourne l'objet à la position (x, y) de la gameMap
@@ -148,11 +153,6 @@ public class Game implements Controle, Serializable  {
         }
     }
 
-    public Market getMarket() {
-        return market;
-    }
-
-    public void initVue(VueGenerale v){gameMap.setVue(v);}
 }
 
 

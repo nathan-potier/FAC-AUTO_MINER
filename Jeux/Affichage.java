@@ -22,8 +22,12 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
     // Vitesse du jeu (délai entre deux actions)
     private final int actionDelay = 50;  // Délai entre deux déplacements (en millisecondes)
     private long lastActionTime = 0;  // Dernière fois qu'une action a été effectuée
-    
-    
+
+    /**
+     * permet de savoir si la game à été lancer ou non ( utile pour le retour au menue pour 
+     * savoir si il est bon de construire la game ou juste d'afficher la game)
+    */
+    private boolean isRunning = false;
 
     
 
@@ -109,17 +113,25 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             if (inventaireAfficher) {
                 afficherCarte();
+                GameStates.setMoveOn(true);
                 inventaireAfficher = false;
             } else {
+                GameStates.setMoveOn(false);
                 afficherInventaire();
                 inventaireAfficher = true;
+
             }
+
+        }else if (e.getKeyCode() == KeyEvent.VK_ESCAPE ){
+            GameStates.setMoveOn(false);
+            menuBoutonClique = true;
+            menuPanelV2.setVisible(true);
+            
+
         }
-        if (listener != null && e.getKeyCode() != KeyEvent.VK_ESCAPE) {
+        else if (listener != null && GameStates.isMoveOn()) {
             listener.onKeyPress(e.getKeyCode());
             
-        } else {
-            menuPanelV2.setVisible(true);
         }
     }
 
@@ -161,6 +173,8 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
                 setEcoute(game);
                 cartePanel.repaint();
                 game.initVue(this);
+                GameStates.setMoveOn(true);
+                isRunning = true;
                 break;
             case "Charger une Partie":
                 Game nouvellePartie = Game.chargerCarte("Sauvegarde_1");
@@ -172,6 +186,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
                     //cartePanel.actualiseAffichage(100);
                     setEcoute(game);
                     afficherCarte();
+                    isRunning = true;
                     
                 }
                 break;
@@ -184,7 +199,14 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
     public void mousePressed(java.awt.event.MouseEvent e) {
         // Vérifiez si le clic est sur le bouton du MenuButtonTest
         if (menuPanelV2.isMouseOver(e.getPoint()) && menuBoutonClique) {
-            transmettreAction("Nouvelle Partie");
+            if (!isRunning){
+                transmettreAction("Nouvelle Partie");
+            }else{
+                menuPanelV2.setVisible(false);
+                cartePanel.repaint();
+                GameStates.setMoveOn(true);
+            }
+            
             menuBoutonClique = false;
         }
     }

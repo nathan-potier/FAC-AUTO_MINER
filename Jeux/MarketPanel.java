@@ -83,6 +83,7 @@ public class MarketPanel extends JPanel {
         closeButton.setForeground(Color.BLACK);
         closeButton.addActionListener(e -> {
             // Cache le MarketPanel au lieu de fermer toute la fenêtre
+            GameStates.setMoveOn(true);
             this.setVisible(false);
         });
 

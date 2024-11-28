@@ -89,6 +89,7 @@ public class Map implements Serializable{
             return true;
         } else if (grid[nouvelle.getY()][nouvelle.getX()].getContent() instanceof Market) {
 
+            GameStates.setMoveOn(false);
             vue.transmettreMarket();
             return true;
         }

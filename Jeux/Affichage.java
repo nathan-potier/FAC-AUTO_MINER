@@ -149,15 +149,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         this.setFocusable(true);
     }
 
-    @Override
-    public void afficherMenu() {
-        //menuPanel.setVisible(true);
-    }
 
-    @Override
-    public void afficherEtatJeu(String etat) {
-        JOptionPane.showMessageDialog(this, etat);
-    }
 
     @Override
     public void transmettreAction(String action) {

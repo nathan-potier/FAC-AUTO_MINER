@@ -1,188 +1,262 @@
 package Vue;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.List;
+import javax.swing.Timer;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Consumer;
 
+import Modele.Player;
 import Modele.Position;
 
 public class CartePanel extends JPanel implements GameListener {
     private final int CELL_SIZE = 40; // Taille d'une cellule
-    private final Map<Object, Point> animatedPositions = new HashMap<>();
-    private final ArrayList<Runnable> animationList = new ArrayList<>();
-    private boolean animated = false;
-    private int duration = 100;  // Durée de l'animation en ms
-    private int totalDuration = 100;  // Durée initiale de l'animation
-    private Timer currentTimer = null;
+    private final Map<Object, Point> animatedPositions = new ConcurrentHashMap<>();
+    private final Map<Position, Timer> activeTimers = new HashMap<>();
+    private final List<Runnable> animationQueue = new ArrayList<>();
 
-    private String parametreImg = "right";
+    private boolean animated = false;
+    private int duration = 100; // Durée d'animation
+    private int totalDuration = 100; // Durée totale initiale
+    private Timer currentTimer = null;
+    private String playerDirection = "right"; // Direction par défaut
 
     public CartePanel(int width, int height) {
-        this.setLayout(null);
         this.setPreferredSize(new Dimension(width * CELL_SIZE, height * CELL_SIZE));
-        
-        this.setDoubleBuffered(true);
+    }
+
+    public int getCellSize() {
+        return CELL_SIZE;
     }
 
     @Override
-    public void updateObjects(ArrayList<Object> obj, ArrayList<Position> pos) {
-        animatedPositions.clear(); // On efface les objets précédents
-        for (int i = 0; i < obj.size(); i++) {
-            animatedPositions.put(obj.get(i), new Point(pos.get(i).getX() * CELL_SIZE, pos.get(i).getY() * CELL_SIZE));
+    public void updateObjects(ArrayList<Object> objects, ArrayList<Position> positions) {
+        animatedPositions.clear();
+        System.out.println(currentTimer==null);
+        for (int i = 0; i < objects.size(); i++) {
+            animatedPositions.put(objects.get(i), new Point(positions.get(i).getX() * CELL_SIZE, positions.get(i).getY() * CELL_SIZE));
+
         }
-
-        if(currentTimer == null){
-
-            this.repaint();
+        if (currentTimer == null) {
+            repaint();
         }
-
-
     }
 
     @Override
-    public void onMove(Object content, Position startPos, Position targetPos, String dir) {
-        // Si une animation est déjà en cours, on l'arrête
-        parametreImg = dir;
+    public void onMove(Object content, Position startPos, Position targetPos, String direction) {
+        playerDirection = direction;
+
+        // Si une animation est déjà en cours, stoppez et ajustez la durée
         if (animated) {
             stopCurrentAnimation();
-            duration = (int) (totalDuration / 2); // Par exemple, on double la vitesse
+            duration = totalDuration / 2; // Accélération si nécessaire
         }
 
+        // Ajouter l'animation dans la file d'attente
+        animationQueue.add(() -> animateObjectMovement(content, startPos, targetPos, duration));
 
-        // Ajouter la nouvelle animation à la file
-        animationList.add(() -> animateObjectMovement(content, startPos, targetPos, duration));
-
-        // Démarrer ou redémarrer le traitement des animations
         if (!animated) {
             processNextAnimation();
         }
     }
 
     private void stopCurrentAnimation() {
-        // Arrêter le timer actuel si une animation est en cours
         if (currentTimer != null) {
             currentTimer.stop();
             currentTimer = null;
         }
-
-        // Réinitialiser l'état pour démarrer une nouvelle animation
-        animationList.clear();
-        animated = false; // L'animation en cours est arrêtée
+        animationQueue.clear();
+        animated = false;
     }
 
     private void processNextAnimation() {
-        if (!animationList.isEmpty()) {
-            animated = true; // Une animation est en cours
-            Runnable nextAnimation = animationList.remove(0);
-            nextAnimation.run(); // Exécuter l'animation suivante
+        if (!animationQueue.isEmpty()) {
+            animated = true;
+            Runnable nextAnimation = animationQueue.remove(0);
+            nextAnimation.run();
         } else {
-            animated = false; // Plus d'animations en attente
-            duration = 100;
+            animated = false;
+            duration = totalDuration;
         }
     }
 
     /**
-     * Gère l'animation d'un objet à partir d'une position de départ vers une position cible.
+     * Anime le mouvement d'un objet d'une position de départ à une position cible.
      */
     public void animateObjectMovement(Object object, Position startPos, Position targetPos, int duration) {
-        Point start = new Point(startPos.getX() * CELL_SIZE, startPos.getY() * CELL_SIZE);
-        Point end = new Point(targetPos.getX() * CELL_SIZE, targetPos.getY() * CELL_SIZE);
+        Point start = positionToPoint(startPos);
+        Point end = positionToPoint(targetPos);
 
-        // Timer pour l'animation
-        currentTimer = new Timer(5, null); // Intervalle réduit pour une fluidité accrue
-        long startTime = System.currentTimeMillis();
-
-        currentTimer.addActionListener(e -> {
-            long elapsedTime = System.currentTimeMillis() - startTime;
-            double progress = Math.min(1.0, (double) elapsedTime / duration);
-
-            // Interpolation douce (ease-in-out)
-            double smoothProgress = progress * progress * (3 - 2 * progress);
-
-            int newX = (int) (start.x + smoothProgress * (end.x - start.x));
-            int newY = (int) (start.y + smoothProgress * (end.y - start.y));
-
-            animatedPositions.put(object, new Point(newX, newY));
-            this.repaint(); // Réactualiser l'affichage
-
-            if (progress >= 1.0) {
-                currentTimer.stop();
-                currentTimer = null; // Reset du timer après l'animation
-                animatedPositions.put(object, end); // Position finale
-                this.repaint(); // Dernière actualisation
-                processNextAnimation(); // Passer à l'animation suivante
-            }
+        currentTimer = createSmoothAnimationTimer(start, end, duration, point -> {
+            animatedPositions.put(object, point);
+            repaint();
+        }, () -> {
+            animatedPositions.put(object, end);
+            repaint();
+            currentTimer = null; // Réinitialiser le timer à null après la fin
+            processNextAnimation();
         });
 
         currentTimer.start();
-        
+    }
+
+    @Override
+    public void attenteAnimation(Position position, int duration){
+        String image1Path = "Attente";
+        String image2Path = "Attente2";
+
+        attenteAnimation(position, duration,  image1Path,  image2Path);
+    }
+
+    public void attenteAnimation(Position position, int duration, String image1Path, String image2Path) {
+
+        if (activeTimers.containsKey(position)) return;
+    
+        Point point = positionToPoint(position);
+        ImageIcon image1 = getIconForType(image1Path);
+        ImageIcon image2 = getIconForType(image2Path);
+    
+        Timer timer = createAlternatingImageTimer(point, image1, image2, duration, () -> {
+            activeTimers.remove(position);
+            repaint();
+        });
+    
+        activeTimers.put(position, timer);
+        timer.start();
+    }
+
+    /**
+     * Crée un Timer pour alterner entre deux images sur une position spécifique.
+     */
+    private Timer createAlternatingImageTimer(Point position, ImageIcon image1, ImageIcon image2, int duration, Runnable onComplete) {
+        Timer timer = new Timer(1000, null); // Changement toutes les secondes
+        long startTime = System.currentTimeMillis();
+        boolean[] toggle = {true}; // État pour alterner entre les deux images
+
+        timer.addActionListener(e -> {
+            long elapsedTime = System.currentTimeMillis() - startTime;
+
+            // Alterner l'image
+            toggle[0] = !toggle[0];
+            Graphics g = getGraphics();
+            if (toggle[0]) {
+                g.drawImage(image1.getImage(), position.x, position.y, CELL_SIZE, CELL_SIZE, this);
+            } else {
+                g.drawImage(image2.getImage(), position.x, position.y, CELL_SIZE, CELL_SIZE, this);
+            }
+
+            // Arrêter l'animation après la durée spécifiée
+            if (elapsedTime >= duration) {
+                timer.stop();
+                onComplete.run();
+            }
+        });
+
+        return timer;
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        // Dessiner tous les objets (y compris le joueur)
-        for (Map.Entry<Object, Point> entry : animatedPositions.entrySet()) {
-            Object content = entry.getKey();
-            Point position = entry.getValue();
-            ImageIcon icon ;
-            if (parametreImg != null && content.getClass().getSimpleName().equals("Player") ){
-                icon = getIconForDirection();
-            }else{
-                icon = getIconForType(content.getClass().getSimpleName());
-                
-            }
-            
+        // Dessiner les cases animées
+        //activeTimers.keySet().forEach(pos -> drawHighlight(g, positionToPoint(pos)));
 
-            if (icon != null) {
-                g.drawImage(icon.getImage(), position.x, position.y, CELL_SIZE, CELL_SIZE, this);
-            }
-        }
-
+        // Dessiner tous les objets
+        animatedPositions.forEach((object, position) -> drawObject(g, object, position));
     }
 
-    
     /**
-     * Obtient l'icône correspondant à la direction du joueur.
+     * Méthodes d'outils
+     */
+    private Point positionToPoint(Position pos) {
+        return new Point(pos.getX() * CELL_SIZE, pos.getY() * CELL_SIZE);
+    }
+
+    private void drawObject(Graphics g, Object content, Point position) {
+        ImageIcon icon = content instanceof Player ?
+                getIconForDirection() : getIconForType(content.getClass().getSimpleName());
+        if (icon != null) {
+            g.drawImage(icon.getImage(), position.x, position.y, CELL_SIZE, CELL_SIZE, this);
+        }
+    }
+
+    private void drawHighlight(Graphics g, Point position) {
+        g.setColor(Color.RED);
+        g.fillRect(position.x, position.y, CELL_SIZE, CELL_SIZE);
+    }
+
+    /**
+     * Crée un Timer pour des animations de type "clignotement".
+     */
+    private Timer createBlinkingTimer(Point position, int duration, Runnable onComplete) {
+        Timer timer = new Timer(200, null);
+        long startTime = System.currentTimeMillis();
+
+        timer.addActionListener(e -> {
+            long elapsedTime = System.currentTimeMillis() - startTime;
+            if ((elapsedTime / 200) % 2 == 0) {
+                drawHighlight(getGraphics(), position);
+            } else {
+                repaint();
+            }
+            if (elapsedTime >= duration) {
+                timer.stop();
+                onComplete.run();
+            }
+        });
+
+        return timer;
+    }
+
+    /**
+     * Crée un Timer pour des animations de type "mouvement fluide".
+     */
+    private Timer createSmoothAnimationTimer(Point start, Point end, int duration, Consumer<Point> onUpdate, Runnable onComplete) {
+        Timer timer = new Timer(5, null);
+        long startTime = System.currentTimeMillis();
+
+        timer.addActionListener(e -> {
+            long elapsedTime = System.currentTimeMillis() - startTime;
+            double progress = Math.min(1.0, (double) elapsedTime / duration);
+            double smoothProgress = progress * progress * (3 - 2 * progress);
+
+            Point interpolated = new Point(
+                    (int) (start.x + smoothProgress * (end.x - start.x)),
+                    (int) (start.y + smoothProgress * (end.y - start.y))
+            );
+
+            onUpdate.accept(interpolated);
+
+            if (progress >= 1.0) {
+                timer.stop();
+                onComplete.run();
+            }
+        });
+
+        return timer;
+    }
+
+    /**
+     * Gestion des icônes
      */
     private ImageIcon getIconForDirection() {
-
-        String relativePath = "assets/Player_" + parametreImg + ".png";
-        File file = new File(relativePath); 
-        // Vérifie si le fichier existe
-        if (!file.exists()) {
-            System.err.println("Fichier non trouvé : " + file.getAbsolutePath());
-            return null;
-        }
-        ImageIcon icon = new ImageIcon(file.getAbsolutePath());
-
-        if (icon.getImageLoadStatus() != MediaTracker.COMPLETE) {
-            return null;
-        }
-
-        return icon;
+        return getIconForType("Player_" + playerDirection);
     }
-    /**
-     * Obtient l'icône correspondant au type d'objet.
-     */
+
     private ImageIcon getIconForType(String type) {
         String relativePath = "assets/" + type + ".png";
-        File file = new File(relativePath); 
-        
-        // Vérifie si le fichier existe
+        File file = new File(relativePath);
         if (!file.exists()) {
             System.err.println("Fichier non trouvé : " + file.getAbsolutePath());
-            return null;
+            return new ImageIcon("assets/error.png");
         }
-        ImageIcon icon = new ImageIcon(file.getAbsolutePath());
-        
-        if (icon.getImageLoadStatus() != MediaTracker.COMPLETE ) {
-            return null;
-        }
-
-        return icon;
+        return new ImageIcon(file.getAbsolutePath());
     }
+
+
+
 }

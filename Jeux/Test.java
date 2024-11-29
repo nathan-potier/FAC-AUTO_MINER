@@ -1,3 +1,5 @@
+import Modele.Game;
+import Vue.Affichage;
 public class Test {
     public static void main(String[] args) {
 

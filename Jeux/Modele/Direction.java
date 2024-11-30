@@ -25,4 +25,16 @@ public class Direction {
         if (this == RIGHT) return "RIGHT";
         return "Unknown Direction";
     }
+        // Trouve la direction entre deux positions
+    public static Direction getDirection(Position from, Position to) {
+        int dx = to.getX() - from.getX();
+        int dy = to.getY() - from.getY();
+
+        if (dx == 1 && dy == 0) return Direction.RIGHT;
+        if (dx == -1 && dy == 0) return Direction.LEFT;
+        if (dx == 0 && dy == 1) return Direction.DOWN;
+        if (dx == 0 && dy == -1) return Direction.UP;
+
+        return null;
+    }
 }

@@ -33,7 +33,7 @@ public class InventairePanel extends JPanel {
 
             // Icône
             JLabel iconLabel = new JLabel();
-            ImageIcon icon = new ImageIcon("../assets/" + resInvName[i] + ".png");
+            ImageIcon icon = new ImageIcon("assets/" + resInvName[i] + ".png");
             iconLabel.setIcon(new ImageIcon(icon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH)));
             iconLabel.setHorizontalAlignment(SwingConstants.CENTER);
 

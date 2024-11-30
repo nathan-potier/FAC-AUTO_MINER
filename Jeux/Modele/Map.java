@@ -1,7 +1,11 @@
 package Modele;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Random;
+
+import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 
@@ -14,6 +18,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Serializable;
 import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Map implements Serializable{
     private Cell[][] grid;
@@ -104,27 +109,42 @@ public class Map implements Serializable{
         return (position.getX() >= 0 && position.getY() >= 0 && position.getX() < width && position.getY() < height );
 
     }
+    public boolean isSpawn(Position pos){
+        return grid[pos.getY()][pos.getX()].equals(grid[Spawn.getPos().getY()][Spawn.getPos().getX()]);
+    }
+    public boolean cellIsEmpty(Position pos){
+        return grid[pos.getY()][pos.getX()] == null;
+    }
+    public boolean isInstanceOf(Class<?> type, Position pos){
+        return type.isInstance(grid[pos.getY()][pos.getX()].getContent());
+    }
 
-    public boolean déplacer(Player p, Direction d){
+
+    public boolean deplacer(Player p, Direction d){
         
         Position nouvelle = d.move(p.getPos());
         if (!posIsValid(nouvelle) || !p.isEcoute()){
             
             return false;
         }
-        else if(grid[nouvelle.getY()][nouvelle.getX()] == null || grid[nouvelle.getY()][nouvelle.getX()].equals(grid[Spawn.getPos().getY()][Spawn.getPos().getX()])){
+        else if(cellIsEmpty(nouvelle) || isSpawn(nouvelle)){
+            Position startPos = p.getPos();
             grid[nouvelle.getY()][nouvelle.getX()] = new Cell(nouvelle, p);
             grid[p.getPos().getY()][p.getPos().getX()] = null;
             p.setPos(nouvelle);
             verifSpawnAffichage(); 
+            game.notifyMove(p, startPos, p.getPos(), Direction.getDirection(startPos, p.getPos()).toString());
+            game.updateAffichage(false);
+
+ 
             return true;
 
-        }else if (grid[nouvelle.getY()][nouvelle.getX()].getContent() instanceof Usine) {
+        }else if (isInstanceOf(Usine.class, nouvelle)) {
 
             //deplacerOnUsine(p, nouvelle);
             vue.transmettreMarket();
             return true;
-        } else if (grid[nouvelle.getY()][nouvelle.getX()].getContent() instanceof Market) {
+        } else if (isInstanceOf(Market.class, nouvelle)) {
 
             GameStates.setMoveOn(false);
             vue.transmettreMarket();
@@ -240,4 +260,88 @@ public class Map implements Serializable{
 
     public Cell[][] getGrid(){return grid;}
     public void setGrid(Cell[][] ngrid){grid = ngrid;}
+
+    public boolean deplacerVersPosition(Player p, Position cible) {
+        if (!posIsValid(cible) || 
+            (grid[cible.getY()][cible.getX()] != null && !(grid[cible.getY()][cible.getX()].getContent() instanceof Spawn))) {
+            System.out.println("Position cible invalide ou occupée.");
+            return false;
+        }
+    
+        boolean[][] visited = new boolean[height][width];
+        Position[][] prev = new Position[height][width];
+        Queue<Position> queue = new LinkedList<>();
+        queue.add(p.getPos());
+        visited[p.getPos().getY()][p.getPos().getX()] = true;
+    
+        Direction[] directions = {Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT};
+    
+        // BFS pour trouver un chemin
+        while (!queue.isEmpty()) {
+            Position current = queue.poll();
+    
+            if (current.equals(cible)) {
+                break;
+            }
+    
+            for (Direction d : directions) {
+                Position next = d.move(current);
+                if (posIsValid(next) && !visited[next.getY()][next.getX()] &&
+                    (grid[next.getY()][next.getX()] == null || grid[next.getY()][next.getX()].getContent() instanceof Spawn)) {
+                    queue.add(next);
+                    visited[next.getY()][next.getX()] = true;
+                    prev[next.getY()][next.getX()] = current;
+                }
+            }
+        }
+    
+        // Vérifier si un chemin a été trouvé
+        if (prev[cible.getY()][cible.getX()] == null) {
+            System.out.println("Pas de chemin disponible.");
+            return false;
+        }
+    
+        // Reconstruire le chemin sans inclure la position de départ
+        LinkedList<Position> chemin = new LinkedList<>();
+        for (Position at = cible; prev[at.getY()][at.getX()] != null; at = prev[at.getY()][at.getX()]) {
+            chemin.addFirst(at);
+        }
+        
+        // Créer un Timer pour déplacer le joueur progressivement
+        int delay = 80; // Temps de pause entre les déplacements (en millisecondes)
+        Timer timer = new Timer(delay, null);
+        AtomicInteger index = new AtomicInteger(0); // Pour gérer la position actuelle dans le chemin
+
+        // Action à exécuter à chaque tick du Timer
+        timer.addActionListener(e -> {
+            int currentIndex = index.getAndIncrement();
+            if (currentIndex < chemin.size()) {
+                Position nextPos = chemin.get(currentIndex);
+                Direction direction = Direction.getDirection(p.getPos(), nextPos);
+
+                if (direction == null) {
+                    System.out.println("Direction invalide.");
+                    timer.stop(); // Arrêter le timer si une direction invalide est trouvée
+                    return;
+                }
+
+                // Appeler la fonction de déplacement existante
+                if (!deplacer(p, direction)) {
+                    System.out.println("Impossible de continuer à cause d'un obstacle.");
+                    timer.stop(); // Arrêter le timer si un obstacle est rencontré
+                    return;
+                }
+
+
+
+            } else {
+                timer.stop();  // Arrêter le timer une fois que le joueur a atteint la cible
+            }
+        });
+
+        timer.start();  // Démarrer le Timer pour exécuter les déplacements progressivement
+
+        return true;
+    }
+
 }

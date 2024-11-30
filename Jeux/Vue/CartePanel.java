@@ -50,6 +50,7 @@ public class CartePanel extends JPanel implements GameListener {
         playerDirection = direction;
 
         // Si une animation est déjà en cours, stoppez et ajustez la durée
+
         if (animated) {
             stopCurrentAnimation();
             duration = totalDuration / 2; // Accélération si nécessaire
@@ -81,6 +82,7 @@ public class CartePanel extends JPanel implements GameListener {
             animated = false;
             duration = totalDuration;
         }
+
     }
 
     /**
@@ -167,6 +169,7 @@ public class CartePanel extends JPanel implements GameListener {
             long elapsedTime = System.currentTimeMillis() - startTime;
             double progress = Math.min(1.0, (double) elapsedTime / duration);
             double smoothProgress = progress * progress * (3 - 2 * progress);
+
 
             Point interpolated = new Point(
                     (int) (start.x + smoothProgress * (end.x - start.x)),

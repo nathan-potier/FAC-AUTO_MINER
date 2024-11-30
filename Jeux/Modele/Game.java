@@ -39,8 +39,8 @@ public class Game implements Controle, Serializable  {
         this.listener = listener;
     }
     
-    private void notifyMove(Object content, Position start, Position target, String dir) {
-        
+    public void notifyMove(Object content, Position start, Position target, String dir) {
+
         listener.onMove(content, start, target, dir);
         
 
@@ -59,31 +59,19 @@ public class Game implements Controle, Serializable  {
 
     @Override
     public void onKeyPress(int keyCode) {
-        Position startPos = player.getPos();
         switch (keyCode) {
             case KeyEvent.VK_UP:
-                if (gameMap.déplacer(player, Direction.UP) ){
-                    notifyMove(player, startPos, player.getPos(), "up");
-                    updateAffichage(false);
-                }
+                gameMap.deplacer(player, Direction.UP) ;
                 break; 
             case KeyEvent.VK_DOWN:
-                if (gameMap.déplacer(player, Direction.DOWN) ){
-                    notifyMove(player, startPos, player.getPos(), "down");
-                    updateAffichage(false);
-                }
+                gameMap.deplacer(player, Direction.DOWN);
+      
                 break; 
             case KeyEvent.VK_LEFT:
-                if (gameMap.déplacer(player, Direction.LEFT) ){
-                    notifyMove(player, startPos, player.getPos(), "left");
-                    updateAffichage(false);
-                }
+                gameMap.deplacer(player, Direction.LEFT);
                 break; 
             case KeyEvent.VK_RIGHT:
-                if (gameMap.déplacer(player, Direction.RIGHT) ){
-                    notifyMove(player, startPos, player.getPos(), "right");
-                    updateAffichage(false);
-                }
+                gameMap.deplacer(player, Direction.RIGHT);
                 break;  
             default:
                 System.out.println("Autre touche pressée.");
@@ -159,11 +147,14 @@ public class Game implements Controle, Serializable  {
     @Override
     public void clickOnCase(Position pos) {
         gameMap.ActionByClick(player, pos);
-        
+        if(gameMap.posIsValid(pos)){
+            gameMap.deplacerVersPosition(player, pos);
+        }
     }
 
     public void CallAnnimationRespawn(Position pos, int tempsMS){
         listener.attenteAnimation(pos, tempsMS);
+
     }
 
 

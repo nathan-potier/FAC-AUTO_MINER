@@ -49,13 +49,15 @@ public class Map implements Serializable{
     public void setVue(VueGenerale v){vue = v;}
     
 
-    public void attendreReplace(Position position, Cell cell, Player p, int temps) {
+    public void attendreReplace(Position position, Cell cell, Player p, int temps, boolean isLaborieuse) {
         
         Timer timer = new Timer(temps, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (isLaborieuse){
+                    p.setEcoute(true);
+                }
 
-                p.setEcoute(true);
                 grid[position.getY()][position.getX()] = cell;
                 game.updateAffichage(true);
 
@@ -160,14 +162,14 @@ public class Map implements Serializable{
   
 
         if(isTemporisée){
-            attendreReplace(pos, cell, p, temps);
+            attendreReplace(pos, cell, p, temps, false);
             
         }
         
         else if (isLaborieuse){
             
             p.setEcoute(false);
-            attendreReplace(pos, cell, p, temps);
+            attendreReplace(pos, cell, p, temps, isLaborieuse);
         }
     }
 

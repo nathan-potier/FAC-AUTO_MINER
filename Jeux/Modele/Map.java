@@ -1,5 +1,6 @@
 package Modele;
 
+import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.Timer;
 
@@ -20,8 +21,9 @@ public class Map implements Serializable{
     private Spawn spawn;
     private Market market;
 
+
     private Game game;
-    private boolean enAttente = false;
+
 
     private VueGenerale vue;
     
@@ -34,6 +36,8 @@ public class Map implements Serializable{
         this.market = m;
         this.game = game;
         generateMap(p);
+        
+
     }
 
     private void generateMap(Player p) {
@@ -50,17 +54,11 @@ public class Map implements Serializable{
         Timer timer = new Timer(temps, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //System.out.println("5 secondes écoulées");
-                if(grid[position.getY()][position.getX()] != null){
-                    p.setEcoute(true);
-                    attendreReplace(position, cell, p, 10) ;
-                    
-                }else{
 
-                    grid[position.getY()][position.getX()] = cell;
-                    game.updateAffichage(true);
+                p.setEcoute(true);
+                grid[position.getY()][position.getX()] = cell;
+                game.updateAffichage(true);
 
-                }
 
                 ((Timer) e.getSource()).stop();
             }
@@ -70,13 +68,45 @@ public class Map implements Serializable{
         
     }
 
+    public ArrayList<Cell> regarderAutour(Position pos) {
 
+        Direction[] directions = {Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT};
+        ArrayList<Cell> resultats = new ArrayList<>();
 
+        for (Direction direction : directions) {
+            Position newPosition = direction.move(pos);
+            // Vérification des limites du tableau
+            if ( posIsValid(newPosition) &&  grid[newPosition.getY()][newPosition.getX()] != null) {
+                
+                resultats.add(grid[newPosition.getY()][newPosition.getX()]);
+            }else{
+                resultats.add(null);
+            }
+        }
+        return resultats;
+    }
+    
+    public void ActionByClick(Player player, Position pos){
+        ArrayList<Cell> res = regarderAutour(player.getPos());
+        for (Cell c : res){
+              if ( c != null && c.getPosition().getX() == pos.getX() && c.getPosition().getY() == pos.getY() ){
+                if(c.isRessource()){
+                    //player.collectResource((Ressource)c.getContent());
+                    collectRessource(player, c.getPosition());
+                }
+            }
+        }
+    }
+    
+    public boolean posIsValid(Position position){
+        return (position.getX() >= 0 && position.getY() >= 0 && position.getX() < width && position.getY() < height );
+
+    }
 
     public boolean déplacer(Player p, Direction d){
         
         Position nouvelle = d.move(p.getPos());
-        if (!(nouvelle.getX() >= 0 && nouvelle.getY() >= 0 && nouvelle.getX() < width && nouvelle.getY() < height ) || !p.isEcoute()){
+        if (!posIsValid(nouvelle) || !p.isEcoute()){
             
             return false;
         }
@@ -87,14 +117,10 @@ public class Map implements Serializable{
             verifSpawnAffichage(); 
             return true;
 
-        }else if (grid[nouvelle.getY()][nouvelle.getX()].getContent() instanceof Ressource){
-            
-            deplacerOnRessource(p, nouvelle);
-            return true;
+        }else if (grid[nouvelle.getY()][nouvelle.getX()].getContent() instanceof Usine) {
 
-        } else if (grid[nouvelle.getY()][nouvelle.getX()].getContent() instanceof Usine) {
-
-            deplacerOnUsine(p, nouvelle);
+            //deplacerOnUsine(p, nouvelle);
+            vue.transmettreMarket();
             return true;
         } else if (grid[nouvelle.getY()][nouvelle.getX()].getContent() instanceof Market) {
 
@@ -109,28 +135,39 @@ public class Map implements Serializable{
 
     }
 
-    public void deplacerOnRessource(Player p, Position nouvelle){
+    public void collectRessource(Player p, Position nouvelle){
+
+        int temps = 5000;
         
         p.collectResource((Ressource)grid[nouvelle.getY()][nouvelle.getX()].getContent());
-
+        
+        
         Cell cell = grid[nouvelle.getY()][nouvelle.getX()];
         Position pos = new Position(nouvelle.getX(), nouvelle.getY());
+
+        
+
         Boolean isTemporisée = ((Ressource)grid[nouvelle.getY()][nouvelle.getX()].getContent()).isTemporisée();
         Boolean isLaborieuse = ((Ressource)grid[nouvelle.getY()][nouvelle.getX()].getContent()).isLaborieuse();
 
-        grid[nouvelle.getY()][nouvelle.getX()] = new Cell(nouvelle, p);
-        grid[p.getPos().getY()][p.getPos().getX()] = null;
-        p.setPos(nouvelle);
+
+
+        grid[nouvelle.getY()][nouvelle.getX()] = new Cell(pos, new Attente(pos));
+
+        
+        game.updateAffichage(true);
+
+  
 
         if(isTemporisée){
-            attendreReplace(pos, cell, p, 5000);
+            attendreReplace(pos, cell, p, temps);
             
         }
         
         else if (isLaborieuse){
             
             p.setEcoute(false);
-            attendreReplace(pos, cell, p, 5000);
+            attendreReplace(pos, cell, p, temps);
         }
     }
 

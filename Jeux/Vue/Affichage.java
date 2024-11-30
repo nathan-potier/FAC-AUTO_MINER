@@ -5,6 +5,7 @@ import javax.swing.*;
 
 import Modele.Game;
 import Modele.GameStates;
+import Modele.Position;
 import Modele.Controle;
 
 public class Affichage extends JFrame implements VueGenerale, KeyListener, MouseListener {
@@ -83,7 +84,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         // Listener pour les interactions
         menuPanelV2.addMouseListener(this);
         this.addMouseListener(this);
-
+        this.setLayout(null);
 
         
     }
@@ -209,8 +210,29 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         }
     }
 
+    public Position getCaseFromClick(MouseEvent e) {
+        Point location = SwingUtilities.convertPoint(this, e.getPoint(), cartePanel);
+
+        // Obtenir la position du clic dans les coordonnées du JPanel
+        int x = location.x;
+        int y = location.y;
+
+        // Convertir ces coordonnées en indices de cellule sur la carte
+        int gridX = x   / cartePanel.getCellSize(); // Diviser par la taille d'une cellule pour obtenir l'indice de la cellule
+        int gridY = y  / cartePanel.getCellSize();
+
+        return new Position(gridX, gridY);
+    }
+    
+
     @Override
-    public void mousePressed(java.awt.event.MouseEvent e) {
+    public void mousePressed(MouseEvent e) {
+
+        if (listener != null && !menuBoutonClique){
+            listener.clickOnCase(getCaseFromClick(e));
+        }
+
+
         // Vérifiez si le clic est sur le bouton du MenuButtonTest
         if (menuPanelV2.isMouseOver(e.getPoint()) && menuBoutonClique) {
             if (!isRunning){

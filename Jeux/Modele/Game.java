@@ -33,6 +33,8 @@ public class Game implements Controle, Serializable  {
         
     }
 
+
+
     public void addGameListener(GameListener listener) {
         this.listener = listener;
     }
@@ -95,7 +97,8 @@ public class Game implements Controle, Serializable  {
         ArrayList<Position> pos = new ArrayList<>();
         for (Cell[] cells : gameMap.getGrid()){
             for (Cell c: cells){
-                if(c != null && (!(c.getContent().getClass().equals(player.getClass())) || b) ){
+                if(c != null && (!(c.getContent().getClass().equals(player.getClass())) || b)  ){
+
                     
                     obj.add(c.getContent());
                     pos.add(c.getPosition());
@@ -151,6 +154,16 @@ public class Game implements Controle, Serializable  {
             System.err.println("Erreur lors du chargement : " + e.getMessage());
             return null;
         }
+    }
+
+    @Override
+    public void clickOnCase(Position pos) {
+        gameMap.ActionByClick(player, pos);
+        
+    }
+
+    public void CallAnnimationRespawn(Position pos, int tempsMS){
+        listener.attenteAnimation(pos, tempsMS);
     }
 
 

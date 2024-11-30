@@ -1,6 +1,8 @@
 package Modele;
 import java.io.Serializable;
 
+import Modele.Ressource.Ressource;
+
 public class Cell implements Serializable{
     private Position position;
     private Object content; // Par exemple, une ressource, une machine, ou null si vide
@@ -27,6 +29,9 @@ public class Cell implements Serializable{
         return content == null;
     }
 
+    public boolean isRessource(){
+        return content instanceof Ressource;
+    }
     @Override
     public String toString() {
         return "Cell[" + position + ", content=" + content + "]";

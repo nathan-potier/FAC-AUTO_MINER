@@ -154,8 +154,9 @@ public class Map implements Serializable{
 
         grid[nouvelle.getY()][nouvelle.getX()] = new Cell(pos, new Attente(pos));
 
-        game.CallAnnimationRespawn(pos, temps);
+        
         game.updateAffichage(true);
+
   
 
         if(isTemporisée){

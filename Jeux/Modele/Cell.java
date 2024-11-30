@@ -29,9 +29,6 @@ public class Cell implements Serializable{
         return content == null;
     }
 
-    public boolean isRessource(){
-        return content instanceof Ressource;
-    }
     @Override
     public String toString() {
         return "Cell[" + position + ", content=" + content + "]";

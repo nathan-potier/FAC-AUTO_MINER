@@ -25,7 +25,7 @@ public class Direction {
         if (this == RIGHT) return "RIGHT";
         return "Unknown Direction";
     }
-        // Trouve la direction entre deux positions
+    // Trouve la direction entre deux positions
     public static Direction getDirection(Position from, Position to) {
         int dx = to.getX() - from.getX();
         int dy = to.getY() - from.getY();

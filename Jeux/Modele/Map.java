@@ -97,9 +97,11 @@ public class Map implements Serializable{
         ArrayList<Cell> res = regarderAutour(player.getPos());
         for (Cell c : res){
               if ( c != null && c.getPosition().getX() == pos.getX() && c.getPosition().getY() == pos.getY() ){
-                if(c.isRessource()){
+                if(isInstanceOf(Ressource.class, c.getPosition())){
                     //player.collectResource((Ressource)c.getContent());
                     collectRessource(player, c.getPosition());
+                }else if (isInstanceOf(Market.class, c.getPosition())){
+                    deplacer(player, Direction.getDirection(player.getPos(), c.getPosition()));
                 }
             }
         }

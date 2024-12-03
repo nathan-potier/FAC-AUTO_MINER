@@ -246,8 +246,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
 
         }else if(menuPanel.isMouseOverNewGame(e.getPoint()) && menuBoutonClique){
             if (!isRunning){
-                System.out.println("Bouton New Game cliqué");
-                //transmettreAction("New Game");
+                transmettreAction("Nouvelle Partie");
             }else{
                 menuPanel.setVisible(false);
                 cartePanel.repaint();

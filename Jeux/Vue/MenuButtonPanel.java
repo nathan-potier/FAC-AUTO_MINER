@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.*;
+import javax.swing.ImageIcon;
 
 public class MenuButtonPanel extends JPanel {
 
@@ -11,17 +12,20 @@ public class MenuButtonPanel extends JPanel {
     private MenuButton settings;
     private MenuButton exit;
 
-    public MenuButtonPanel(int xpos, int ypos) {
-        // Initialiser le bouton au centre de la fenêtre
-        playButton = new MenuButton(170, 95, xpos - 115, ypos, "../assets/PlayDefault.png", "../assets/PlayHover.png");
-        newGame = new MenuButton(180, 110, xpos + 100, ypos + 2, "../assets/NewGameDefault.png", "../assets/NewGameHover.png");
-        settings = new MenuButton(180, 110, xpos - 113, ypos + 110, "../assets/SettingDefault.png", "../assets/SettingHover.png");
-        exit = new MenuButton(180, 110, xpos + 100, ypos + 110, "../assets/SettingDefault.png", "../assets/SettingHover.png");
+    private ImageIcon logoIcon;  // ImageIcon pour le logo
 
+    public MenuButtonPanel(int xpos, int ypos) {
+        logoIcon = new ImageIcon(getClass().getResource("/assets/Logo.png"));
+        
+        playButton = new MenuButton(170, 95, xpos - 115, ypos + 10, "../assets/PlayDefault.png", "../assets/PlayHover.png");
+        newGame = new MenuButton(180, 110, xpos + 100, ypos + 12, "../assets/NewGameDefault.png", "../assets/NewGameHover.png");
+        settings = new MenuButton(180, 110, xpos - 113, ypos + 120, "../assets/SettingDefault.png", "../assets/SettingHover.png");
+        exit = new MenuButton(180, 110, xpos + 100, ypos + 120, "../assets/SettingDefault.png", "../assets/SettingHover.png");
 
         setPreferredSize(new Dimension(800, 600));
         setBackground(Color.DARK_GRAY);
-         
+
+        // Ajouter un listener pour la souris
         addMouseMotionListener(new MouseAdapter() {
             @Override
             public void mouseMoved(MouseEvent e) {
@@ -37,14 +41,24 @@ public class MenuButtonPanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        // Dessiner le bouton
+
+
+        if (logoIcon != null) {
+            Image logoImage = logoIcon.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+            ImageIcon scaledLogoIcon = new ImageIcon(logoImage);
+
+            int logoWidth = scaledLogoIcon.getIconWidth();
+            int x = (getWidth() - logoWidth) / 2;
+            int y = 50;
+            scaledLogoIcon.paintIcon(this, g, x, y);
+        }
+
         playButton.draw(g);
         newGame.draw(g);
         settings.draw(g);
         exit.draw(g);
     }
 
-    // Ajoutez une méthode pour vérifier si un point se trouve sur le bouton
     public boolean isMouseOverPlay(Point point) {
         return playButton.getBounds().contains(point);
     }
@@ -60,5 +74,4 @@ public class MenuButtonPanel extends JPanel {
     public boolean isMouseOverExit(Point point) {
         return exit.getBounds().contains(point);
     }
-
 }

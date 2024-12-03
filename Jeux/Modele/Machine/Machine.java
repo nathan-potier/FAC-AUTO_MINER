@@ -25,9 +25,20 @@ public class Machine implements Serializable{
         return stock;
     }
 
-    public void ajouterRessource(Ressource ressource) {
-        stock.add(ressource);
+    public void ajouterRessource(Ressource ressourceProduite) {
+        boolean found = false;
+        for (Ressource ressource : getStock()) {
+            if (ressource.getName().equals(ressourceProduite.getName())) {
+                ressource.addQuantity(ressourceProduite.getQuantity());
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            getStock().add(ressourceProduite);
+        }
     }
+    
 
     public void retirerRessource(Ressource ressource) {
         stock.remove(ressource);

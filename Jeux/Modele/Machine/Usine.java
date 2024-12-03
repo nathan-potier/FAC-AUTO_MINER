@@ -49,33 +49,38 @@ public class Usine extends Machine implements Serializable {
                 break;
             }
         }
-
+    
         if (index == -1) {
             System.out.println("Recette non trouvée.");
             return;
         }
-
-        // Vérifier si l'inventaire contient suffisamment de chaque ingrédient
+    
+        // Afficher les ingrédients nécessaires pour la recette choisie
         List<Ressource> ingredientsRecette = ingredients.get(index);
+    
+        // Vérifier si l'inventaire contient suffisamment de chaque ingrédient
         for (Ressource ingredient : ingredientsRecette) {
-            boolean ingredientPresent = false;
+            int quantityInInventory = 0;
+            // Calculer la quantité totale de l'ingrédient dans l'inventaire
             for (Ressource ressource : inventaire.getRessources()) {
-                if (ressource.getName().equals(ingredient.getName()) && ressource.getQuantity() >= ingredient.getQuantity()) {
-                    ingredientPresent = true;
-                    break;
+                if (ressource.getName().equals(ingredient.getName())) {
+                    quantityInInventory += ressource.getQuantity();
                 }
             }
-            if (!ingredientPresent) {
+    
+            // Si la quantité dans l'inventaire est insuffisante
+            if (quantityInInventory < ingredient.getQuantity()) {
                 System.out.println("Ingrédients insuffisants pour produire : " + nomRecette);
+                System.out.println("Il manque " + (ingredient.getQuantity() - quantityInInventory) + " de " + ingredient.getName());
                 return;
             }
         }
-
+    
         // Retirer les ingrédients de l'inventaire
         for (Ressource ingredient : ingredientsRecette) {
             inventaire.removeResource(ingredient, ingredient.getQuantity());
         }
-
+    
         // Créer la ressource produite et l'ajouter au stock de l'usine
         Ressource ressourceProduite;
         if ("Pickaxe".equalsIgnoreCase(nomRecette)) {
@@ -86,10 +91,11 @@ public class Usine extends Machine implements Serializable {
             System.out.println("Erreur lors de la production.");
             return;
         }
-
+    
         ajouterRessource(ressourceProduite);
-        System.out.println(nomRecette + " produite et ajoutée au stock de l'usine.");
     }
+    
+    
 
     public void recuperer() {
         if(getStock().isEmpty()){
@@ -99,7 +105,6 @@ public class Usine extends Machine implements Serializable {
                 Ressource ressource = getStock().remove(0); // Supprime la ressource du stock de l'usine
                 inventaire.addResource(ressource); // Ajoute la ressource à l'inventaire
             }
-            System.out.println("Stock de l'usine transféré à l'inventaire.");
         }
     }
 }

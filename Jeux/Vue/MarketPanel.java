@@ -3,6 +3,8 @@ import java.awt.*;
 import javax.swing.*;
 
 import Modele.Player;
+import Modele.Machine.Machine;
+import Modele.Machine.Usine;
 import Modele.GameStates;
 import Modele.Market;
 import Modele.Ressource.*;
@@ -66,6 +68,9 @@ public class MarketPanel extends JPanel implements MarketInterface{
         // Ajouter des objets au marché
         addItemToMarket(buyPanel, "assets/Wood.png", "Wood", new Wood(1), sellPanel);
         addItemToMarket(buyPanel, "assets/Iron.png", "Iron", new Iron(1), sellPanel);
+        // Ajouter des machines au marché
+        addMachineToMarket(buyPanel, "assets/Usine.png", "Usine", new Usine(null), sellPanel);
+
     
         // Ajout des panneaux dans des JScrollPane
         JScrollPane buyScrollPane = new JScrollPane(buyPanel);
@@ -146,6 +151,46 @@ public class MarketPanel extends JPanel implements MarketInterface{
         itemPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         panel.add(itemPanel);
     }
+
+    private void addMachineToMarket(JPanel panel, String imagePath, String name, Machine machine, JPanel inventoryPanel) {
+        JPanel itemPanel = new JPanel();
+        itemPanel.setLayout(new BoxLayout(itemPanel, BoxLayout.X_AXIS));
+        itemPanel.setBackground(Color.DARK_GRAY);
+
+        // Charger et redimensionner l'image de la machine
+        ImageIcon originalIcon = new ImageIcon(imagePath);
+        Image scaledImage = originalIcon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+        ImageIcon scaledIcon = new ImageIcon(scaledImage);
+
+        // Image de la machine
+        JLabel imageLabel = new JLabel(scaledIcon);
+        itemPanel.add(imageLabel);
+
+        // Nom de la machine
+        JLabel nameLabel = new JLabel(name);
+        nameLabel.setForeground(Color.WHITE);
+        nameLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+        nameLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
+        itemPanel.add(nameLabel);
+
+        // Récupérer le prix de la machine
+        int price = machine.getPrix();
+
+        // Bouton d'achat (prix)
+        JButton buyButton = new JButton(price + " coins");
+        buyButton.addActionListener(e -> {
+            market.buyMachine(player, machine);
+            updateMoneyLabel();
+            updateInventoryPanel(inventoryPanel); // Utilise directement le panneau d'inventaire
+        });
+        itemPanel.add(buyButton);
+
+        // Ajouter un peu d'espacement autour de l'item
+        itemPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        panel.add(itemPanel);
+    }
+
+    
     
 
     private void updateInventoryPanel(JPanel panel) {
@@ -159,8 +204,7 @@ public class MarketPanel extends JPanel implements MarketInterface{
                 itemPanel.setBackground(Color.DARK_GRAY);
         
                 // Image de la ressource
-                ImageIcon scaledIcon = new ImageIcon(new ImageIcon("assets/" + resource.getName() + ".png")
-                        .getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH));
+                ImageIcon scaledIcon = new ImageIcon(new ImageIcon("assets/" + resource.getName() + ".png").getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH));
                 JLabel imageLabel = new JLabel(scaledIcon);
                 itemPanel.add(imageLabel);
         

@@ -14,7 +14,6 @@ import java.awt.*;
 public class UsinePanelTest {
     public static void main(String[] args) {
         // Créer un inventaire et un joueur
-        Inventory inventaire = new Inventory();
         Player player = new Player("TestPlayer", new Position(0, 0));
 
         // Ajouter des ressources au joueur
@@ -22,7 +21,7 @@ public class UsinePanelTest {
         player.collectResource(new Iron(100));
 
         // Créer une usine
-        Usine usine = new Usine(inventaire);
+        Usine usine = new Usine(player.getInv());
 
         // Créer une fenêtre JFrame
         JFrame frame = new JFrame("Test Usine Panel");
@@ -31,7 +30,7 @@ public class UsinePanelTest {
 
         // Créer un UsinePanel et l'ajouter à la fenêtre
         UsinePanel usinePanel = new UsinePanel(usine, player);
-        frame.add(usinePanel);
+        frame.add(usinePanel);  
 
         // Centrer la fenêtre sur l'écran
         frame.setLocationRelativeTo(null);

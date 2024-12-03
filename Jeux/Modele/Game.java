@@ -9,29 +9,33 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-
+import Modele.Resource.*;
 import Vue.VueGenerale;
 import Vue.GameListener;
-import Modele.Ressource.*;
 
 public class Game implements Controle, Serializable  {
     private Map gameMap;
     private Player player;
     private Spawn spawn;
-    private int width, height;
+    private int width = 15, height = 12;
     private GameListener listener ;
     private Market market;
 
 
-    public void start() {
+    public void create() {
 
         gameMap = new Map(width, height, player, spawn, market, this);
+        gameMap.generateMap(player);
         gameMap.generateRessource(player);
         player.collectResource(new Wood(3)); 
         updateAffichage(true);
 
         
     }
+
+    public void start(){updateAffichage(true);}
+
+    public void setMap(Map map){this.gameMap = map;}
 
 
 
@@ -46,14 +50,6 @@ public class Game implements Controle, Serializable  {
 
     }
 
-    public void start(Map m) {
-        
-
-        gameMap = m;
-
-
-
-    }
 
 
 
@@ -100,11 +96,18 @@ public class Game implements Controle, Serializable  {
     }
 
     public Game(String pseudo){
-        width = 15;
-        height = 12;
+
         market = new Market(new Position(width - 1, (int)(height / 2)));
         spawn = new Spawn(new Position( width - (width - 2), height - 1));
         player = new Player(pseudo, Spawn.getPos());
+    }
+
+    public Game(Market market, Spawn spawn, Player player){
+        this.market = market;
+        this.spawn = spawn;
+        this.player = player;
+
+        //this.gameMap = map;
     }
     public Map getMap(){return gameMap;}
     public int getHeight(){return height;}
@@ -112,6 +115,7 @@ public class Game implements Controle, Serializable  {
     public Player getPlayer(){return player;}
     public Market getMarket() {return market;}
     public void initVue(VueGenerale v){gameMap.setVue(v);}
+    public Spawn getSpawn(){return spawn;}
     
 
     public Object getObjectAtPosition(int x, int y) {
@@ -155,6 +159,10 @@ public class Game implements Controle, Serializable  {
     public void CallAnnimationRespawn(Position pos, int tempsMS){
         listener.attenteAnimation(pos, tempsMS);
 
+    }
+
+    public ArrayList<ObjectWithPosition> getPositionObject(){
+        return gameMap.getPositionObject();
     }
 
 

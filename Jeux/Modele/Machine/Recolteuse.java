@@ -4,16 +4,16 @@ import java.util.ArrayList;
 
 import Modele.Inventory;
 import Modele.Position;
-import Modele.Ressource.Ressource;
+import Modele.Resource.Resource;
 
 public class Recolteuse extends Machine implements Serializable{
     private Position position; // Position actuelle de la récolteuse
     private Inventory inventaire;
     private int stockMax; // Capacité maximale du stock
-    private Ressource ressourceChoisie; // La ressource choisie pour la récolte
+    private Resource ressourceChoisie; // La ressource choisie pour la récolte
 
-    public Recolteuse(Position position, int stockMax, Inventory inventaire, Ressource ressourceChoisi) {
-        super("recolteuse", 500);
+    public Recolteuse(Position position, int stockMax, Inventory inventaire, Resource ressourceChoisi) {
+        super("recolteuse", 500, position);
         this.position = position;
         this.stockMax = stockMax;
         this.inventaire = inventaire;
@@ -21,7 +21,7 @@ public class Recolteuse extends Machine implements Serializable{
     }
 
     // Méthode de récolte qui cherche les ressources adjacentes et les ajoute au stock
-    public void recolterRessourcesAdjacentes(ArrayList<Ressource> ressourcesAdjacentes) {
+    public void recolterRessourcesAdjacentes(ArrayList<Resource> ressourcesAdjacentes) {
         if (getStock().size() >= stockMax) {
             System.out.println("Le stock de la récolteuse est plein.");
             return;
@@ -33,7 +33,7 @@ public class Recolteuse extends Machine implements Serializable{
         }
 
         // Vérifie si la ressource choisie est dans les ressources adjacentes
-        for (Ressource ressource : ressourcesAdjacentes) {
+        for (Resource ressource : ressourcesAdjacentes) {
             if (ressourceChoisie.equals(ressource)) {
                 if (getStock().size() < stockMax) {
                     recolter(ressource);
@@ -46,9 +46,6 @@ public class Recolteuse extends Machine implements Serializable{
         System.out.println("La ressource choisie n'est pas présente parmi les ressources adjacentes.");
     }
 
-    public Position getPosition() {
-        return position;
-    }
 
     public void setPosition(Position position) {
         this.position = position;
@@ -60,11 +57,11 @@ public class Recolteuse extends Machine implements Serializable{
         super.afficherStock();
     }
 
-    public Ressource getRessourceChoisie() {
+    public Resource getRessourceChoisie() {
         return ressourceChoisie;
     }
 
-    public void setRessourceChoisie(Ressource ressourceChoisie) {
+    public void setRessourceChoisie(Resource ressourceChoisie) {
         this.ressourceChoisie = ressourceChoisie;
     }
 }

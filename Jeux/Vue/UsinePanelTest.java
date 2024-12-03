@@ -4,8 +4,8 @@ import Modele.Player;
 import Modele.Position;
 import Modele.Inventory;
 import Modele.Machine.Usine;
-import Modele.Ressource.Iron;
-import Modele.Ressource.Wood;
+import Modele.Resource.Iron;
+import Modele.Resource.Wood;
 import Vue.UsinePanel;
 
 import javax.swing.*;
@@ -21,7 +21,9 @@ public class UsinePanelTest {
         player.collectResource(new Iron(100));
 
         // Créer une usine
-        Usine usine = new Usine(player.getInv());
+
+        Usine usine = new Usine(player.getInv(), null);
+
 
         // Créer une fenêtre JFrame
         JFrame frame = new JFrame("Test Usine Panel");

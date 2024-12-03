@@ -9,7 +9,7 @@ public class Position implements Serializable{
         this.x = x;
         this.y = y;
     }
-
+    public Position(){}
     public int getX() {
         return x;
     }

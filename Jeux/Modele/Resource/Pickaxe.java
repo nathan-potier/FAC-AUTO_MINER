@@ -1,8 +1,8 @@
-package Modele.Ressource;
+package Modele.Resource;
 
 import java.io.Serializable;
 
-public class Pickaxe extends Ressource implements Serializable{
+public class Pickaxe extends Resource implements Serializable{
 
     public Pickaxe(int quantity) {
         super("Pickaxe", quantity);

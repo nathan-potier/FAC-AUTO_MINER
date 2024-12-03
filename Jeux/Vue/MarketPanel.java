@@ -3,11 +3,13 @@ import java.awt.*;
 import javax.swing.*;
 
 import Modele.Player;
+
 import Modele.Machine.Machine;
 import Modele.Machine.Usine;
+import Modele.Resource.*;
+
 import Modele.GameStates;
 import Modele.Market;
-import Modele.Ressource.*;
 
 import java.util.List;
 
@@ -69,7 +71,7 @@ public class MarketPanel extends JPanel implements MarketInterface{
         addItemToMarket(buyPanel, "assets/Wood.png", "Wood", new Wood(1), sellPanel);
         addItemToMarket(buyPanel, "assets/Iron.png", "Iron", new Iron(1), sellPanel);
         // Ajouter des machines au marché
-        addMachineToMarket(buyPanel, "assets/Usine.png", "Usine", new Usine(null), sellPanel);
+        addMachineToMarket(buyPanel, "assets/Usine.png", "Usine", new Usine(null, null), sellPanel);
 
     
         // Ajout des panneaux dans des JScrollPane
@@ -114,7 +116,7 @@ public class MarketPanel extends JPanel implements MarketInterface{
 
     }
 
-    private void addItemToMarket(JPanel panel, String imagePath, String name, Ressource resource, JPanel inventoryPanel) {
+    private void addItemToMarket(JPanel panel, String imagePath, String name, Resource resource, JPanel inventoryPanel) {
         JPanel itemPanel = new JPanel();
         itemPanel.setLayout(new BoxLayout(itemPanel, BoxLayout.X_AXIS));
         itemPanel.setBackground(Color.DARK_GRAY);
@@ -195,9 +197,9 @@ public class MarketPanel extends JPanel implements MarketInterface{
 
     private void updateInventoryPanel(JPanel panel) {
         panel.removeAll();  // Supprime tous les composants actuels
-        List<Ressource> inventory = player.getInv().getRessources();
+        List<Resource> inventory = player.getInv().getResources();
     
-        for (Ressource resource : inventory) {
+        for (Resource resource : inventory) {
             if (resource.getQuantity() > 0){
                 JPanel itemPanel = new JPanel();
                 itemPanel.setLayout(new BoxLayout(itemPanel, BoxLayout.X_AXIS));

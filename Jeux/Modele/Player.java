@@ -1,10 +1,10 @@
 package Modele;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import Vue.MarketInterface;
-
-import Modele.Ressource.*;
 import Modele.Machine.*;
+import Modele.Resource.*;
 
 public class Player implements Serializable{
     private Inventory inventory;
@@ -23,7 +23,7 @@ public class Player implements Serializable{
         // Code pour déplacer le joueur sur la carte
     }
     
-    public boolean collectResource(Ressource resource) {
+    public boolean collectResource(Resource resource) {
         if(inventory.addResource(resource)){
             try{
                 marketInterface.updateInventory();
@@ -57,8 +57,15 @@ public class Player implements Serializable{
         money = 10;
     }
 
-    public boolean hasResource(Ressource ressource){
-        for (Ressource r : inventory.getRessources()){
+    public Player(String pseudo, int money, Position playerPosition, Inventory inventory) {
+        this.pseudo = pseudo;
+        this.money = money;
+        this.position = playerPosition;
+        this.inventory = inventory;
+
+    }
+    public boolean hasResource(Resource ressource){
+        for (Resource r : inventory.getResources()){
             if (r.getName().equals(ressource.getName())){
                 return true;
             }
@@ -66,7 +73,7 @@ public class Player implements Serializable{
         return false;
     }
 
-    public void removeResource(Ressource r){
+    public void removeResource(Resource r){
         inventory.removeResource(r, 1);
     }
 

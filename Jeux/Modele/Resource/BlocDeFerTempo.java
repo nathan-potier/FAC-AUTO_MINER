@@ -1,6 +1,6 @@
-package Modele.Ressource;
+package Modele.Resource;
 
-public class BlocDeFerTempo extends Ressource{
+public class BlocDeFerTempo extends Resource{
 
     public BlocDeFerTempo(int quantity) {
         super("Bloc De Fer", quantity);

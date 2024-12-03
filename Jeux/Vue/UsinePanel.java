@@ -4,7 +4,7 @@ import java.awt.*;
 import javax.swing.*;
 import Modele.Player;
 import Modele.Machine.Usine;
-import Modele.Ressource.*;
+import Modele.Resource.*;
 import Modele.Inventory;
 
 public class UsinePanel extends JPanel {
@@ -156,9 +156,10 @@ public class UsinePanel extends JPanel {
 
     private void updateStockPanel() {
         stockPanel.removeAll();
+
         
         boolean hasStock = false; // Vérifie si l'usine a des ressources en stock
-        for (Ressource r : usine.getStock()) {
+        for (Resource r : usine.getStock()) {
             if (r.getQuantity() > 0) {
                 hasStock = true;
                 JPanel itemPanel = new JPanel();
@@ -177,6 +178,7 @@ public class UsinePanel extends JPanel {
                 itemPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
                 stockPanel.add(itemPanel);
             }
+
         }
     
         if (!hasStock) {
@@ -195,7 +197,7 @@ public class UsinePanel extends JPanel {
 
     private void updateInventairePanel(JPanel panel) {
         panel.removeAll();
-        for (Ressource r : player.getInv().getRessources()) {
+        for (Resource r : player.getInv().getResources()) {
             if (r.getQuantity() > 0) {
                 JPanel itemPanel = new JPanel();
                 itemPanel.setLayout(new BoxLayout(itemPanel, BoxLayout.X_AXIS)); // Utiliser BoxLayout en horizontal pour mieux contrôler l'espacement

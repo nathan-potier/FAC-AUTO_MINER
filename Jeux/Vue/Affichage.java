@@ -7,6 +7,7 @@ import Modele.Game;
 import Modele.GameStates;
 import Modele.Position;
 import Modele.Controle;
+import Modele.Enregistrer.*;
 
 public class Affichage extends JFrame implements VueGenerale, KeyListener, MouseListener {
     private Game game;
@@ -182,7 +183,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
     private void nouvellePartie(){
         menuPanel.setVisible(false);
         inventaireAfficher = false;
-        game.start(); // Initialise le jeu
+        game.create(); // Initialise le jeu
         setEcoute(game);
         cartePanel.repaint();
         game.initVue(this);
@@ -194,18 +195,24 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
     }
 
     private void chargerPartie(){
-        Game nouvellePartie = Game.chargerCarte("Sauvegarde_1");
+        game = GameLoader.loadGame("test", game);
                 
-        if (nouvellePartie.getMap() != null) {
-            game = nouvellePartie;
+        if (game.getMap() != null) {
 
-            marketPanel.setMarket(game.getMarket());
-            marketPanel.setPlayer(game.getPlayer());
-            inventairePanel.setPlayer(game.getPlayer());
-            
+
+
+            game.addGameListener(cartePanel);
+            menuPanel.setVisible(false);
+            inventaireAfficher = false;
+            game.start(); // Initialise le jeu
             setEcoute(game);
-            afficherCarte();
+            cartePanel.repaint();
+            game.initVue(this);
+            GameStates.setMoveOn(true);
             isRunning = true;
+            game.getPlayer().setMarketInterface(marketPanel);
+            marketPanel.setPlayer(game.getPlayer());
+            marketPanel.setMarket(game.getMarket());
             
         }
     }
@@ -235,13 +242,9 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
 
         // Vérifiez si le clic est sur le bouton du Menu
         if (menuPanel.isMouseOverPlay(e.getPoint()) && menuBoutonClique) {
-            if (!isRunning){
-                transmettreAction("Nouvelle Partie");
-            }else{
-                menuPanel.setVisible(false);
-                cartePanel.repaint();
-                GameStates.setMoveOn(true);
-            }
+
+            transmettreAction("Nouvelle Partie");
+
             menuBoutonClique = false;
 
         }else if(menuPanel.isMouseOverNewGame(e.getPoint()) && menuBoutonClique){
@@ -255,25 +258,16 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
             menuBoutonClique = false;
 
         }else if(menuPanel.isMouseOverSettings(e.getPoint()) && menuBoutonClique){
-            if (!isRunning){
-                System.out.println("Bouton Settings cliqué");
-                //transmettreAction("Settings");
-            }else{
-                menuPanel.setVisible(false);
-                cartePanel.repaint();
-                GameStates.setMoveOn(true);
-            }
-            menuBoutonClique = false;
+
+            System.out.println("Bouton Settings cliqué");
+            //game.sauvegarderCarte(game.getPlayer().getPseudo());
+            GameSaver.saveGame("test", game.getPlayer(), game.getMarket(), game.getPositionObject());
+
 
         }else if(menuPanel.isMouseOverExit(e.getPoint()) && menuBoutonClique){
-            if (!isRunning){
-                transmettreAction("Sauvegarder et Quitter");
-            }else{
-                menuPanel.setVisible(false);
-                cartePanel.repaint();
-                GameStates.setMoveOn(true);
-            }
+            transmettreAction("Charger une Partie");
             menuBoutonClique = false;
+            
         }
     }
 

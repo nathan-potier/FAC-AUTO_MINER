@@ -12,8 +12,9 @@ import javax.swing.Timer;
 
 import Vue.VueGenerale;
 import Modele.Machine.*;
-import Modele.Ressource.*;
+import Modele.Resource.*;
 
+import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Serializable;
@@ -40,12 +41,20 @@ public class Map implements Serializable{
         this.spawn = spawn;
         this.market = m;
         this.game = game;
-        generateMap(p);
+        
         
 
     }
+    public Map(Game game, ArrayList<ObjectWithPosition> objList){
+        this(game.getWidth(), game.getHeight(), game.getPlayer(), game.getSpawn(), game.getMarket(), game);
+        System.out.println(game.getMarket().getPos());
+        for(ObjectWithPosition obj : objList){
+            grid[obj.getPosition().getY()][obj.getPosition().getX()] = new Cell(obj.getPosition(), obj);
+        }
+        generateMap(game.getPlayer());
+    }
 
-    private void generateMap(Player p) {
+    public void generateMap(Player p) {
 
         grid[height - 1][width - (width - 2)] = new Cell(new Position( width - (width - 2), height - 1), p);
         grid[market.getPos().getY()][market.getPos().getX()] = new Cell(new Position(market.getPos().getX(), market.getPos().getY()), market);
@@ -97,7 +106,7 @@ public class Map implements Serializable{
         ArrayList<Cell> res = regarderAutour(player.getPos());
         for (Cell c : res){
               if ( c != null && c.getPosition().getX() == pos.getX() && c.getPosition().getY() == pos.getY() ){
-                if(isInstanceOf(Ressource.class, c.getPosition())){
+                if(isInstanceOf(Resource.class, c.getPosition())){
                     //player.collectResource((Ressource)c.getContent());
                     collectRessource(player, c.getPosition());
                 }else if (isInstanceOf(Market.class, c.getPosition())){
@@ -163,7 +172,7 @@ public class Map implements Serializable{
 
         int temps = 5000;
         
-        p.collectResource((Ressource)grid[nouvelle.getY()][nouvelle.getX()].getContent());
+        p.collectResource((Resource)grid[nouvelle.getY()][nouvelle.getX()].getContent());
         
         
         Cell cell = grid[nouvelle.getY()][nouvelle.getX()];
@@ -171,8 +180,8 @@ public class Map implements Serializable{
 
         
 
-        Boolean isTemporisée = ((Ressource)grid[nouvelle.getY()][nouvelle.getX()].getContent()).isTemporisée();
-        Boolean isLaborieuse = ((Ressource)grid[nouvelle.getY()][nouvelle.getX()].getContent()).isLaborieuse();
+        Boolean isTemporisée = ((Resource)grid[nouvelle.getY()][nouvelle.getX()].getContent()).isTemporisée();
+        Boolean isLaborieuse = ((Resource)grid[nouvelle.getY()][nouvelle.getX()].getContent()).isLaborieuse();
 
 
 
@@ -235,21 +244,21 @@ public class Map implements Serializable{
         int aleatoireIntHauteur = rand.nextInt(height);
 
         Position posWood1 = new Position(2, 1);
-        Wood wood = new Wood(1);
+        Wood wood = new Wood(1, posWood1);
         grid[posWood1.getY()][posWood1.getX()] = new Cell(posWood1, wood);
 
         Position posIron1 = new Position(6, 3);
-        Iron iron = new Iron(1);
+        Iron iron = new Iron(1, posIron1);
         grid[posIron1.getY()][posIron1.getX()] = new Cell(posIron1, iron);
 
 
         Position posIron2 = new Position(1, 6);
-        Iron iron2 = new Iron(1);
+        Iron iron2 = new Iron(1, posIron2);
         grid[posIron2.getY()][posIron2.getX()] = new Cell(posIron2, iron2);
 
         // Placer une usine à côté de la position de `Wood`
         Position posUsine = new Position(posWood1.getX() + 1, posWood1.getY()); // Position adjacente
-        Usine usine = new Usine(p.getInv());
+        Usine usine = new Usine(p.getInv(), posUsine);
         grid[posUsine.getY()][posUsine.getX()] = new Cell(posUsine, usine);
 
         // Placer une récolteuse à côté de la position de `Iron`
@@ -344,6 +353,41 @@ public class Map implements Serializable{
         timer.start();  // Démarrer le Timer pour exécuter les déplacements progressivement
 
         return true;
+    }
+
+    public ArrayList<ObjectWithPosition> getPositionObject() {
+        ArrayList<ObjectWithPosition> res = new ArrayList<>();
+        for (Cell[] row : grid) {  // Parcours des lignes de la grille
+            for (Cell c2 : row) {   // Parcours des cellules dans chaque ligne
+                if (c2 != null && c2.getContent() instanceof ObjectWithPosition) {
+                    // Vérifier si le contenu de la cellule implémente ObjectWithPosition
+                    ObjectWithPosition obj = (ObjectWithPosition) c2.getContent();
+                    res.add(obj);
+                }
+            }
+        }
+        return res;  // Retourner la liste des objets ayant une position
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        
+        // Parcours de toutes les cases de la carte
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                Cell cell = grid[y][x];
+                if (cell != null && cell.getContent() != null) {
+                    sb.append(cell.getContent().getClass().getSimpleName().charAt(0)); // Utilise la première lettre du nom de la classe de l'objet contenu
+                } else {
+                    sb.append("."); // Si la case est vide
+                }
+                sb.append(" "); // Séparation des cases
+            }
+            sb.append("\n"); // Nouvelle ligne à la fin de chaque ligne de la carte
+        }
+        
+        return sb.toString();
     }
 
 }

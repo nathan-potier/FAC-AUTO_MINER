@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
 
-import javax.swing.SwingUtilities;
+
 import javax.swing.Timer;
 
 
@@ -14,14 +14,14 @@ import Vue.VueGenerale;
 import Modele.Machine.*;
 import Modele.Resource.*;
 
-import java.awt.List;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.Serializable;
+
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class Map implements Serializable{
+public class Map {
     private Cell[][] grid;
     private int width, height;
     private Spawn spawn;

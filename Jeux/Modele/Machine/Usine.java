@@ -11,16 +11,14 @@ import Modele.*;
 
 
 
-import java.io.Serializable;
 
-
-public class Usine extends Machine implements Serializable {
+public class Usine extends Machine implements  ObjectWithPosition {
     private Inventory inventaire;
     private String[] recettes;
     private List<List<Resource>> ingredients;
 
     public Usine(Inventory inventaire, Position position) {
-        super("usine", 100, position);
+        super("Usine", 100, position);
         this.inventaire = inventaire;
         initialiserRecettes();
     }

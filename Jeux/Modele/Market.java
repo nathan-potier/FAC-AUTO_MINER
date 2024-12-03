@@ -9,7 +9,7 @@ import Modele.Resource.Iron;
 import Modele.Resource.Resource;
 import Modele.Resource.Wood;
 
-public class Market implements Serializable {
+public class Market {
     private List<Resource> resourcesForSale;
     private List<Machine> machinesForSale;
     private Position pos;
@@ -63,6 +63,7 @@ public class Market implements Serializable {
 
     // Méthode d'achat de machine
     public String buyMachine(Player player, Machine machine) {
+
         for (Machine m : machinesForSale) {
             if (m.getName().equals(machine.getName()) && player.getMoney() >= m.getPrix() && player.addMachine(m)) {
                 

@@ -1,9 +1,7 @@
 package Modele;
-import java.io.Serializable;
 
-import Modele.Resource.Resource;
 
-public class Cell implements Serializable{
+public class Cell {
     private Position position;
     private Object content; // Par exemple, une ressource, une machine, ou null si vide
     private String terreImage; // Image de Terre pour la cellule (fixe)

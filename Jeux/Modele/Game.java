@@ -13,7 +13,7 @@ import Modele.Resource.*;
 import Vue.VueGenerale;
 import Vue.GameListener;
 
-public class Game implements Controle, Serializable  {
+public class Game implements Controle{
     private Map gameMap;
     private Player player;
     private Spawn spawn;

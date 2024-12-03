@@ -2,7 +2,7 @@ package Modele.Resource;
 import java.io.Serializable;
 import Modele.*;
 
-public class Wood extends Resource implements Serializable{
+public class Wood extends Resource {
 
     public Wood(int quantity) {
         super("Wood", quantity, false, 2);

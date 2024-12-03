@@ -6,7 +6,7 @@ import java.util.List;
 import Modele.Machine.Machine;
 import Modele.Resource.Resource;
 
-public class Inventory implements Serializable{
+public class Inventory {
     private List<Resource> resources;
     private Machine machine;
 

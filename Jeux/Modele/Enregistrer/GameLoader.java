@@ -109,6 +109,9 @@ public class GameLoader {
                     try {
                         String machinesData = readSection("Marché - Machines à vendre:", fileName);
                         for (String machineLine : machinesData.split("\n")) {
+                            if (machineLine.startsWith("Objets sur la carte:")){
+                                break;
+                            }
                             String machineName = machineLine.split(" pour ")[0].trim();
                             marketMachines.add(createMachine(machineName));
                         }

@@ -1,7 +1,7 @@
 package Modele.Resource;
 import java.io.Serializable;
 import Modele.*;
-public class Iron extends Resource implements Serializable{
+public class Iron extends Resource {
 
     public Iron(int quantity) {
         super("Iron", quantity, true, 3);

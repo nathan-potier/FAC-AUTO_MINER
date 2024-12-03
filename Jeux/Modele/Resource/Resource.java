@@ -1,9 +1,8 @@
 package Modele.Resource;
-import java.io.Serializable;
-import java.sql.ResultSet;
+
 import Modele.*;
 
-public abstract class Resource implements Serializable, ObjectWithPosition{
+public abstract class Resource implements  ObjectWithPosition{
     private String name;
     private int quantity;
     private int prix;

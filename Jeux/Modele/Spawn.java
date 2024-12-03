@@ -1,7 +1,7 @@
 package Modele;
 import java.io.Serializable;
 
-public class Spawn implements Serializable{
+public class Spawn {
     private static Position pos;
     
 

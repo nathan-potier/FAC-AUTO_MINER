@@ -1,19 +1,20 @@
 package Modele.Machine;
-import java.io.Serializable;
+
 import java.util.ArrayList;
 
 import Modele.Inventory;
+import Modele.ObjectWithPosition;
 import Modele.Position;
 import Modele.Resource.Resource;
 
-public class Recolteuse extends Machine implements Serializable{
+public class Recolteuse extends Machine implements ObjectWithPosition{
     private Position position; // Position actuelle de la récolteuse
     private Inventory inventaire;
     private int stockMax; // Capacité maximale du stock
     private Resource ressourceChoisie; // La ressource choisie pour la récolte
 
     public Recolteuse(Position position, int stockMax, Inventory inventaire, Resource ressourceChoisi) {
-        super("recolteuse", 500, position);
+        super("Recolteuse", 500, position);
         this.position = position;
         this.stockMax = stockMax;
         this.inventaire = inventaire;
@@ -64,4 +65,5 @@ public class Recolteuse extends Machine implements Serializable{
     public void setRessourceChoisie(Resource ressourceChoisie) {
         this.ressourceChoisie = ressourceChoisie;
     }
+
 }

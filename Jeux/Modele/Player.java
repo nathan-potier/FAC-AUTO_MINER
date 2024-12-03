@@ -6,7 +6,7 @@ import Vue.MarketInterface;
 import Modele.Machine.*;
 import Modele.Resource.*;
 
-public class Player implements Serializable{
+public class Player {
     private Inventory inventory;
     private Position position; // Position du joueur sur la carte
     private String pseudo;

@@ -1,11 +1,11 @@
 package Modele.Machine;
-import java.io.Serializable;
+
 import java.util.ArrayList;
 
 import Modele.Resource.Resource;
 import Modele.*;
 
-public class Machine implements Serializable, ObjectWithPosition{
+public class Machine implements ObjectWithPosition{
     private String type; // "usine" ou "récolteuse"
     private ArrayList<Resource> stock;
     private int prix;

@@ -42,7 +42,6 @@ public class MenuButtonPanel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-
         if (logoIcon != null) {
             Image logoImage = logoIcon.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
             ImageIcon scaledLogoIcon = new ImageIcon(logoImage);

@@ -57,10 +57,6 @@ public class Usine extends Machine implements Serializable {
     
         // Afficher les ingrédients nécessaires pour la recette choisie
         List<Ressource> ingredientsRecette = ingredients.get(index);
-        System.out.println("Ingrédients nécessaires pour " + nomRecette + ":");
-        for (Ressource ingredient : ingredientsRecette) {
-            System.out.println(ingredient.getName() + " x" + ingredient.getQuantity());
-        }
     
         // Vérifier si l'inventaire contient suffisamment de chaque ingrédient
         for (Ressource ingredient : ingredientsRecette) {
@@ -97,7 +93,6 @@ public class Usine extends Machine implements Serializable {
         }
     
         ajouterRessource(ressourceProduite);
-        System.out.println(nomRecette + " produite et ajoutée au stock de l'usine.");
     }
     
     
@@ -110,7 +105,6 @@ public class Usine extends Machine implements Serializable {
                 Ressource ressource = getStock().remove(0); // Supprime la ressource du stock de l'usine
                 inventaire.addResource(ressource); // Ajoute la ressource à l'inventaire
             }
-            System.out.println("Stock de l'usine transféré à l'inventaire.");
         }
     }
 }

@@ -14,7 +14,7 @@ import Modele.Player;
 import Modele.Position;
 
 public class CartePanel extends JPanel implements GameListener {
-    private final int CELL_SIZE = 40; // Taille d'une cellule
+    private final int CELL_SIZE = 50; // Taille d'une cellule
     private final Map<Object, Point> animatedPositions = new ConcurrentHashMap<>();
     private final List<Runnable> animationQueue = new ArrayList<>();
 

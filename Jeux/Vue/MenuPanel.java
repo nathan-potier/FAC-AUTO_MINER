@@ -3,9 +3,8 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.*;
-import javax.swing.ImageIcon;
 
-public class MenuButtonPanel extends JPanel {
+public class MenuPanel extends JPanel {
 
     private MenuButton playButton;
     private MenuButton newGame;
@@ -14,7 +13,7 @@ public class MenuButtonPanel extends JPanel {
 
     private ImageIcon logoIcon;  // ImageIcon pour le logo
 
-    public MenuButtonPanel(int xpos, int ypos) {
+    public MenuPanel(int xpos, int ypos, int width, int height) {
         logoIcon = new ImageIcon(getClass().getResource("/assets/Logo.png"));
         
         playButton = new MenuButton(170, 95, xpos - 115, ypos + 10, "../assets/PlayDefault.png", "../assets/PlayHover.png");
@@ -22,7 +21,7 @@ public class MenuButtonPanel extends JPanel {
         settings = new MenuButton(180, 110, xpos - 113, ypos + 120, "../assets/SettingDefault.png", "../assets/SettingHover.png");
         exit = new MenuButton(180, 110, xpos + 100, ypos + 120, "../assets/SettingDefault.png", "../assets/SettingHover.png");
 
-        setPreferredSize(new Dimension(800, 600));
+        setPreferredSize(new Dimension(width, height));
         setBackground(Color.DARK_GRAY);
 
         // Ajouter un listener pour la souris

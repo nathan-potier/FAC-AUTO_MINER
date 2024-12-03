@@ -15,7 +15,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
     private MarketPanel marketPanel; // Panel supplémentaire
     private JPanel mainPanel;
     private JLayeredPane layeredPane; // Pour superposer les panneaux
-    private MenuButtonPanel menuPanel;
+    private MenuPanel menuPanel;
     private final int height;
     private final int width;
 
@@ -38,8 +38,8 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
 
     public Affichage(Game game) {
         this.game = game;
-        width = 800;
-        height = 600;
+        width = (game.getWidth()+6)*50;
+        height = (game.getHeight()+2)*50;
 
         this.setTitle("Jeu de Gestion de Ressources");
         setPreferredSize(new Dimension(width, height));
@@ -56,7 +56,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
 
         marketPanel = new MarketPanel(game.getMarket(), game.getPlayer());
 
-        menuPanel = new MenuButtonPanel(width / 2, height / 2);
+        menuPanel = new MenuPanel(width / 2, height / 2, width, height);
 
         // Configuration des panneaux dans le layeredPane
         cartePanel.setBounds(0, 0, width, height);

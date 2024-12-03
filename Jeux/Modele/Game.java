@@ -100,8 +100,8 @@ public class Game implements Controle, Serializable  {
     }
 
     public Game(String pseudo){
-        width = 13;
-        height = 10;
+        width = 15;
+        height = 12;
         market = new Market(new Position(width - 1, (int)(height / 2)));
         spawn = new Spawn(new Position( width - (width - 2), height - 1));
         player = new Player(pseudo, Spawn.getPos());

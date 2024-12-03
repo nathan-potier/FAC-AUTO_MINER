@@ -185,6 +185,8 @@ public class GameLoader {
                 return new Iron(1, pos);  // Utilisation de la sous-classe existante
             case "Usine":
                 return new Usine(null, pos);  // Utilisation de la sous-classe existante
+            case "Attente":
+                return new Attente(pos , null);  // Utilisation de la sous-classe existante
             default:
                 return null;
         }

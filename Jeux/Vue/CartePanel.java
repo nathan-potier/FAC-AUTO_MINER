@@ -119,7 +119,7 @@ public class CartePanel extends JPanel implements GameListener {
 
     
         // Ajouter l'icône animée à la liste des images à dessiner
-        animatedPositions.put(new Attente(position), point);
+        animatedPositions.put(new Attente(position, null), point);
         repaint();
 
     }

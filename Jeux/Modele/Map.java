@@ -185,10 +185,11 @@ public class Map {
 
 
 
-        grid[nouvelle.getY()][nouvelle.getX()] = new Cell(pos, new Attente(pos));
+        grid[nouvelle.getY()][nouvelle.getX()] = new Cell(pos, new Attente(pos, (Resource)cell.getContent()));
 
         
         game.updateAffichage(true);
+        System.out.println((Attente)grid[nouvelle.getY()][nouvelle.getX()].getContent());
 
   
 

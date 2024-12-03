@@ -4,18 +4,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Modele.Machine.Machine;
-import Modele.Ressource.Ressource;
+import Modele.Resource.Resource;
 
 public class Inventory implements Serializable{
-    private List<Ressource> ressources;
+    private List<Resource> resources;
     private Machine machine;
 
     public Inventory() {
-        ressources = new ArrayList<>();
+        resources = new ArrayList<>();
+    }
+    public Inventory(List<Resource> resources){
+        this.resources = resources;
     }
 
-    public List<Ressource> getRessources() {
-        return ressources;
+    public List<Resource> getResources() {
+        return resources;
     }
     public boolean addMachine(Machine m){
         if (machine == null){
@@ -29,16 +32,16 @@ public class Inventory implements Serializable{
     public boolean hasMachine(Machine m){return machine.getName().equals(m.getName());}
     public void removeMachine(){machine = null;}
 
-    public boolean addResource(Ressource ressource) {
-        for (Ressource r : ressources) {
+    public boolean addResource(Resource ressource) {
+        for (Resource r : resources) {
             if (r.getName().equals(ressource.getName())) {
                 r.addQuantity(ressource.getQuantity());
                 return true;
             }
         }
 
-        if (ressources.size() < 10){
-            ressources.add(ressource.clone());
+        if (resources.size() < 10){
+            resources.add(ressource.clone());
             return true;
         }
 
@@ -46,8 +49,8 @@ public class Inventory implements Serializable{
         
     }
 
-    public void removeResource(Ressource ressource, int quantity) {
-        for (Ressource r : ressources) {
+    public void removeResource(Resource ressource, int quantity) {
+        for (Resource r : resources) {
             if (r.getName().equals(ressource.getName())) {
                 r.removeQuantity(quantity);
                 return;
@@ -56,23 +59,23 @@ public class Inventory implements Serializable{
     }
 
     public void displayInventory() {
-        for (Ressource resource : ressources) {
+        for (Resource resource : resources) {
             System.out.println(resource.getName() + ": " + resource.getQuantity());
         }
     }
 
     public String[] getResInvName(){
-        String [] res = new String[ressources.size()];
-        for (int i = 0; i < ressources.size(); i++){
-            res[i] = ressources.get(i).getName();
+        String [] res = new String[resources.size()];
+        for (int i = 0; i < resources.size(); i++){
+            res[i] = resources.get(i).getName();
         }
         return res;
     }
 
     public int[] getResInvQuant(){
-        int [] res = new int[ressources.size()];
-        for (int i = 0; i < ressources.size(); i++){
-            res[i] = ressources.get(i).getQuantity();
+        int [] res = new int[resources.size()];
+        for (int i = 0; i < resources.size(); i++){
+            res[i] = resources.get(i).getQuantity();
         }
         return res;
     }

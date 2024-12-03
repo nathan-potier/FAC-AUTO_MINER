@@ -1,7 +1,7 @@
 package Modele;
 import java.io.Serializable;
 
-import Modele.Ressource.Ressource;
+import Modele.Resource.Resource;
 
 public class Cell implements Serializable{
     private Position position;

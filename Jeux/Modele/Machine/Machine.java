@@ -2,41 +2,57 @@ package Modele.Machine;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import Modele.Ressource.Ressource;
+import Modele.Resource.Resource;
+import Modele.*;
 
-
-public class Machine implements Serializable{
+public class Machine implements Serializable, ObjectWithPosition{
     private String type; // "usine" ou "récolteuse"
-    private ArrayList<Ressource> stock;
+    private ArrayList<Resource> stock;
     private int prix;
+    private Position pos;
 
-    public Machine(String type, int prix) {
+    public Machine(String type, int prix, Position pos) {
         this.type = type;
         this.stock = new ArrayList<>();
         this.prix = prix;
+        this.pos = pos;
     }
 
     public String getName() {
         return type;
     }
     public int getPrix(){return prix;}
+    public Position getPosition(){return pos;}
 
-    public ArrayList<Ressource> getStock() {
+    public ArrayList<Resource> getStock() {
         return stock;
     }
 
-    public void ajouterRessource(Ressource ressource) {
-        stock.add(ressource);
-    }
 
-    public void retirerRessource(Ressource ressource) {
+    public void ajouterRessource(Resource ressourceProduite) {
+        boolean found = false;
+        for (Resource ressource : getStock()) {
+            if (ressource.getName().equals(ressourceProduite.getName())) {
+                ressource.addQuantity(ressourceProduite.getQuantity());
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            getStock().add(ressourceProduite);
+        }
+
+    }
+    
+
+    public void retirerRessource(Resource ressource) {
         stock.remove(ressource);
     }
 
     public void produire() {}
 
     // Méthode de récolte spécifique aux récolteuses
-    public void recolter(Ressource ressource) {
+    public void recolter(Resource ressource) {
         if ("recolteuse".equals(type)) {
             // Logique de récolte pour ajouter la ressource au stock
             ajouterRessource(ressource);
@@ -48,7 +64,7 @@ public class Machine implements Serializable{
             System.out.println("Le stock est vide.");
         } else {
             System.out.println("Contenu du stock :");
-            for (Ressource ressource : stock) {
+            for (Resource ressource : stock) {
                 System.out.println(ressource.getName() + ": " + ressource.getQuantity());
             }
         }

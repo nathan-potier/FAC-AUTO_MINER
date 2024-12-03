@@ -5,12 +5,12 @@ import java.util.List;
 
 import Modele.Machine.Machine;
 import Modele.Machine.Usine;
-import Modele.Ressource.Iron;
-import Modele.Ressource.Ressource;
-import Modele.Ressource.Wood;
+import Modele.Resource.Iron;
+import Modele.Resource.Resource;
+import Modele.Resource.Wood;
 
 public class Market implements Serializable {
-    private List<Ressource> resourcesForSale;
+    private List<Resource> resourcesForSale;
     private List<Machine> machinesForSale;
     private Position pos;
 
@@ -25,12 +25,22 @@ public class Market implements Serializable {
 
 
         // Ajouter des machines à la vente
-        machinesForSale.add(new Usine(null));
+        machinesForSale.add(new Usine(null,new Position()) );
         this.pos = pos;
 
     }
+    public Market(Position pos, List<Resource> resourcesForSale, List<Machine>machinesForSale ){
+        this.pos = pos;
+        this.resourcesForSale = resourcesForSale;
+        this.machinesForSale = machinesForSale;
+    }
 
-    public String buyResource(Player player, Ressource resource) {
+    public List<Resource> getResourcesForSale(){
+        return resourcesForSale;
+    }
+    public List<Machine> getMachinesForSale(){return machinesForSale;}
+
+    public String buyResource(Player player, Resource resource) {
         int prix = resource.getQuantity() * resource.getPrix();
         if(player.getMoney() >= prix){
             player.setMoney(player.getMoney() - prix);
@@ -41,7 +51,7 @@ public class Market implements Serializable {
     }
 
     // Méthode de vente de ressource
-    public String sellResource(Player player, Ressource resource) {
+    public String sellResource(Player player, Resource resource) {
         if (player.hasResource(resource)) {
             player.setMoney(player.getMoney() + resource.getPrix() / 2);  // Vendre à moitié prix
             player.removeResource(resource);
@@ -78,7 +88,7 @@ public class Market implements Serializable {
     // Méthode pour afficher les ressources disponibles à l'achat
     public String displayResourcesForSale() {
         StringBuilder display = new StringBuilder("Ressources disponibles à l'achat :\n");
-        for (Ressource r : resourcesForSale) {
+        for (Resource r : resourcesForSale) {
             display.append(r.getName()).append(" - ").append(r.getPrix()).append(" coins\n");
         }
         return display.toString();

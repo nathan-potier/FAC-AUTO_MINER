@@ -1,22 +1,31 @@
-package Modele.Ressource;
+package Modele.Resource;
 import java.io.Serializable;
+import java.sql.ResultSet;
+import Modele.*;
 
-public abstract class Ressource implements Serializable{
+public abstract class Resource implements Serializable, ObjectWithPosition{
     private String name;
     private int quantity;
     private int prix;
     private boolean laborieuse = false;
     private boolean temporisée = false;
+    private Position pos;
+    
 
-    public Ressource(String name, int quantity, Boolean laborieuse, int prix) {
+    public Resource(String name, int quantity, Boolean laborieuse, int prix) {
         this.name = name;
         this.quantity = quantity;
         this.laborieuse = laborieuse;
         this.temporisée = !laborieuse;
         this.prix = prix;
     }
+    public Resource(String name, int quantity, Boolean laborieuse, int prix, Position pos) {
+        this(name, quantity, laborieuse, prix);
+        this.pos = pos;
 
-    public Ressource(String name, int quantity){
+    }
+
+    public Resource(String name, int quantity){
         this.name = name;
         this.quantity = quantity;
     }
@@ -24,7 +33,7 @@ public abstract class Ressource implements Serializable{
     public String getName() {
         return name;
     }
-
+    public Position getPosition(){return pos;}
     public int getQuantity() {
         return quantity;
     }
@@ -47,5 +56,5 @@ public abstract class Ressource implements Serializable{
     public int getPrix(){return prix;}
 
 
-    public abstract Ressource clone();
+    public abstract Resource clone();
 }

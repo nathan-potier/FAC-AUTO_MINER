@@ -1,4 +1,5 @@
 package Vue;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -7,30 +8,27 @@ import java.io.IOException;
 public class MenuButton {
     private int xPos, yPos;
     private BufferedImage[] imgs;
-    private int width = 160;
-    private int height = 85;
-    private int centreX = width / 2;
+    private int width;
+    private int height;
     private boolean mouseOver;
     private Rectangle bounds;
 
-    // Constantes pour les chemins des images
-    private static final String DEFAULT_IMAGE_PATH = "../assets/play_button.png";
-    private static final String HOVER_IMAGE_PATH = "../assets/Hover.png";
-
-    public MenuButton(int xPos, int yPos) {
+    public MenuButton(int width, int height, int xPos, int yPos, String defaultImagePath, String hoverImagePath) {
         this.xPos = xPos;
         this.yPos = yPos;
-        loadImgs();
+        this.width = width;
+        this.height = height;
+        loadImgs(defaultImagePath, hoverImagePath);
         initBounds();
     }
 
-    private void loadImgs() {
+    private void loadImgs(String defaultImagePath, String hoverImagePath) {
         imgs = new BufferedImage[2]; // Deux états : normal et survolé
 
         try {
             // Charger les images depuis les ressources
-            BufferedImage original1 = ImageIO.read(getClass().getResource(DEFAULT_IMAGE_PATH));
-            BufferedImage original2 = ImageIO.read(getClass().getResource(HOVER_IMAGE_PATH));
+            BufferedImage original1 = ImageIO.read(getClass().getResource(defaultImagePath));
+            BufferedImage original2 = ImageIO.read(getClass().getResource(hoverImagePath));
 
             // Redimensionner les images à la taille prédéfinie
             imgs[0] = resizeImage(original1, width, height);
@@ -67,16 +65,14 @@ public class MenuButton {
         int index = mouseOver ? 1 : 0;
         g.drawImage(imgs[index], xPos - width / 2, yPos - height / 2, width, height, null);
     }
-    
 
     public void setMouseOver(boolean mouseOver) {
         this.mouseOver = mouseOver;
     }
 
-    private void initBounds(){
+    private void initBounds() {
         bounds = new Rectangle(xPos - width / 2, yPos - height / 2, width, height);
     }
-    
 
     public Rectangle getBounds() {
         return bounds;

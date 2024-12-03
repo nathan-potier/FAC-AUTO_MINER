@@ -15,7 +15,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
     private MarketPanel marketPanel; // Panel supplémentaire
     private JPanel mainPanel;
     private JLayeredPane layeredPane; // Pour superposer les panneaux
-    private MenuButtonPanel menuPanelV2;
+    private MenuButtonPanel menuPanel;
     private final int height;
     private final int width;
 
@@ -56,7 +56,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
 
         marketPanel = new MarketPanel(game.getMarket(), game.getPlayer());
 
-        menuPanelV2 = new MenuButtonPanel(width / 2, height / 2);
+        menuPanel = new MenuButtonPanel(width / 2, height / 2);
 
         // Configuration des panneaux dans le layeredPane
         cartePanel.setBounds(0, 0, width, height);
@@ -73,7 +73,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         marketPanel.setVisible(false);
 
         // Ajout des composants au mainPanel
-        mainPanel.add(menuPanelV2, BorderLayout.SOUTH);
+        mainPanel.add(menuPanel, BorderLayout.SOUTH);
         mainPanel.add(layeredPane, BorderLayout.CENTER);
 
         this.add(mainPanel);
@@ -82,7 +82,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         this.setVisible(true);
 
         // Listener pour les interactions
-        menuPanelV2.addMouseListener(this);
+        menuPanel.addMouseListener(this);
         this.addMouseListener(this);
         this.setLayout(null);
 
@@ -135,7 +135,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         }else if (e.getKeyCode() == KeyEvent.VK_ESCAPE ){
             GameStates.setMoveOn(false);
             menuBoutonClique = true;
-            menuPanelV2.setVisible(true);
+            menuPanel.setVisible(true);
             
 
         }
@@ -180,7 +180,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
     }
 
     private void nouvellePartie(){
-        menuPanelV2.setVisible(false);
+        menuPanel.setVisible(false);
         inventaireAfficher = false;
         game.start(); // Initialise le jeu
         setEcoute(game);
@@ -233,16 +233,46 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         }
 
 
-        // Vérifiez si le clic est sur le bouton du MenuButtonTest
-        if (menuPanelV2.isMouseOver(e.getPoint()) && menuBoutonClique) {
+        // Vérifiez si le clic est sur le bouton du Menu
+        if (menuPanel.isMouseOverPlay(e.getPoint()) && menuBoutonClique) {
             if (!isRunning){
                 transmettreAction("Nouvelle Partie");
             }else{
-                menuPanelV2.setVisible(false);
+                menuPanel.setVisible(false);
                 cartePanel.repaint();
                 GameStates.setMoveOn(true);
             }
-            
+            menuBoutonClique = false;
+
+        }else if(menuPanel.isMouseOverNewGame(e.getPoint()) && menuBoutonClique){
+            if (!isRunning){
+                transmettreAction("Nouvelle Partie");
+            }else{
+                menuPanel.setVisible(false);
+                cartePanel.repaint();
+                GameStates.setMoveOn(true);
+            }
+            menuBoutonClique = false;
+
+        }else if(menuPanel.isMouseOverSettings(e.getPoint()) && menuBoutonClique){
+            if (!isRunning){
+                System.out.println("Bouton Settings cliqué");
+                //transmettreAction("Settings");
+            }else{
+                menuPanel.setVisible(false);
+                cartePanel.repaint();
+                GameStates.setMoveOn(true);
+            }
+            menuBoutonClique = false;
+
+        }else if(menuPanel.isMouseOverExit(e.getPoint()) && menuBoutonClique){
+            if (!isRunning){
+                transmettreAction("Sauvegarder et Quitter");
+            }else{
+                menuPanel.setVisible(false);
+                cartePanel.repaint();
+                GameStates.setMoveOn(true);
+            }
             menuBoutonClique = false;
         }
     }

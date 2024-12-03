@@ -15,7 +15,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
     private MarketPanel marketPanel; // Panel supplémentaire
     private JPanel mainPanel;
     private JLayeredPane layeredPane; // Pour superposer les panneaux
-    private MenuButtonTest menuPanelV2;
+    private MenuButtonPanel menuPanelV2;
     private final int height;
     private final int width;
 
@@ -56,7 +56,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
 
         marketPanel = new MarketPanel(game.getMarket(), game.getPlayer());
 
-        menuPanelV2 = new MenuButtonTest(width / 2, height / 2);
+        menuPanelV2 = new MenuButtonPanel(width / 2, height / 2);
 
         // Configuration des panneaux dans le layeredPane
         cartePanel.setBounds(0, 0, width, height);

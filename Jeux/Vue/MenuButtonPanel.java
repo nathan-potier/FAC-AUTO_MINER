@@ -4,11 +4,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.*;
 
-public class MenuButtonTest extends JPanel {
+public class MenuButtonPanel extends JPanel {
 
     private MenuButton playButton;
 
-    public MenuButtonTest(int xpos, int ypos) {
+    public MenuButtonPanel(int xpos, int ypos) {
         // Initialiser le bouton au centre de la fenêtre
         playButton = new MenuButton(xpos, ypos);
 

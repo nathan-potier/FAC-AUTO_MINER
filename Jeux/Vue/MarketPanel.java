@@ -159,8 +159,7 @@ public class MarketPanel extends JPanel implements MarketInterface{
                 itemPanel.setBackground(Color.DARK_GRAY);
         
                 // Image de la ressource
-                ImageIcon scaledIcon = new ImageIcon(new ImageIcon("assets/" + resource.getName() + ".png")
-                        .getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH));
+                ImageIcon scaledIcon = new ImageIcon(new ImageIcon("assets/" + resource.getName() + ".png").getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH));
                 JLabel imageLabel = new JLabel(scaledIcon);
                 itemPanel.add(imageLabel);
         

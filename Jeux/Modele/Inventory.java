@@ -80,4 +80,28 @@ public class Inventory implements Serializable{
         return res;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Inventory:\n");
+    
+        sb.append("Resources:\n");
+        for (Resource resource : resources) {
+            sb.append(" - ").append(resource.getName()).append(": ").append(resource.getQuantity()).append("\n");
+        }
+        if (resources.isEmpty()) {
+            sb.append(" - No resources\n");
+        }
+    
+        sb.append("Machine:\n");
+        if (machine != null) {
+            sb.append(" - ").append(machine.getName()).append("\n");
+        } else {
+            sb.append(" - No machine\n");
+        }
+    
+        return sb.toString();
+    }
+    
+
 }

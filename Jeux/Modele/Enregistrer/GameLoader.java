@@ -50,18 +50,21 @@ public class GameLoader {
 
         if (!resourcesSection.isEmpty()) {
             ArrayList<Resource> resources = new ArrayList<>();
+
             for (String resourceLine : resourcesSection.split("\n")) {
                 if (resourceLine.equals("Machines du joueur:")){
                     break;
                 }
                 String[] resourceData = resourceLine.split(":");
                 if (resourceData.length == 2) {
+                    
                     String resourceName = resourceData[0].trim();
                     int resourceQuantity = Integer.parseInt(resourceData[1].trim());
                     resources.add(createResource(resourceName, resourceQuantity));
                 }
             }
             player = new Player(pseudo, money, playerPosition, new Inventory(resources));
+
         }
 
         // Lecture du marché

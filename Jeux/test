@@ -1,8 +1,8 @@
-Joueur: nathan
+Joueur: 
 Position: 2,11
-Argent: 16
+Argent: 10
 Ressources du joueur:
-Wood:0
+Wood:4
 Machines du joueur:
 Marché position:
 (14;6)
@@ -10,9 +10,3 @@ Marché - Ressources à vendre:
 Wood:50 pour 2 coins
 Iron:30 pour 3 coins
 Marché - Machines à vendre:
-usine pour 100 coins
-Objets sur la carte:
-Wood à la position 2,1
-usine à la position 3,1
-Iron à la position 6,3
-Iron à la position 1,6

@@ -83,7 +83,7 @@ public class Map implements Serializable{
         for (Direction direction : directions) {
             Position newPosition = direction.move(pos);
             // Vérification des limites du tableau
-            if ( posIsValid(newPosition) &&  grid[newPosition.getY()][newPosition.getX()] != null) {
+            if (posIsValid(newPosition) &&  grid[newPosition.getY()][newPosition.getX()] != null) {
                 
                 resultats.add(grid[newPosition.getY()][newPosition.getX()]);
             }else{

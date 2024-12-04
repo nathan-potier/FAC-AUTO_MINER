@@ -143,6 +143,7 @@ public class MarketPanel extends JPanel implements MarketInterface{
         // Bouton d'achat (prix)
         JButton buyButton = new JButton(price + " coins");
         buyButton.addActionListener(e -> {
+            
             market.buyResource(player, resource);
             updateMoneyLabel();
             updateInventoryPanel(inventoryPanel); // Utilise directement le panneau d'inventaire
@@ -222,7 +223,8 @@ public class MarketPanel extends JPanel implements MarketInterface{
                 JButton sellButton = new JButton(sellPrice + " coins");
                 sellButton.addActionListener(e -> {
                     if (resource.getQuantity() > 0) {
-                        resource.removeQuantity(1);
+   
+                        player.removeResource(resource);
                         player.setMoney(player.getMoney() + sellPrice);
                         updateMoneyLabel();
                         updateInventoryPanel(panel);

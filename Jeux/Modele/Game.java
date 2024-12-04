@@ -57,6 +57,7 @@ public class Game implements Controle{
     public void onKeyPress(int keyCode) {
         switch (keyCode) {
             case KeyEvent.VK_UP:
+
                 gameMap.deplacer(player, Direction.UP) ;
                 break; 
             case KeyEvent.VK_DOWN:

@@ -51,8 +51,15 @@ public class Inventory {
 
     public void removeResource(Resource ressource, int quantity) {
         for (Resource r : resources) {
+
             if (r.getName().equals(ressource.getName())) {
                 r.removeQuantity(quantity);
+                
+                if (r.getQuantity() <= 0){
+
+                    resources.remove(ressource);
+                }
+
                 return;
             }
         }

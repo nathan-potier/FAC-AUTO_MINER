@@ -74,6 +74,7 @@ public class Player {
     }
 
     public void removeResource(Resource r){
+
         inventory.removeResource(r, 1);
     }
 

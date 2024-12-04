@@ -171,7 +171,7 @@ public class GameLoader {
     private static Machine createMachine(String name) {
         switch (name) {
             case "Usine":
-                return new Usine(null, null);  // Utilisation de la sous-classe existante
+                return new Usine(null, null, "");  // Utilisation de la sous-classe existante
             default:
                 return null;
         }
@@ -184,7 +184,7 @@ public class GameLoader {
             case "Iron":
                 return new Iron(1, pos);  // Utilisation de la sous-classe existante
             case "Usine":
-                return new Usine(null, pos);  // Utilisation de la sous-classe existante
+                return new Usine(null, pos, "");  // Utilisation de la sous-classe existante
             case "Attente":
                 return new Attente(pos , null);  // Utilisation de la sous-classe existante
             default:

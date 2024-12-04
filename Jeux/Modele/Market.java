@@ -25,7 +25,7 @@ public class Market {
 
 
         // Ajouter des machines à la vente
-        machinesForSale.add(new Usine(null,new Position()) );
+        machinesForSale.add(new Usine(null,new Position(), "") );
         this.pos = pos;
 
     }

@@ -10,12 +10,20 @@ public class Machine implements ObjectWithPosition{
     private ArrayList<Resource> stock;
     private int prix;
     private Position pos;
+    private int tempFabriq;
+    private int limiteStock;
+    private boolean modifiable;
+    private boolean fonctionneBien;
 
-    public Machine(String type, int prix, Position pos) {
+    public Machine(String type, int prix, Position pos, int tempFabriq, int limiteStock, boolean modifiable, boolean fonctionneBien) {
         this.type = type;
         this.stock = new ArrayList<>();
         this.prix = prix;
         this.pos = pos;
+        this.tempFabriq = tempFabriq;
+        this.limiteStock = limiteStock;
+        this.modifiable = modifiable;
+        this.fonctionneBien = fonctionneBien;
     }
 
     public String getName() {
@@ -33,12 +41,11 @@ public class Machine implements ObjectWithPosition{
         boolean found = false;
         for (Resource ressource : getStock()) {
             if (ressource.getName().equals(ressourceProduite.getName())) {
-                ressource.addQuantity(ressourceProduite.getQuantity());
-                found = true;
+                found = ressource.addQuantity(ressourceProduite.getQuantity());
                 break;
             }
         }
-        if (!found) {
+        if (!found && stock.size() < limiteStock) {
             getStock().add(ressourceProduite);
         }
 

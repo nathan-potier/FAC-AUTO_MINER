@@ -9,6 +9,7 @@ public abstract class Resource implements  ObjectWithPosition{
     private boolean laborieuse = false;
     private boolean temporisée = false;
     private Position pos;
+    private int limiteStock = 20;
     
 
     public Resource(String name, int quantity, Boolean laborieuse, int prix) {
@@ -37,8 +38,13 @@ public abstract class Resource implements  ObjectWithPosition{
         return quantity;
     }
 
-    public void addQuantity(int amount) {
-        quantity += amount;
+    public boolean addQuantity(int amount) {
+        if(quantity + amount < limiteStock){
+            quantity += amount;
+            return true;
+        }
+        return false;
+
     }
 
     public void removeQuantity(int amount) {

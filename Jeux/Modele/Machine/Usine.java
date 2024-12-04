@@ -14,50 +14,15 @@ public class Usine extends Machine{
     private List<List<Resource>> ingredients;
     private String type;
 
-    public Usine(Inventory inventaire, Position position, String type) {
-        super("Usine", 
-              getPrix(type), 
-              position, 
-              getTempFabriq(type), 
-              getLimiteStock(type), 
-              isModifiable(type), 
-              fonctionneBien(type));
+    public Usine(Inventory inventaire, Position position, String type, ArrayList<Resource> stock ) {
+        super("Usine", position, type, stock);
         this.inventaire = inventaire;
         this.type = type;
 
         initialiserRecettes();
     }
 
-    private static int getPrix(String type) {
-        return switch (type) {
-            case "XL", "Rapide" -> 150;
-            case "Fragile" -> 50;
-            default -> 100; // Polyvalente
-            
-        };
-    }
-
-    private static int getTempFabriq(String type) {
-        return switch (type) {
-            case "Rapide" -> 2;
-            default -> 10;
-        };
-    }
-
-    private static int getLimiteStock(String type) {
-        return switch (type) {
-            case "XL" -> 10;
-            default -> 5;
-        };
-    }
-
-    private static boolean isModifiable(String type) {
-        return false; // Toutes les usines sont non modifiables dans cet exemple
-    }
-
-    private static boolean fonctionneBien(String type) {
-        return !type.equals("Fragile");
-    }
+ 
 
     private void initialiserRecettes() {
         recettes = new String[] { "Pickaxe", "Bloc de Fer" };
@@ -131,6 +96,7 @@ public class Usine extends Machine{
     
         ajouterRessource(ressourceProduite);
     }
+    
     
     
 

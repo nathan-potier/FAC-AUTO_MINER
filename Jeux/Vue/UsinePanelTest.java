@@ -22,7 +22,7 @@ public class UsinePanelTest {
 
         // Créer une usine
 
-        Usine usine = new Usine(player.getInv(), null, "");
+        Usine usine = new Usine(player.getInv(), null, "", null);
 
 
         // Créer une fenêtre JFrame

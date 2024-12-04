@@ -1,6 +1,9 @@
 package Vue;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import javax.swing.*;
 
 import Modele.Game;
@@ -25,6 +28,8 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
 
     private boolean inventaireAfficher = false;
     private boolean menuBoutonClique = true;
+    private boolean isNewGame;
+    private String nameGameLoad;
 
     private Controle listener;
 
@@ -178,9 +183,12 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
                 System.exit(0);
                 break;
             case "Nouvelle Partie":
+                isNewGame = true;
                 nouvellePartie();
                 break;
             case "Charger une Partie":
+                isNewGame = false;
+                nameGameLoad = "Monde_1";
                 chargerPartie();
                 break;
             default:
@@ -203,7 +211,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
     }
 
     private void chargerPartie(){
-        game = GameLoader.loadGame("test", game);
+        game = GameLoader.loadGame(nameGameLoad, game);
                 
         if (game.getMap() != null) {
             game.addGameListener(cartePanel);
@@ -273,7 +281,10 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         }else if(menuPanel.isMouseOverExit(e.getPoint()) && menuBoutonClique){
             System.exit(0);
         }
+
+
     }
+
 
     @Override
     public void onBackToMenu() {

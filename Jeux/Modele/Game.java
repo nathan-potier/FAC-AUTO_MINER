@@ -9,9 +9,11 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import Modele.Machine.*;
 import Modele.Resource.*;
 import Vue.VueGenerale;
 import Vue.GameListener;
+
 
 public class Game implements Controle{
     private Map gameMap;
@@ -57,7 +59,8 @@ public class Game implements Controle{
     public void onKeyPress(int keyCode) {
         switch (keyCode) {
             case KeyEvent.VK_UP:
-
+                System.out.println(getObjectAtPosition(3, 1).getStockSTR());
+                System.out.println(getObjectAtPosition(3, 1).getName());
                 gameMap.deplacer(player, Direction.UP) ;
                 break; 
             case KeyEvent.VK_DOWN:
@@ -119,13 +122,13 @@ public class Game implements Controle{
     public Spawn getSpawn(){return spawn;}
     
 
-    public Object getObjectAtPosition(int x, int y) {
+    public Machine getObjectAtPosition(int x, int y) {
         // Retourne l'objet à la position (x, y) de la gameMap
         Cell c = gameMap.getGrid()[y][x];
         if (c != null){
-            return c.getContent();
+            return (Machine)c.getContent();
         }
-        return c;
+        return null;
     }
     
 
@@ -166,6 +169,9 @@ public class Game implements Controle{
         return gameMap.getPositionObject();
     }
 
+    public ArrayList<Machine> getMachines(){
+        return gameMap.getMachines();
+    }
 
 }
 

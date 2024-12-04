@@ -66,7 +66,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         cartePanel = new CartePanel(game.getWidth(), game.getHeight());
         game.addGameListener(cartePanel);
 
-        inventairePanel = new InventairePanel(game.getPlayer());
+        inventairePanel = new InventairePanel(null);
 
         marketPanel = new MarketPanel(game.getMarket(), game.getPlayer());
 
@@ -154,12 +154,26 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
 
         }else if (e.getKeyCode() == KeyEvent.VK_ESCAPE ){
             GameStates.setMoveOn(false);
+            saveAndBackMenu();
             menuBoutonClique = true;
             menuPanel.setVisible(true);
         }
         else if (listener != null && GameStates.isMoveOn()) {
             listener.onKeyPress(e.getKeyCode());
         }
+    }
+    public void saveAndBackMenu(){
+        System.out.println("save");
+        //game.sauvegarderCarte(game.getPlayer().getPseudo());
+        String nomSv = "";
+        if(isNewGame){
+            nomSv = GameSaver.generateUniqueSaveName("Monde");
+        }else{
+            nomSv = nameGameLoad;
+        }
+        GameSaver.saveGame(nomSv, game.getPlayer(), game.getMarket(), game.getPositionObject(), game.getMachines());
+
+
     }
 
     @Override
@@ -186,11 +200,6 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
                 isNewGame = true;
                 nouvellePartie();
                 break;
-            case "Charger une Partie":
-                isNewGame = false;
-                nameGameLoad = "Monde_1";
-                chargerPartie();
-                break;
             default:
                 break;
         }
@@ -200,6 +209,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         menuPanel.setVisible(false);
         inventaireAfficher = false;
         game.create(); // Initialise le jeu
+        inventairePanel.setPlayer(game.getPlayer());
         setEcoute(game);
         cartePanel.repaint();
         game.initVue(this);
@@ -210,7 +220,9 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         marketPanel.setMarket(game.getMarket());
     }
 
-    private void chargerPartie(){
+    private void chargerPartie(String nameGameLoad){
+        isNewGame = false;
+        this.nameGameLoad = nameGameLoad;
         game = GameLoader.loadGame(nameGameLoad, game);
                 
         if (game.getMap() != null) {
@@ -227,6 +239,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
             game.getPlayer().setMarketInterface(marketPanel);
             marketPanel.setPlayer(game.getPlayer());
             marketPanel.setMarket(game.getMarket());
+
 
             
         }
@@ -260,18 +273,13 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
 
             sauvegardePanel.setVisible(true);
             menuPanel.setVisible(false);
-            // transmettreAction("Charger une Partie");
-            // GameSaver.saveGame("test", game.getPlayer(), game.getMarket(), game.getPositionObject());
+
             menuBoutonClique = false;
 
         }else if(menuPanel.isMouseOverNewGame(e.getPoint()) && menuBoutonClique){
-            if (!isRunning){
-                transmettreAction("Nouvelle Partie");
-            }else{
-                menuPanel.setVisible(false);
-                cartePanel.repaint();
-                GameStates.setMoveOn(true);
-            }
+            
+            transmettreAction("Nouvelle Partie");
+            
             menuBoutonClique = false;
 
         }else if(menuPanel.isMouseOverSettings(e.getPoint()) && menuBoutonClique){
@@ -308,4 +316,11 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
     public void mouseEntered(java.awt.event.MouseEvent e) {}
     @Override
     public void mouseExited(java.awt.event.MouseEvent e) {}
+
+    @Override
+    public void startLoadGame(String nameGameLoad) {
+        sauvegardePanel.setVisible(false);
+        menuBoutonClique = false;
+        chargerPartie(nameGameLoad);
+    }
 }

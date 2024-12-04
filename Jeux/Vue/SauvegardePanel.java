@@ -29,7 +29,7 @@ public class SauvegardePanel extends JPanel {
         sauvegardesPanel.setLayout(new BoxLayout(sauvegardesPanel, BoxLayout.Y_AXIS));
         sauvegardesPanel.setBackground(Color.DARK_GRAY);
 
-        File sauvegardesFile = new File("Sauvegardes");
+        File sauvegardesFile = new File("Save/nom_save.txt");
         if (sauvegardesFile.exists()) {
             try {
                 List<String> sauvegardes = Files.readAllLines(Paths.get(sauvegardesFile.getPath()));
@@ -51,7 +51,7 @@ public class SauvegardePanel extends JPanel {
                     jouerButton.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                            System.out.println(sauvegarde);
+                            sauvegardeListener.startLoadGame(sauvegarde);
                         }
                     });
 

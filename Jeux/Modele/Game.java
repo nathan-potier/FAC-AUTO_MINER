@@ -25,7 +25,7 @@ public class Game implements Controle{
 
 
     public void create() {
-
+        player = new Player(player.getPseudo(), Spawn.getPos());
         gameMap = new Map(width, height, player, spawn, market, this);
         gameMap.generateMap(player);
         gameMap.generateRessource(player);
@@ -59,8 +59,6 @@ public class Game implements Controle{
     public void onKeyPress(int keyCode) {
         switch (keyCode) {
             case KeyEvent.VK_UP:
-                System.out.println(getObjectAtPosition(3, 1).getStockSTR());
-                System.out.println(getObjectAtPosition(3, 1).getName());
                 gameMap.deplacer(player, Direction.UP) ;
                 break; 
             case KeyEvent.VK_DOWN:
@@ -99,7 +97,7 @@ public class Game implements Controle{
         listener.updateObjects(obj, pos);
     }
 
-    public Game(String pseudo){
+    public Game(String pseudo){ 
 
         market = new Market(new Position(width - 1, (int)(height / 2)));
         spawn = new Spawn(new Position( width - (width - 2), height - 1));

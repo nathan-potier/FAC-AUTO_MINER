@@ -10,7 +10,7 @@ public class SettingsPanel extends JPanel {
     private boolean isFullScreen = false;
     private int controlMode = 0; // 0 = Arrows, 1 = Mouse, 2 = Les deux
 
-    private SettingsListener listener;
+    private SettingsListener listener;  // Référence au listener pour notifier l'action
 
     // Variables temporaires pour les changements en attente
     private boolean tempFullScreen = false;
@@ -150,9 +150,7 @@ public class SettingsPanel extends JPanel {
         quitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (listener != null) {
-                    listener.onBackToMenu();
-                }
+                listener.onBackToMenu();
             }
         });
 

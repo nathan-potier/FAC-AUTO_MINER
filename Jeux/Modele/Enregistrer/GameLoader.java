@@ -192,7 +192,7 @@ public class GameLoader {
         }
     }
 
-    private static String readSection(String startKeyword, String fileName)  {
+    public static String readSection(String startKeyword, String fileName)  {
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
             StringBuilder sectionContent = new StringBuilder();
             String line;

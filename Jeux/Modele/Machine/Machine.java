@@ -7,7 +7,7 @@ import Modele.*;
 
 public class Machine {
     private String type; // "usine" ou "récolteuse"
-    private ArrayList<Resource> stock;
+    private ArrayList<Resource> stock = new ArrayList<>();
     private int prix;
     private Position pos;
     private int tempFabriq;
@@ -17,8 +17,11 @@ public class Machine {
     private String option;
 
     public Machine(String type, Position pos, String option, ArrayList<Resource> stock) {
+        if (stock != null){
+            this.stock = stock;
+        }
         this.type = type;
-        this.stock = stock;
+
         this.prix = getPrix(option);
         this.pos = pos;
         this.tempFabriq = getTempFabriq(option);

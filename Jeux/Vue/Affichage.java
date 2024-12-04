@@ -141,6 +141,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
             }
 
         }else if (e.getKeyCode() == KeyEvent.VK_ESCAPE ){
+            GameSaver.saveGame("test", game.getPlayer(), game.getMarket(), game.getPositionObject());
             GameStates.setMoveOn(false);
             menuBoutonClique = true;
             menuPanel.setVisible(true);
@@ -244,8 +245,6 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         if (menuPanel.isMouseOverPlay(e.getPoint()) && menuBoutonClique) {
 
             transmettreAction("Charger une Partie");
-            GameSaver.saveGame("test", game.getPlayer(), game.getMarket(), game.getPositionObject());
-            menuBoutonClique = false;
 
         }else if(menuPanel.isMouseOverNewGame(e.getPoint()) && menuBoutonClique){
             if (!isRunning){

@@ -245,8 +245,8 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         // Vérifiez si le clic est sur le bouton du Menu
         if (menuPanel.isMouseOverPlay(e.getPoint()) && menuBoutonClique) {
 
-            transmettreAction("Nouvelle Partie");
-
+            transmettreAction("Charger une Partie");
+            GameSaver.saveGame("test", game.getPlayer(), game.getMarket(), game.getPositionObject());
             menuBoutonClique = false;
 
         }else if(menuPanel.isMouseOverNewGame(e.getPoint()) && menuBoutonClique){
@@ -261,9 +261,8 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
 
         }else if(menuPanel.isMouseOverSettings(e.getPoint()) && menuBoutonClique){
 
-            System.out.println("Bouton Settings cliqué");
-            //game.sauvegarderCarte(game.getPlayer().getPseudo());
-            GameSaver.saveGame("test", game.getPlayer(), game.getMarket(), game.getPositionObject());
+            
+            
 
 
         }else if(menuPanel.isMouseOverExit(e.getPoint()) && menuBoutonClique){

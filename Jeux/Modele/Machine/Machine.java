@@ -5,25 +5,61 @@ import java.util.ArrayList;
 import Modele.Resource.Resource;
 import Modele.*;
 
-public class Machine implements ObjectWithPosition{
+public class Machine {
     private String type; // "usine" ou "récolteuse"
-    private ArrayList<Resource> stock;
+    private ArrayList<Resource> stock = new ArrayList<>();
     private int prix;
     private Position pos;
     private int tempFabriq;
     private int limiteStock;
     private boolean modifiable;
     private boolean fonctionneBien;
+    private String option;
 
-    public Machine(String type, int prix, Position pos, int tempFabriq, int limiteStock, boolean modifiable, boolean fonctionneBien) {
+    public Machine(String type, Position pos, String option, ArrayList<Resource> stock) {
+        if (stock != null){
+            this.stock = stock;
+        }
         this.type = type;
-        this.stock = new ArrayList<>();
-        this.prix = prix;
+
+        this.prix = getPrix(option);
         this.pos = pos;
-        this.tempFabriq = tempFabriq;
-        this.limiteStock = limiteStock;
-        this.modifiable = modifiable;
-        this.fonctionneBien = fonctionneBien;
+        this.tempFabriq = getTempFabriq(option);
+        this.limiteStock = getLimiteStock(type);
+        this.modifiable = isModifiable(type);
+        this.fonctionneBien = fonctionneBien(type);
+        this.option = option;
+        System.out.println(option);
+    }
+    private static int getPrix(String type) {
+        return switch (type) {
+            case "XL", "Rapide" -> 150;
+            case "Fragile" -> 50;
+            default -> 100; // Polyvalente
+            
+        };
+    }
+
+    private static int getTempFabriq(String type) {
+        return switch (type) {
+            case "Rapide" -> 2;
+            default -> 10;
+        };
+    }
+
+    private static int getLimiteStock(String type) {
+        return switch (type) {
+            case "XL" -> 10;
+            default -> 5;
+        };
+    }
+
+    private static boolean isModifiable(String type) {
+        return false; // Toutes les usines sont non modifiables dans cet exemple
+    }
+
+    private static boolean fonctionneBien(String type) {
+        return !type.equals("Fragile");
     }
 
     public String getName() {
@@ -31,7 +67,7 @@ public class Machine implements ObjectWithPosition{
     }
     public int getPrix(){return prix;}
     public Position getPosition(){return pos;}
-
+    public String getOption(){return option;}
     public ArrayList<Resource> getStock() {
         return stock;
     }
@@ -75,6 +111,20 @@ public class Machine implements ObjectWithPosition{
                 System.out.println(ressource.getName() + ": " + ressource.getQuantity());
             }
         }
+    }
+
+    public String getStockSTR(){
+        String res = "";
+        for (Resource r : stock){
+            res += "(" + r.getName()+";"+ r.getQuantity()+ "),";
+        }
+        return res;
+
+
+    }
+    @Override
+    public String toString(){
+        return getName() + " " + getOption();
     }
     
 }

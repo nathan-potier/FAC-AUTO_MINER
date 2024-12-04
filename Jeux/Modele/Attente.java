@@ -1,4 +1,6 @@
 package Modele;
+import java.util.ArrayList;
+
 import Modele.Resource.*;
 
 public class Attente implements ObjectWithPosition {
@@ -13,5 +15,7 @@ public class Attente implements ObjectWithPosition {
     public Position getPosition() {
         return pos;
     }
+
+
 
 }

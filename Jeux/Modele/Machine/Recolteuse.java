@@ -7,7 +7,7 @@ import Modele.ObjectWithPosition;
 import Modele.Position;
 import Modele.Resource.Resource;
 
-public class Recolteuse extends Machine implements ObjectWithPosition{
+public class Recolteuse extends Machine {
     private Position position; // Position actuelle de la récolteuse
     private Inventory inventaire;
     private int stockMax; // Capacité maximale du stock

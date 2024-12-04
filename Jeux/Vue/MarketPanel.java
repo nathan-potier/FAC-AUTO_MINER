@@ -71,7 +71,7 @@ public class MarketPanel extends JPanel implements MarketInterface{
         addItemToMarket(buyPanel, "assets/Wood.png", "Wood", new Wood(1), sellPanel);
         addItemToMarket(buyPanel, "assets/Iron.png", "Iron", new Iron(1), sellPanel);
         // Ajouter des machines au marché
-        addMachineToMarket(buyPanel, "assets/Usine.png", "Usine", new Usine(null, null, ""), sellPanel);
+        addMachineToMarket(buyPanel, "assets/Usine.png", "Usine", new Usine(null, null, "", null), sellPanel);
 
     
         // Ajout des panneaux dans des JScrollPane

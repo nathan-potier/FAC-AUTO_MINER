@@ -39,7 +39,7 @@ public abstract class Resource implements  ObjectWithPosition{
     }
 
     public boolean addQuantity(int amount) {
-        if(quantity + amount < limiteStock){
+        if(quantity + amount <= limiteStock){
             quantity += amount;
             return true;
         }

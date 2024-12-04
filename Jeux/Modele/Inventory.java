@@ -35,8 +35,8 @@ public class Inventory {
     public boolean addResource(Resource ressource) {
         for (Resource r : resources) {
             if (r.getName().equals(ressource.getName())) {
-                r.addQuantity(ressource.getQuantity());
-                return true;
+                return r.addQuantity(ressource.getQuantity());
+
             }
         }
 

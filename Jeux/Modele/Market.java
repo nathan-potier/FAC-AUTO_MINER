@@ -43,9 +43,13 @@ public class Market {
     public String buyResource(Player player, Resource resource) {
         int prix = resource.getQuantity() * resource.getPrix();
         if(player.getMoney() >= prix){
-            player.setMoney(player.getMoney() - prix);
-            player.collectResource(resource);
-            return player.getPseudo() + " a acheté " + resource.getName() + " pour " + prix + " coins.";
+            if (player.collectResource(resource)){
+                player.setMoney(player.getMoney() - prix);
+                return player.getPseudo() + " a acheté " + resource.getName() + " pour " + prix + " coins.";
+            }
+            
+            
+            
         }
         return "Ressource non disponible ou fonds insuffisants.";
     }

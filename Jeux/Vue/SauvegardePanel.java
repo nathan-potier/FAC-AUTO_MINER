@@ -51,10 +51,7 @@ public class SauvegardePanel extends JPanel {
                     jouerButton.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                            // Appel à onJouer avec le monde sélectionné
-                            if (sauvegardeListener != null) {
-                                sauvegardeListener.onRetourMenu();  // Notifie le retour au menu
-                            }
+                            System.out.println(sauvegarde);
                         }
                     });
 
@@ -100,13 +97,4 @@ public class SauvegardePanel extends JPanel {
         this.sauvegardeListener = listener;
     }
 
-    public static void main(String[] args) {
-        // Test du panneau dans une fenêtre JFrame avec un mondeChoisi
-        JFrame frame = new JFrame("Sauvegardes");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(800, 600);
-
-        frame.setContentPane(new SauvegardePanel());
-        frame.setVisible(true);
-    }
 }

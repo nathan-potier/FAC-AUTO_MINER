@@ -1,6 +1,9 @@
 package Vue;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import javax.swing.*;
 
 import Modele.Game;
@@ -22,6 +25,8 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
 
     private boolean inventaireAfficher = false;
     private boolean menuBoutonClique = true;
+    private boolean isNewGame;
+    private String nameGameLoad;
 
     private Controle listener;
 
@@ -170,9 +175,12 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
                 System.exit(0);
                 break;
             case "Nouvelle Partie":
+                isNewGame = true;
                 nouvellePartie();
                 break;
             case "Charger une Partie":
+                isNewGame = false;
+                nameGameLoad = "Monde_1";
                 chargerPartie();
                 break;
             default:
@@ -195,7 +203,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
     }
 
     private void chargerPartie(){
-        game = GameLoader.loadGame("test", game);
+        game = GameLoader.loadGame(nameGameLoad, game);
                 
         if (game.getMap() != null) {
 
@@ -245,7 +253,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         // Vérifiez si le clic est sur le bouton du Menu
         if (menuPanel.isMouseOverPlay(e.getPoint()) && menuBoutonClique) {
 
-            transmettreAction("Nouvelle Partie");
+            transmettreAction("Charger une Partie");
 
             menuBoutonClique = false;
 
@@ -263,7 +271,13 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
 
             System.out.println("Bouton Settings cliqué");
             //game.sauvegarderCarte(game.getPlayer().getPseudo());
-            GameSaver.saveGame("test", game.getPlayer(), game.getMarket(), game.getPositionObject(), game.getMachines());
+            String nomSv = "";
+            if(isNewGame){
+                nomSv = GameSaver.generateUniqueSaveName("Monde");
+            }else{
+                nomSv = nameGameLoad;
+            }
+            GameSaver.saveGame(nomSv, game.getPlayer(), game.getMarket(), game.getPositionObject(), game.getMachines());
 
 
         }else if(menuPanel.isMouseOverExit(e.getPoint()) && menuBoutonClique){
@@ -271,7 +285,10 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
             menuBoutonClique = false;
             
         }
+
+
     }
+
 
     @Override
     public void mouseClicked(java.awt.event.MouseEvent e) {}

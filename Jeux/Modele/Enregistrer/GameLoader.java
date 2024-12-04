@@ -14,7 +14,7 @@ public class GameLoader {
     private static Player player = null;
 
     public static Game loadGame(String fileName, Game game) {
-
+        fileName = "Save/" + fileName;
 
         String line;
 

@@ -263,7 +263,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
 
             System.out.println("Bouton Settings cliqué");
             //game.sauvegarderCarte(game.getPlayer().getPseudo());
-            GameSaver.saveGame("test", game.getPlayer(), game.getMarket(), game.getPositionObject());
+            GameSaver.saveGame("test", game.getPlayer(), game.getMarket(), game.getPositionObject(), game.getMachines());
 
 
         }else if(menuPanel.isMouseOverExit(e.getPoint()) && menuBoutonClique){

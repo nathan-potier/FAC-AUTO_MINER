@@ -45,11 +45,14 @@ public class Map {
         
 
     }
-    public Map(Game game, ArrayList<ObjectWithPosition> objList){
+    public Map(Game game, ArrayList<ObjectWithPosition> objList, ArrayList<Machine> machinesListe){
         this(game.getWidth(), game.getHeight(), game.getPlayer(), game.getSpawn(), game.getMarket(), game);
-        System.out.println(game.getMarket().getPos());
+
         for(ObjectWithPosition obj : objList){
             grid[obj.getPosition().getY()][obj.getPosition().getX()] = new Cell(obj.getPosition(), obj);
+        }
+        for(Machine m : machinesListe){
+            grid[m.getPosition().getY()][m.getPosition().getX()] = new Cell(m.getPosition(), m);
         }
         generateMap(game.getPlayer());
     }
@@ -259,7 +262,8 @@ public class Map {
 
         // Placer une usine à côté de la position de `Wood`
         Position posUsine = new Position(posWood1.getX() + 1, posWood1.getY()); // Position adjacente
-        Usine usine = new Usine(p.getInv(), posUsine, "");
+        Usine usine = new Usine(p.getInv(), posUsine, "XL", null);
+        usine.ajouterRessource(iron2);
         grid[posUsine.getY()][posUsine.getX()] = new Cell(posUsine, usine);
 
         // Placer une récolteuse à côté de la position de `Iron`
@@ -370,6 +374,21 @@ public class Map {
         return res;  // Retourner la liste des objets ayant une position
     }
 
+
+    public ArrayList<Machine> getMachines(){
+        ArrayList<Machine> res = new ArrayList<>();
+        for (Cell[] row : grid) {  // Parcours des lignes de la grille
+            for (Cell c2 : row) {   // Parcours des cellules dans chaque ligne
+                if (c2 != null && c2.getContent() instanceof Machine) {
+
+                    Machine obj = (Machine) c2.getContent();
+                    res.add(obj);
+                }
+            }
+        }
+        return res;  // Retourner la liste des objets ayant une position
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -390,5 +409,8 @@ public class Map {
         
         return sb.toString();
     }
+
+
+
 
 }

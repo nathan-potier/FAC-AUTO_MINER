@@ -1,5 +1,5 @@
 package Modele;
-import java.io.Serializable;
+
 
 public class Spawn {
     private static Position pos;

@@ -4,20 +4,25 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+
 import Modele.*;
 import Modele.Machine.*;
 import Modele.Resource.*;
 
 public class GameLoader {
+    private static Player player = null;
 
     public static Game loadGame(String fileName, Game game) {
 
 
         String line;
-        Player player = null;
+
         Market market = null;
         Map map = null;
-        ArrayList<ObjectWithPosition> objectsOnMap = new ArrayList<>(); // Utilisation d'une ArrayList pour stocker les objets
+
+        ArrayList<Machine> machinesOnMap = new ArrayList<>();
+        ArrayList<ObjectWithPosition> objectOnMap = new ArrayList<>();
 
         // Variables temporaires
         String pseudo = "";
@@ -113,7 +118,8 @@ public class GameLoader {
                                 break;
                             }
                             String machineName = machineLine.split(" pour ")[0].trim();
-                            marketMachines.add(createMachine(machineName));
+
+                            marketMachines.add(createMachine(machineName, null, null, null));
                         }
                     }catch(Exception e){
                         System.err.println("Erreur lors de la lecture des Machines à vendre du marché : " + marketLine);
@@ -129,6 +135,10 @@ public class GameLoader {
         String objectsSection = readSection("Objets sur la carte:", fileName);
         if (!objectsSection.isEmpty()) {
             for (String objectLine : objectsSection.split("\n")) {
+
+                if (objectLine.equals("Machines sur la carte:")){
+                    break;
+                }
                 String[] objectData = objectLine.split(" à la position ");
                 if (objectData.length == 2) {
                     String objectName = objectData[0].trim();
@@ -139,15 +149,71 @@ public class GameLoader {
                     );
                     ObjectWithPosition object = createObject(objectName, objectPosition);
                     if (object != null) {
-                        objectsOnMap.add(object);
+                        objectOnMap.add(object);
                     }
                 }
             }
         }
 
+        // Lecture des machines sur la carte
+        String machinesOnMapSection = readSection("Machines sur la carte:", fileName);
+
+        if (!machinesOnMapSection.isEmpty()) {
+            for (String machineLine : machinesOnMapSection.split("\n")) {
+                if (machineLine.contains("option->")) {
+
+                    try {
+                        // Extraction du type de machine
+                        String machineType = machineLine.split("option->")[0].trim();
+                        
+                        // Extraction des données après "option->"
+                        String machineData = machineLine.split("option->")[1].trim();
+                        
+                        // Extraction des parties option, position et inventaire
+                        String[] machineParts = machineData.split("à la position");
+                        String option = machineParts[0].trim();
+
+                        String[] positionAndInventory = machineParts[1].split("inventaire->");
+                        
+                        // Position
+                        String[] positionParts = positionAndInventory[0].trim().split(",");
+                        int x = Integer.parseInt(positionParts[0].trim());
+                        int y = Integer.parseInt(positionParts[1].trim());
+                        Position position = new Position(x, y);
+
+                        // Inventaire
+                        ArrayList<Resource> stock = new ArrayList<>();
+                        if (positionAndInventory.length > 1) { // Si un inventaire est présent
+                            String inventoryData = positionAndInventory[1].trim();
+                            inventoryData = inventoryData.replace("{", "").replace("}", "").trim(); // Nettoyage
+                            if (!inventoryData.isEmpty()) {
+                                String[] inventoryItems = inventoryData.split(",");
+                                for (String item : inventoryItems) {
+                                    String[] parts = item.replace("(", "").replace(")", "").split(";");
+                                    String resourceName = parts[0].trim();
+                                    int quantity = Integer.parseInt(parts[1].trim());
+                                    Resource ressource = createResource(resourceName, quantity );
+                                    stock.add(ressource);
+                                }
+                            }
+                        }
+                        // Création de l'objet machine avec l'inventaire
+                        Machine machine = createMachine(machineType, position, option, stock);
+                        machinesOnMap.add(machine); // Ajout à la liste des machines sur la carte
+
+                    } catch (Exception e) {
+                        System.err.println("Erreur lors de la lecture de la machine sur la carte : " + machineLine);
+                    }
+                }
+            }
+        }
+
+
+
         // Initialiser le jeu
         game = new Game(market, game.getSpawn(), player);
-        map = new Map(game, objectsOnMap);
+
+        map = new Map(game, objectOnMap, machinesOnMap);
         System.out.println(map);
         game.setMap(map);
 
@@ -168,10 +234,10 @@ public class GameLoader {
         }
     }
 
-    private static Machine createMachine(String name) {
+    private static Machine createMachine(String name, Position pos, String option, ArrayList<Resource> stock) {
         switch (name) {
             case "Usine":
-                return new Usine(null, null, "");  // Utilisation de la sous-classe existante
+                return new Usine(player.getInv(), pos, option, stock);  // Utilisation de la sous-classe existante
             default:
                 return null;
         }
@@ -183,8 +249,6 @@ public class GameLoader {
                 return new Wood(1, pos);  // Utilisation de la sous-classe existante
             case "Iron":
                 return new Iron(1, pos);  // Utilisation de la sous-classe existante
-            case "Usine":
-                return new Usine(null, pos, "");  // Utilisation de la sous-classe existante
             case "Attente":
                 return new Attente(pos , null);  // Utilisation de la sous-classe existante
             default:

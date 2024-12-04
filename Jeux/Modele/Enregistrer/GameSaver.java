@@ -10,7 +10,7 @@ import Modele.Resource.*;
 
 public class GameSaver {
 
-    public static boolean saveGame(String fileName, Player player, Market market, ArrayList<ObjectWithPosition> objectsOnMap) {
+    public static boolean saveGame(String fileName, Player player, Market market, ArrayList<ObjectWithPosition> objectsOnMap, ArrayList<Machine> machines) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
             // Sauvegarder les informations du joueur
             writer.write("Joueur: " + player.getPseudo());
@@ -55,7 +55,7 @@ public class GameSaver {
             writer.write("Marché - Machines à vendre:");
             writer.newLine();
             for (Machine m : market.getMachinesForSale()) {
-                writer.write(m.getName() + " pour " + m.getPrix() + " coins");
+                writer.write(m.getName() + " option-> " + m.getOption() );
                 writer.newLine();
             }
 
@@ -63,7 +63,15 @@ public class GameSaver {
             writer.write("Objets sur la carte:");
             writer.newLine();
             for (ObjectWithPosition obj : objectsOnMap) {
+
                 writer.write(obj.getName() + " à la position " + obj.getPosition().getX() + "," + obj.getPosition().getY());
+                writer.newLine();
+            }
+
+            writer.write("Machines sur la carte:");
+            writer.newLine();
+            for (Machine m : machines){
+                writer.write(m.getName() + " option-> "+ m.getOption() + " à la position " + m.getPosition().getX() + "," + m.getPosition().getY() + " inventaire-> {" + m.getStockSTR() +"}");
                 writer.newLine();
             }
 

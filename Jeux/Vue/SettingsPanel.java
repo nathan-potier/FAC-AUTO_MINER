@@ -8,8 +8,13 @@ import java.awt.event.ActionListener;
 public class SettingsPanel extends JPanel {
 
     private boolean isFullScreen = false;
-    private boolean useMouse = false;
-    private int controlMode = 0; // 0 = Arrows, 1 = Mouse, 2 = Both
+    private int controlMode = 0; // 0 = Arrows, 1 = Mouse, 2 = Les deux
+
+    private SettingsListener listener;
+
+    // Variables temporaires pour les changements en attente
+    private boolean tempFullScreen = false;
+    private int tempControlMode = 0;
 
     public SettingsPanel() {
         // Configuration du JPanel principal
@@ -27,51 +32,51 @@ public class SettingsPanel extends JPanel {
 
         // Panel pour les options (Full Screen et Control)
         JPanel topPanel = new JPanel();
-        topPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10)); // Alignement centré avec un espacement entre les boutons
+        topPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
         topPanel.setBackground(Color.DARK_GRAY);
 
         // Espacement entre le titre et les boutons
-        topPanel.add(Box.createVerticalStrut(400));  // Ajouter un espacement de 50 pixels
+        topPanel.add(Box.createVerticalStrut(400));
 
         // Option Full Screen avec BoxLayout vertical
         JPanel fullScreenOption = new JPanel();
-        fullScreenOption.setLayout(new BoxLayout(fullScreenOption, BoxLayout.Y_AXIS));  // Alignement vertical
-        fullScreenOption.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10)); // Alignement centré avec un espacement entre les boutons
+        fullScreenOption.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
         fullScreenOption.setBackground(Color.DARK_GRAY);
 
         JLabel fullScreenLabel = new JLabel("Full Screen: ");
         fullScreenLabel.setForeground(Color.WHITE);
-        fullScreenLabel.setFont(new Font("Arial", Font.PLAIN, 18));  // Augmenter la taille du texte
+        fullScreenLabel.setFont(new Font("Arial", Font.PLAIN, 18));
+
         JButton fullScreenButton = new JButton("OFF");
         fullScreenButton.setFocusPainted(false); // Désactiver le focus visuel
         fullScreenButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                isFullScreen = !isFullScreen;
-                fullScreenButton.setText(isFullScreen ? "ON" : "OFF");
+                tempFullScreen = !tempFullScreen;
+                fullScreenButton.setText(tempFullScreen ? "ON" : "OFF");
             }
         });
 
         fullScreenOption.add(fullScreenLabel);
-        fullScreenOption.add(Box.createVerticalStrut(10));  // Ajouter un espacement supplémentaire entre le texte et le bouton
+        fullScreenOption.add(Box.createVerticalStrut(10));
         fullScreenOption.add(fullScreenButton);
 
         // Option Control avec BoxLayout vertical
         JPanel controlOption = new JPanel();
-        controlOption.setLayout(new BoxLayout(controlOption, BoxLayout.Y_AXIS));  // Alignement vertical
-        controlOption.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10)); // Alignement centré avec un espacement entre les boutons
+        controlOption.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
         controlOption.setBackground(Color.DARK_GRAY);
 
         JLabel controlLabel = new JLabel("Control: ");
         controlLabel.setForeground(Color.WHITE);
-        controlLabel.setFont(new Font("Arial", Font.PLAIN, 18)); // Augmenter la taille du texte
+        controlLabel.setFont(new Font("Arial", Font.PLAIN, 18));
+
         JButton controlButton = new JButton("Arrows");
         controlButton.setFocusPainted(false); // Désactiver le focus visuel
         controlButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                controlMode = (controlMode + 1) % 3; // Passer à la prochaine option
-                switch (controlMode) {
+                tempControlMode = (tempControlMode + 1) % 3; // Passer à la prochaine option
+                switch (tempControlMode) {
                     case 0:
                         controlButton.setText("Arrows");
                         break;
@@ -86,7 +91,7 @@ public class SettingsPanel extends JPanel {
         });
 
         controlOption.add(controlLabel);
-        controlOption.add(Box.createVerticalStrut(10));  // Ajouter un espacement supplémentaire entre le texte et le bouton
+        controlOption.add(Box.createVerticalStrut(10));
         controlOption.add(controlButton);
 
         // Ajouter les options dans le topPanel
@@ -96,30 +101,68 @@ public class SettingsPanel extends JPanel {
         // Ajouter le panneau topPanel dans le centre
         add(topPanel, BorderLayout.CENTER);
 
-        // Panneau pour le bouton Save Settings en bas
-        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        // Panneau pour les boutons en bas
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         bottomPanel.setBackground(Color.DARK_GRAY);
+
+        // Ajouter un espace sous les boutons
+        bottomPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
+
+        // Message de confirmation
+        JLabel confirmationLabel = new JLabel("");
+        confirmationLabel.setForeground(Color.GREEN);
+        confirmationLabel.setFont(new Font("Arial", Font.PLAIN, 16));
+        confirmationLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        confirmationLabel.setVisible(false); // Masqué par défaut
+        bottomPanel.add(confirmationLabel);
+
+        // Bouton Save
         JButton saveButton = new JButton("Save Settings");
+        saveButton.setFocusPainted(false); // Désactiver le focus visuel
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(SettingsPanel.this,
-                    "Settings saved:\n" +
-                    "Full Screen: " + (isFullScreen ? "ON" : "OFF") + "\n" +
-                    "Control Mode: " + (useMouse ? "Mouse" : "Arrows"),
-                    "Settings", JOptionPane.INFORMATION_MESSAGE);
+                // Appliquer les modifications
+                isFullScreen = tempFullScreen;
+                controlMode = tempControlMode;
+
+                // Afficher le message de confirmation
+                confirmationLabel.setText("Preferences sauvegardées");
+                confirmationLabel.setVisible(true);
+
+                // Supprimer le message après un court délai
+                Timer timer = new Timer(2000, new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        confirmationLabel.setVisible(false);
+                    }
+                });
+                timer.setRepeats(false);
+                timer.start();
             }
         });
+
         bottomPanel.add(saveButton);
+
+        // Bouton Quitter
+        JButton quitButton = new JButton("Back");
+        quitButton.setFocusPainted(false); // Désactiver le focus visuel
+        quitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (listener != null) {
+                    listener.onBackToMenu();
+                }
+            }
+        });
+
+        bottomPanel.add(quitButton);
+
         add(bottomPanel, BorderLayout.SOUTH);
     }
 
-    // Test du JPanel
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Game Settings");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(800, 600);
-        frame.add(new SettingsPanel());
-        frame.setVisible(true);
+    public void setSettingsListener(SettingsListener listener) {
+        this.listener = listener;
     }
+
 }

@@ -9,7 +9,7 @@ import Modele.Position;
 import Modele.Controle;
 import Modele.Enregistrer.*;
 
-public class Affichage extends JFrame implements VueGenerale, KeyListener, MouseListener {
+public class Affichage extends JFrame implements VueGenerale, KeyListener, MouseListener, SettingsListener {
     private Game game;
     private CartePanel cartePanel;
     private InventairePanel inventairePanel;
@@ -17,6 +17,8 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
     private JPanel mainPanel;
     private JLayeredPane layeredPane; // Pour superposer les panneaux
     private MenuPanel menuPanel;
+    private SettingsPanel settingsPanel;
+
     private final int height;
     private final int width;
 
@@ -49,6 +51,8 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         // Initialisation des composants
         mainPanel = new JPanel(new BorderLayout());
         layeredPane = new JLayeredPane();
+        settingsPanel = new SettingsPanel();
+        settingsPanel.setSettingsListener(this);
 
         cartePanel = new CartePanel(game.getWidth(), game.getHeight());
         game.addGameListener(cartePanel);
@@ -62,16 +66,19 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         // Configuration des panneaux dans le layeredPane
         cartePanel.setBounds(0, 0, width, height);
         inventairePanel.setBounds(0, 0, width, height);
+        settingsPanel.setBounds(0, 0, width, height);
 
 
         // Ajout des panneaux au layeredPane
         layeredPane.add(cartePanel, Integer.valueOf(1));
         layeredPane.add(inventairePanel, Integer.valueOf(3));
         layeredPane.add(marketPanel, Integer.valueOf(2));
+        layeredPane.add(settingsPanel, Integer.valueOf(4));
 
         // Masquer les panneaux sauf la carte par défaut
         inventairePanel.setVisible(false);
         marketPanel.setVisible(false);
+        settingsPanel.setVisible(false);
 
         // Ajout des composants au mainPanel
         mainPanel.add(menuPanel, BorderLayout.SOUTH);
@@ -137,20 +144,14 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
             GameStates.setMoveOn(false);
             menuBoutonClique = true;
             menuPanel.setVisible(true);
-            
-
         }
         else if (listener != null && GameStates.isMoveOn()) {
             listener.onKeyPress(e.getKeyCode());
-            
         }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {}
-
-
-
     @Override
     public void keyTyped(KeyEvent e) {}
 
@@ -198,9 +199,6 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         game = GameLoader.loadGame("test", game);
                 
         if (game.getMap() != null) {
-
-
-
             game.addGameListener(cartePanel);
             menuPanel.setVisible(false);
             inventaireAfficher = false;
@@ -260,16 +258,20 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
             menuBoutonClique = false;
 
         }else if(menuPanel.isMouseOverSettings(e.getPoint()) && menuBoutonClique){
-
-            
-            
-
-
-        }else if(menuPanel.isMouseOverExit(e.getPoint()) && menuBoutonClique){
-            transmettreAction("Charger une Partie");
+            settingsPanel.setVisible(true);
+            menuPanel.setVisible(false);
             menuBoutonClique = false;
-            
+        }else if(menuPanel.isMouseOverExit(e.getPoint()) && menuBoutonClique){
+            System.exit(0);
         }
+    }
+
+    @Override
+    public void onBackToMenu() {
+        // Cache le panneau des paramètres et affiche le menu principal
+        settingsPanel.setVisible(false);
+        menuPanel.setVisible(true);
+        menuBoutonClique = true;
     }
 
     @Override

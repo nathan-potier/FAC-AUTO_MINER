@@ -33,7 +33,9 @@ public abstract class Resource implements  ObjectWithPosition{
     public String getName() {
         return name;
     }
+    
     public Position getPosition(){return pos;}
+    
     public int getQuantity() {
         return quantity;
     }

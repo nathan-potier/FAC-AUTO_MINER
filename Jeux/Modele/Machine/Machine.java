@@ -7,7 +7,7 @@ import Modele.*;
 
 public class Machine {
     private String type; // "usine" ou "récolteuse"
-    private ArrayList<Resource> stock = new ArrayList<>();
+    private ArrayList<Resource> stock = new ArrayList<>(); //stock de ce qui est recolté ou produit
     private int prix;
     private Position pos;
     private int tempFabriq;
@@ -68,9 +68,7 @@ public class Machine {
     public int getPrix(){return prix;}
     public Position getPosition(){return pos;}
     public String getOption(){return option;}
-    public ArrayList<Resource> getStock() {
-        return stock;
-    }
+    public ArrayList<Resource> getStock() {return stock;}
 
 
     public void ajouterRessource(Resource ressourceProduite) {

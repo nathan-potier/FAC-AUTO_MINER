@@ -2,14 +2,11 @@ package Vue;
 
 import Modele.Player;
 import Modele.Position;
-import Modele.Inventory;
 import Modele.Machine.Usine;
 import Modele.Resource.Iron;
 import Modele.Resource.Wood;
-import Vue.UsinePanel;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class UsinePanelTest {
     public static void main(String[] args) {
@@ -19,6 +16,11 @@ public class UsinePanelTest {
         // Ajouter des ressources au joueur
         player.collectResource(new Wood(100));
         player.collectResource(new Iron(100));
+
+    
+
+
+        
 
         // Créer une usine
 

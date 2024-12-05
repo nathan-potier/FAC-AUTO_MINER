@@ -1,5 +1,4 @@
 package Modele;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +19,7 @@ public class Inventory {
     public List<Resource> getResources() {
         return resources;
     }
+
     public boolean addMachine(Machine m){
         if (machine == null){
             machine = m;

@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import Modele.Resource.Resource;
 import Modele.*;
 
-public class Machine {
+public abstract class Machine {
     private String type; // "usine" ou "récolteuse"
-    private ArrayList<Resource> stock = new ArrayList<>(); //stock de ce qui est recolté ou produit
+    private Inventory stockProd = new Inventory(); //stock de ce qui est recolté ou produit
     private int prix;
     private Position pos;
     private int tempFabriq;
@@ -16,9 +16,9 @@ public class Machine {
     private boolean fonctionneBien;
     private String option;
 
-    public Machine(String type, Position pos, String option, ArrayList<Resource> stock) {
-        if (stock != null){
-            this.stock = stock;
+    public Machine(String type, Position pos, String option, Inventory stockProd) {
+        if (stockProd != null){
+            this.stockProd = stockProd;
         }
         this.type = type;
 
@@ -68,26 +68,17 @@ public class Machine {
     public int getPrix(){return prix;}
     public Position getPosition(){return pos;}
     public String getOption(){return option;}
-    public ArrayList<Resource> getStock() {return stock;}
+    public ArrayList<Resource> getStock() {return stockProd.getResources();}
 
 
     public void ajouterRessource(Resource ressourceProduite) {
-        boolean found = false;
-        for (Resource ressource : getStock()) {
-            if (ressource.getName().equals(ressourceProduite.getName())) {
-                found = ressource.addQuantity(ressourceProduite.getQuantity());
-                break;
-            }
-        }
-        if (!found && stock.size() < limiteStock) {
-            getStock().add(ressourceProduite);
-        }
+        stockProd.addResource(ressourceProduite);
 
     }
     
 
     public void retirerRessource(Resource ressource) {
-        stock.remove(ressource);
+        stockProd.removeResource(ressource, 1);;
     }
 
     public void produire() {}
@@ -101,25 +92,19 @@ public class Machine {
     }
 
     public void afficherStock() {
-        if (stock.isEmpty()) {
-            System.out.println("Le stock est vide.");
-        } else {
-            System.out.println("Contenu du stock :");
-            for (Resource ressource : stock) {
-                System.out.println(ressource.getName() + ": " + ressource.getQuantity());
-            }
-        }
+        System.out.println(stockProd);
     }
 
     public String getStockSTR(){
         String res = "";
-        for (Resource r : stock){
+        for (Resource r : stockProd.getResources()){
             res += "(" + r.getName()+";"+ r.getQuantity()+ "),";
         }
         return res;
-
-
     }
+
+    public abstract String getResourcesSTR();
+
     @Override
     public String toString(){
         return getName() + " " + getOption();

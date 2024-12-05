@@ -119,7 +119,7 @@ public class GameLoader {
                             }
                             String machineName = machineLine.split(" pour ")[0].trim();
 
-                            marketMachines.add(createMachine(machineName, null, null, null));
+                            marketMachines.add(createMachine(machineName, null, null, null, null));
                         }
                     }catch(Exception e){
                         System.err.println("Erreur lors de la lecture des Machines à vendre du marché : " + marketLine);
@@ -198,7 +198,7 @@ public class GameLoader {
                             }
                         }
                         // Création de l'objet machine avec l'inventaire
-                        Machine machine = createMachine(machineType, position, option, stock);
+                        Machine machine = createMachine(machineType, position, option, new Inventory(stock), null);
                         machinesOnMap.add(machine); // Ajout à la liste des machines sur la carte
 
                     } catch (Exception e) {
@@ -234,10 +234,10 @@ public class GameLoader {
         }
     }
 
-    private static Machine createMachine(String name, Position pos, String option, ArrayList<Resource> stock) {
+    private static Machine createMachine(String name, Position pos, String option, Inventory stock, Inventory resources) {
         switch (name) {
             case "Usine":
-                return new Usine(player.getInv(), pos, option, stock);  // Utilisation de la sous-classe existante
+                return new Usine(resources, pos, option, stock);  // Utilisation de la sous-classe existante
             default:
                 return null;
         }

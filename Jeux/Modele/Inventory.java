@@ -1,22 +1,22 @@
 package Modele;
 import java.util.ArrayList;
-import java.util.List;
+
 
 import Modele.Machine.Machine;
 import Modele.Resource.Resource;
 
 public class Inventory {
-    private List<Resource> resources;
+    private ArrayList<Resource> resources;
     private Machine machine;
 
     public Inventory() {
         resources = new ArrayList<>();
     }
-    public Inventory(List<Resource> resources){
+    public Inventory(ArrayList<Resource> resources){
         this.resources = resources;
     }
 
-    public List<Resource> getResources() {
+    public ArrayList<Resource> getResources() {
         return resources;
     }
 

@@ -79,9 +79,14 @@ public class GameSaver {
             writer.write("Machines sur la carte:");
             writer.newLine();
             for (Machine m : machines){
-                writer.write(m.getName() + " option-> "+ m.getOption() + " à la position " + m.getPosition().getX() + "," + m.getPosition().getY() + " inventaire-> {" + m.getStockSTR() +"}");
+                writer.write(m.getName() + " option-> "+ m.getOption() + " à la position " + m.getPosition().getX() + "," + m.getPosition().getY() 
+                + " Stock-> {" + m.getStockSTR() +"}" 
+                + " Inventaire-> "+ m.getResourcesSTR());
                 writer.newLine();
             }
+
+
+
 
             System.out.println("Partie sauvegardée dans " + fileName);
             updateSaveList(fileName);

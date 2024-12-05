@@ -9,10 +9,10 @@ public class Recette {
     private List<Resource> ingredients;
     private Resource produitFinal;
 
-    public Recette(String nom, List<Resource> ingredients, Resource produitFinal) {
-        this.nom = nom;
-        this.ingredients = ingredients;
-        this.produitFinal = produitFinal;
+    public Recette(String n, List<Resource> ingr, Resource prodFinal) {
+        nom = n;
+        ingredients = ingr;
+        produitFinal = prodFinal;
     }
 
     public String getNom() {

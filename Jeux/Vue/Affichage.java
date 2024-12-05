@@ -8,9 +8,11 @@ import javax.swing.*;
 
 import Modele.Game;
 import Modele.GameStates;
+import Modele.Player;
 import Modele.Position;
 import Modele.Controle;
 import Modele.Enregistrer.*;
+import Modele.Machine.Usine;
 
 public class Affichage extends JFrame implements VueGenerale, KeyListener, MouseListener, SettingsListener, SauvegardeListener{
     private Game game;
@@ -22,6 +24,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
     private MenuPanel menuPanel;
     private SauvegardePanel sauvegardePanel;
     private SettingsPanel settingsPanel;
+    private UsinePanel usinePanel;
 
     private final int height;
     private final int width;
@@ -69,6 +72,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         inventairePanel = new InventairePanel(null);
 
         marketPanel = new MarketPanel(game.getMarket(), game.getPlayer());
+        usinePanel = new UsinePanel(game.getPlayer());
 
         menuPanel = new MenuPanel(width / 2, height / 2, width, height);
 
@@ -83,11 +87,13 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         layeredPane.add(cartePanel, Integer.valueOf(1));
         layeredPane.add(inventairePanel, Integer.valueOf(3));
         layeredPane.add(marketPanel, Integer.valueOf(2));
+        layeredPane.add(usinePanel, Integer.valueOf(6));
         layeredPane.add(settingsPanel, Integer.valueOf(4));
         layeredPane.add(sauvegardePanel, Integer.valueOf(5));
 
         // Masquer les panneaux sauf la carte par défaut
         inventairePanel.setVisible(false);
+        usinePanel.setVisible(false);
         marketPanel.setVisible(false);
         settingsPanel.setVisible(false);
         sauvegardePanel.setVisible(false);
@@ -123,10 +129,6 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
 
 
 
-    @Override
-    public void transmettreMarket(){
-        marketPanel.setVisible(true);
-    }
 
     @Override
     public void keyPressed(KeyEvent e) {
@@ -296,6 +298,16 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
 
     }
 
+    @Override
+    public void transmettreMarket(){
+        marketPanel.setVisible(true);
+    }
+    @Override
+    public void transmettreUsine(Usine u) {
+        usinePanel.setUsine(u);
+        usinePanel.setVisible(true);
+    }
+
 
     @Override
     public void onBackToMenu() {
@@ -327,4 +339,6 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
 
         chargerPartie(nameGameLoad);
     }
+
+
 }

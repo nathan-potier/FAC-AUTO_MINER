@@ -156,7 +156,7 @@ public class Map {
         }else if (isInstanceOf(Usine.class, nouvelle)) {
 
             //deplacerOnUsine(p, nouvelle);
-            vue.transmettreMarket();
+            vue.transmettreUsine((Usine)grid[nouvelle.getY()][nouvelle.getX()].getContent());
             return true;
         } else if (isInstanceOf(Market.class, nouvelle)) {
 

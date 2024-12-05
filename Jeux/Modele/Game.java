@@ -120,11 +120,11 @@ public class Game implements Controle{
     public Spawn getSpawn(){return spawn;}
     
 
-    public Machine getObjectAtPosition(int x, int y) {
+    public Usine getObjectAtPosition(int x, int y) {
         // Retourne l'objet à la position (x, y) de la gameMap
         Cell c = gameMap.getGrid()[y][x];
         if (c != null){
-            return (Machine)c.getContent();
+            return (Usine)c.getContent();
         }
         return null;
     }

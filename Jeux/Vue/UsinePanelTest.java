@@ -17,6 +17,11 @@ public class UsinePanelTest {
         player.collectResource(new Wood(100));
         player.collectResource(new Iron(100));
 
+    
+
+
+        
+
         // Créer une usine
 
         Usine usine = new Usine(player.getInv(), null, "", null);

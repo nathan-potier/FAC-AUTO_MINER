@@ -39,7 +39,7 @@ public class Recette {
         // Recette pour un bloc de fer (9 fer)
         List<Resource> ingredientsBlocFer = new ArrayList<>();
         ingredientsBlocFer.add(new Iron(9));
-        recettes.add(new Recette("Bloc de Fer", ingredientsBlocFer, new BlocDeFerTempo(1)));
+        recettes.add(new Recette("Bloc de Fer", ingredientsBlocFer, new BlocDeFer(1)));
 
         return recettes;
     }

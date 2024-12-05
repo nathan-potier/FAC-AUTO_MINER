@@ -14,11 +14,13 @@ public class Usine extends Machine {
     private Timer timer;  // Timer pour la production périodique
     private final long productionInterval = 5000; // Intervalle de 5 secondes pour la production (en millisecondes)
     private String recetteEnCours;  // Nom de la recette en cours
+    private List<Resource> alimentation;
 
     public Usine(Inventory inventaire, Position position, String option, ArrayList<Resource> stock) {
         super("Usine", position, option, stock);
         this.inventaire = inventaire;
         this.recettesDisponibles = Recette.initialiserRecettes();
+        this.alimentation = new ArrayList<>();
     }
 
     private void startProductionTimer() {
@@ -30,7 +32,7 @@ public class Usine extends Machine {
                     for (Recette recette : recettesDisponibles) {
                         if (recette.getNom().equals(recetteEnCours) && hasSufficientResourcesForRecipe(recette)) {
                             produireRecette(recette);
-                            break;  // Ne produire qu'une seule recette à la fois
+                            break;
                         }
                     }
                 }
@@ -128,5 +130,8 @@ public class Usine extends Machine {
         return tab;
     }
 
+    public void addInvToAlim(Resource r){
+        
+    }
     
 }

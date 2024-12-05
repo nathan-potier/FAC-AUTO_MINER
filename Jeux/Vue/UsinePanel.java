@@ -88,29 +88,26 @@ public class UsinePanel extends JPanel {
         produceButton.setFocusPainted(false);
         produceButton.setForeground(Color.BLACK);
         produceButton.addActionListener(e -> {
-        produceButton.setEnabled(false); // Désactiver le bouton après que la production ait commencé
+        produceButton.setEnabled(false);
 
             // Démarrer un Timer qui attend 5 secondes avant de commencer la production
             Timer startProductionTimer = new Timer(5000, event -> {
                 String selectedRecette = (String) recetteComboBox.getSelectedItem();
-                usine.produire(selectedRecette);  // Démarre la production une fois les 5 secondes écoulées
-                updateStockPanel();  // Mettre à jour le stock immédiatement après la production de la première ressource
+                usine.produire(selectedRecette);
+                updateStockPanel();
                 updateInventairePanel(inventairePanel);
             
-                // Après le début de la production, commencer à mettre à jour périodiquement le stock
                 if (!isProducing) {
                     isProducing = true;
-                    // Démarrer un timer pour appeler updateStockPanel() et updateInventairePanel() toutes les 5 secondes
                     productionTimer = new Timer(5000, eventUpdate -> {
-                        updateStockPanel();           // Mise à jour du stock
-                        updateInventairePanel(inventairePanel);  // Mise à jour de l'inventaire
+                        updateStockPanel();
+                        updateInventairePanel(inventairePanel);
                     });
                     productionTimer.start();  // Démarre la mise à jour périodique des deux panels
                 }
             });
             
 
-            // Démarrer le timer
             startProductionTimer.setRepeats(false);  // Ne pas répéter après 5 secondes
             startProductionTimer.start();
         });
@@ -129,7 +126,7 @@ public class UsinePanel extends JPanel {
         // Ajout d'une bordure intérieure pour éviter que le bouton touche les bords
         stockPanel.setBorder(BorderFactory.createCompoundBorder(
             stockPanel.getBorder(), // Bordure existante
-            BorderFactory.createEmptyBorder(10, 10, 10, 10) // Bordure intérieure de 10 pixels de chaque côté
+            BorderFactory.createEmptyBorder(10, 10, 10, 10)
         ));
 
         updateStockPanel();
@@ -176,9 +173,10 @@ public class UsinePanel extends JPanel {
         updateInventairePanel(inventairePanel);
 
         JScrollPane inventaireScrollPane = new JScrollPane(inventairePanel);
-        inventaireScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED); // Scrollbar uniquement si nécessaire
+        inventaireScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         inventaireScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         inventaireScrollPane.setBorder(BorderFactory.createEmptyBorder());
+
 
         this.add(inventaireScrollPane, BorderLayout.WEST);
 
@@ -219,7 +217,7 @@ public class UsinePanel extends JPanel {
                 itemLabel.setForeground(Color.white);
                 itemLabel.setFont(new Font("Arial", Font.PLAIN, 14));
                 itemPanel.add(itemLabel);
-    
+
                 // Ajouter un espacement autour du panneau d'élément
                 itemPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
                 stockPanel.add(itemPanel);
@@ -280,15 +278,29 @@ public class UsinePanel extends JPanel {
                 // Ajouter l'image de la ressource
                 ImageIcon icon = new ImageIcon(new ImageIcon("assets/" + r.getName() + ".png").getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH));
                 JLabel itemLabel = new JLabel(icon);
-                itemLabel.setText(r.getName() + " x" + r.getQuantity());
+                itemLabel.setText(r.getName());
                 itemLabel.setForeground(Color.white);
                 itemLabel.setFont(new Font("Arial", Font.PLAIN, 14));
                 itemPanel.add(itemLabel);
     
                 // Ajouter un petit espacement vertical entre chaque élément
                 panel.add(itemPanel);
-                panel.add(Box.createVerticalStrut(20)); // Réduit l'espacement vertical entre les éléments
+                // panel.add(Box.createVerticalStrut(20)); // Réduit l'espacement vertical entre les éléments
                 itemPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+
+                // Créer un panneau intermédiaire pour centrer le bouton
+                JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER)); // Centrage horizontal
+                buttonPanel.setBackground(Color.darkGray);
+                buttonPanel.setMaximumSize(new Dimension(100, 40));
+        
+                JButton ajouter = new JButton("Ajouter");
+                ajouter.setFont(new Font("Arial", Font.BOLD, 14));
+                ajouter.setBackground(new Color(221, 242, 172));
+                ajouter.setFocusable(false);
+                ajouter.setForeground(Color.BLACK);
+                buttonPanel.add(ajouter);
+        
+                panel.add(buttonPanel);
             }
         }
 

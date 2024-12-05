@@ -26,6 +26,7 @@ public class CartePanel extends JPanel implements GameListener {
 
     public CartePanel(int width, int height) {
         this.setPreferredSize(new Dimension(width * CELL_SIZE, height * CELL_SIZE));
+        this.setBackground(Color.DARK_GRAY);
     }
 
     public int getCellSize() {

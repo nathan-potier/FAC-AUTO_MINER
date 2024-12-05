@@ -21,9 +21,7 @@ public class UsinePanel extends JPanel {
     private boolean isProducing = false;
     private Timer productionTimer;
 
-    public UsinePanel(Player player) {
-        this.player = player;
-
+    public UsinePanel() {
         // Configuration de base du panel
         this.setLayout(new BorderLayout());
         this.setBackground(Color.DARK_GRAY);
@@ -35,7 +33,7 @@ public class UsinePanel extends JPanel {
         moneyPanel.setBackground(Color.DARK_GRAY);
         moneyPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
 
-        moneyLabel = new JLabel("Argent: " + player.getMoney() + " coins");
+        moneyLabel = new JLabel("Argent: 0 coins");
         moneyLabel.setForeground(Color.white);
         moneyLabel.setFont(new Font("Arial", Font.BOLD, 16));
         moneyLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -127,6 +125,12 @@ public class UsinePanel extends JPanel {
         this.add(closeButtonPanel, BorderLayout.SOUTH);
     }
 
+    public void setPlayer(Player player) {
+        this.player = player;
+        moneyLabel.setText("Argent: " + player.getMoney() + " coins");
+        updateInventairePanel();
+    }
+
     public void setUsine(Usine usine) {
         this.usine = usine;
 
@@ -172,9 +176,7 @@ public class UsinePanel extends JPanel {
                     itemPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
                     itemPanel.setBackground(Color.DARK_GRAY);
 
-                    ImageIcon icon = new ImageIcon(new ImageIcon("assets/" + r.getName() + ".png").getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH));
-                    JLabel itemLabel = new JLabel(icon);
-                    itemLabel.setText(" " + r.getName() + " x" + r.getQuantity());
+                    JLabel itemLabel = new JLabel(r.getName() + " x" + r.getQuantity());
                     itemLabel.setForeground(Color.white);
                     itemLabel.setFont(new Font("Arial", Font.PLAIN, 14));
                     itemPanel.add(itemLabel);
@@ -190,20 +192,20 @@ public class UsinePanel extends JPanel {
 
     private void updateInventairePanel() {
         inventairePanel.removeAll();
-        for (Resource r : player.getInv().getResources()) {
-            if (r.getQuantity() > 0) {
-                JPanel itemPanel = new JPanel();
-                itemPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-                itemPanel.setBackground(Color.DARK_GRAY);
+        if (player != null) {
+            for (Resource r : player.getInv().getResources()) {
+                if (r.getQuantity() > 0) {
+                    JPanel itemPanel = new JPanel();
+                    itemPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+                    itemPanel.setBackground(Color.DARK_GRAY);
 
-                ImageIcon icon = new ImageIcon(new ImageIcon("assets/" + r.getName() + ".png").getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH));
-                JLabel itemLabel = new JLabel(icon);
-                itemLabel.setText(r.getName() + " x" + r.getQuantity());
-                itemLabel.setForeground(Color.white);
-                itemLabel.setFont(new Font("Arial", Font.PLAIN, 14));
-                itemPanel.add(itemLabel);
+                    JLabel itemLabel = new JLabel(r.getName() + " x" + r.getQuantity());
+                    itemLabel.setForeground(Color.white);
+                    itemLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+                    itemPanel.add(itemLabel);
 
-                inventairePanel.add(itemPanel);
+                    inventairePanel.add(itemPanel);
+                }
             }
         }
 

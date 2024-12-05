@@ -33,7 +33,9 @@ public class UsinePanelTest {
         frame.setSize(800, 600);
 
         // Créer un UsinePanel et l'ajouter à la fenêtre
-        UsinePanel usinePanel = new UsinePanel(usine, player);
+        UsinePanel usinePanel = new UsinePanel();
+        usinePanel.setPlayer(player);
+        usinePanel.setUsine(usine);
         frame.add(usinePanel);  
 
         // Centrer la fenêtre sur l'écran

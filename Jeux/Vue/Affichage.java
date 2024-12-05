@@ -72,7 +72,8 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         inventairePanel = new InventairePanel(null);
 
         marketPanel = new MarketPanel(game.getMarket(), game.getPlayer());
-        usinePanel = new UsinePanel(game.getPlayer());
+        usinePanel = new UsinePanel();
+        usinePanel.setBounds(100, 100, 800, 600);
 
         menuPanel = new MenuPanel(width / 2, height / 2, width, height);
 
@@ -305,6 +306,8 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
     @Override
     public void transmettreUsine(Usine u) {
         usinePanel.setUsine(u);
+
+        usinePanel.setPlayer(game.getPlayer());
         usinePanel.setVisible(true);
     }
 

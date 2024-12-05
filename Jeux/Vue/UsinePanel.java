@@ -49,7 +49,7 @@ public class UsinePanel extends JPanel {
             BorderFactory.createLineBorder(new Color(221, 242, 172)),
             "Inventaire", 0, 0, new Font("Arial", Font.BOLD, 14), Color.white
         ));
-        updateInventairePanel();
+
 
         JScrollPane inventaireScrollPane = new JScrollPane(inventairePanel);
         inventaireScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -176,7 +176,9 @@ public class UsinePanel extends JPanel {
                     itemPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
                     itemPanel.setBackground(Color.DARK_GRAY);
 
-                    JLabel itemLabel = new JLabel(r.getName() + " x" + r.getQuantity());
+                    ImageIcon icon = new ImageIcon(new ImageIcon("assets/" + r.getName() + ".png").getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH));
+                    JLabel itemLabel = new JLabel(icon);
+                    itemLabel.setText(" " + r.getName() + " x" + r.getQuantity());
                     itemLabel.setForeground(Color.white);
                     itemLabel.setFont(new Font("Arial", Font.PLAIN, 14));
                     itemPanel.add(itemLabel);
@@ -192,20 +194,20 @@ public class UsinePanel extends JPanel {
 
     private void updateInventairePanel() {
         inventairePanel.removeAll();
-        if (player != null) {
-            for (Resource r : player.getInv().getResources()) {
-                if (r.getQuantity() > 0) {
-                    JPanel itemPanel = new JPanel();
-                    itemPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-                    itemPanel.setBackground(Color.DARK_GRAY);
+        for (Resource r : player.getInv().getResources()) {
+            if (r.getQuantity() > 0) {
+                JPanel itemPanel = new JPanel();
+                itemPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+                itemPanel.setBackground(Color.DARK_GRAY);
 
-                    JLabel itemLabel = new JLabel(r.getName() + " x" + r.getQuantity());
-                    itemLabel.setForeground(Color.white);
-                    itemLabel.setFont(new Font("Arial", Font.PLAIN, 14));
-                    itemPanel.add(itemLabel);
+                ImageIcon icon = new ImageIcon(new ImageIcon("assets/" + r.getName() + ".png").getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH));
+                JLabel itemLabel = new JLabel(icon);
+                itemLabel.setText(r.getName() + " x" + r.getQuantity());
+                itemLabel.setForeground(Color.white);
+                itemLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+                itemPanel.add(itemLabel);
 
-                    inventairePanel.add(itemPanel);
-                }
+                inventairePanel.add(itemPanel);
             }
         }
 

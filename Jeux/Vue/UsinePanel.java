@@ -13,7 +13,6 @@ public class UsinePanel extends JPanel {
     private Usine usine;
     private Player player;
     private JLabel moneyLabel;
-    private JPanel recettePanel;
     private JPanel inventairePanel;
     private JPanel stockPanel;
     private JComboBox<String> recetteComboBox;
@@ -21,6 +20,7 @@ public class UsinePanel extends JPanel {
     private JPanel ingredientsPanel;
     private boolean isProducing = false;  // Indicateur pour vérifier si la production a commencé
     private Timer productionTimer;
+
 
 
     public UsinePanel(Usine usine, Player player) {
@@ -54,11 +54,13 @@ public class UsinePanel extends JPanel {
         // Section "Choisir une recette"
         JPanel recetteSelectionPanel = new JPanel();
         recetteSelectionPanel.setLayout(new FlowLayout());
+        recetteSelectionPanel.setPreferredSize(new Dimension(200, 50));
         recetteSelectionPanel.setBackground(Color.DARK_GRAY);
         recetteSelectionPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(221, 242, 172)), "Choisir une recette", 0, 0, new Font("Arial", Font.BOLD, 14), Color.white));
 
         // Combobox pour sélectionner la recette
-        recetteComboBox = new JComboBox<>(new String[] {"Pickaxe", "Bloc de Fer"});
+        String[] recettesDisponibles = usine.getTabRecettes();
+        recetteComboBox = new JComboBox<>(recettesDisponibles);
         recetteComboBox.setBackground(Color.LIGHT_GRAY);
         recetteComboBox.setForeground(Color.BLACK);
         recetteComboBox.setFont(new Font("Arial", Font.PLAIN, 14));

@@ -116,5 +116,17 @@ public class Usine extends Machine {
         }
     }
 
+    public List<Recette> getRecettesDisponibles() {
+        return recettesDisponibles;
+    }
+
+    public String[] getTabRecettes(){
+        String[] tab = new String[recettesDisponibles.size()];
+        for(int i = 0; i < recettesDisponibles.size(); i++){
+            tab[i] = recettesDisponibles.get(i).getNom();
+        }
+        return tab;
+    }
+
     
 }

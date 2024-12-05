@@ -20,11 +20,42 @@ public class SauvegardePanel extends JPanel {
         setBackground(Color.DARK_GRAY);
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
+        // Titre
         JLabel title = new JLabel("SAUVEGARDE", SwingConstants.CENTER);
         title.setForeground(Color.WHITE);
         title.setFont(new Font("Arial", Font.BOLD, 24));
         add(title, BorderLayout.NORTH);
 
+        // Conteneur des sauvegardes
+        JPanel sauvegardesPanel = chargerSauvegardes();
+        JScrollPane scrollPane = new JScrollPane(sauvegardesPanel);
+        add(scrollPane, BorderLayout.CENTER);
+
+        // Panel inférieur pour le bouton Retour
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        bottomPanel.setBackground(Color.DARK_GRAY);
+        bottomPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
+
+        // Bouton Retour
+        JButton backButton = new JButton("Retour");
+        backButton.setFocusPainted(false);
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (sauvegardeListener != null) {
+                    sauvegardeListener.onRetourMenu();  // Notifie le retour au menu
+                }
+            }
+        });
+
+        bottomPanel.add(backButton);
+        add(bottomPanel, BorderLayout.SOUTH);
+    }
+
+    /**
+     * Charge toutes les sauvegardes depuis le fichier et retourne un panel contenant les sauvegardes.
+     */
+    private JPanel chargerSauvegardes() {
         JPanel sauvegardesPanel = new JPanel();
         sauvegardesPanel.setLayout(new BoxLayout(sauvegardesPanel, BoxLayout.Y_AXIS));
         sauvegardesPanel.setBackground(Color.DARK_GRAY);
@@ -69,32 +100,11 @@ public class SauvegardePanel extends JPanel {
             sauvegardesPanel.add(noSavesLabel);
         }
 
-        JScrollPane scrollPane = new JScrollPane(sauvegardesPanel);
-        add(scrollPane, BorderLayout.CENTER);
-
-        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
-        bottomPanel.setBackground(Color.DARK_GRAY);
-        bottomPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
-
-        // Bouton Retour
-        JButton backButton = new JButton("Retour");
-        backButton.setFocusPainted(false);
-        backButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (sauvegardeListener != null) {
-                    sauvegardeListener.onRetourMenu();  // Notifie le retour au menu
-                }
-            }
-        });
-
-        bottomPanel.add(backButton);
-        add(bottomPanel, BorderLayout.SOUTH);
+        return sauvegardesPanel;
     }
 
     // Setter pour le listener
     public void setSauvegardeListener(SauvegardeListener listener) {
         this.sauvegardeListener = listener;
     }
-
 }

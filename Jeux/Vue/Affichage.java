@@ -130,6 +130,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
 
     @Override
     public void keyPressed(KeyEvent e) {
+        System.out.println("test");
         long currentTime = System.currentTimeMillis();
         
         // Si l'action a eu lieu récemment (avant l'écoulement de 20ms), on ignore la nouvelle action
@@ -182,9 +183,11 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
     public void keyTyped(KeyEvent e) {}
 
     public void setEcoute(Controle listener) {
+
         this.listener = listener;
         this.addKeyListener(this);
         this.setFocusable(true);
+        requestFocusInWindow();
     }
 
 

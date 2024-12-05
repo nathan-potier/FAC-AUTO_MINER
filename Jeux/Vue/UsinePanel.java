@@ -3,8 +3,10 @@ package Vue;
 import java.awt.*;
 import javax.swing.*;
 import Modele.Player;
+import Modele.Machine.Recette;
 import Modele.Machine.Usine;
 import Modele.Resource.*;
+import java.util.List;
 
 public class UsinePanel extends JPanel {
 
@@ -18,7 +20,7 @@ public class UsinePanel extends JPanel {
     private JButton takeButton;
     private JPanel ingredientsPanel;
     private boolean isProducing = false;  // Indicateur pour vérifier si la production a commencé
-    private Timer productionTimer;  // Timer pour la mise à jour périodique
+    private Timer productionTimer;
 
 
     public UsinePanel(Usine usine, Player player) {
@@ -63,26 +65,28 @@ public class UsinePanel extends JPanel {
         recetteComboBox.addActionListener(e -> updateIngredientsPanel());
         recetteSelectionPanel.add(recetteComboBox);
 
+
         
         ImageIcon arrowIcon = new ImageIcon(new ImageIcon("assets/ArrowRight.png").getImage().getScaledInstance(30, 50, Image.SCALE_SMOOTH));
         JLabel arrowLabel = new JLabel(arrowIcon);
+        arrowLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
         recetteSelectionPanel.add(arrowLabel);
 
         // Panneau pour les ingrédients nécessaires
         ingredientsPanel = new JPanel();
         ingredientsPanel.setLayout(new BoxLayout(ingredientsPanel, BoxLayout.Y_AXIS));
         ingredientsPanel.setBackground(Color.DARK_GRAY);
+        ingredientsPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
         recetteSelectionPanel.add(ingredientsPanel);
 
         updateIngredientsPanel();
 
         JButton produceButton = new JButton("Produire");
         produceButton.setBackground(new Color(221, 242, 172));
-        produceButton.setFocusPainted(false); // Désactiver le focus visuel
-        produceButton.setForeground(Color.BLACK); // Texte en blanc
+        produceButton.setFocusPainted(false);
+        produceButton.setForeground(Color.BLACK);
         produceButton.addActionListener(e -> {
-            // Désactiver le bouton pendant que le délai s'écoule
-            produceButton.setEnabled(false);
+        produceButton.setEnabled(false); // Désactiver le bouton après que la production ait commencé
 
             // Démarrer un Timer qui attend 5 secondes avant de commencer la production
             Timer startProductionTimer = new Timer(5000, event -> {
@@ -94,7 +98,6 @@ public class UsinePanel extends JPanel {
                 // Après le début de la production, commencer à mettre à jour périodiquement le stock
                 if (!isProducing) {
                     isProducing = true;
-            
                     // Démarrer un timer pour appeler updateStockPanel() et updateInventairePanel() toutes les 5 secondes
                     productionTimer = new Timer(5000, eventUpdate -> {
                         updateStockPanel();           // Mise à jour du stock
@@ -292,21 +295,29 @@ public class UsinePanel extends JPanel {
     }
 
     private void updateIngredientsPanel() {
-        ingredientsPanel.removeAll();
+    ingredientsPanel.removeAll();
     
-        String selectedRecette = (String) recetteComboBox.getSelectedItem();
+    // Récupérer la recette sélectionnée
+    String selectedRecette = (String) recetteComboBox.getSelectedItem();
     
-        // Définir les ingrédients nécessaires pour chaque recette
-        if ("Pickaxe".equals(selectedRecette)) {
-            addIngredientToPanel("Wood", 2);
-            addIngredientToPanel("Iron", 3);
-        } else if ("Bloc de Fer".equals(selectedRecette)) {
-            addIngredientToPanel("Iron", 9);
+    // Récupérer la liste des recettes
+    List<Recette> recettes = Recette.initialiserRecettes();
+    
+    // Trouver la recette correspondante à la sélection
+    for (Recette recette : recettes) {
+        if (recette.getNom().equals(selectedRecette)) {
+            // Pour chaque ingrédient de la recette, ajouter au panneau
+            for (Resource ingredient : recette.getIngredients()) {
+                addIngredientToPanel(ingredient.getName(), ingredient.getQuantity());
+            }
         }
-    
-        ingredientsPanel.revalidate();
-        ingredientsPanel.repaint();
     }
+    
+    // Revalider et redessiner le panneau
+    ingredientsPanel.revalidate();
+    ingredientsPanel.repaint();
+}
+
 
     private void addIngredientToPanel(String resourceName, int quantity) {
         JPanel itemPanel = new JPanel();

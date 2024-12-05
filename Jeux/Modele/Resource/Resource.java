@@ -35,7 +35,7 @@ public abstract class Resource implements  ObjectWithPosition{
     }
     
     public Position getPosition(){return pos;}
-    
+
     public int getQuantity() {
         return quantity;
     }
@@ -47,6 +47,9 @@ public abstract class Resource implements  ObjectWithPosition{
         }
         return false;
 
+    }
+    public void setQuantity(int q){
+        this.quantity = q;
     }
 
     public void removeQuantity(int amount) {

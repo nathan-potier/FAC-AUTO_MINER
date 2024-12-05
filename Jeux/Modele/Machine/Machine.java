@@ -68,9 +68,7 @@ public class Machine {
     public int getPrix(){return prix;}
     public Position getPosition(){return pos;}
     public String getOption(){return option;}
-    public ArrayList<Resource> getStock() {
-        return stock;
-    }
+    public ArrayList<Resource> getStock() {return stock;}
 
 
     public void ajouterRessource(Resource ressourceProduite) {

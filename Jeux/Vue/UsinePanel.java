@@ -46,10 +46,22 @@ public class UsinePanel extends JPanel {
         moneyPanel.add(moneyLabel, BorderLayout.CENTER);
         this.add(moneyPanel, BorderLayout.NORTH);
 
-        // Panneau pour la partie droite avec deux sections : "Choisir une recette" et "Stock de l'usine"
-        JPanel rightPanel = new JPanel();
-        rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
-        rightPanel.setBackground(Color.DARK_GRAY);
+        // Section "Test" à gauche
+        JPanel testPanel = new JPanel();
+        testPanel.setLayout(new BoxLayout(testPanel, BoxLayout.Y_AXIS));
+        testPanel.setBackground(Color.DARK_GRAY);
+        testPanel.setPreferredSize(new Dimension(200, getHeight()));
+        testPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(221, 242, 172)), "Ressources", 0, 0, new Font("Arial", Font.BOLD, 14), Color.white));
+        
+        // Panneau central (composé de "Choisir une recette" et "Stock de l'usine")
+        JPanel middlePanel = new JPanel();
+        middlePanel.setLayout(new BoxLayout(middlePanel, BoxLayout.Y_AXIS));
+        middlePanel.setBackground(Color.DARK_GRAY);
+
+        // Diviser la partie centrale en deux : "Test" à gauche avec une taille fixe, le reste à droite
+        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, testPanel, middlePanel);
+        splitPane.setDividerSize(0);  // Masquer le séparateur pour ne pas permettre de redimensionner
+        this.add(splitPane, BorderLayout.CENTER);
 
         // Section "Choisir une recette"
         JPanel recetteSelectionPanel = new JPanel();
@@ -67,8 +79,6 @@ public class UsinePanel extends JPanel {
         recetteComboBox.addActionListener(e -> updateIngredientsPanel());
         recetteSelectionPanel.add(recetteComboBox);
 
-
-        
         ImageIcon arrowIcon = new ImageIcon(new ImageIcon("assets/ArrowRight.png").getImage().getScaledInstance(30, 50, Image.SCALE_SMOOTH));
         JLabel arrowLabel = new JLabel(arrowIcon);
         arrowLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
@@ -88,7 +98,7 @@ public class UsinePanel extends JPanel {
         produceButton.setFocusPainted(false);
         produceButton.setForeground(Color.BLACK);
         produceButton.addActionListener(e -> {
-        produceButton.setEnabled(false);
+            produceButton.setEnabled(false);
 
             // Démarrer un Timer qui attend 5 secondes avant de commencer la production
             Timer startProductionTimer = new Timer(5000, event -> {
@@ -106,22 +116,20 @@ public class UsinePanel extends JPanel {
                     productionTimer.start();  // Démarre la mise à jour périodique des deux panels
                 }
             });
-            
 
             startProductionTimer.setRepeats(false);  // Ne pas répéter après 5 secondes
             startProductionTimer.start();
         });
         recetteSelectionPanel.add(produceButton);
 
-
-        // Ajouter la section "Choisir une recette" à la partie droite
-        rightPanel.add(recetteSelectionPanel);
+        // Ajouter la section "Choisir une recette" à la partie centrale
+        middlePanel.add(recetteSelectionPanel);
 
         // Section "Stock de l'usine"
         stockPanel = new JPanel();
         stockPanel.setLayout(new BoxLayout(stockPanel, BoxLayout.Y_AXIS));
         stockPanel.setBackground(Color.DARK_GRAY);
-        stockPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(221, 242, 172)), "Stock de l'usine", 0, 0, new Font("Arial", Font.BOLD, 14), Color.white));
+        stockPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(221, 242, 172)), "Stock de Production", 0, 0, new Font("Arial", Font.BOLD, 14), Color.white));
 
         // Ajout d'une bordure intérieure pour éviter que le bouton touche les bords
         stockPanel.setBorder(BorderFactory.createCompoundBorder(
@@ -159,11 +167,7 @@ public class UsinePanel extends JPanel {
         stockScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         stockScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         stockScrollPane.setBorder(BorderFactory.createEmptyBorder());
-        rightPanel.add(stockScrollPane);
-
-
-
-        this.add(rightPanel, BorderLayout.CENTER);
+        middlePanel.add(stockScrollPane);
 
         // Panneau pour l'inventaire du joueur à gauche
         inventairePanel = new JPanel();
@@ -176,7 +180,6 @@ public class UsinePanel extends JPanel {
         inventaireScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         inventaireScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         inventaireScrollPane.setBorder(BorderFactory.createEmptyBorder());
-
 
         this.add(inventaireScrollPane, BorderLayout.WEST);
 
@@ -278,19 +281,18 @@ public class UsinePanel extends JPanel {
                 // Ajouter l'image de la ressource
                 ImageIcon icon = new ImageIcon(new ImageIcon("assets/" + r.getName() + ".png").getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH));
                 JLabel itemLabel = new JLabel(icon);
-                itemLabel.setText(r.getName());
+                itemLabel.setText(r.getName() + " x" + r.getQuantity());
                 itemLabel.setForeground(Color.white);
                 itemLabel.setFont(new Font("Arial", Font.PLAIN, 14));
                 itemPanel.add(itemLabel);
     
                 // Ajouter un petit espacement vertical entre chaque élément
                 panel.add(itemPanel);
-                // panel.add(Box.createVerticalStrut(20)); // Réduit l'espacement vertical entre les éléments
                 itemPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
                 // Créer un panneau intermédiaire pour centrer le bouton
                 JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER)); // Centrage horizontal
-                buttonPanel.setBackground(Color.darkGray);
+                buttonPanel.setBackground(Color.DARK_GRAY);
                 buttonPanel.setMaximumSize(new Dimension(100, 40));
         
                 JButton ajouter = new JButton("Ajouter");

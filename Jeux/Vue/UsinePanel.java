@@ -178,17 +178,23 @@ public class UsinePanel extends JPanel {
         startProductionTimer.setRepeats(false);
         startProductionTimer.start();
     }
+    private void updateAll(){
+        
+        updateStockPanel();
+        updateIngredientsPanel();
+        updateInventairePanel();
+    }
 
     private void updateStockPanel() {
         stockPanel.removeAll();
 
-        if (usine == null || usine.getStock().isEmpty()) {
+        if (usine == null || usine.getStock().getResources().isEmpty()) {
             JLabel emptyLabel = new JLabel("Le stock est vide.");
             emptyLabel.setForeground(Color.white);
             emptyLabel.setFont(new Font("Arial", Font.ITALIC, 14));
             stockPanel.add(emptyLabel);
         } else {
-            for (Resource r : usine.getStock()) {
+            for (Resource r : usine.getStock().getResources()) {
                 if (r.getQuantity() > 0) {
                     JPanel itemPanel = new JPanel();
                     itemPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -232,13 +238,19 @@ public class UsinePanel extends JPanel {
                 // Créer un panneau intermédiaire pour centrer le bouton
                 JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER)); // Centrage horizontal
                 buttonPanel.setBackground(Color.DARK_GRAY);
-                buttonPanel.setMaximumSize(new Dimension(100, 40));
+                
 
                 JButton ajouter = new JButton("Ajouter");
                 ajouter.setFont(new Font("Arial", Font.BOLD, 14));
                 ajouter.setBackground(new Color(221, 242, 172));
                 ajouter.setFocusable(false);
                 ajouter.setForeground(Color.BLACK);
+                ajouter.addActionListener(e -> {
+                    
+                    player.removeResource(r);
+                    usine.getStock().addResource(r);
+
+                    updateAll();});
                 buttonPanel.add(ajouter);
 
                 inventairePanel.add(buttonPanel);

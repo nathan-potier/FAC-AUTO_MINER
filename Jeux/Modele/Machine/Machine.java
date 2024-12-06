@@ -68,7 +68,7 @@ public abstract class Machine {
     public int getPrix(){return prix;}
     public Position getPosition(){return pos;}
     public String getOption(){return option;}
-    public ArrayList<Resource> getStock() {return stockProd.getResources();}
+    public Inventory getStock() {return stockProd;}
 
 
     public void ajouterRessource(Resource ressourceProduite) {

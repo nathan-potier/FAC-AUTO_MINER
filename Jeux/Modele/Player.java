@@ -40,13 +40,17 @@ public class Player {
         this.marketInterface = marketInterface;
     }
     public boolean addMachine(Machine machine) {
-        return inventory.addMachine(machine);
+        
+        boolean b =  inventory.addMachine(machine);
+        marketInterface.updateInventory();
+        return b;
     }
 
     public boolean hasMachine(Machine m){
         return inventory.hasMachine(m);
     }
     public void removeMachine(){
+        marketInterface.updateInventory();
         inventory.removeMachine();
     }
 
@@ -77,6 +81,8 @@ public class Player {
     public void removeResource(Resource r){
 
         inventory.removeResource(r, 1);
+        System.out.println("test");
+        marketInterface.updateInventory();
     }
 
     public void setPos(Position p){

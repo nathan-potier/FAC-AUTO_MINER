@@ -160,6 +160,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
             GameStates.setMoveOn(false);
             saveAndBackMenu();
             menuBoutonClique = true;
+            closeAll();
             menuPanel.setVisible(true);
         }
         else if (listener != null && GameStates.isMoveOn()) {
@@ -297,6 +298,15 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         }
 
 
+    }
+
+    private void closeAll(){
+        inventairePanel.setVisible(false);
+        marketPanel.setVisible(false);
+        usinePanel.setVisible(false);
+        settingsPanel.setVisible(false);
+        cartePanel.setVisible(true);
+        menuBoutonClique = true;
     }
 
     @Override

@@ -225,7 +225,23 @@ public class UsinePanel extends JPanel {
                 itemLabel.setFont(new Font("Arial", Font.PLAIN, 14));
                 itemPanel.add(itemLabel);
 
+                // Ajouter un petit espacement vertical entre chaque élément
                 inventairePanel.add(itemPanel);
+                itemPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+
+                // Créer un panneau intermédiaire pour centrer le bouton
+                JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER)); // Centrage horizontal
+                buttonPanel.setBackground(Color.DARK_GRAY);
+                buttonPanel.setMaximumSize(new Dimension(100, 40));
+
+                JButton ajouter = new JButton("Ajouter");
+                ajouter.setFont(new Font("Arial", Font.BOLD, 14));
+                ajouter.setBackground(new Color(221, 242, 172));
+                ajouter.setFocusable(false);
+                ajouter.setForeground(Color.BLACK);
+                buttonPanel.add(ajouter);
+
+                inventairePanel.add(buttonPanel);
             }
         }
 

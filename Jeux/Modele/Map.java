@@ -112,7 +112,7 @@ public class Map {
                 if(isInstanceOf(Resource.class, c.getPosition())){
                     //player.collectResource((Ressource)c.getContent());
                     collectRessource(player, c.getPosition());
-                }else if (isInstanceOf(Market.class, c.getPosition())){
+                }else if (isInstanceOf(Market.class, c.getPosition()) || isInstanceOf(Machine.class, c.getPosition())){
                     deplacer(player, Direction.getDirection(player.getPos(), c.getPosition()));
                 }
             }
@@ -262,7 +262,7 @@ public class Map {
 
         // Placer une usine à côté de la position de `Wood`
         Position posUsine = new Position(posWood1.getX() + 1, posWood1.getY()); // Position adjacente
-        Usine usine = new Usine(p.getInv(), posUsine, "XL", null);
+        Usine usine = new Usine(new Inventory(), posUsine, "XL", new Inventory());
         usine.ajouterRessource(iron2);
         grid[posUsine.getY()][posUsine.getX()] = new Cell(posUsine, usine);
 

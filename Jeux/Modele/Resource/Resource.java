@@ -67,4 +67,5 @@ public abstract class Resource implements  ObjectWithPosition{
 
 
     public abstract Resource clone();
+    public abstract Resource cloneOne();
 }

@@ -23,21 +23,21 @@ public class Usine extends Machine {
         this.recettesDisponibles = Recette.initialiserRecettes();
     }
 
-    private void startProductionTimer() {
-        timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                if (recetteEnCours != null) {
-                    for (Recette recette : recettesDisponibles) {
-                        if (recette.getNom().equals(recetteEnCours) && hasSufficientResourcesForRecipe(recette)) {
-                            produireRecette(recette);
-                            break;
-                        }
-                    }
+    private void startProduction() {
+        System.out.println(stockResources);
+        if (recetteEnCours != null) {
+
+            for (Recette recette : recettesDisponibles) {
+                System.out.println(recette.getNom().equals(recetteEnCours));
+                System.out.println(hasSufficientResourcesForRecipe(recette));
+                if (recette.getNom().equals(recetteEnCours) && hasSufficientResourcesForRecipe(recette)) {
+                    produireRecette(recette);
+                    
+                    break;
                 }
             }
-        }, 0, productionInterval);  // Démarrer immédiatement, répéter toutes les 5 secondes
+        }
+
     }
 
     public String getResourcesSTR(){
@@ -50,20 +50,7 @@ public class Usine extends Machine {
 
 
     private void produireRecette(Recette recette) {
-        // Vérifiez si l'inventaire contient suffisamment de chaque ingrédient
-        for (Resource ingredient : recette.getIngredients()) {
-            int quantityInInventory = 0;
-            for (Resource ressource : stockResources.getResources()) {
-                if (ressource.getName().equals(ingredient.getName())) {
-                    quantityInInventory += ressource.getQuantity();
-                }
-            }
-    
-            if (quantityInInventory < ingredient.getQuantity()) {
-                System.out.println("Ingrédients insuffisants pour produire : " + recette.getNom());
-                return;
-            }
-        }
+
     
         // Retirer les ingrédients de l'inventaire
         for (Resource ingredient : recette.getIngredients()) {
@@ -71,7 +58,7 @@ public class Usine extends Machine {
         }
     
         // Ajouter le produit final au stock de l'usine
-        ajouterRessource(recette.getProduitFinal().clone());
+        ajouterAustock(recette.getProduitFinal().clone());
         System.out.println("Production réussie : " + recette.getNom());
     }
     
@@ -84,9 +71,9 @@ public class Usine extends Machine {
         }
     
         recetteEnCours = nomRecette;
-    
+
         // Démarrer la production périodique pour la recette choisie
-        startProductionTimer();
+        startProduction();
     }
 
     
@@ -103,7 +90,7 @@ public class Usine extends Machine {
     }
 
     public void ajouterRessource(Resource r){
-        stockResources.addResource(r);
+        stockResources.addQuantityResource(r, 1);
     }
 
     private boolean hasSufficientResourcesForRecipe(Recette recette) {
@@ -116,7 +103,8 @@ public class Usine extends Machine {
                     quantityInInventory += ressource.getQuantity();
                 }
             }
-
+            System.out.println(quantityInInventory);
+            System.out.println(ingredient.getQuantity());
             if (quantityInInventory < ingredient.getQuantity()) {
                 return false;  // Pas assez d'ingrédients
             }

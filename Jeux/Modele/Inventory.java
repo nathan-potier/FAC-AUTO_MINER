@@ -49,6 +49,24 @@ public class Inventory {
         
     }
 
+    public boolean addQuantityResource(Resource ressource, int quantity){
+        for (Resource r : resources) {
+            if (r.getName().equals(ressource.getName())) {
+                return r.addQuantity(1);
+
+            }
+        }
+
+        if (resources.size() < 10){
+            resources.add(ressource.cloneOne());
+            return true;
+        }
+
+        return false;
+    }
+
+
+
     public void removeResource(Resource ressource, int quantity) {
         for (Resource r : resources) {
 

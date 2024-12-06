@@ -20,8 +20,8 @@ public class Market {
         machinesForSale = new ArrayList<>();
 
         // Ajouter des ressources à la vente
-        resourcesForSale.add(new Wood(50));  // Exemple de ressource
-        resourcesForSale.add(new Iron(30));
+        resourcesForSale.add(new Wood(1));  // Exemple de ressource
+        resourcesForSale.add(new Iron(1));
 
 
         // Ajouter des machines à la vente

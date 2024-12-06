@@ -71,7 +71,7 @@ public abstract class Machine {
     public Inventory getStock() {return stockProd;}
 
 
-    public void ajouterRessource(Resource ressourceProduite) {
+    public void ajouterAustock(Resource ressourceProduite) {
         stockProd.addResource(ressourceProduite);
 
     }
@@ -87,7 +87,7 @@ public abstract class Machine {
     public void recolter(Resource ressource) {
         if ("recolteuse".equals(type)) {
             // Logique de récolte pour ajouter la ressource au stock
-            ajouterRessource(ressource);
+            ajouterAustock(ressource);
         }
     }
 

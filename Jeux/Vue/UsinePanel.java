@@ -169,8 +169,8 @@ public class UsinePanel extends JPanel {
             if (usine != null) {
                 String selectedRecette = (String) recetteComboBox.getSelectedItem();
                 usine.produire(selectedRecette);
-                updateStockPanel();
-                updateInventairePanel();
+
+                updateAll();
             }
             produceButton.setEnabled(true);
         });
@@ -248,8 +248,7 @@ public class UsinePanel extends JPanel {
                 ajouter.addActionListener(e -> {
                     
                     player.removeResource(r);
-                    usine.getStock().addResource(r);
-
+                    usine.ajouterRessource(r);
                     updateAll();});
                 buttonPanel.add(ajouter);
 

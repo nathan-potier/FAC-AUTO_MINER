@@ -13,5 +13,6 @@ public class Iron extends Resource {
     public Iron clone() {
         return new Iron(this.getQuantity());
     }
+    public Iron cloneOne(){return new Iron(1);}
 
 }

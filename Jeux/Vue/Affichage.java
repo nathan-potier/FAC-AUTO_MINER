@@ -305,6 +305,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
     }
     @Override
     public void transmettreUsine(Usine u) {
+        GameStates.setMoveOn(false);
         usinePanel.setUsine(u);
 
         usinePanel.setPlayer(game.getPlayer());

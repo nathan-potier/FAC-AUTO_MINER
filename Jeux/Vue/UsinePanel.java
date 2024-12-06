@@ -2,6 +2,8 @@ package Vue;
 
 import java.awt.*;
 import javax.swing.*;
+
+import Modele.GameStates;
 import Modele.Player;
 import Modele.Machine.Recette;
 import Modele.Machine.Usine;
@@ -134,7 +136,9 @@ public class UsinePanel extends JPanel {
         closeButton.setBackground(new Color(221, 242, 172));
         closeButton.setForeground(Color.BLACK);
         closeButton.setFocusPainted(false);
-        closeButton.addActionListener(e -> this.setVisible(false));
+        closeButton.addActionListener(e -> {
+                this.setVisible(false);
+                GameStates.setMoveOn(true);});
 
         closeButtonPanel.add(closeButton, BorderLayout.CENTER);
         this.add(closeButtonPanel, BorderLayout.SOUTH);

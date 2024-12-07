@@ -23,7 +23,6 @@ public class UsinePanel extends JPanel {
     private Timer productionTimer;
 
     public UsinePanel() {
-        // Configuration de base du panel
         this.setLayout(new BorderLayout());
         this.setBackground(Color.DARK_GRAY);
         this.setBorder(BorderFactory.createEmptyBorder(0, 0, 60, 0));
@@ -48,14 +47,15 @@ public class UsinePanel extends JPanel {
         middlePanel.setLayout(new BoxLayout(middlePanel, BoxLayout.Y_AXIS));
         middlePanel.setBackground(Color.DARK_GRAY);
 
-        // Diviser la partie centrale en deux : "RessourcePanel" à gauche avec une taille fixe, le reste à droite
+        // Diviser la partie centrale en deux : "RessourcePanel" à gauche avec une taille flexible, le reste à droite
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, RessourcePanel, middlePanel);
         splitPane.setDividerSize(0);  // Masquer le séparateur pour ne pas permettre de redimensionner
+        splitPane.setResizeWeight(0.2); // La partie RessourcePanel prendra environ 20% de l'espace
         this.add(splitPane, BorderLayout.CENTER);
 
         // Section "Choisir une recette"
         JPanel recetteSelectionPanel = new JPanel(new FlowLayout());
-        recetteSelectionPanel.setPreferredSize(new Dimension(200, 50));
+        recetteSelectionPanel.setPreferredSize(new Dimension(200, getHeight()));
         recetteSelectionPanel.setBackground(Color.DARK_GRAY);
         recetteSelectionPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(221, 242, 172)), "Choisir une recette", 0, 0, new Font("Arial", Font.BOLD, 14), Color.white));
 
@@ -344,13 +344,4 @@ public class UsinePanel extends JPanel {
 
         ingredientsPanel.add(itemPanel);
     }
-
-    // Méthode pour arrêter le Timer (appelée par exemple lorsque le panneau est fermé)
-    private void stopProductionTimer() {
-        if (productionTimer != null && productionTimer.isRunning()) {
-            productionTimer.stop();
-        }
-    }
-
-    
 }

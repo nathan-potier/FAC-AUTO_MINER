@@ -20,12 +20,16 @@ public class UsinePanel extends JPanel {
     private JComboBox<String> recetteComboBox;
     private JButton takeButton;
     private JPanel ingredientsPanel;
+    private Timer productionTimer;
 
     public UsinePanel() {
         // Configuration de base du panel
         this.setLayout(new BorderLayout());
         this.setBackground(Color.DARK_GRAY);
         this.setBorder(BorderFactory.createEmptyBorder(0, 0, 60, 0));
+
+        productionTimer = new Timer(5000, e -> updateAll());
+        productionTimer.setRepeats(true);
 
         RessourcePanel = new JPanel();
         RessourcePanel.setLayout(new BoxLayout(RessourcePanel, BoxLayout.Y_AXIS));
@@ -77,9 +81,19 @@ public class UsinePanel extends JPanel {
         produceButton.setBackground(new Color(221, 242, 172));
         produceButton.setFocusPainted(false);
         produceButton.setForeground(Color.BLACK);
-        produceButton.addActionListener(e -> startProduction(produceButton));
-        recetteSelectionPanel.add(produceButton);
+        produceButton.addActionListener(e -> {
+            String selectedRecette = (String) recetteComboBox.getSelectedItem();
+            if (selectedRecette != null && usine != null) {
+                usine.setRecetteEnCours(selectedRecette);
+                produceButton.setEnabled(false);
+                
+                if (!productionTimer.isRunning()) {
+                    productionTimer.start();
+                }
+            }
+        });
 
+        recetteSelectionPanel.add(produceButton);
         middlePanel.add(recetteSelectionPanel);
 
         // Section "Stock de l'usine"
@@ -126,8 +140,10 @@ public class UsinePanel extends JPanel {
         closeButton.setForeground(Color.BLACK);
         closeButton.setFocusPainted(false);
         closeButton.addActionListener(e -> {
-                this.setVisible(false);
-                GameStates.setMoveOn(true);});
+            this.setVisible(false);
+            GameStates.setMoveOn(true);
+        });
+        
 
         closeButtonPanel.add(closeButton, BorderLayout.CENTER);
         this.add(closeButtonPanel, BorderLayout.SOUTH);
@@ -152,22 +168,6 @@ public class UsinePanel extends JPanel {
         updateIngredientsPanel();
     }
 
-    private void startProduction(JButton produceButton) {
-        produceButton.setEnabled(false);
-
-        Timer startProductionTimer = new Timer(5000, e -> {
-            if (usine != null) {
-                String selectedRecette = (String) recetteComboBox.getSelectedItem();
-                usine.produire(selectedRecette);
-
-                updateAll();
-            }
-            produceButton.setEnabled(true);
-        });
-
-        startProductionTimer.setRepeats(false);
-        startProductionTimer.start();
-    }
     private void updateAll(){
         
         updateStockPanel();
@@ -268,8 +268,6 @@ public class UsinePanel extends JPanel {
     }
 
 
-
-
     private void updateRessourcePanel() {
         RessourcePanel.removeAll();
         for (Resource r : usine.getStockResources().getResources()) {
@@ -346,4 +344,13 @@ public class UsinePanel extends JPanel {
 
         ingredientsPanel.add(itemPanel);
     }
+
+    // Méthode pour arrêter le Timer (appelée par exemple lorsque le panneau est fermé)
+    private void stopProductionTimer() {
+        if (productionTimer != null && productionTimer.isRunning()) {
+            productionTimer.stop();
+        }
+    }
+
+    
 }

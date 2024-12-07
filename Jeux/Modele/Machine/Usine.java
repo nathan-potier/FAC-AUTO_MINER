@@ -2,6 +2,7 @@ package Modele.Machine;
 
 import java.util.List;
 import java.util.Timer;
+import java.util.TimerTask;
 
 import Modele.Resource.*;
 import Modele.*;
@@ -17,23 +18,33 @@ public class Usine extends Machine {
         super("Usine", position, option, stock, playerInv);
         this.stockResources = stockResources;
         this.recettesDisponibles = Recette.initialiserRecettes();
+        this.timer = new Timer();
+    }
+
+    public void setRecetteEnCours(String recetteNom) {
+        this.recetteEnCours = recetteNom;
+        startProduction();
     }
 
     private void startProduction() {
-        System.out.println(stockResources);
-        if (recetteEnCours != null) {
-
-            for (Recette recette : recettesDisponibles) {
-                System.out.println(recette.getNom().equals(recetteEnCours));
-                System.out.println(hasSufficientResourcesForRecipe(recette));
-                if (recette.getNom().equals(recetteEnCours) && hasSufficientResourcesForRecipe(recette)) {
-                    produireRecette(recette);
-                    
-                    break;
+        stopProduction(); // Arrête tout timer existant
+        if (recetteEnCours == null) return;
+    
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                for (Recette recette : recettesDisponibles) {
+                    if (recette.getNom().equals(recetteEnCours)) {
+                        if (hasSufficientResourcesForRecipe(recette)) {
+                            produireRecette(recette);
+                        } else {
+                            System.out.println("Pas assez de ressources, en attente...");
+                        }
+                        break;
+                    }
                 }
             }
-        }
-
+        }, 5000, 5000); // Délai initial de 5 secondes, puis répétition toutes les 5 secondes
     }
 
     public String getResourcesSTR(){
@@ -112,11 +123,9 @@ public class Usine extends Machine {
         return true;  // Le joueur a suffisamment d'ingrédients
     }
 
-    public void stopProduction() {
-        if (timer != null) {
-            timer.cancel();  // Arrêter la production périodique
-            timer = null;    // Réinitialiser le timer
-        }
+    private void stopProduction() {
+        timer.cancel();
+        timer = new Timer(); // Réinitialiser le timer
     }
 
     public List<Recette> getRecettesDisponibles() {
@@ -133,6 +142,11 @@ public class Usine extends Machine {
 
     public Inventory getStockResources() {
         return stockResources;
+    }
+
+    @Override
+    public void finalize() {
+        stopProduction(); // Assure l'arrêt du timer lors de la destruction de l'objet
     }
 
     

@@ -33,12 +33,18 @@ public class UsinePanel extends JPanel {
         RessourcePanel.setPreferredSize(new Dimension(200, getHeight()));
         RessourcePanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(221, 242, 172)), "Ressources", 0, 0, new Font("Arial", Font.BOLD, 14), Color.white));
         
+        JScrollPane ressourceScrollPane = new JScrollPane(RessourcePanel);
+        ressourceScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        ressourceScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        ressourceScrollPane.setBorder(BorderFactory.createEmptyBorder());
+
+        this.add(ressourceScrollPane, BorderLayout.WEST);
         // Panneau central (composé de "Choisir une recette" et "Stock de l'usine")
         JPanel middlePanel = new JPanel();
         middlePanel.setLayout(new BoxLayout(middlePanel, BoxLayout.Y_AXIS));
         middlePanel.setBackground(Color.DARK_GRAY);
 
-        // Diviser la partie centrale en deux : "Test" à gauche avec une taille fixe, le reste à droite
+        // Diviser la partie centrale en deux : "RessourcePanel" à gauche avec une taille fixe, le reste à droite
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, RessourcePanel, middlePanel);
         splitPane.setDividerSize(0);  // Masquer le séparateur pour ne pas permettre de redimensionner
         this.add(splitPane, BorderLayout.CENTER);
@@ -282,6 +288,23 @@ public class UsinePanel extends JPanel {
                 // Ajouter un petit espacement vertical entre chaque élément
                 RessourcePanel.add(itemPanel);
                 itemPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+
+                // Créer un panneau intermédiaire pour centrer le bouton
+                JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER)); // Centrage horizontal
+                buttonPanel.setBackground(Color.DARK_GRAY);
+
+                JButton ajouter = new JButton("Enlever");
+                ajouter.setFont(new Font("Arial", Font.BOLD, 14));
+                ajouter.setBackground(new Color(221, 242, 172));
+                ajouter.setFocusable(false);
+                ajouter.setForeground(Color.BLACK);
+                ajouter.addActionListener(e -> {
+                    usine.retirerRessource(r);
+                    updateAll();
+                });
+
+                RessourcePanel.add(ajouter);
+                RessourcePanel.add(buttonPanel);
             }
         }
 

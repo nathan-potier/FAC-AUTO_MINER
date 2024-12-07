@@ -259,7 +259,7 @@ public class GameLoader {
     private static Machine createMachine(String name, Position pos, String option, Inventory stock, Inventory resources) {
         switch (name) {
             case "Usine":
-                return new Usine(resources, pos, option, stock);  // Utilisation de la sous-classe existante
+                return new Usine(resources, pos, option, stock, player.getInv());  // Utilisation de la sous-classe existante
             default:
                 return null;
         }

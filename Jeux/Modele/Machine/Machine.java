@@ -6,6 +6,7 @@ import Modele.*;
 public abstract class Machine {
     private String type; // "usine" ou "récolteuse"
     private Inventory stockProd = new Inventory(); // stock de ce qui est recolté ou produit
+    private Inventory playerInv;
     private int prix;
     private Position pos;
     private int tempFabriq;
@@ -14,12 +15,12 @@ public abstract class Machine {
     private boolean fonctionneBien;
     private String option;
 
-    public Machine(String type, Position pos, String option, Inventory stockProd) {
+    public Machine(String type, Position pos, String option, Inventory stockProd, Inventory playerInv) {
         if (stockProd != null){
             this.stockProd = stockProd;
         }
         this.type = type;
-
+        this.playerInv = playerInv;
         this.prix = getPrix(option);
         this.pos = pos;
         this.tempFabriq = getTempFabriq(option);
@@ -67,6 +68,7 @@ public abstract class Machine {
     public Position getPosition(){return pos;}
     public String getOption(){return option;}
     public Inventory getStock() {return stockProd;}
+    public Inventory getPlayerInv() {return playerInv;}
 
 
     public void ajouterAustock(Resource ressourceProduite) {

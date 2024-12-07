@@ -13,8 +13,8 @@ public class Usine extends Machine {
     private String recetteEnCours;  // Nom de la recette en cours
 
 
-    public Usine(Inventory stockResources, Position position, String option, Inventory stock) {
-        super("Usine", position, option, stock);
+    public Usine(Inventory stockResources, Position position, String option, Inventory stock, Inventory playerInv) {
+        super("Usine", position, option, stock, playerInv);
         this.stockResources = stockResources;
         this.recettesDisponibles = Recette.initialiserRecettes();
     }
@@ -80,13 +80,17 @@ public class Usine extends Machine {
         } else {
             while (!getStock().getResources().isEmpty()) {
                 Resource ressource = getStock().getResources().remove(0); // Supprime la ressource du stock de l'usine
-                stockResources.addResource(ressource); // Ajoute la ressource à l'inventaire
+                getPlayerInv().addResource(ressource); // Ajoute la ressource à l'inventaire
             }
         }
     }
 
     public void ajouterRessource(Resource r){
         stockResources.addQuantityResource(r, 1);
+    }
+    public void retirerRessource(Resource r){
+        stockResources.removeResource(r, 1);
+        getPlayerInv().addQuantityResource(r, 1);
     }
 
     private boolean hasSufficientResourcesForRecipe(Recette recette) {

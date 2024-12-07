@@ -1,10 +1,8 @@
 package Modele;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import Modele.Machine.Machine;
-import Modele.Machine.Usine;
 import Modele.Resource.Iron;
 import Modele.Resource.Resource;
 import Modele.Resource.Wood;

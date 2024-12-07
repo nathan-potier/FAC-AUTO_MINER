@@ -1,13 +1,11 @@
 package Modele.Machine;
 
-import java.util.ArrayList;
-
 import Modele.Resource.Resource;
 import Modele.*;
 
 public abstract class Machine {
     private String type; // "usine" ou "récolteuse"
-    private Inventory stockProd = new Inventory(); //stock de ce qui est recolté ou produit
+    private Inventory stockProd = new Inventory(); // stock de ce qui est recolté ou produit
     private int prix;
     private Position pos;
     private int tempFabriq;

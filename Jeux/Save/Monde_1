@@ -1,8 +1,9 @@
-Joueur: nathan
+Joueur: 
 Position: 2,11
-Argent: 100
+Argent: 80
 Ressources du joueur:
-Wood:3
+Wood:4
+Iron:6
 Machines du joueur:
 Marché position:
 (14;6)

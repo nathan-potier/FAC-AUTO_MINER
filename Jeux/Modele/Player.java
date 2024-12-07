@@ -1,7 +1,4 @@
 package Modele;
-import java.io.Serializable;
-import java.util.ArrayList;
-
 import Vue.MarketInterface;
 import Modele.Machine.*;
 import Modele.Resource.*;

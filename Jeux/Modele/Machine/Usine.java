@@ -1,9 +1,6 @@
 package Modele.Machine;
 
-import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.TimerTask;
 import java.util.Timer;
 
 import Modele.Resource.*;
@@ -13,7 +10,6 @@ public class Usine extends Machine {
     private Inventory stockResources;
     private List<Recette> recettesDisponibles;
     private Timer timer;  // Timer pour la production périodique
-    private final long productionInterval = 5000; // Intervalle de 5 secondes pour la production (en millisecondes)
     private String recetteEnCours;  // Nom de la recette en cours
 
 
@@ -131,8 +127,9 @@ public class Usine extends Machine {
         return tab;
     }
 
-    public void addInvToAlim(Resource r){
-        
+    public Inventory getStockResources() {
+        return stockResources;
     }
+
     
 }

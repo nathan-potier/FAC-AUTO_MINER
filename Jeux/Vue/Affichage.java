@@ -1,14 +1,11 @@
 package Vue;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.FileWriter;
-import java.io.IOException;
 
 import javax.swing.*;
 
 import Modele.Game;
 import Modele.GameStates;
-import Modele.Player;
 import Modele.Position;
 import Modele.Controle;
 import Modele.Enregistrer.*;

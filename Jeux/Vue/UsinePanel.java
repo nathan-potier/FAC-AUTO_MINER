@@ -16,11 +16,10 @@ public class UsinePanel extends JPanel {
     private Usine usine;
     private JPanel inventairePanel;
     private JPanel stockPanel;
+    private JPanel RessourcePanel;
     private JComboBox<String> recetteComboBox;
     private JButton takeButton;
     private JPanel ingredientsPanel;
-    private boolean isProducing = false;
-    private Timer productionTimer;
 
     public UsinePanel() {
         // Configuration de base du panel
@@ -28,7 +27,7 @@ public class UsinePanel extends JPanel {
         this.setBackground(Color.DARK_GRAY);
         this.setBorder(BorderFactory.createEmptyBorder(0, 0, 60, 0));
 
-        JPanel RessourcePanel = new JPanel();
+        RessourcePanel = new JPanel();
         RessourcePanel.setLayout(new BoxLayout(RessourcePanel, BoxLayout.Y_AXIS));
         RessourcePanel.setBackground(Color.DARK_GRAY);
         RessourcePanel.setPreferredSize(new Dimension(200, getHeight()));
@@ -88,23 +87,7 @@ public class UsinePanel extends JPanel {
             BorderFactory.createEmptyBorder(10, 10, 10, 10)
         ));
 
-        JPanel takeButtonPanel = new JPanel();
-        takeButtonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-        takeButtonPanel.setBackground(Color.DARK_GRAY);
-
-        takeButton = new JButton("Prendre");
-        takeButton.setBackground(new Color(221, 242, 172));
-        takeButton.setForeground(Color.BLACK);
-        takeButton.setFocusPainted(false);
-        takeButton.addActionListener(e -> {
-            usine.recuperer();
-            // IL FAUT UPDATE TOUT LES STOCKS
-        });
-
-        takeButtonPanel.add(takeButton);
-
-        stockPanel.add(Box.createHorizontalGlue());
-        stockPanel.add(takeButtonPanel);
+        
 
         JScrollPane stockScrollPane = new JScrollPane(stockPanel);
         stockScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -147,6 +130,7 @@ public class UsinePanel extends JPanel {
     public void setPlayer(Player player) {
         this.player = player;
         updateInventairePanel();
+        updateRessourcePanel();
     }
 
     public void setUsine(Usine usine) {
@@ -183,6 +167,7 @@ public class UsinePanel extends JPanel {
         updateStockPanel();
         updateIngredientsPanel();
         updateInventairePanel();
+        updateRessourcePanel();
     }
 
     private void updateStockPanel() {
@@ -206,10 +191,26 @@ public class UsinePanel extends JPanel {
                     itemLabel.setForeground(Color.white);
                     itemLabel.setFont(new Font("Arial", Font.PLAIN, 14));
                     itemPanel.add(itemLabel);
-
                     stockPanel.add(itemPanel);
                 }
             }
+            JPanel takeButtonPanel = new JPanel();
+            takeButtonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+            takeButtonPanel.setBackground(Color.DARK_GRAY);
+
+            takeButton = new JButton("Prendre");
+            takeButton.setBackground(new Color(221, 242, 172));
+            takeButton.setForeground(Color.BLACK);
+            takeButton.setFocusPainted(false);
+            takeButton.addActionListener(e -> {
+                usine.recuperer();
+                updateAll();
+                });
+
+            takeButtonPanel.add(takeButton);
+
+            stockPanel.add(Box.createHorizontalGlue());
+            stockPanel.add(takeButtonPanel);
         }
 
         stockPanel.revalidate();
@@ -258,6 +259,34 @@ public class UsinePanel extends JPanel {
 
         inventairePanel.revalidate();
         inventairePanel.repaint();
+    }
+
+
+
+
+    private void updateRessourcePanel() {
+        RessourcePanel.removeAll();
+        for (Resource r : usine.getStockResources().getResources()) {
+            if (r.getQuantity() > 0) {
+                JPanel itemPanel = new JPanel();
+                itemPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+                itemPanel.setBackground(Color.DARK_GRAY);
+
+                ImageIcon icon = new ImageIcon(new ImageIcon("assets/" + r.getName() + ".png").getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH));
+                JLabel itemLabel = new JLabel(icon);
+                itemLabel.setText(r.getName() + " x" + r.getQuantity());
+                itemLabel.setForeground(Color.white);
+                itemLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+                itemPanel.add(itemLabel);
+
+                // Ajouter un petit espacement vertical entre chaque élément
+                RessourcePanel.add(itemPanel);
+                itemPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+            }
+        }
+
+        RessourcePanel.revalidate();
+        RessourcePanel.repaint();
     }
 
     private void updateIngredientsPanel() {

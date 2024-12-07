@@ -1,7 +1,5 @@
 package Modele.Resource;
 
-import java.io.Serializable;
-
 public class Pickaxe extends Resource {
 
     public Pickaxe(int quantity) {

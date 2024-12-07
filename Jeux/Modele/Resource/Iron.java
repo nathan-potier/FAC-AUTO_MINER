@@ -1,5 +1,4 @@
 package Modele.Resource;
-import java.io.Serializable;
 import Modele.*;
 public class Iron extends Resource {
 

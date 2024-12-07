@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import Modele.*;
 import Modele.Machine.*;
@@ -15,8 +14,6 @@ public class GameLoader {
 
     public static Game loadGame(String fileName, Game game) {
         fileName = "Save/" + fileName;
-
-        String line;
 
         Market market = null;
         Map map = null;

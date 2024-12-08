@@ -38,7 +38,7 @@ public class Usine extends Machine {
                         if (hasSufficientResourcesForRecipe(recette)) {
                             produireRecette(recette);
                         } else {
-                            System.out.println("Pas assez de ressources, en attente...");
+                            
                         }
                         break;
                     }
@@ -126,8 +126,6 @@ public class Usine extends Machine {
                     quantityInInventory += ressource.getQuantity();
                 }
             }
-            System.out.println(quantityInInventory);
-            System.out.println(ingredient.getQuantity());
             if (quantityInInventory < ingredient.getQuantity()) {
                 return false;  // Pas assez d'ingrédients
             }

@@ -109,7 +109,7 @@ public class Map {
         ArrayList<Cell> res = regarderAutour(player.getPos());
         for (Cell c : res){
               if ( c != null && c.getPosition().getX() == pos.getX() && c.getPosition().getY() == pos.getY() ){
-                if(isInstanceOf(Resource.class, c.getPosition())){
+                if(isInstanceOf(Resource.class, c.getPosition())  ){
                     //player.collectResource((Ressource)c.getContent());
                     collectRessource(player, c.getPosition());
                 }else if (isInstanceOf(Market.class, c.getPosition()) || isInstanceOf(Machine.class, c.getPosition())){
@@ -153,6 +153,9 @@ public class Map {
  
             return true;
 
+        }else if (isInstanceOf(Resource.class, nouvelle)) {
+            collectRessource(p, nouvelle);
+           return true;
         }else if (isInstanceOf(Usine.class, nouvelle)) {
 
             //deplacerOnUsine(p, nouvelle);
@@ -175,7 +178,9 @@ public class Map {
 
         int temps = 5000;
         
-        p.collectResource((Resource)grid[nouvelle.getY()][nouvelle.getX()].getContent());
+        if ( !(p.collectResource((Resource)grid[nouvelle.getY()][nouvelle.getX()].getContent())) ){
+            return;
+        }
         
         
         Cell cell = grid[nouvelle.getY()][nouvelle.getX()];

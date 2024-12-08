@@ -263,7 +263,6 @@ public class Map {
         // Placer une usine à côté de la position de `Wood`
         Position posUsine = new Position(posWood1.getX() + 1, posWood1.getY()); // Position adjacente
         Usine usine = new Usine(new Inventory(), posUsine, "XL", new Inventory(), game.getPlayer());
-        usine.ajouterRessource(iron2);
         grid[posUsine.getY()][posUsine.getX()] = new Cell(posUsine, usine);
 
         // Placer une récolteuse à côté de la position de `Iron`

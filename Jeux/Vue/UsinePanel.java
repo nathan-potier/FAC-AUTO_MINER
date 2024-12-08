@@ -21,6 +21,7 @@ public class UsinePanel extends JPanel {
     private JButton takeButton;
     private JPanel ingredientsPanel;
     private Timer productionTimer;
+    private JLabel nomTypeUsine;
 
     public UsinePanel() {
         this.setLayout(new BorderLayout());
@@ -29,6 +30,11 @@ public class UsinePanel extends JPanel {
 
         productionTimer = new Timer(5000, e -> updateAll());
         productionTimer.setRepeats(true);
+
+        // Créer un JLabel
+        nomTypeUsine = new JLabel();
+        this.add(nomTypeUsine);
+        this.setVisible(true);
 
         RessourcePanel = new JPanel();
         RessourcePanel.setLayout(new BoxLayout(RessourcePanel, BoxLayout.Y_AXIS));
@@ -157,7 +163,7 @@ public class UsinePanel extends JPanel {
 
     public void setUsine(Usine usine) {
         this.usine = usine;
-
+        nomTypeUsine = new JLabel("Usine :" + usine.getName());
         // Mettre à jour les recettes disponibles
         recetteComboBox.removeAllItems();
         for (String recette : usine.getTabRecettes()) {

@@ -11,7 +11,7 @@ import Modele.Controle;
 import Modele.Enregistrer.*;
 import Modele.Machine.Usine;
 
-public class Affichage extends JFrame implements VueGenerale, KeyListener, MouseListener, SettingsListener, SauvegardeListener{
+public class Affichage extends JFrame implements VueGenerale, KeyListener, MouseListener, SetMenuListener{
     private Game game;
     private CartePanel cartePanel;
     private InventairePanel inventairePanel;
@@ -60,8 +60,8 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         settingsPanel = new SettingsPanel();
         sauvegardePanel = new SauvegardePanel();
 
-        settingsPanel.setSettingsListener(this);
-        sauvegardePanel.setSauvegardeListener(this);
+        settingsPanel.setMenuListener(this);
+        sauvegardePanel.setMenuListener(this);
 
         cartePanel = new CartePanel(game.getWidth(), game.getHeight());
         game.addGameListener(cartePanel);
@@ -320,14 +320,6 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         usinePanel.setVisible(true);
     }
 
-
-    @Override
-    public void onBackToMenu() {
-        // Cache le panneau des paramètres et affiche le menu principal
-        settingsPanel.setVisible(false);
-        menuPanel.setVisible(true);
-        menuBoutonClique = true;
-    }
     @Override
     public void onRetourMenu() {
         sauvegardePanel.setVisible(false);
@@ -348,7 +340,6 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
     public void startLoadGame(String nameGameLoad) {
         sauvegardePanel.setVisible(false);
         menuBoutonClique = false;
-
         chargerPartie(nameGameLoad);
     }
 

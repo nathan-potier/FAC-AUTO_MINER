@@ -12,7 +12,7 @@ import java.util.List;
 
 public class SauvegardePanel extends JPanel {
 
-    private SauvegardeListener sauvegardeListener;  // Référence au listener
+    private SetMenuListener menuListener;  // Référence au listener
 
     public SauvegardePanel() {
         // Configuration du JPanel principal
@@ -42,8 +42,8 @@ public class SauvegardePanel extends JPanel {
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (sauvegardeListener != null) {
-                    sauvegardeListener.onRetourMenu();  // Notifie le retour au menu
+                if (menuListener != null) {
+                    menuListener.onRetourMenu();  // Notifie le retour au menu
                 }
             }
         });
@@ -124,7 +124,7 @@ public class SauvegardePanel extends JPanel {
                     jouerButton.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                            sauvegardeListener.startLoadGame(sauvegarde);
+                            menuListener.startLoadGame(sauvegarde);
                         }
                     });
 
@@ -146,7 +146,7 @@ public class SauvegardePanel extends JPanel {
     }
 
     // Setter pour le listener
-    public void setSauvegardeListener(SauvegardeListener listener) {
-        this.sauvegardeListener = listener;
+    public void setMenuListener(SetMenuListener listener) {
+        this.menuListener = listener;
     }
 }

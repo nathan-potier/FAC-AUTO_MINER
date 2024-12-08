@@ -98,9 +98,6 @@ public class Usine extends Machine {
                     } 
                 }
             }
-                
-
-            
         }
     }
 

@@ -1,6 +1,6 @@
 package Vue;
 
-public interface SauvegardeListener {
+public interface SetMenuListener {
     void onRetourMenu();
     void startLoadGame(String name);
 }

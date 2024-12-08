@@ -1,7 +1,4 @@
 package Modele;
-import java.io.Serializable;
-import java.util.ArrayList;
-
 import Vue.MarketInterface;
 import Modele.Machine.*;
 import Modele.Resource.*;
@@ -36,17 +33,34 @@ public class Player {
         
         return false;
     }
+    public boolean collectQuantityResource(Resource resource, int quantity) {
+        if(inventory.addQuantityResource(resource, quantity)){
+            try{
+                marketInterface.updateInventory();
+            }catch(Exception e){
+                
+            }
+            return true;
+            
+        }
+        
+        return false;
+    }
     public void setMarketInterface(MarketInterface marketInterface) {
         this.marketInterface = marketInterface;
     }
     public boolean addMachine(Machine machine) {
-        return inventory.addMachine(machine);
+        
+        boolean b =  inventory.addMachine(machine);
+        marketInterface.updateInventory();
+        return b;
     }
 
     public boolean hasMachine(Machine m){
         return inventory.hasMachine(m);
     }
     public void removeMachine(){
+        marketInterface.updateInventory();
         inventory.removeMachine();
     }
 
@@ -55,7 +69,7 @@ public class Player {
         this.pseudo = pseudo;
         inventory = new Inventory();
         this.position = position;
-        money = 10;
+        money = 100;
     }
 
     public Player(String pseudo, int money, Position playerPosition, Inventory inventory) {
@@ -77,6 +91,8 @@ public class Player {
     public void removeResource(Resource r){
 
         inventory.removeResource(r, 1);
+        System.out.println("test");
+        marketInterface.updateInventory();
     }
 
     public void setPos(Position p){

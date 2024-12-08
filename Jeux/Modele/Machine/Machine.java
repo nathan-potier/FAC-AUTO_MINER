@@ -1,13 +1,12 @@
 package Modele.Machine;
 
-import java.util.ArrayList;
-
 import Modele.Resource.Resource;
 import Modele.*;
 
 public abstract class Machine {
     private String type; // "usine" ou "récolteuse"
-    private Inventory stockProd = new Inventory(); //stock de ce qui est recolté ou produit
+    private Inventory stockProd = new Inventory(); // stock de ce qui est recolté ou produit
+    private Player player;
     private int prix;
     private Position pos;
     private int tempFabriq;
@@ -16,12 +15,12 @@ public abstract class Machine {
     private boolean fonctionneBien;
     private String option;
 
-    public Machine(String type, Position pos, String option, Inventory stockProd) {
+    public Machine(String type, Position pos, String option, Inventory stockProd, Player player) {
         if (stockProd != null){
             this.stockProd = stockProd;
         }
         this.type = type;
-
+        this.player = player;
         this.prix = getPrix(option);
         this.pos = pos;
         this.tempFabriq = getTempFabriq(option);
@@ -68,10 +67,11 @@ public abstract class Machine {
     public int getPrix(){return prix;}
     public Position getPosition(){return pos;}
     public String getOption(){return option;}
-    public ArrayList<Resource> getStock() {return stockProd.getResources();}
+    public Inventory getStock() {return stockProd;}
 
+    public Player getPlayer(){return player;}
 
-    public void ajouterRessource(Resource ressourceProduite) {
+    public void ajouterAustock(Resource ressourceProduite) {
         stockProd.addResource(ressourceProduite);
 
     }
@@ -87,7 +87,7 @@ public abstract class Machine {
     public void recolter(Resource ressource) {
         if ("recolteuse".equals(type)) {
             // Logique de récolte pour ajouter la ressource au stock
-            ajouterRessource(ressource);
+            ajouterAustock(ressource);
         }
     }
 

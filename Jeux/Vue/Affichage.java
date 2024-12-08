@@ -1,14 +1,11 @@
 package Vue;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.FileWriter;
-import java.io.IOException;
 
 import javax.swing.*;
 
 import Modele.Game;
 import Modele.GameStates;
-import Modele.Player;
 import Modele.Position;
 import Modele.Controle;
 import Modele.Enregistrer.*;
@@ -72,7 +69,8 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         inventairePanel = new InventairePanel(null);
 
         marketPanel = new MarketPanel(game.getMarket(), game.getPlayer());
-        usinePanel = new UsinePanel(game.getPlayer());
+        usinePanel = new UsinePanel();
+        usinePanel.setBounds(100, 100, 800, 550);
 
         menuPanel = new MenuPanel(width / 2, height / 2, width, height);
 
@@ -132,7 +130,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
 
     @Override
     public void keyPressed(KeyEvent e) {
-        System.out.println("test");
+        
         long currentTime = System.currentTimeMillis();
         
         // Si l'action a eu lieu récemment (avant l'écoulement de 20ms), on ignore la nouvelle action
@@ -159,6 +157,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
             GameStates.setMoveOn(false);
             saveAndBackMenu();
             menuBoutonClique = true;
+            closeAll();
             menuPanel.setVisible(true);
         }
         else if (listener != null && GameStates.isMoveOn()) {
@@ -166,8 +165,8 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         }
     }
     public void saveAndBackMenu(){
-        System.out.println("save");
-        //game.sauvegarderCarte(game.getPlayer().getPseudo());
+        
+       
         String nomSv = "";
         if(isNewGame){
             nomSv = GameSaver.generateUniqueSaveName("Monde");
@@ -298,13 +297,25 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
 
     }
 
+    private void closeAll(){
+        inventairePanel.setVisible(false);
+        marketPanel.setVisible(false);
+        usinePanel.setVisible(false);
+        settingsPanel.setVisible(false);
+        cartePanel.setVisible(true);
+        menuBoutonClique = true;
+    }
+
     @Override
     public void transmettreMarket(){
         marketPanel.setVisible(true);
     }
     @Override
     public void transmettreUsine(Usine u) {
+        GameStates.setMoveOn(false);
         usinePanel.setUsine(u);
+
+        usinePanel.setPlayer(game.getPlayer());
         usinePanel.setVisible(true);
     }
 

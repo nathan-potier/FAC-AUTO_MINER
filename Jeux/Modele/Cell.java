@@ -4,7 +4,6 @@ package Modele;
 public class Cell {
     private Position position;
     private Object content; // Par exemple, une ressource, une machine, ou null si vide
-    private String terreImage; // Image de Terre pour la cellule (fixe)
 
     public Cell(Position position, Object content) {
         this.position = position;

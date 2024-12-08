@@ -1,5 +1,4 @@
 package Modele.Resource;
-import java.io.Serializable;
 import Modele.*;
 
 public class Wood extends Resource {
@@ -14,5 +13,6 @@ public class Wood extends Resource {
     public Wood clone() {
         return new Wood(this.getQuantity());
     }
+    public Wood cloneOne(){return new Wood(1);}
 
 }

@@ -1,5 +1,4 @@
 package Modele;
-import java.util.ArrayList;
 
 import Modele.Resource.*;
 

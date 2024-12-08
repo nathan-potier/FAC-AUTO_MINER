@@ -1,10 +1,8 @@
 package Modele;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import Modele.Machine.Machine;
-import Modele.Machine.Usine;
 import Modele.Resource.Iron;
 import Modele.Resource.Resource;
 import Modele.Resource.Wood;
@@ -20,8 +18,8 @@ public class Market {
         machinesForSale = new ArrayList<>();
 
         // Ajouter des ressources à la vente
-        resourcesForSale.add(new Wood(50));  // Exemple de ressource
-        resourcesForSale.add(new Iron(30));
+        resourcesForSale.add(new Wood(1));  // Exemple de ressource
+        resourcesForSale.add(new Iron(1));
 
 
         // Ajouter des machines à la vente

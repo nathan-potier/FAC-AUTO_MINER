@@ -1,5 +1,4 @@
 package Modele.Resource;
-import java.io.Serializable;
 import Modele.*;
 public class Iron extends Resource {
 
@@ -13,5 +12,6 @@ public class Iron extends Resource {
     public Iron clone() {
         return new Iron(this.getQuantity());
     }
+    public Iron cloneOne(){return new Iron(1);}
 
 }

@@ -1,7 +1,5 @@
 package Modele.Resource;
 
-import java.io.Serializable;
-
 public class Pickaxe extends Resource {
 
     public Pickaxe(int quantity) {
@@ -11,5 +9,5 @@ public class Pickaxe extends Resource {
     public Pickaxe clone() {
         return new Pickaxe(this.getQuantity());
     }
-
+    public Pickaxe cloneOne(){return new Pickaxe(1);}
 }

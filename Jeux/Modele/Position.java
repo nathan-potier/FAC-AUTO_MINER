@@ -1,5 +1,4 @@
 package Modele;
-import java.io.Serializable;
 
 public class Position {
     private int x;

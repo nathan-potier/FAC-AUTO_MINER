@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import Modele.*;
 import Modele.Machine.*;
@@ -15,8 +14,6 @@ public class GameLoader {
 
     public static Game loadGame(String fileName, Game game) {
         fileName = "Save/" + fileName;
-
-        String line;
 
         Market market = null;
         Map map = null;
@@ -163,44 +160,67 @@ public class GameLoader {
                 if (machineLine.contains("option->")) {
 
                     try {
-                        // Extraction du type de machine
+                        // Extraction du type de machine (e.g., "Usine")
                         String machineType = machineLine.split("option->")[0].trim();
-                        
+
                         // Extraction des données après "option->"
                         String machineData = machineLine.split("option->")[1].trim();
-                        
-                        // Extraction des parties option, position et inventaire
+
+                        // Extraction des parties option, position, stock et inventaire
                         String[] machineParts = machineData.split("à la position");
                         String option = machineParts[0].trim();
 
-                        String[] positionAndInventory = machineParts[1].split("inventaire->");
+                        String[] positionStockInventory = machineParts[1].split("Stock->");
                         
                         // Position
-                        String[] positionParts = positionAndInventory[0].trim().split(",");
+                        String[] positionParts = positionStockInventory[0].trim().split(",");
                         int x = Integer.parseInt(positionParts[0].trim());
                         int y = Integer.parseInt(positionParts[1].trim());
                         Position position = new Position(x, y);
 
-                        // Inventaire
+                        // Stock
                         ArrayList<Resource> stock = new ArrayList<>();
-                        if (positionAndInventory.length > 1) { // Si un inventaire est présent
-                            String inventoryData = positionAndInventory[1].trim();
-                            inventoryData = inventoryData.replace("{", "").replace("}", "").trim(); // Nettoyage
-                            if (!inventoryData.isEmpty()) {
-                                String[] inventoryItems = inventoryData.split(",");
-                                for (String item : inventoryItems) {
+                        if (positionStockInventory.length > 1) {
+                            String[] stockAndInventory = positionStockInventory[1].split("Inventaire->");
+                            String stockData = stockAndInventory[0].replace("{", "").replace("}", "").trim();
+                            
+                            if (!stockData.isEmpty()) {
+                                String[] stockItems = stockData.split("\\),");
+                                for (String item : stockItems) {
+                                    
                                     String[] parts = item.replace("(", "").replace(")", "").split(";");
                                     String resourceName = parts[0].trim();
                                     int quantity = Integer.parseInt(parts[1].trim());
-                                    Resource ressource = createResource(resourceName, quantity );
-                                    stock.add(ressource);
+                                    
+                                    Resource resource = createResource(resourceName, quantity);
+                                    
+                                    stock.add(resource);
                                 }
                             }
-                        }
-                        // Création de l'objet machine avec l'inventaire
-                        Machine machine = createMachine(machineType, position, option, new Inventory(stock), null);
-                        machinesOnMap.add(machine); // Ajout à la liste des machines sur la carte
+                            
 
+                            // Inventaire
+                            ArrayList<Resource> inventory = new ArrayList<>();
+                            if (stockAndInventory.length > 1) {
+                                String inventoryData = stockAndInventory[1].trim();
+                                
+                                inventoryData = inventoryData.replace("(", "").replace(")", "").trim(); // Nettoyage
+                                
+                                if (!inventoryData.isEmpty()) {
+                                    String[] inventoryItems = inventoryData.split(",");
+                                    for (String item : inventoryItems) {
+                                        String[] parts = item.split(";");
+                                        String resourceName = parts[0].trim();
+                                        int quantity = Integer.parseInt(parts[1].trim());
+                                        Resource resource = createResource(resourceName, quantity);
+                                        inventory.add(resource);
+                                    }
+                                }
+                            }
+                            // Création de l'objet machine avec le stock et l'inventaire
+                            Machine machine = createMachine(machineType, position, option, new Inventory(stock), new Inventory(inventory));
+                            machinesOnMap.add(machine); // Ajout à la liste des machines sur la carte
+                        }
                     } catch (Exception e) {
                         System.err.println("Erreur lors de la lecture de la machine sur la carte : " + machineLine);
                     }
@@ -210,11 +230,12 @@ public class GameLoader {
 
 
 
+
         // Initialiser le jeu
         game = new Game(market, game.getSpawn(), player);
 
         map = new Map(game, objectOnMap, machinesOnMap);
-        System.out.println(map);
+
         game.setMap(map);
 
         return game;
@@ -229,6 +250,8 @@ public class GameLoader {
                 return new Wood(quantity);  // Utilisation de la sous-classe existante
             case "Iron":
                 return new Iron(quantity);  // Utilisation de la sous-classe existante
+            case "Pickaxe":
+                return new Pickaxe(quantity);  // Utilisation de la sous-classe existante
             default:
                 return null;
         }
@@ -237,7 +260,7 @@ public class GameLoader {
     private static Machine createMachine(String name, Position pos, String option, Inventory stock, Inventory resources) {
         switch (name) {
             case "Usine":
-                return new Usine(resources, pos, option, stock);  // Utilisation de la sous-classe existante
+                return new Usine(resources, pos, option, stock, player);  // Utilisation de la sous-classe existante
             default:
                 return null;
         }
@@ -279,5 +302,6 @@ public class GameLoader {
             return null;
         }
     }
+
 
 }

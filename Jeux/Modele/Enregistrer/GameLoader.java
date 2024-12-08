@@ -182,11 +182,12 @@ public class GameLoader {
                         ArrayList<Resource> stock = new ArrayList<>();
                         if (positionStockInventory.length > 1) {
                             String[] stockAndInventory = positionStockInventory[1].split("Inventaire->");
-                            String stockData = stockAndInventory[0].replace("{", "").replace("}", "").replace(",", "").trim();
+                            String stockData = stockAndInventory[0].replace("{", "").replace("}", "").trim();
                             
                             if (!stockData.isEmpty()) {
                                 String[] stockItems = stockData.split("\\),");
                                 for (String item : stockItems) {
+                                    
                                     String[] parts = item.replace("(", "").replace(")", "").split(";");
                                     String resourceName = parts[0].trim();
                                     int quantity = Integer.parseInt(parts[1].trim());

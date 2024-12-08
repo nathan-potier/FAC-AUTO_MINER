@@ -89,19 +89,32 @@ public class Usine extends Machine {
         if (getStock().getResources().isEmpty()) {
             System.out.println("Il n'y a rien à récolter dans cette usine");
         } else {
-            while (!getStock().getResources().isEmpty()) {
-                Resource ressource = getStock().getResources().remove(0); // Supprime la ressource du stock de l'usine
-                getPlayerInv().addResource(ressource); // Ajoute la ressource à l'inventaire
+            for (int i = 0; i < getStock().getResources().size(); i++) {
+                Resource ressource = getStock().getResources().get(i);
+                for (int j = 0; j < getStock().getResources().get(i).getQuantity(); j++){
+                    
+                    if(getPlayerInv().addQuantityResource(ressource, 1)){// Ajoute la ressource à l'inventaire
+                        getStock().removeResource(ressource, 1);
+                    } 
+                }
             }
+                
+                Resource ressource = getStock().getResources().get(0); // Supprime la ressource du stock de l'usine
+                if(getPlayerInv().addResource(ressource)){// Ajoute la ressource à l'inventaire
+                    getStock().getResources().remove(ressource);
+                } 
+            
         }
     }
 
-    public void ajouterRessource(Resource r){
-        stockResources.addQuantityResource(r, 1);
+    public boolean ajouterRessource(Resource r){
+        return stockResources.addQuantityResource(r, 1);
     }
     public void retirerRessource(Resource r){
-        stockResources.removeResource(r, 1);
-        getPlayerInv().addQuantityResource(r, 1);
+        
+        if (getPlayerInv().addQuantityResource(r, 1)){
+            stockResources.removeResource(r, 1);
+        }
     }
 
     private boolean hasSufficientResourcesForRecipe(Recette recette) {

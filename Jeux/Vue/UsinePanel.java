@@ -254,8 +254,10 @@ public class UsinePanel extends JPanel {
                 ajouter.setForeground(Color.BLACK);
                 ajouter.addActionListener(e -> {
                     
-                    player.removeResource(r);
-                    usine.ajouterRessource(r);
+                    
+                    if (usine.ajouterRessource(r)){
+                        player.removeResource(r);
+                    }
                     updateAll();});
                 buttonPanel.add(ajouter);
 

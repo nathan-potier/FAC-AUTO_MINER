@@ -33,6 +33,19 @@ public class Player {
         
         return false;
     }
+    public boolean collectQuantityResource(Resource resource, int quantity) {
+        if(inventory.addQuantityResource(resource, quantity)){
+            try{
+                marketInterface.updateInventory();
+            }catch(Exception e){
+                
+            }
+            return true;
+            
+        }
+        
+        return false;
+    }
     public void setMarketInterface(MarketInterface marketInterface) {
         this.marketInterface = marketInterface;
     }

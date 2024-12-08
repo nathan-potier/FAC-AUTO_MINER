@@ -90,14 +90,19 @@ public class Usine extends Machine {
             System.out.println("Il n'y a rien à récolter dans cette usine");
         } else {
             for (int i = 0; i < getStock().getResources().size(); i++) {
+                
                 Resource ressource = getStock().getResources().get(i);
                 for (int j = 0; j < getStock().getResources().get(i).getQuantity(); j++){
                     
                     if(getPlayer().collectQuantityResource(ressource, 1)){// Ajoute la ressource à l'inventaire
                         getStock().removeResource(ressource, 1);
+                        if(ressource.getQuantity() == 0){break;}
                     } 
                 }
             }
+                
+
+            
         }
     }
 

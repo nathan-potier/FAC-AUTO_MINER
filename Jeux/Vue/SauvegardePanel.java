@@ -53,6 +53,48 @@ public class SauvegardePanel extends JPanel {
     }
 
     /**
+     * Met à jour les sauvegardes affichées en rechargeant le fichier de sauvegardes.
+     */
+    public void mettreAJourSauvegardes() {
+        // Retirer l'ancien panel contenant les sauvegardes
+        removeAll();
+
+        // Ajouter à nouveau les composants (titre, sauvegardes, bouton retour)
+        JLabel title = new JLabel("SAUVEGARDE", SwingConstants.CENTER);
+        title.setForeground(Color.WHITE);
+        title.setFont(new Font("Arial", Font.BOLD, 24));
+        add(title, BorderLayout.NORTH);
+
+        JPanel sauvegardesPanel = chargerSauvegardes();
+        JScrollPane scrollPane = new JScrollPane(sauvegardesPanel);
+        add(scrollPane, BorderLayout.CENTER);
+
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        bottomPanel.setBackground(Color.DARK_GRAY);
+        bottomPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
+
+        JButton backButton = new JButton("Retour");
+        backButton.setFocusPainted(false);
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (sauvegardeListener != null) {
+                    sauvegardeListener.onRetourMenu(); // Notifie le retour au menu
+                }
+            }
+        });
+
+        bottomPanel.add(backButton);
+        add(bottomPanel, BorderLayout.SOUTH);
+
+        // Rafraîchir l'interface graphique
+        revalidate();
+        repaint();
+    }
+
+
+
+    /**
      * Charge toutes les sauvegardes depuis le fichier et retourne un panel contenant les sauvegardes.
      */
     private JPanel chargerSauvegardes() {

@@ -159,6 +159,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
             menuBoutonClique = true;
             closeAll();
             menuPanel.setVisible(true);
+            sauvegardePanel.mettreAJourSauvegardes();
         }
         else if (listener != null && GameStates.isMoveOn()) {
             listener.onKeyPress(e.getKeyCode());

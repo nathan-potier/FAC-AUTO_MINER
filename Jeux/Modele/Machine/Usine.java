@@ -12,6 +12,7 @@ public class Usine extends Machine {
     private List<Recette> recettesDisponibles;
     private Timer timer;  // Timer pour la production périodique
     private String recetteEnCours;  // Nom de la recette en cours
+    private boolean isCooking = false;
 
 
     public Usine(Inventory stockResources, Position position, String option, Inventory stock, Player player) {
@@ -26,10 +27,11 @@ public class Usine extends Machine {
         startProduction();
     }
 
+    public boolean isCooking(){return isCooking;}
     private void startProduction() {
         stopProduction(); // Arrête tout timer existant
-        if (recetteEnCours == null) return;
-    
+        
+        isCooking = true;
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -38,6 +40,7 @@ public class Usine extends Machine {
                         if (hasSufficientResourcesForRecipe(recette)) {
                             produireRecette(recette);
                         } else {
+                            stopProduction();
                             
                         }
                         break;
@@ -134,8 +137,10 @@ public class Usine extends Machine {
     }
 
     private void stopProduction() {
+        System.out.println("stop stop stop");
         timer.cancel();
         timer = new Timer(); // Réinitialiser le timer
+        isCooking = false;
     }
 
     public List<Recette> getRecettesDisponibles() {

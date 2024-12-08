@@ -1,6 +1,6 @@
-Joueur: nathan
+Joueur: 
 Position: 2,11
-Argent: 100
+Argent: 112
 Ressources du joueur:
 Machines du joueur:
 Marché position:
@@ -14,4 +14,4 @@ Wood à la position 2,1
 Iron à la position 6,3
 Iron à la position 1,6
 Machines sur la carte:
-Usine option-> XL à la position 3,1 Stock-> {} Inventaire-> (Wood;3),
+Usine option-> XL à la position 3,1 Stock-> {} Inventaire-> 

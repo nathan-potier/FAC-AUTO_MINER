@@ -152,7 +152,7 @@ public class Game implements Controle{
     @Override
     public void clickOnCase(Position pos) {
         gameMap.ActionByClick(player, pos);
-        if(gameMap.posIsValid(pos)){
+        if(gameMap.posIsValid(pos) && GameStates.isMoveOn()){
             gameMap.deplacerVersPosition(player, pos);
         }
     }

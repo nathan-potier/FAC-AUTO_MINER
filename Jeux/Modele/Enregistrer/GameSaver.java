@@ -41,16 +41,16 @@ public class GameSaver {
             writer.newLine();
             Machine machine = player.getInv().getMachine();
             if (machine != null){
-                writer.write(machine.getName() + " à la position " + machine.getPosition().getX() + "," + machine.getPosition().getY());
+                writer.write(machine.getName() + " a la position " + machine.getPosition().getX() + "," + machine.getPosition().getY());
                 writer.newLine();
             }
 
             // Sauvegarder les ressources disponibles dans le marché avec leur position
-            writer.write("Marché position:");
+            writer.write("Marche position:");
             writer.newLine();
             writer.write("("+market.getPos().getX() + ";"+ market.getPos().getY() +")");
             writer.newLine();
-            writer.write("Marché - Ressources à vendre:");
+            writer.write("Marche - Ressources a vendre:");
             writer.newLine();
 
 
@@ -60,7 +60,7 @@ public class GameSaver {
             }
 
             // Sauvegarder les machines disponibles dans le marché avec leur position
-            writer.write("Marché - Machines à vendre:");
+            writer.write("Marche - Machines a vendre:");
             writer.newLine();
             for (Machine m : market.getMachinesForSale()) {
                 writer.write(m.getName() + " option-> " + m.getOption() );
@@ -72,14 +72,14 @@ public class GameSaver {
             writer.newLine();
             for (ObjectWithPosition obj : objectsOnMap) {
 
-                writer.write(obj.getName() + " à la position " + obj.getPosition().getX() + "," + obj.getPosition().getY());
+                writer.write(obj.getName() + " a la position " + obj.getPosition().getX() + "," + obj.getPosition().getY());
                 writer.newLine();
             }
 
             writer.write("Machines sur la carte:");
             writer.newLine();
             for (Machine m : machines){
-                writer.write(m.getName() + " option-> "+ m.getOption() + " à la position " + m.getPosition().getX() + "," + m.getPosition().getY() 
+                writer.write(m.getName() + " option-> "+ m.getOption() + " a la position " + m.getPosition().getX() + "," + m.getPosition().getY() 
                 + " Stock-> {" + m.getStockSTR() +"}" 
                 + " Inventaire-> "+ m.getResourcesSTR());
                 writer.newLine();
@@ -88,7 +88,7 @@ public class GameSaver {
 
 
 
-            System.out.println("Partie sauvegardée dans " + fileName);
+            System.out.println("Partie sauvegardee dans " + fileName);
             updateSaveList(fileName);
             return true;
 

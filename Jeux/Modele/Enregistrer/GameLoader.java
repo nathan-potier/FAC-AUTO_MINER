@@ -70,7 +70,7 @@ public class GameLoader {
         }
 
         // Lecture du marché
-        String marketSection = readSection("Marché position:", fileName);
+        String marketSection = readSection("Marche position:", fileName);
 
         if (!marketSection.isEmpty()) { 
             String[] marketLines = marketSection.split("\n");
@@ -90,12 +90,12 @@ public class GameLoader {
                     } catch (Exception e) {
                         System.err.println("Erreur lors de la lecture de la position du marché : " + marketLine);
                     }
-                } else if (marketLine.startsWith("Marché - Ressources à vendre:")) {
+                } else if (marketLine.startsWith("Marche - Ressources à vendre:")) {
                     try{
   
-                        String resourcesData = readSection("Marché - Ressources à vendre:",fileName);
+                        String resourcesData = readSection("Marche - Ressources à vendre:",fileName);
                         for (String resourceLine : resourcesData.split("\n")) {
-                            if (resourceLine.startsWith("Marché - Machines à vendre:")){
+                            if (resourceLine.startsWith("Marche - Machines à vendre:")){
                                 break;
                             }
                             String[] resourceData = resourceLine.split(":");
@@ -107,9 +107,9 @@ public class GameLoader {
                     }catch(Exception e){
                         System.err.println("Erreur lors de la lecture des Ressources à vendre du marché : " + marketLine);
                     }   
-                } else if (marketLine.startsWith("Marché - Machines à vendre:")) {
+                } else if (marketLine.startsWith("Marche - Machines à vendre:")) {
                     try {
-                        String machinesData = readSection("Marché - Machines à vendre:", fileName);
+                        String machinesData = readSection("Marche - Machines à vendre:", fileName);
                         for (String machineLine : machinesData.split("\n")) {
                             if (machineLine.startsWith("Objets sur la carte:")){
                                 break;
@@ -136,7 +136,7 @@ public class GameLoader {
                 if (objectLine.equals("Machines sur la carte:")){
                     break;
                 }
-                String[] objectData = objectLine.split(" à la position ");
+                String[] objectData = objectLine.split(" a la position ");
                 if (objectData.length == 2) {
                     String objectName = objectData[0].trim();
                     String[] positionData = objectData[1].split(",");
@@ -167,7 +167,7 @@ public class GameLoader {
                         String machineData = machineLine.split("option->")[1].trim();
 
                         // Extraction des parties option, position, stock et inventaire
-                        String[] machineParts = machineData.split("à la position");
+                        String[] machineParts = machineData.split("a la position");
                         String option = machineParts[0].trim();
 
                         String[] positionStockInventory = machineParts[1].split("Stock->");

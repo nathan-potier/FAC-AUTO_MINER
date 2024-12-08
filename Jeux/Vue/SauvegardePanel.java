@@ -78,8 +78,8 @@ public class SauvegardePanel extends JPanel {
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (sauvegardeListener != null) {
-                    sauvegardeListener.onRetourMenu(); // Notifie le retour au menu
+                if (menuListener != null) {
+                    menuListener.onRetourMenu(); // Notifie le retour au menu
                 }
             }
         });

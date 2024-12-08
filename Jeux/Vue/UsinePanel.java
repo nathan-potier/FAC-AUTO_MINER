@@ -30,11 +30,17 @@ public class UsinePanel extends JPanel {
 
         productionTimer = new Timer(5000, e -> updateAll());
         productionTimer.setRepeats(true);
-
-        // Créer un JLabel
-        nomTypeUsine = new JLabel();
-        this.add(nomTypeUsine);
-        this.setVisible(true);
+        
+        JPanel titre = new JPanel(new BorderLayout());
+        titre.setBackground(Color.DARK_GRAY);
+        titre.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
+        //nomTypeUsine = new JLabel();
+        nomTypeUsine = new JLabel("Argent: 100 coins");
+        nomTypeUsine.setForeground(Color.white);
+        nomTypeUsine.setFont(new Font("Arial", Font.BOLD, 16));
+        nomTypeUsine.setHorizontalAlignment(SwingConstants.CENTER);
+        titre.add(nomTypeUsine, BorderLayout.CENTER);
+        this.add(titre, BorderLayout.NORTH);
 
         RessourcePanel = new JPanel();
         RessourcePanel.setLayout(new BoxLayout(RessourcePanel, BoxLayout.Y_AXIS));
@@ -163,7 +169,7 @@ public class UsinePanel extends JPanel {
 
     public void setUsine(Usine usine) {
         this.usine = usine;
-        nomTypeUsine = new JLabel("Usine :" + usine.getName());
+        nomTypeUsine = new JLabel("Usine :");
         // Mettre à jour les recettes disponibles
         recetteComboBox.removeAllItems();
         for (String recette : usine.getTabRecettes()) {

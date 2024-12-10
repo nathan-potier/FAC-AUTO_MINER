@@ -86,24 +86,37 @@ public class Map {
         timer.start();
         
     }
-
-    public ArrayList<Cell> regarderAutour(Position pos) {
-
+    
+    public ArrayList<Position> positionsAutour4(Position pos) {
         Direction[] directions = {Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT};
-        ArrayList<Cell> resultats = new ArrayList<>();
+        ArrayList<Position> positions = new ArrayList<>();
 
         for (Direction direction : directions) {
             Position newPosition = direction.move(pos);
-            // Vérification des limites du tableau
-            if (posIsValid(newPosition) &&  grid[newPosition.getY()][newPosition.getX()] != null) {
-                
+            if (posIsValid(newPosition)) { // Vérification des limites du tableau
+                positions.add(newPosition);
+            }
+        }
+        return positions;
+    }
+
+    
+    public ArrayList<Cell> regarderAutour(Position pos) {
+        ArrayList<Cell> resultats = new ArrayList<>();
+        ArrayList<Position> positionsAutour = positionsAutour4(pos);
+
+        for (Position newPosition : positionsAutour) {
+            // Ajouter la cellule si elle existe, sinon null
+            if (grid[newPosition.getY()][newPosition.getX()] != null) {
                 resultats.add(grid[newPosition.getY()][newPosition.getX()]);
-            }else{
+            } else {
                 resultats.add(null);
             }
         }
+
         return resultats;
     }
+
     
     public void ActionByClick(Player player, Position pos){
         ArrayList<Cell> res = regarderAutour(player.getPos());
@@ -124,7 +137,7 @@ public class Map {
 
     }
     public boolean isSpawn(Position pos){
-        return grid[pos.getY()][pos.getX()].equals(grid[Spawn.getPos().getY()][Spawn.getPos().getX()]);
+        return pos.getX() == Spawn.getPos().getX() && pos.getY() == Spawn.getPos().getY();
     }
     public boolean cellIsEmpty(Position pos){
         return grid[pos.getY()][pos.getX()] == null;
@@ -245,16 +258,24 @@ public class Map {
             grid[Spawn.getPos().getY()][Spawn.getPos().getX()] = new Cell(Spawn.getPos(), spawn);
         }
     }
+    //temporaire
+    private void genNWood(int n){
+        for (int i = 0; i < n ; i++){
+            Position posWood1 = genRandomPosValid();
+            Wood wood = new Wood(1, posWood1);
+            grid[posWood1.getY()][posWood1.getX()] = new Cell(posWood1, wood);  
+        }
+
+    }
 
     public void generateRessource(Player p){
 
-        Random rand = new Random();
-        int aleatoireIntLargeur = rand.nextInt(width);
-        int aleatoireIntHauteur = rand.nextInt(height);
 
-        Position posWood1 = new Position(2, 1);
+        Position posWood1 = genRandomPosValid();
         Wood wood = new Wood(1, posWood1);
         grid[posWood1.getY()][posWood1.getX()] = new Cell(posWood1, wood);
+
+        genNWood(50);
 
         Position posIron1 = new Position(6, 3);
         Iron iron = new Iron(1, posIron1);
@@ -266,7 +287,7 @@ public class Map {
         grid[posIron2.getY()][posIron2.getX()] = new Cell(posIron2, iron2);
 
         // Placer une usine à côté de la position de `Wood`
-        Position posUsine = new Position(posWood1.getX() + 1, posWood1.getY()); // Position adjacente
+        Position posUsine = new Position(3, 1); // Position adjacente
         Usine usine = new Usine(new Inventory(), posUsine, "XL", new Inventory(), game.getPlayer());
         grid[posUsine.getY()][posUsine.getX()] = new Cell(posUsine, usine);
 
@@ -277,22 +298,81 @@ public class Map {
 
     }
 
+    private Position genRandomPos(){
+        Random rand = new Random();
+        int aleatoireX = rand.nextInt(width);
+        int aleatoireY = rand.nextInt(height);
 
-    public Cell[][] getGrid(){return grid;}
-    public void setGrid(Cell[][] ngrid){grid = ngrid;}
+        Position pos= new Position(aleatoireX, aleatoireY);
+        int limiteExecution = 50;
+        int execution = 0;
+        while (isSpawn(pos)) {
+            if (limiteExecution <= execution){return null;}
+            pos = genRandomPos();
+            execution++;
+        }
+        return pos;
 
-    public boolean deplacerVersPosition(Player p, Position cible) {
+
+    }
+
+    /**
+     * Cette méthode retourne toutes les positions valide autour d'une position donnée.
+     *
+     * @param pos La position de départ à partir de laquelle les positions autours seront calculées.
+     * @return Une liste de toutes les positions valides autour de la position donnée.
+     */
+    private ArrayList<Position> posAutour8(Position pos){
+        ArrayList<Position> posAutour = positionsAutour4(pos);
+        // Calcul des positions diagonales
+        Position[] diagonales = {
+            new Position(pos.getX() - 1, pos.getY() - 1), // Haut gauche
+            new Position(pos.getX() + 1, pos.getY() - 1), // Haut droit
+            new Position(pos.getX() - 1, pos.getY() + 1), // Bas gauche
+            new Position(pos.getX() + 1, pos.getY() + 1)  // Bas droit
+        };
+
+        // Vérification si les positions diagonales sont valides
+        for (Position p : diagonales) {
+            if (posIsValid(p)) {
+                posAutour.add(p);
+            }
+        }
+        return posAutour;
+    }
+
+    private Position genRandomPosValid(){
+        Position pos = genRandomPos();
+
+        System.out.println(pos);
+
+        ArrayList<Position> posAutour = posAutour8(pos);
+
+        for (int i = 0; i < posAutour.size() ; i++){
+  
+            
+            if (trouverChemin(Spawn.getPos(), posAutour.get(i)) == null && posIsValid(posAutour.get(i))){
+                return genRandomPosValid();
+            }
+        }
+
+        return pos;
+
+    }
+
+
+    public ArrayList<Position> trouverChemin(Position depart, Position cible) {
         if (!posIsValid(cible) || 
             (grid[cible.getY()][cible.getX()] != null && !(grid[cible.getY()][cible.getX()].getContent() instanceof Spawn))) {
             System.out.println("Position cible invalide ou occupée.");
-            return false;
+            return null;
         }
     
         boolean[][] visited = new boolean[height][width];
         Position[][] prev = new Position[height][width];
         Queue<Position> queue = new LinkedList<>();
-        queue.add(p.getPos());
-        visited[p.getPos().getY()][p.getPos().getX()] = true;
+        queue.add(depart);
+        visited[depart.getY()][depart.getX()] = true;
     
         Direction[] directions = {Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT};
     
@@ -318,51 +398,58 @@ public class Map {
         // Vérifier si un chemin a été trouvé
         if (prev[cible.getY()][cible.getX()] == null) {
             System.out.println("Pas de chemin disponible.");
-            return false;
+            return null;
         }
     
         // Reconstruire le chemin sans inclure la position de départ
-        LinkedList<Position> chemin = new LinkedList<>();
+        ArrayList<Position> chemin = new ArrayList<>();
         for (Position at = cible; prev[at.getY()][at.getX()] != null; at = prev[at.getY()][at.getX()]) {
-            chemin.addFirst(at);
+            chemin.add(0, at); // Ajouter au début pour maintenir l'ordre
         }
-        
+    
+        return chemin;
+    }
+    
+    public boolean deplacerVersPosition(Player p, Position cible) {
+        ArrayList<Position> chemin = trouverChemin(p.getPos(), cible);
+        if (chemin == null) {
+            return false;
+        }
+    
         // Créer un Timer pour déplacer le joueur progressivement
         int delay = 80; // Temps de pause entre les déplacements (en millisecondes)
         Timer timer = new Timer(delay, null);
         AtomicInteger index = new AtomicInteger(0); // Pour gérer la position actuelle dans le chemin
-
+    
         // Action à exécuter à chaque tick du Timer
         timer.addActionListener(e -> {
             int currentIndex = index.getAndIncrement();
             if (currentIndex < chemin.size()) {
                 Position nextPos = chemin.get(currentIndex);
                 Direction direction = Direction.getDirection(p.getPos(), nextPos);
-
+    
                 if (direction == null) {
                     System.out.println("Direction invalide.");
                     timer.stop(); // Arrêter le timer si une direction invalide est trouvée
                     return;
                 }
-
+    
                 // Appeler la fonction de déplacement existante
                 if (!deplacer(p, direction)) {
                     System.out.println("Impossible de continuer à cause d'un obstacle.");
                     timer.stop(); // Arrêter le timer si un obstacle est rencontré
                     return;
                 }
-
-
-
             } else {
                 timer.stop();  // Arrêter le timer une fois que le joueur a atteint la cible
             }
         });
-
+    
         timer.start();  // Démarrer le Timer pour exécuter les déplacements progressivement
-
+    
         return true;
     }
+    
 
     public ArrayList<ObjectWithPosition> getPositionObject() {
         ArrayList<ObjectWithPosition> res = new ArrayList<>();
@@ -392,6 +479,8 @@ public class Map {
         }
         return res;  // Retourner la liste des objets ayant une position
     }
+    public Cell[][] getGrid(){return grid;}
+    public void setGrid(Cell[][] ngrid){grid = ngrid;}
 
     @Override
     public String toString() {

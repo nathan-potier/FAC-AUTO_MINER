@@ -88,7 +88,7 @@ public class Map {
         
     }
     
-    public ArrayList<Position> positionsAutour4(Position pos) {
+    public ArrayList<Position> posAutour4(Position pos) {
         Direction[] directions = {Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT};
         ArrayList<Position> positions = new ArrayList<>();
 
@@ -104,7 +104,7 @@ public class Map {
     
     public ArrayList<Cell> regarderAutour(Position pos) {
         ArrayList<Cell> resultats = new ArrayList<>();
-        ArrayList<Position> positionsAutour = positionsAutour4(pos);
+        ArrayList<Position> positionsAutour = posAutour4(pos);
 
         for (Position newPosition : positionsAutour) {
             // Ajouter la cellule si elle existe, sinon null
@@ -282,10 +282,15 @@ public class Map {
 
    
 
+        // Position initiale de l'objet Iron
         Position posIron1 = new Position(6, 3);
         Iron iron = new Iron(1, posIron1);
+
+        // Place l'Iron dans la grille
         grid[posIron1.getY()][posIron1.getX()] = new Cell(posIron1, iron);
 
+
+        
 
         Position posIron2 = new Position(1, 6);
         Iron iron2 = new Iron(1, posIron2);
@@ -296,7 +301,7 @@ public class Map {
         Usine usine = new Usine(new Inventory(), posUsine, "XL", new Inventory(), game.getPlayer());
         grid[posUsine.getY()][posUsine.getX()] = new Cell(posUsine, usine);
 
-        //genNWood(80);
+        genNWood(80);
 
         // Placer une récolteuse à côté de la position de `Iron`
         // Position posRecolteuse = new Position(posIron1.getX() + 1, posIron1.getY()); // Position adjacente
@@ -330,7 +335,7 @@ public class Map {
      * @return Une liste de toutes les positions valides autour de la position donnée.
      */
     public ArrayList<Position> posAutour8(Position pos){
-        ArrayList<Position> posAutour = positionsAutour4(pos);
+        ArrayList<Position> posAutour = posAutour4(pos);
         // Calcul des positions diagonales
         Position[] diagonales = {
             new Position(pos.getX() - 1, pos.getY() - 1), // Haut gauche
@@ -350,7 +355,9 @@ public class Map {
 
     private boolean isValidPosition(Position pos) {
         ArrayList<Position> posAutour = posAutour8(pos);
+        grid[pos.getY()][pos.getX()] = new Cell(pos, new Attente(pos, null));
         for (Position neighbor : posAutour) {
+            System.out.println(neighbor);
             boolean test = false;
     
             // Vérifie si la grille contient un élément à la position voisine.
@@ -358,7 +365,7 @@ public class Map {
                 test = true;
     
                 // Vérifie les positions autour de cet élément.
-                ArrayList<Position> posAutourElement = posAutour8(neighbor);
+                ArrayList<Position> posAutourElement = posAutour4(neighbor);
                 for (Position neighborNeighbor : posAutourElement) {
                     if (trouverChemin(Spawn.getPos(), neighborNeighbor) != null) {
                         test = false;
@@ -369,10 +376,11 @@ public class Map {
     
             // Vérifie les autres conditions pour refuser la position.
             if ((trouverChemin(Spawn.getPos(), neighbor) == null && grid[neighbor.getY()][neighbor.getX()] == null) || test) {
+                grid[pos.getY()][pos.getX()] = null;
                 return false;
             }
         }
-    
+        grid[pos.getY()][pos.getX()] = null;
         return true; // Si aucune condition n'échoue, la position est valide.
     }
     
@@ -386,11 +394,10 @@ public class Map {
 
     
         // Marque temporairement la grille avec une cellule.
-        grid[pos.getY()][pos.getX()] = new Cell(pos, new Attente(pos, null));
+        
     
         // Vérifie si la position est valide en utilisant la fonction de validation.
         if (!isValidPosition(pos)) {
-            grid[pos.getY()][pos.getX()] = null; // Nettoie la grille si invalide.
             return genRandomPosValid(); // Rappel récursif pour trouver une position valide.
         }
     

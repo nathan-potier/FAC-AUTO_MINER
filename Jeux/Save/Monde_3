@@ -1,8 +1,9 @@
 Joueur: 
 Position: 2,11
-Argent: 91
+Argent: 52
 Ressources du joueur:
-Wood:20
+Wood:17
+Iron:9
 Machines du joueur:
 Marche position:
 (14;6)
@@ -13,4 +14,4 @@ Wood a la position 2,1
 Iron a la position 6,3
 Iron a la position 1,6
 Machines sur la carte:
-Usine option-> XL a la position 3,1 Stock-> {(Pickaxe;1),} Inventaire-> (Wood;1),(Iron;0),
+Usine option-> XL a la position 3,1 Stock-> {} Inventaire-> (Wood;4),(Iron;4),

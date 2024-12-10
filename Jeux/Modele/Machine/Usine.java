@@ -110,6 +110,7 @@ public class Usine extends Machine {
     }
 
     public boolean ajouterRessource(Resource r){
+        if (recetteEnCours != null && !isCooking){startProduction();}
         return stockResources.addQuantityResource(r, 1);
     }
     public void retirerRessource(Resource r){

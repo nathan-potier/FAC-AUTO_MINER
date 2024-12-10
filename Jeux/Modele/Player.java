@@ -1,5 +1,5 @@
 package Modele;
-import Vue.MarketInterface;
+import Vue.UpdateInterface;
 import Modele.Machine.*;
 import Modele.Resource.*;
 
@@ -9,7 +9,7 @@ public class Player {
     private String pseudo;
     private boolean ecoute = true;
     private int money;
-    private MarketInterface marketInterface;
+    private UpdateInterface marketInterface;
 
     public void setEcoute(boolean ecoute) {
         this.ecoute = ecoute;
@@ -23,7 +23,7 @@ public class Player {
     public boolean collectResource(Resource resource) {
         if(inventory.addResource(resource)){
             try{
-                marketInterface.updateInventory();
+                marketInterface.notificationUpdate();
             }catch(Exception e){
                 
             }
@@ -36,7 +36,7 @@ public class Player {
     public boolean collectQuantityResource(Resource resource, int quantity) {
         if(inventory.addQuantityResource(resource, quantity)){
             try{
-                marketInterface.updateInventory();
+                marketInterface.notificationUpdate();
             }catch(Exception e){
                 
             }
@@ -46,13 +46,13 @@ public class Player {
         
         return false;
     }
-    public void setMarketInterface(MarketInterface marketInterface) {
+    public void setMarketInterface(UpdateInterface marketInterface) {
         this.marketInterface = marketInterface;
     }
     public boolean addMachine(Machine machine) {
         
         boolean b =  inventory.addMachine(machine);
-        marketInterface.updateInventory();
+        marketInterface.notificationUpdate();
         return b;
     }
 
@@ -60,7 +60,7 @@ public class Player {
         return inventory.hasMachine(m);
     }
     public void removeMachine(){
-        marketInterface.updateInventory();
+        marketInterface.notificationUpdate();
         inventory.removeMachine();
     }
 
@@ -92,7 +92,7 @@ public class Player {
 
         inventory.removeResource(r, 1);
         System.out.println("test");
-        marketInterface.updateInventory();
+        marketInterface.notificationUpdate();
     }
 
     public void setPos(Position p){

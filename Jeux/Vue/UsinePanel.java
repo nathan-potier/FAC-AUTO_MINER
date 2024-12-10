@@ -10,7 +10,7 @@ import Modele.Machine.Usine;
 import Modele.Resource.*;
 import java.util.List;
 
-public class UsinePanel extends JPanel {
+public class UsinePanel extends JPanel implements UpdateInterface{
 
     private Player player;
     private Usine usine;
@@ -28,8 +28,8 @@ public class UsinePanel extends JPanel {
         this.setBackground(Color.DARK_GRAY);
         this.setBorder(BorderFactory.createEmptyBorder(0, 0, 60, 0));
 
-        productionTimer = new Timer(5000, e -> updateAll());
-        productionTimer.setRepeats(true);
+        //productionTimer = new Timer(5000, e -> updateAll());
+        //productionTimer.setRepeats(true);
         
         JPanel titre = new JPanel(new BorderLayout());
         titre.setBackground(Color.DARK_GRAY);
@@ -98,10 +98,7 @@ public class UsinePanel extends JPanel {
             if (selectedRecette != null && usine != null) {
                 usine.setRecetteEnCours(selectedRecette);
                 produceButton.setEnabled(false);
-                
-                if (!productionTimer.isRunning()) {
-                    productionTimer.start();
-                }
+
             }
         });
         recetteSelectionPanel.add(produceButton);
@@ -168,6 +165,7 @@ public class UsinePanel extends JPanel {
 
     public void setUsine(Usine usine) {
         this.usine = usine;
+        usine.setInterfaceUpdate(this);
         nomTypeUsine.setText("Usine : " + usine.getOption());
         // Mettre à jour les recettes disponibles
         recetteComboBox.removeAllItems();
@@ -356,5 +354,10 @@ public class UsinePanel extends JPanel {
         itemPanel.add(ingredientLabel);
 
         ingredientsPanel.add(itemPanel);
+    }
+
+    @Override
+    public void notificationUpdate() {
+        updateAll();
     }
 }

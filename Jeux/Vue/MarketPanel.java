@@ -13,7 +13,7 @@ import Modele.Market;
 
 import java.util.List;
 
-public class MarketPanel extends JPanel implements MarketInterface{
+public class MarketPanel extends JPanel implements UpdateInterface{
 
     private Market market;
     private Player player;  
@@ -247,7 +247,7 @@ public class MarketPanel extends JPanel implements MarketInterface{
     }
 
     @Override
-    public void updateInventory(){
+    public void notificationUpdate(){
         updateInventoryPanel(sellPanel);
 
     }

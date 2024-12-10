@@ -1,6 +1,7 @@
 package Modele.Machine;
 
 import Modele.Resource.Resource;
+import Vue.UpdateInterface;
 import Modele.*;
 
 public abstract class Machine {
@@ -14,6 +15,7 @@ public abstract class Machine {
     private boolean modifiable;
     private boolean fonctionneBien;
     private String option;
+    private UpdateInterface update;
 
     public Machine(String type, Position pos, String option, Inventory stockProd, Player player) {
         if (stockProd != null){
@@ -28,7 +30,7 @@ public abstract class Machine {
         this.modifiable = isModifiable(type);
         this.fonctionneBien = fonctionneBien(type);
         this.option = option;
-        System.out.println(option);
+        
     }
     public static int getPrix(String type) {
         return switch (type) {
@@ -69,16 +71,19 @@ public abstract class Machine {
     public String getOption(){return option;}
     public Inventory getStock() {return stockProd;}
 
+    public void setInterfaceUpdate(UpdateInterface update){this.update = update;}
+
     public Player getPlayer(){return player;}
 
     public void ajouterAustock(Resource ressourceProduite) {
         stockProd.addResource(ressourceProduite);
-
+        update.notificationUpdate();
     }
     
 
     public void retirerRessource(Resource ressource) {
-        stockProd.removeResource(ressource, 1);;
+        stockProd.removeResource(ressource, 1);
+        update.notificationUpdate();
     }
 
     public void produire() {}

@@ -35,7 +35,7 @@ public class UsinePanel extends JPanel {
         titre.setBackground(Color.DARK_GRAY);
         titre.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
         //nomTypeUsine = new JLabel();
-        nomTypeUsine = new JLabel("Argent: 100 coins");
+        nomTypeUsine = new JLabel("");
         nomTypeUsine.setForeground(Color.white);
         nomTypeUsine.setFont(new Font("Arial", Font.BOLD, 16));
         nomTypeUsine.setHorizontalAlignment(SwingConstants.CENTER);
@@ -169,7 +169,7 @@ public class UsinePanel extends JPanel {
 
     public void setUsine(Usine usine) {
         this.usine = usine;
-        nomTypeUsine = new JLabel("Usine :");
+        nomTypeUsine.setText("Usine : " + usine.getOption());
         // Mettre à jour les recettes disponibles
         recetteComboBox.removeAllItems();
         for (String recette : usine.getTabRecettes()) {

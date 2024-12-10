@@ -55,7 +55,10 @@ public class Map {
         for(Machine m : machinesListe){
             grid[m.getPosition().getY()][m.getPosition().getX()] = new Cell(m.getPosition(), m);
         }
+        
         generateMap(game.getPlayer());
+        
+        
     }
 
     public void generateMap(Player p) {
@@ -260,48 +263,47 @@ public class Map {
         }
     }
     //temporaire
-    private void genNWood(int n){
-        for (int i = 0; i < n ; i++){
-            Position posWood1 = genRandomPosValid();
-            Wood wood = new Wood(1, posWood1);
-            grid[posWood1.getY()][posWood1.getX()] = new Cell(posWood1, wood);  
+    private void genNObjects(int n, String type) {
+        for (int i = 0; i < n; i++) {
+            // Générer une position valide
+            Position pos = genRandomPosValid();
+    
+            // Vérifie si une position valide est trouvée
+            if (pos == null) {
+                System.out.println("Impossible de placer plus d'objets, espace insuffisant.");
+                break;
+            }
+    
+            // Crée l'objet en fonction du type spécifié
+            Object obj = null;
+            switch (type.toLowerCase()) {
+                case "wood":
+                    obj = new Wood(1, pos);
+                    break;
+                case "iron":
+                    obj = new Iron(1, pos);
+                    break;
+                // Ajouter d'autres types d'objets ici si nécessaire
+                default:
+                    System.out.println("Type inconnu : " + type);
+                    continue;
+            }
+    
+            // Place l'objet dans la grille
+            grid[pos.getY()][pos.getX()] = new Cell(pos, obj);
         }
-
     }
+    
+
 
     public void generateRessource(Player p){
-        /* 
-        Position posWood1 = new Position(0, 1);
-        Wood wood = new Wood(1, posWood1);
-        grid[posWood1.getY()][posWood1.getX()] = new Cell(posWood1, wood);  
-
-        Position posWood2 = new Position(1, 0);
-        Wood wood2 = new Wood(1, posWood2);
-        grid[posWood2.getY()][posWood2.getX()] = new Cell(posWood2, wood2);  
-        */
-
-   
-
-        // Position initiale de l'objet Iron
-        Position posIron1 = new Position(6, 3);
-        Iron iron = new Iron(1, posIron1);
-
-        // Place l'Iron dans la grille
-        grid[posIron1.getY()][posIron1.getX()] = new Cell(posIron1, iron);
-
-
-        
-
-        Position posIron2 = new Position(1, 6);
-        Iron iron2 = new Iron(1, posIron2);
-        grid[posIron2.getY()][posIron2.getX()] = new Cell(posIron2, iron2);
-
         // Placer une usine à côté de la position de `Wood`
         Position posUsine = new Position(3, 1); // Position adjacente
         Usine usine = new Usine(new Inventory(), posUsine, "XL", new Inventory(), game.getPlayer());
         grid[posUsine.getY()][posUsine.getX()] = new Cell(posUsine, usine);
 
-        genNWood(80);
+        genNObjects(3, "Wood");
+        genNObjects(3, "Iron");
 
         // Placer une récolteuse à côté de la position de `Iron`
         // Position posRecolteuse = new Position(posIron1.getX() + 1, posIron1.getY()); // Position adjacente
@@ -389,11 +391,7 @@ public class Map {
         Position pos = genRandomPos();
     
         System.out.println(pos);
-    
-        // Génère les positions autour de la position actuelle.
 
-    
-        // Marque temporairement la grille avec une cellule.
         
     
         // Vérifie si la position est valide en utilisant la fonction de validation.

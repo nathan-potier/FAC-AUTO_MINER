@@ -36,6 +36,7 @@ public class Map {
 
     public Map(int width, int height, Player p, Spawn spawn, Market m, Game game) {
         grid = new Cell[height][width];
+        
         this.width = width;
         this.height = height; 
         this.spawn = spawn;
@@ -269,13 +270,17 @@ public class Map {
     }
 
     public void generateRessource(Player p){
-
-
-        Position posWood1 = genRandomPosValid();
+        /* 
+        Position posWood1 = new Position(0, 1);
         Wood wood = new Wood(1, posWood1);
-        grid[posWood1.getY()][posWood1.getX()] = new Cell(posWood1, wood);
+        grid[posWood1.getY()][posWood1.getX()] = new Cell(posWood1, wood);  
 
-        genNWood(50);
+        Position posWood2 = new Position(1, 0);
+        Wood wood2 = new Wood(1, posWood2);
+        grid[posWood2.getY()][posWood2.getX()] = new Cell(posWood2, wood2);  
+        */
+
+   
 
         Position posIron1 = new Position(6, 3);
         Iron iron = new Iron(1, posIron1);
@@ -290,6 +295,8 @@ public class Map {
         Position posUsine = new Position(3, 1); // Position adjacente
         Usine usine = new Usine(new Inventory(), posUsine, "XL", new Inventory(), game.getPlayer());
         grid[posUsine.getY()][posUsine.getX()] = new Cell(posUsine, usine);
+
+        //genNWood(80);
 
         // Placer une récolteuse à côté de la position de `Iron`
         // Position posRecolteuse = new Position(posIron1.getX() + 1, posIron1.getY()); // Position adjacente
@@ -306,7 +313,7 @@ public class Map {
         Position pos= new Position(aleatoireX, aleatoireY);
         int limiteExecution = 50;
         int execution = 0;
-        while (isSpawn(pos)) {
+        while (isSpawn(pos) || grid[pos.getY()][pos.getX()] != null) {
             if (limiteExecution <= execution){return null;}
             pos = genRandomPos();
             execution++;
@@ -322,7 +329,7 @@ public class Map {
      * @param pos La position de départ à partir de laquelle les positions autours seront calculées.
      * @return Une liste de toutes les positions valides autour de la position donnée.
      */
-    private ArrayList<Position> posAutour8(Position pos){
+    public ArrayList<Position> posAutour8(Position pos){
         ArrayList<Position> posAutour = positionsAutour4(pos);
         // Calcul des positions diagonales
         Position[] diagonales = {
@@ -341,30 +348,64 @@ public class Map {
         return posAutour;
     }
 
-    private Position genRandomPosValid(){
-        Position pos = genRandomPos();
-
-        System.out.println(pos);
-
+    private boolean isValidPosition(Position pos) {
         ArrayList<Position> posAutour = posAutour8(pos);
-
-        for (int i = 0; i < posAutour.size() ; i++){
-  
-            
-            if (trouverChemin(Spawn.getPos(), posAutour.get(i)) == null && posIsValid(posAutour.get(i))){
-                return genRandomPosValid();
+        for (Position neighbor : posAutour) {
+            boolean test = false;
+    
+            // Vérifie si la grille contient un élément à la position voisine.
+            if (grid[neighbor.getY()][neighbor.getX()] != null) {
+                test = true;
+    
+                // Vérifie les positions autour de cet élément.
+                ArrayList<Position> posAutourElement = posAutour8(neighbor);
+                for (Position neighborNeighbor : posAutourElement) {
+                    if (trouverChemin(Spawn.getPos(), neighborNeighbor) != null) {
+                        test = false;
+                        break;
+                    }
+                }
+            }
+    
+            // Vérifie les autres conditions pour refuser la position.
+            if ((trouverChemin(Spawn.getPos(), neighbor) == null && grid[neighbor.getY()][neighbor.getX()] == null) || test) {
+                return false;
             }
         }
-
-        return pos;
-
+    
+        return true; // Si aucune condition n'échoue, la position est valide.
     }
+    
+
+    private Position genRandomPosValid() {
+        Position pos = genRandomPos();
+    
+        System.out.println(pos);
+    
+        // Génère les positions autour de la position actuelle.
+
+    
+        // Marque temporairement la grille avec une cellule.
+        grid[pos.getY()][pos.getX()] = new Cell(pos, new Attente(pos, null));
+    
+        // Vérifie si la position est valide en utilisant la fonction de validation.
+        if (!isValidPosition(pos)) {
+            grid[pos.getY()][pos.getX()] = null; // Nettoie la grille si invalide.
+            return genRandomPosValid(); // Rappel récursif pour trouver une position valide.
+        }
+    
+        grid[pos.getY()][pos.getX()] = null; // Nettoie la grille.
+        return pos; // Retourne la position valide.
+    }
+    
+
+    
 
 
     public ArrayList<Position> trouverChemin(Position depart, Position cible) {
         if (!posIsValid(cible) || 
             (grid[cible.getY()][cible.getX()] != null && !(grid[cible.getY()][cible.getX()].getContent() instanceof Spawn))) {
-            System.out.println("Position cible invalide ou occupée.");
+            //System.out.println("Position cible invalide ou occupée.");
             return null;
         }
     

@@ -108,6 +108,7 @@ public class UsinePanel extends JPanel implements UpdateInterface{
         stockPanel = new JPanel();
         stockPanel.setLayout(new BoxLayout(stockPanel, BoxLayout.Y_AXIS));
         stockPanel.setBackground(Color.DARK_GRAY);
+        stockPanel.setPreferredSize(new Dimension(200, 75));
         stockPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(221, 242, 172)), "Stock de Production", 0, 0, new Font("Arial", Font.BOLD, 14), Color.white));
 
         stockPanel.setBorder(BorderFactory.createCompoundBorder(

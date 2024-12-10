@@ -16,6 +16,7 @@ public class InventairePanel extends JPanel {
         this.player = player;
         this.setLayout(new GridLayout(3, 9, 5, 5)); // Grille 9x3 avec marges
         this.setBorder(new LineBorder(Color.DARK_GRAY, 20));  // Bordure noire de 20 pixels
+        this.setBorder(BorderFactory.createEmptyBorder(10, 10, 50, 170));
         this.setBackground(Color.DARK_GRAY); // Arrière-plan gris foncé pour l'ensemble du panneau
     }
     public void setPlayer(Player p){player = p;}

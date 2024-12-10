@@ -1,6 +1,7 @@
 package Modele.Machine;
 
 import Modele.Resource.Resource;
+import Vue.UpdateInterface;
 import Modele.*;
 
 public abstract class Machine {
@@ -14,6 +15,7 @@ public abstract class Machine {
     private boolean modifiable;
     private boolean fonctionneBien;
     private String option;
+    private UpdateInterface update;
 
     public Machine(String type, Position pos, String option, Inventory stockProd, Player player) {
         if (stockProd != null){
@@ -28,9 +30,9 @@ public abstract class Machine {
         this.modifiable = isModifiable(type);
         this.fonctionneBien = fonctionneBien(type);
         this.option = option;
-        System.out.println(option);
+        
     }
-    private static int getPrix(String type) {
+    public static int getPrix(String type) {
         return switch (type) {
             case "XL", "Rapide" -> 150;
             case "Fragile" -> 50;
@@ -39,25 +41,25 @@ public abstract class Machine {
         };
     }
 
-    private static int getTempFabriq(String type) {
+    public static int getTempFabriq(String type) {
         return switch (type) {
             case "Rapide" -> 2;
-            default -> 10;
+            default -> 5;
         };
     }
 
-    private static int getLimiteStock(String type) {
+    public static int getLimiteStock(String type) {
         return switch (type) {
             case "XL" -> 10;
             default -> 5;
         };
     }
 
-    private static boolean isModifiable(String type) {
+    public static boolean isModifiable(String type) {
         return false; // Toutes les usines sont non modifiables dans cet exemple
     }
 
-    private static boolean fonctionneBien(String type) {
+    public static boolean fonctionneBien(String type) {
         return !type.equals("Fragile");
     }
 
@@ -69,16 +71,19 @@ public abstract class Machine {
     public String getOption(){return option;}
     public Inventory getStock() {return stockProd;}
 
+    public void setInterfaceUpdate(UpdateInterface update){this.update = update;}
+
     public Player getPlayer(){return player;}
 
     public void ajouterAustock(Resource ressourceProduite) {
         stockProd.addResource(ressourceProduite);
-
+        update.notificationUpdate();
     }
     
 
     public void retirerRessource(Resource ressource) {
-        stockProd.removeResource(ressource, 1);;
+        stockProd.removeResource(ressource, 1);
+        update.notificationUpdate();
     }
 
     public void produire() {}

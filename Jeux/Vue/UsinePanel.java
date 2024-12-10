@@ -10,7 +10,7 @@ import Modele.Machine.Usine;
 import Modele.Resource.*;
 import java.util.List;
 
-public class UsinePanel extends JPanel {
+public class UsinePanel extends JPanel implements UpdateInterface{
 
     private Player player;
     private Usine usine;
@@ -21,14 +21,26 @@ public class UsinePanel extends JPanel {
     private JButton takeButton;
     private JPanel ingredientsPanel;
     private Timer productionTimer;
+    private JLabel nomTypeUsine;
 
     public UsinePanel() {
         this.setLayout(new BorderLayout());
         this.setBackground(Color.DARK_GRAY);
         this.setBorder(BorderFactory.createEmptyBorder(0, 0, 60, 0));
 
-        productionTimer = new Timer(5000, e -> updateAll());
-        productionTimer.setRepeats(true);
+        //productionTimer = new Timer(5000, e -> updateAll());
+        //productionTimer.setRepeats(true);
+        
+        JPanel titre = new JPanel(new BorderLayout());
+        titre.setBackground(Color.DARK_GRAY);
+        titre.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
+        //nomTypeUsine = new JLabel();
+        nomTypeUsine = new JLabel("");
+        nomTypeUsine.setForeground(Color.white);
+        nomTypeUsine.setFont(new Font("Arial", Font.BOLD, 16));
+        nomTypeUsine.setHorizontalAlignment(SwingConstants.CENTER);
+        titre.add(nomTypeUsine, BorderLayout.CENTER);
+        this.add(titre, BorderLayout.NORTH);
 
         RessourcePanel = new JPanel();
         RessourcePanel.setLayout(new BoxLayout(RessourcePanel, BoxLayout.Y_AXIS));
@@ -84,15 +96,11 @@ public class UsinePanel extends JPanel {
         produceButton.addActionListener(e -> {
             String selectedRecette = (String) recetteComboBox.getSelectedItem();
             if (selectedRecette != null && usine != null) {
-                usine.setRecetteEnCours(selectedRecette);
+                usine.setRecette(selectedRecette);
                 produceButton.setEnabled(false);
-                
-                if (!productionTimer.isRunning()) {
-                    productionTimer.start();
-                }
+
             }
         });
-
         recetteSelectionPanel.add(produceButton);
         middlePanel.add(recetteSelectionPanel);
 
@@ -157,7 +165,8 @@ public class UsinePanel extends JPanel {
 
     public void setUsine(Usine usine) {
         this.usine = usine;
-
+        usine.setInterfaceUpdate(this);
+        nomTypeUsine.setText("Usine : " + usine.getOption());
         // Mettre à jour les recettes disponibles
         recetteComboBox.removeAllItems();
         for (String recette : usine.getTabRecettes()) {
@@ -345,5 +354,10 @@ public class UsinePanel extends JPanel {
         itemPanel.add(ingredientLabel);
 
         ingredientsPanel.add(itemPanel);
+    }
+
+    @Override
+    public void notificationUpdate() {
+        updateAll();
     }
 }

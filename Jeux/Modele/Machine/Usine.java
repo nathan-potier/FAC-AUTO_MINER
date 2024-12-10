@@ -11,7 +11,8 @@ public class Usine extends Machine {
     private Inventory stockResources;
     private List<Recette> recettesDisponibles;
     private Timer timer;  // Timer pour la production périodique
-    private String recetteEnCours;  // Nom de la recette en cours
+    //private String recetteEnCours;  // Nom de la recette en cours
+    private Recette recetteEnCours = null;
     private boolean isCooking = false;
 
 
@@ -22,32 +23,37 @@ public class Usine extends Machine {
         this.timer = new Timer();
     }
 
-    public void setRecetteEnCours(String recetteNom) {
-        this.recetteEnCours = recetteNom;
+    public void setRecette(String recetteNom) {
+
+
+        for (Recette recette : recettesDisponibles) {
+            if (recette.getNom().equals(recetteNom)) {
+                this.recetteEnCours = recette;
+            }
+        }
         startProduction();
     }
 
     public boolean isCooking(){return isCooking;}
+
     private void startProduction() {
         stopProduction(); // Arrête tout timer existant
-        
+        int tempFabriqMs = getTempFabriq(getOption()) * 1000;
         isCooking = true;
+        
+        if (!hasSufficientResourcesForRecipe(recetteEnCours)){stopProduction();}
+        
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                for (Recette recette : recettesDisponibles) {
-                    if (recette.getNom().equals(recetteEnCours)) {
-                        if (hasSufficientResourcesForRecipe(recette)) {
-                            produireRecette(recette);
-                        } else {
-                            stopProduction();
-                            
-                        }
-                        break;
-                    }
+                if (hasSufficientResourcesForRecipe(recetteEnCours)) {
+                    produireRecette(recetteEnCours);
+                } else {
+                    stopProduction();
+                    
                 }
             }
-        }, 5000, 5000); // Délai initial de 5 secondes, puis répétition toutes les 5 secondes
+        }, tempFabriqMs, tempFabriqMs); // Délai initial de 5 secondes, puis répétition toutes les 5 secondes
     }
 
     public String getResourcesSTR(){
@@ -75,12 +81,10 @@ public class Usine extends Machine {
 
     // Méthode pour démarrer la production, appelée lorsque l'utilisateur appuie sur "produire"
     public void produire(String nomRecette) {
-        if (recetteEnCours != null && !recetteEnCours.equals(nomRecette)) {
+        if (recetteEnCours != null && !recetteEnCours.getNom().equals(nomRecette)) {
             // Si une autre recette est déjà en cours, arrêtez la production actuelle
             stopProduction();
         }
-    
-        recetteEnCours = nomRecette;
 
         // Démarrer la production périodique pour la recette choisie
         startProduction();
@@ -110,6 +114,8 @@ public class Usine extends Machine {
     }
 
     public boolean ajouterRessource(Resource r){
+        if (recetteEnCours != null && !isCooking){System.out.println("000");startProduction();}
+        
         return stockResources.addQuantityResource(r, 1);
     }
     public void retirerRessource(Resource r){
@@ -137,7 +143,6 @@ public class Usine extends Machine {
     }
 
     private void stopProduction() {
-        System.out.println("stop stop stop");
         timer.cancel();
         timer = new Timer(); // Réinitialiser le timer
         isCooking = false;

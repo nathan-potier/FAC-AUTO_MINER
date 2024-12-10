@@ -60,6 +60,9 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         settingsPanel = new SettingsPanel();
         sauvegardePanel = new SauvegardePanel();
 
+        ImageIcon icon = new ImageIcon("assets/Logo.png"); // Chemin vers l'image
+        this.setIconImage(icon.getImage());
+
         settingsPanel.setMenuListener(this);
         sauvegardePanel.setMenuListener(this);
 

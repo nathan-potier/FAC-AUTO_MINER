@@ -77,4 +77,13 @@ public class MenuButton {
     public Rectangle getBounds() {
         return bounds;
     }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+    
 }

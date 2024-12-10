@@ -6,6 +6,7 @@ import java.io.File;
 import java.util.*;
 import java.util.List;
 import javax.swing.Timer;
+
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 
@@ -25,7 +26,6 @@ public class CartePanel extends JPanel implements GameListener {
     private String playerDirection = "right"; // Direction par défaut
 
     public CartePanel(int width, int height) {
-        this.setPreferredSize(new Dimension(width * CELL_SIZE, height * CELL_SIZE));
         this.setBackground(Color.DARK_GRAY);
     }
 

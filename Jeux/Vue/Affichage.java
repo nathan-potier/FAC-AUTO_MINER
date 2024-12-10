@@ -15,9 +15,9 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
     private Game game;
     private CartePanel cartePanel;
     private InventairePanel inventairePanel;
-    private MarketPanel marketPanel; // Panel supplémentaire
+    private MarketPanel marketPanel;
     private JPanel gamePanel;
-    private JLayeredPane layeredPane; // Pour superposer les panneaux
+    private JLayeredPane layeredPane;
     private MenuPanel menuPanel;
     private SauvegardePanel sauvegardePanel;
     private SettingsPanel settingsPanel;
@@ -52,8 +52,9 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         height = (game.getHeight()+1)*50;
 
         this.setTitle("AutoMiner");
-        setPreferredSize(new Dimension(width, height));
+        setPreferredSize(new Dimension(width, height-10));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
 
         // Initialisation des composants
         gamePanel = new JPanel(new BorderLayout());
@@ -69,6 +70,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         sauvegardePanel.setMenuListener(this);
 
         cartePanel = new CartePanel(game.getWidth(), game.getHeight());
+        
         game.addGameListener(cartePanel);
 
         inventairePanel = new InventairePanel(null);
@@ -253,6 +255,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         marketPanel.setPlayer(game.getPlayer());
         marketPanel.setMarket(game.getMarket());
         boutonPanel.setVisible(true);
+        settingsPanel.setVisible(false);
     }
 
     private void chargerPartie(String nameGameLoad){
@@ -275,9 +278,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
             marketPanel.setPlayer(game.getPlayer());
             marketPanel.setMarket(game.getMarket());
             boutonPanel.setVisible(true);
-
-
-            
+            settingsPanel.setVisible(false);
         }
     }
 
@@ -320,6 +321,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         }else if(menuPanel.isMouseOverSettings(e.getPoint()) && menuBoutonClique){ //pannel Paramètre
             settingsPanel.setVisible(true);
             menuPanel.setVisible(false);
+            boutonPanel.setVisible(false);
             menuBoutonClique = false;
         }else if(menuPanel.isMouseOverExit(e.getPoint()) && menuBoutonClique){
             System.exit(0);
@@ -351,6 +353,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         JPanel button1Panel = new JPanel();
         button1Panel.setLayout(new BoxLayout(button1Panel, BoxLayout.X_AXIS));
         JButton inventaire = new JButton("Inventaire");
+        inventaire.setFocusPainted(false);
         inventaire.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -368,9 +371,6 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         });
         button1Panel.add(inventaire);;
 
-
-
-
         JPanel button2Panel = new JPanel();
         button2Panel.setLayout(new BoxLayout(button2Panel, BoxLayout.X_AXIS));
         button2Panel.add(new JButton("Bouton 2"));
@@ -379,6 +379,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         JPanel button3Panel = new JPanel();
         button3Panel.setLayout(new BoxLayout(button3Panel, BoxLayout.X_AXIS));
         JButton retourMenuButton = new JButton("Retour Menu");
+        retourMenuButton.setFocusPainted(false);
         retourMenuButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

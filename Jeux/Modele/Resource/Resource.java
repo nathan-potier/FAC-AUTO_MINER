@@ -45,10 +45,13 @@ public abstract class Resource implements  ObjectWithPosition{
     }
 
     public boolean addQuantity(int amount) {
+
         if(quantity + amount <= limiteStock){
+
             quantity += amount;
             return true;
         }
+        
         return false;
 
     }
@@ -69,7 +72,9 @@ public abstract class Resource implements  ObjectWithPosition{
     }
     public int getPrix(){return prix;}
 
-
+    public void setLimiteStock(int limite){
+        this.limiteStock = limite;
+    }
     public abstract Resource clone();
     public abstract Resource cloneOne();
 }

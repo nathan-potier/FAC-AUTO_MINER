@@ -5,7 +5,6 @@ import javax.swing.*;
 
 import Modele.GameStates;
 import Modele.Player;
-import Modele.Machine.Recette;
 import Modele.Machine.Usine;
 import Modele.Resource.*;
 import java.util.List;

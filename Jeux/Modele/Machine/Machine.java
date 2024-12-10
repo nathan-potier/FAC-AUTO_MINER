@@ -2,6 +2,7 @@ package Modele.Machine;
 
 import Modele.Resource.Resource;
 import Vue.UpdateInterface;
+
 import Modele.*;
 
 public abstract class Machine {
@@ -26,9 +27,9 @@ public abstract class Machine {
         this.prix = getPrix(option);
         this.pos = pos;
         this.tempFabriq = getTempFabriq(option);
-        this.limiteStock = getLimiteStock(type);
-        this.modifiable = isModifiable(type);
-        this.fonctionneBien = fonctionneBien(type);
+        this.limiteStock = getLimiteStock(option);
+        this.modifiable = isModifiable(option);
+        this.fonctionneBien = fonctionneBien(option);
         this.option = option;
         
     }
@@ -50,8 +51,8 @@ public abstract class Machine {
 
     public static int getLimiteStock(String type) {
         return switch (type) {
-            case "XL" -> 10;
-            default -> 5;
+            case "XL" -> 30;
+            default -> 20;
         };
     }
 
@@ -76,6 +77,9 @@ public abstract class Machine {
     public Player getPlayer(){return player;}
 
     public void ajouterAustock(Resource ressourceProduite) {
+        for (Resource resource : stockProd.getResources()){
+            resource.setLimiteStock(limiteStock); 
+        }
         stockProd.addResource(ressourceProduite);
         update.notificationUpdate();
     }

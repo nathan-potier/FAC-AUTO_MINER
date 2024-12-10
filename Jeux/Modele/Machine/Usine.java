@@ -66,7 +66,12 @@ public class Usine extends Machine {
 
 
     private void produireRecette(Recette recette) {
-
+        for (Resource r : getStock().getResources()){
+            if (r.getName().equals(recette.getNom()) && r.getQuantity() >= getLimiteStock(this.getOption())){
+                stopProduction();
+                return;
+            }
+        }
     
         // Retirer les ingrédients de l'inventaire
         for (Resource ingredient : recette.getIngredients()) {
@@ -114,7 +119,7 @@ public class Usine extends Machine {
     }
 
     public boolean ajouterRessource(Resource r){
-        if (recetteEnCours != null && !isCooking){System.out.println("000");startProduction();}
+        if (recetteEnCours != null && !isCooking){startProduction();}
         
         return stockResources.addQuantityResource(r, 1);
     }

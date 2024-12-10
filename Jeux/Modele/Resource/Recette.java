@@ -1,8 +1,7 @@
-package Modele.Machine;
+package Modele.Resource;
 
 import java.util.ArrayList;
 import java.util.List;
-import Modele.Resource.*;
 
 public class Recette {
     private String nom;
@@ -39,7 +38,7 @@ public class Recette {
         // Recette pour un bloc de fer (9 fer)
         List<Resource> ingredientsBlocFer = new ArrayList<>();
         ingredientsBlocFer.add(new Iron(9));
-        recettes.add(new Recette("Bloc de Fer", ingredientsBlocFer, new BlocDeFer(1)));
+        recettes.add(new Recette("BlocDeFer", ingredientsBlocFer, new BlocDeFer(1)));
 
         return recettes;
     }

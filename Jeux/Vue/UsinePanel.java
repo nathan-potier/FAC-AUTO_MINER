@@ -96,7 +96,7 @@ public class UsinePanel extends JPanel implements UpdateInterface{
         produceButton.addActionListener(e -> {
             String selectedRecette = (String) recetteComboBox.getSelectedItem();
             if (selectedRecette != null && usine != null) {
-                usine.setRecetteEnCours(selectedRecette);
+                usine.setRecette(selectedRecette);
                 produceButton.setEnabled(false);
 
             }

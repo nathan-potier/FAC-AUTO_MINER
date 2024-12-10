@@ -104,7 +104,6 @@ public class UsinePanel extends JPanel {
                 }
             }
         });
-
         recetteSelectionPanel.add(produceButton);
         middlePanel.add(recetteSelectionPanel);
 

@@ -30,7 +30,7 @@ public class Usine extends Machine {
     public boolean isCooking(){return isCooking;}
     private void startProduction() {
         stopProduction(); // Arrête tout timer existant
-        
+        int tempFabriqMs = getTempFabriq(getOption()) * 1000;
         isCooking = true;
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -47,7 +47,7 @@ public class Usine extends Machine {
                     }
                 }
             }
-        }, 5000, 5000); // Délai initial de 5 secondes, puis répétition toutes les 5 secondes
+        }, tempFabriqMs, tempFabriqMs); // Délai initial de 5 secondes, puis répétition toutes les 5 secondes
     }
 
     public String getResourcesSTR(){

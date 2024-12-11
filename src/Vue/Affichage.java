@@ -79,7 +79,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
 
         marketPanel = new MarketPanel(game.getMarket(), game.getPlayer());
         usinePanel = new UsinePanel();
-        usinePanel.setBounds(0, 0, 775, 550);
+        usinePanel.setBounds(10, 50, 775, 550);
 
         menuPanel = new MenuPanel(width / 2, height / 2, width, height);
 

@@ -530,7 +530,7 @@ public class Map {
     public void placerUsine(Player player){
         Position posMachine = new Position(player.getPos().getX(), player.getPos().getY());
         
-        if(!isValidPosition(posMachine)){
+        if(!isValidPosition(posMachine) || player.getMachine() == null){
             return;
         }
 

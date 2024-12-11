@@ -321,7 +321,7 @@ public class Map {
         Usine usine = new Usine(new Inventory(), posUsine, "XL", new Inventory(), game.getPlayer());
         grid[posUsine.getY()][posUsine.getX()] = new Cell(posUsine, usine);
 
-        genNObjects(3, "Wood");
+        genNObjects(50, "Wood");
         genNObjects(3, "Iron");
 
         // Placer une récolteuse à côté de la position de `Iron`
@@ -534,6 +534,10 @@ public class Map {
     public void placerUsine(Player player){
         Position posMachine = new Position(player.getPos().getX(), player.getPos().getY());
         
+        if(!isValidPosition(posMachine)){
+            return;
+        }
+
         Cell nouvMachine = new Cell(posMachine ,player.getMachine());
         ArrayList<Position> posAutour = posAutour4(posMachine);
         for(Position pos : posAutour){

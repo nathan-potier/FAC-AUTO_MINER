@@ -27,6 +27,9 @@ public class Market {
         this.pos = pos;
 
     }
+    public Market(){
+        this(null);
+    }
     public Market(Position pos, List<Resource> resourcesForSale, List<Machine>machinesForSale ){
         this.pos = pos;
         this.resourcesForSale = resourcesForSale;
@@ -108,5 +111,8 @@ public class Market {
 
     public Position getPos(){
         return pos;
+    }
+    public void setPos(Position pos){
+        this.pos = pos;
     }
 }

@@ -42,6 +42,7 @@ public class Map {
         this.spawn = spawn;
         this.market = m;
         this.game = game;
+
         
         
 
@@ -63,8 +64,19 @@ public class Map {
 
     public void generateMap(Player p) {
 
-        grid[height - 1][width - (width - 2)] = new Cell(new Position( width - (width - 2), height - 1), p);
-        grid[market.getPos().getY()][market.getPos().getX()] = new Cell(new Position(market.getPos().getX(), market.getPos().getY()), market);
+        grid[Spawn.getPos().getY()][Spawn.getPos().getX()] = new Cell(new Position( Spawn.getPos().getX(), Spawn.getPos().getY()), p);
+        if (market.getPos() == null){
+            Position posMarket = genRandomPosForMarket();
+            while(!isValidPosition(posMarket)){
+                posMarket = genRandomPosForMarket();
+            }
+            market.setPos(posMarket);
+            grid[posMarket.getY()][posMarket.getX()] = new Cell(posMarket, market);
+        }else{
+            grid[market.getPos().getY()][market.getPos().getX()] = new Cell(new Position(market.getPos().getX(), market.getPos().getY()), market);
+        }
+
+        
     }
 
     public void setVue(VueGenerale v){vue = v;}
@@ -326,8 +338,22 @@ public class Map {
             execution++;
         }
         return pos;
+    }
 
+    private Position genRandomPosForMarket(){
+        Random rand = new Random();
+        int aleatoireX = (rand.nextInt(2) == 0) ? 0 : width - 1;
+        int aleatoireY = rand.nextInt(height);
 
+        Position pos= new Position(aleatoireX, aleatoireY);
+        int limiteExecution = 50;
+        int execution = 0;
+        while (isSpawn(pos) || grid[pos.getY()][pos.getX()] != null) {
+            if (limiteExecution <= execution){return null;}
+            pos = genRandomPos();
+            execution++;
+        }
+        return pos;
     }
 
     /**

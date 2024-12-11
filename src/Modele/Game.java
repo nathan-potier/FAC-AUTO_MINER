@@ -98,7 +98,7 @@ public class Game implements Controle{
 
     public Game(String pseudo){ 
 
-        market = new Market(new Position(width - 1, (int)(height / 2)));
+        market = new Market();
         spawn = new Spawn(new Position( width - (width - 2), height - 1));
         player = new Player(pseudo, Spawn.getPos());
     }

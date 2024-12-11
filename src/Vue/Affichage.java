@@ -13,6 +13,7 @@ import Modele.Machine.Usine;
 
 public class Affichage extends JFrame implements VueGenerale, KeyListener, MouseListener, SetMenuListener{
     private Game game;
+    private String pseudo;
     private CartePanel cartePanel;
     private InventairePanel inventairePanel;
     private MarketPanel marketPanel; // Panel supplémentaire
@@ -47,6 +48,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
 
     public Affichage(Game game) {
         this.game = game;
+        this.pseudo = game.getPlayer().getPseudo();
         width = (game.getWidth()+6)*50;
         height = (game.getHeight()+2)*50;
 
@@ -67,7 +69,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         sauvegardePanel.setMenuListener(this);
 
         cartePanel = new CartePanel(game.getWidth(), game.getHeight());
-        game.addGameListener(cartePanel);
+        this.game.addGameListener(cartePanel);
 
         inventairePanel = new InventairePanel(null);
 
@@ -113,7 +115,12 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         this.addMouseListener(this);
         this.setLayout(null);
 
-        
+
+    }
+
+    public void resetGame(){
+        this.game = new Game(pseudo);
+        this.game.addGameListener(cartePanel);
     }
 
     public void afficherCarte() {
@@ -163,6 +170,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
             closeAll();
             menuPanel.setVisible(true);
             sauvegardePanel.mettreAJourSauvegardes();
+            resetGame();
         }
         else if (listener != null && GameStates.isMoveOn()) {
             listener.onKeyPress(e.getKeyCode());

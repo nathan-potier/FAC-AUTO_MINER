@@ -169,10 +169,6 @@ public class Usine extends Machine {
         return stockResources;
     }
 
-    @Override
-    public void finalize() {
-        stopProduction(); // Assure l'arrêt du timer lors de la destruction de l'objet
-    }
 
     
 }

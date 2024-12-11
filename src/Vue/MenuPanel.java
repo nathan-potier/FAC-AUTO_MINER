@@ -16,10 +16,10 @@ public class MenuPanel extends JPanel {
     public MenuPanel(int xpos, int ypos, int width, int height) {
         logoIcon = new ImageIcon(getClass().getResource("/assets/Logo.png"));
         
-        playButton = new MenuButton(180, 110, xpos - 115, ypos + 10, "../assets/PlayDefault.png", "../assets/PlayHover.png");
-        newGame = new MenuButton(180, 110, xpos + 100, ypos + 10, "../assets/NewGameDefault.png", "../assets/NewGameHover.png");
-        settings = new MenuButton(180, 110, xpos - 115, ypos + 120, "../assets/SettingDefault.png", "../assets/SettingHover.png");
-        exit = new MenuButton(180, 110, xpos + 100, ypos + 120, "../assets/QuitDefault.png", "../assets/QuitHover.png");
+        playButton = new MenuButton(180, 110, xpos - 115, ypos + 10, "/assets/PlayDefault.png", "/assets/PlayHover.png");
+        newGame = new MenuButton(180, 110, xpos + 100, ypos + 10, "/assets/NewGameDefault.png", "/assets/NewGameHover.png");
+        settings = new MenuButton(180, 110, xpos - 115, ypos + 120, "/assets/SettingDefault.png", "/assets/SettingHover.png");
+        exit = new MenuButton(180, 110, xpos + 100, ypos + 120, "/assets/QuitDefault.png", "/assets/QuitHover.png");
 
         setPreferredSize(new Dimension(width, height));
         setBackground(Color.DARK_GRAY);

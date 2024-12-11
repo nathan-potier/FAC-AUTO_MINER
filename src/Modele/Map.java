@@ -205,7 +205,7 @@ public class Map {
 
         
 
-        Boolean isTemporisée = ((Resource)grid[nouvelle.getY()][nouvelle.getX()].getContent()).isTemporisée();
+        Boolean isTemporisee = ((Resource)grid[nouvelle.getY()][nouvelle.getX()].getContent()).isTemporisee();
         Boolean isLaborieuse = ((Resource)grid[nouvelle.getY()][nouvelle.getX()].getContent()).isLaborieuse();
 
 
@@ -218,7 +218,7 @@ public class Map {
 
   
 
-        if(isTemporisée){
+        if(isTemporisee){
             attendreReplace(pos, cell, p, temps, false);
             
         }

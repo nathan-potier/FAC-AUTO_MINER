@@ -7,7 +7,7 @@ public abstract class Resource implements  ObjectWithPosition{
     private int quantity;
     private int prix;
     private boolean laborieuse = false;
-    private boolean temporisée = false;
+    private boolean temporisee = false;
     private Position pos;
     private int limiteStock = 20;
     
@@ -16,7 +16,7 @@ public abstract class Resource implements  ObjectWithPosition{
         this.name = name;
         this.quantity = quantity;
         this.laborieuse = laborieuse;
-        this.temporisée = !laborieuse;
+        this.temporisee = !laborieuse;
         this.prix = prix;
     }
     public Resource(String name, int quantity, Boolean laborieuse, int prix, Position pos) {
@@ -67,8 +67,8 @@ public abstract class Resource implements  ObjectWithPosition{
         return laborieuse;
     }
 
-    public boolean isTemporisée() {
-        return temporisée;
+    public boolean isTemporisee() {
+        return temporisee;
     }
     public int getPrix(){return prix;}
 

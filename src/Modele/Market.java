@@ -2,7 +2,7 @@ package Modele;
 import java.util.ArrayList;
 import java.util.List;
 
-import Modele.Machine.Machine;
+import Modele.Machine.*;
 import Modele.Resource.Iron;
 import Modele.Resource.Resource;
 import Modele.Resource.Wood;
@@ -13,7 +13,7 @@ public class Market {
     private Position pos;
 
     // Initialisation des ressources et des machines disponibles
-    public Market(Position pos){
+    public Market(Position pos, Player player) {
         resourcesForSale = new ArrayList<>();
         machinesForSale = new ArrayList<>();
 
@@ -21,16 +21,18 @@ public class Market {
         resourcesForSale.add(new Wood(1));  // Exemple de ressource
         resourcesForSale.add(new Iron(1));
 
+  
+
 
         // Ajouter des machines à la vente
-        //machinesForSale.add(new Usine(null,new Position(), "XL") );
+        machinesForSale.add(new Usine("XL", player) );
         this.pos = pos;
 
     }
-    public Market(){
-        this(null);
+    public Market(Player player) {
+        this(null, player);
     }
-    public Market(Position pos, List<Resource> resourcesForSale, List<Machine>machinesForSale ){
+    public Market(Position pos, List<Resource> resourcesForSale, List<Machine>machinesForSale) {
         this.pos = pos;
         this.resourcesForSale = resourcesForSale;
         this.machinesForSale = machinesForSale;
@@ -76,6 +78,7 @@ public class Market {
                 
                 return player.getPseudo() + " a acheté " + m.getName() + " pour " + m.getPrix() + " coins.";
             }
+            System.out.println(player.getMoney() >= m.getPrix());
         }
         return "Machine non disponible ou fonds insuffisants.";
     }

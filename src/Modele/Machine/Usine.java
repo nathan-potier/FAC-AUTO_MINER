@@ -22,6 +22,12 @@ public class Usine extends Machine {
         this.recettesDisponibles = Recette.initialiserRecettes();
         this.timer = new Timer();
     }
+    public Usine(String option, Player player) {
+        super("Usine", new Position(), option, new Inventory(), player);
+        this.stockResources = new Inventory();
+        this.recettesDisponibles = Recette.initialiserRecettes();
+        this.timer = new Timer();
+    }
 
     public void setRecette(String recetteNom) {
 

@@ -375,13 +375,25 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
                     inventaireAfficher = true;
     
                 }
+                requestFocusInWindow();
+                
             }
         });
-        button1Panel.add(inventaire);;
+        button1Panel.add(inventaire);
 
         JPanel button2Panel = new JPanel();
         button2Panel.setLayout(new BoxLayout(button2Panel, BoxLayout.X_AXIS));
-        button2Panel.add(new JButton("Bouton 2"));
+        JButton placeUsine = new JButton("Placer l'usine");
+        placeUsine.setFocusPainted(false);
+        placeUsine.addActionListener(new ActionListener() {
+            @Override   
+            public void actionPerformed(ActionEvent e) {
+                listener.onKeyPress(-1);
+                requestFocusInWindow();
+            }
+        });
+        button2Panel.add(placeUsine);;
+
 
         // Panneau pour le bouton "Retour Menu"
         JPanel button3Panel = new JPanel();
@@ -392,6 +404,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
             @Override
             public void actionPerformed(ActionEvent e) {
                 sortirJeu();
+                requestFocusInWindow();
             }
         });
         button3Panel.add(retourMenuButton);;

@@ -69,7 +69,7 @@ public class Player {
         this.pseudo = pseudo;
         inventory = new Inventory();
         this.position = position;
-        money = 100;
+        money = 150;
     }
 
     public Player(String pseudo, int money, Position playerPosition, Inventory inventory) {
@@ -104,6 +104,7 @@ public class Player {
     public String getPseudo(){return pseudo;}
     public void setMoney(int m){money = m;}
     public int getMoney(){return money;}
+    public Machine getMachine(){return inventory.getMachine();}
     
     
 }

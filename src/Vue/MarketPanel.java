@@ -71,7 +71,7 @@ public class MarketPanel extends JPanel implements UpdateInterface{
         addItemToMarket(buyPanel, "assets/Wood.png", "Wood", new Wood(1), sellPanel);
         addItemToMarket(buyPanel, "assets/Iron.png", "Iron", new Iron(1), sellPanel);
         // Ajouter des machines au marché
-        addMachineToMarket(buyPanel, "assets/Usine.png", "Usine", new Usine(null, null, "", null, player), sellPanel);
+        addMachineToMarket(buyPanel, "assets/Usine.png", "Usine", new Usine(null, null, "XL", null, player), sellPanel);
 
     
         // Ajout des panneaux dans des JScrollPane
@@ -182,9 +182,10 @@ public class MarketPanel extends JPanel implements UpdateInterface{
         // Bouton d'achat (prix)
         JButton buyButton = new JButton(price + " coins");
         buyButton.addActionListener(e -> {
-            market.buyMachine(player, machine);
+            System.out.println(market.buyMachine(player, machine));
             updateMoneyLabel();
             updateInventoryPanel(inventoryPanel); // Utilise directement le panneau d'inventaire
+            
         });
         itemPanel.add(buyButton);
 

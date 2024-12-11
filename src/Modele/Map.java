@@ -87,7 +87,12 @@ public class Map {
         Timer timer = new Timer(temps, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (isLaborieuse){
+
+                if (position.getX() == p.getPos().getX() && position.getY() == p.getPos().getY()) {
+                    attendreReplace(position, cell, p, 50, isLaborieuse);
+                    return;
+                }
+                else if (isLaborieuse){
                     p.setEcoute(true);
                 }
 
@@ -162,6 +167,15 @@ public class Map {
         return type.isInstance(grid[pos.getY()][pos.getX()].getContent());
     }
 
+    public void deplacerDun(Position nouvelle, Player p){
+        Position startPos = p.getPos();
+        grid[nouvelle.getY()][nouvelle.getX()] = new Cell(nouvelle, p);
+        grid[p.getPos().getY()][p.getPos().getX()] = null;
+        p.setPos(nouvelle);
+        verifSpawnAffichage(); 
+        game.notifyMove(p, startPos, p.getPos(), Direction.getDirection(startPos, p.getPos()).toString());
+        game.updateAffichage(false);
+    }
 
     public boolean deplacer(Player p, Direction d){
         
@@ -171,14 +185,7 @@ public class Map {
             return false;
         }
         else if(cellIsEmpty(nouvelle) || isSpawn(nouvelle)){
-            Position startPos = p.getPos();
-            grid[nouvelle.getY()][nouvelle.getX()] = new Cell(nouvelle, p);
-            grid[p.getPos().getY()][p.getPos().getX()] = null;
-            p.setPos(nouvelle);
-            verifSpawnAffichage(); 
-            game.notifyMove(p, startPos, p.getPos(), Direction.getDirection(startPos, p.getPos()).toString());
-            game.updateAffichage(false);
-
+            deplacerDun(nouvelle, p);
  
             return true;
 
@@ -520,6 +527,26 @@ public class Map {
         timer.start();  // Démarrer le Timer pour exécuter les déplacements progressivement
     
         return true;
+    }
+
+
+
+    public void placerUsine(Player player){
+        Position posMachine = new Position(player.getPos().getX(), player.getPos().getY());
+        
+        Cell nouvMachine = new Cell(posMachine ,player.getMachine());
+        ArrayList<Position> posAutour = posAutour4(posMachine);
+        for(Position pos : posAutour){
+            
+            if (trouverChemin(Spawn.getPos(), pos) != null){
+                deplacerDun(pos, player);
+                grid[posMachine.getY()][posMachine.getX()] = nouvMachine;
+                player.removeMachine();
+                game.updateAffichage(false);
+                return;
+            }
+        }
+        
     }
     
 

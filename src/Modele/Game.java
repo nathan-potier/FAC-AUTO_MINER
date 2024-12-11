@@ -58,6 +58,7 @@ public class Game implements Controle{
     public void onKeyPress(int keyCode) {
         switch (keyCode) {
             case KeyEvent.VK_UP:
+                System.out.println(player.getInv());
                 gameMap.deplacer(player, Direction.UP) ;
                 break; 
             case KeyEvent.VK_DOWN:
@@ -70,6 +71,9 @@ public class Game implements Controle{
             case KeyEvent.VK_RIGHT:
                 gameMap.deplacer(player, Direction.RIGHT);
                 break;  
+            case -1 :
+                gameMap.placerUsine(this.player);
+                
             default:
                 System.out.println("Autre touche pressée.");
                 break;  
@@ -98,7 +102,7 @@ public class Game implements Controle{
 
     public Game(String pseudo){ 
 
-        market = new Market();
+        market = new Market(player);
         spawn = new Spawn(new Position( width - (width - 2), height - 1));
         player = new Player(pseudo, Spawn.getPos());
     }

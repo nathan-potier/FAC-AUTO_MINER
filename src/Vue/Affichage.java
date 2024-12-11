@@ -79,7 +79,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
 
         marketPanel = new MarketPanel(game.getMarket(), game.getPlayer());
         usinePanel = new UsinePanel();
-        usinePanel.setBounds(100, 100, 800, 550);
+        this.setBounds(100, 50, 800, 600);
 
         menuPanel = new MenuPanel(width / 2, height / 2, width, height);
 
@@ -122,16 +122,6 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
 
 
         this.add(gamePanel);
-
-        // Listener pour rendre le boutonPanel responsive
-        this.addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                boutonPanel.setPreferredSize(new Dimension((int) (getWidth() * 0.15), getHeight()));
-                boutonPanel.revalidate();
-                boutonPanel.repaint();
-            }
-        });
     
         this.pack();
         this.setLocationRelativeTo(null);

@@ -26,14 +26,11 @@ public class UsinePanel extends JPanel implements UpdateInterface{
         this.setLayout(new BorderLayout());
         this.setBackground(Color.DARK_GRAY);
         this.setBorder(BorderFactory.createEmptyBorder(0, 0, 60, 0));
-
-        //productionTimer = new Timer(5000, e -> updateAll());
-        //productionTimer.setRepeats(true);
+        this.setBounds(50, 50, 700, 500);
         
         JPanel titre = new JPanel(new BorderLayout());
         titre.setBackground(Color.DARK_GRAY);
         titre.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
-        //nomTypeUsine = new JLabel();
         nomTypeUsine = new JLabel("");
         nomTypeUsine.setForeground(Color.white);
         nomTypeUsine.setFont(new Font("Arial", Font.BOLD, 16));
@@ -44,15 +41,14 @@ public class UsinePanel extends JPanel implements UpdateInterface{
         RessourcePanel = new JPanel();
         RessourcePanel.setLayout(new BoxLayout(RessourcePanel, BoxLayout.Y_AXIS));
         RessourcePanel.setBackground(Color.DARK_GRAY);
-        RessourcePanel.setPreferredSize(new Dimension(200, getHeight()));
+        RessourcePanel.setMinimumSize(new Dimension(200, 500));
         RessourcePanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(221, 242, 172)), "Ressources", 0, 0, new Font("Arial", Font.BOLD, 14), Color.white));
         
         JScrollPane ressourceScrollPane = new JScrollPane(RessourcePanel);
-        ressourceScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        ressourceScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         ressourceScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        ressourceScrollPane.setBorder(BorderFactory.createEmptyBorder());
-
-        this.add(ressourceScrollPane, BorderLayout.WEST);
+        this.add(ressourceScrollPane, BorderLayout.EAST);
+        
         // Panneau central (composé de "Choisir une recette" et "Stock de l'usine")
         JPanel middlePanel = new JPanel();
         middlePanel.setLayout(new BoxLayout(middlePanel, BoxLayout.Y_AXIS));
@@ -66,7 +62,6 @@ public class UsinePanel extends JPanel implements UpdateInterface{
 
         // Section "Choisir une recette"
         JPanel recetteSelectionPanel = new JPanel(new FlowLayout());
-        recetteSelectionPanel.setPreferredSize(new Dimension(200, getHeight()));
         recetteSelectionPanel.setBackground(Color.DARK_GRAY);
         recetteSelectionPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(221, 242, 172)), "Choisir une recette", 0, 0, new Font("Arial", Font.BOLD, 14), Color.white));
 
@@ -105,9 +100,8 @@ public class UsinePanel extends JPanel implements UpdateInterface{
 
         // Section "Stock de l'usine"
         stockPanel = new JPanel();
-        stockPanel.setLayout(new BoxLayout(stockPanel, BoxLayout.Y_AXIS));
+        stockPanel.setLayout(new BoxLayout(stockPanel, BoxLayout.X_AXIS));
         stockPanel.setBackground(Color.DARK_GRAY);
-        stockPanel.setPreferredSize(new Dimension(200, 75));
         stockPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(221, 242, 172)), "Stock de Production", 0, 0, new Font("Arial", Font.BOLD, 14), Color.white));
 
         stockPanel.setBorder(BorderFactory.createCompoundBorder(
@@ -124,18 +118,21 @@ public class UsinePanel extends JPanel implements UpdateInterface{
         middlePanel.add(stockScrollPane);
 
         // Panneau pour l'inventaire du joueur à gauche
+        JPanel inventaireBorderPanel = new JPanel();
+        inventaireBorderPanel.setLayout(new BorderLayout());
+        inventaireBorderPanel.setBackground(Color.DARK_GRAY);
+        inventaireBorderPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(221, 242, 172)), "Inventaire", 0, 0, new Font("Arial", Font.BOLD, 14), Color.white));
+
         inventairePanel = new JPanel();
-        inventairePanel.setPreferredSize(new Dimension(200, getHeight()));
         inventairePanel.setLayout(new BoxLayout(inventairePanel, BoxLayout.Y_AXIS));
         inventairePanel.setBackground(Color.DARK_GRAY);
-        inventairePanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(221, 242, 172)), "Inventaire", 0, 0, new Font("Arial", Font.BOLD, 14), Color.white));
 
         JScrollPane inventaireScrollPane = new JScrollPane(inventairePanel);
-        inventaireScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        inventaireScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
         inventaireScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        inventaireScrollPane.setBorder(BorderFactory.createEmptyBorder());
-
-        this.add(inventaireScrollPane, BorderLayout.WEST);
+        inventaireScrollPane.setBorder(BorderFactory.createEmptyBorder());  
+        inventaireBorderPanel.add(inventaireScrollPane, BorderLayout.CENTER);
+        this.add(inventaireBorderPanel, BorderLayout.WEST);
 
         // Bouton "Fermer"
         JPanel closeButtonPanel = new JPanel(new BorderLayout());
@@ -344,7 +341,7 @@ public class UsinePanel extends JPanel implements UpdateInterface{
     private void addIngredientToPanel(String resourceName, int quantity) {
         JPanel itemPanel = new JPanel();
         itemPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-        itemPanel.setBackground(Color.DARK_GRAY);
+        itemPanel.setBackground(Color.DARK_GRAY);   
 
         ImageIcon icon = new ImageIcon(new ImageIcon("assets/" + resourceName + ".png").getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH));
         JLabel ingredientLabel = new JLabel(icon );

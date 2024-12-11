@@ -88,11 +88,7 @@ public class Map {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                if (position.getX() == p.getPos().getX() && position.getY() == p.getPos().getY()) {
-                    attendreReplace(position, cell, p, 50, isLaborieuse);
-                    return;
-                }
-                else if (isLaborieuse){
+                if (isLaborieuse){
                     p.setEcoute(true);
                 }
 

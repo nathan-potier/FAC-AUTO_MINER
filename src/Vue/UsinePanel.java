@@ -126,22 +126,25 @@ public class UsinePanel extends JPanel implements UpdateInterface {
         JPanel inventaire = createInventairePanel("Inventaire");
         JPanel Ressources = createInventairePanel("Ressources");
 
-        // Panneau pour l'inventaire du joueur à gauche
-        JPanel inventaireBorderPanel = new JPanel();
-        inventaireBorderPanel.setLayout(new BorderLayout());
-        inventaireBorderPanel.setBackground(Color.DARK_GRAY);
-        inventaireBorderPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(221, 242, 172)), "Inventaire", 0, 0, new Font("Arial", Font.BOLD, 14), Color.white));
+        JSplitPane splitInventairePanels = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, inventaire, Ressources);
+        splitInventairePanels.setDividerSize(0);
+        this.add(splitInventairePanels, BorderLayout.WEST);
+    }
 
-        inventairePanel = new JPanel();
-        inventairePanel.setLayout(new BoxLayout(inventairePanel, BoxLayout.Y_AXIS));
-        inventairePanel.setBackground(Color.DARK_GRAY);
+    private JPanel createInventairePanel(String title) {
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setBackground(Color.DARK_GRAY);
+        panel.setBorder(BorderFactory.createTitledBorder(
+            BorderFactory.createLineBorder(new Color(221, 242, 172)), 
+            title, 0, 0, new Font("Arial", Font.BOLD, 14), Color.white
+        ));
+        panel.setPreferredSize(new Dimension(175, 500));
+        panel.setMaximumSize(new Dimension(175, 500));
+        panel.setMinimumSize(new Dimension(175, 500));
 
-        JScrollPane inventaireScrollPane = new JScrollPane(inventairePanel);
-        inventaireScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-        inventaireScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        inventaireScrollPane.setBorder(BorderFactory.createEmptyBorder());  
-        inventaireBorderPanel.add(inventaireScrollPane, BorderLayout.CENTER);
-        this.add(inventaireBorderPanel, BorderLayout.WEST);
+        JPanel contentPanel = new JPanel();
+        contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
+        contentPanel.setBackground(Color.DARK_GRAY);
 
         JScrollPane scrollPane = new JScrollPane(contentPanel);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);

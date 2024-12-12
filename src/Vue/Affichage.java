@@ -79,7 +79,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
 
         marketPanel = new MarketPanel(game.getMarket(), game.getPlayer());
         usinePanel = new UsinePanel();
-        this.setBounds(100, 50, 800, 600);
+        usinePanel.setBounds(10, 50, 775, 550);
 
         menuPanel = new MenuPanel(width / 2, height / 2, width, height);
 
@@ -99,7 +99,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         // Ajout des panneaux au layeredPane
         layeredPane.add(cartePanel, Integer.valueOf(1));
         layeredPane.add(boutonPanel, Integer.valueOf(2));
-        layeredPane.add(inventairePanel, Integer.valueOf(3));
+        layeredPane.add(inventairePanel, Integer.valueOf(10));
         layeredPane.add(marketPanel, Integer.valueOf(2));
         layeredPane.add(usinePanel, Integer.valueOf(6));
         layeredPane.add(settingsPanel, Integer.valueOf(4));
@@ -122,6 +122,16 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
 
 
         this.add(gamePanel);
+
+        // Listener pour rendre le boutonPanel responsive
+        this.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                boutonPanel.setPreferredSize(new Dimension((int) (getWidth() * 0.15), getHeight()));
+                boutonPanel.revalidate();
+                boutonPanel.repaint();
+            }
+        });
     
         this.pack();
         this.setLocationRelativeTo(null);
@@ -365,13 +375,25 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
                     inventaireAfficher = true;
     
                 }
+                requestFocusInWindow();
+                
             }
         });
-        button1Panel.add(inventaire);;
+        button1Panel.add(inventaire);
 
         JPanel button2Panel = new JPanel();
         button2Panel.setLayout(new BoxLayout(button2Panel, BoxLayout.X_AXIS));
-        button2Panel.add(new JButton("Bouton 2"));
+        JButton placeUsine = new JButton("Placer l'usine");
+        placeUsine.setFocusPainted(false);
+        placeUsine.addActionListener(new ActionListener() {
+            @Override   
+            public void actionPerformed(ActionEvent e) {
+                listener.onKeyPress(-1);
+                requestFocusInWindow();
+            }
+        });
+        button2Panel.add(placeUsine);;
+
 
         // Panneau pour le bouton "Retour Menu"
         JPanel button3Panel = new JPanel();
@@ -382,6 +404,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
             @Override
             public void actionPerformed(ActionEvent e) {
                 sortirJeu();
+                requestFocusInWindow();
             }
         });
         button3Panel.add(retourMenuButton);;

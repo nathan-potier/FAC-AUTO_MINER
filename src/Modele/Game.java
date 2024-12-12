@@ -72,7 +72,7 @@ public class Game implements Controle{
                 gameMap.deplacer(player, Direction.RIGHT);
                 break;  
             case -1 :
-                gameMap.placerUsine(this.player);
+                gameMap.placerMachine(this.player);
                 
             default:
                 System.out.println("Autre touche pressée.");

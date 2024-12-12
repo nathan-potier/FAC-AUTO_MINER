@@ -527,13 +527,13 @@ public class Map {
 
 
 
-    public void placerUsine(Player player){
+    public void placerMachine(Player player){
         Position posMachine = new Position(player.getPos().getX(), player.getPos().getY());
         
         if(!isValidPosition(posMachine) || player.getMachine() == null){
             return;
         }
-
+        
         Cell nouvMachine = new Cell(posMachine ,player.getMachine());
         ArrayList<Position> posAutour = posAutour4(posMachine);
         for(Position pos : posAutour){
@@ -541,6 +541,7 @@ public class Map {
             if (trouverChemin(Spawn.getPos(), pos) != null){
                 deplacerDun(pos, player);
                 grid[posMachine.getY()][posMachine.getX()] = nouvMachine;
+                player.getMachine().setPos(posMachine);
                 player.removeMachine();
                 game.updateAffichage(false);
                 return;

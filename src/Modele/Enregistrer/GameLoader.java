@@ -116,7 +116,7 @@ public class GameLoader {
                             }
                             String machineName = machineLine.split(" pour ")[0].trim();
 
-                            marketMachines.add(createMachine(machineName, null, null, null, null));
+                            marketMachines.add(createMachine(machineName, null, null, null, null, null));
                         }
                     }catch(Exception e){
                         System.err.println("Erreur lors de la lecture des Machines à vendre du marché : " + marketLine);
@@ -152,7 +152,7 @@ public class GameLoader {
             }
         }
 
-        // Lecture des machines sur la carte
+        // Lecture des machines sur la carte avec gestion des recettes
         String machinesOnMapSection = readSection("Machines sur la carte:", fileName);
 
         if (!machinesOnMapSection.isEmpty()) {
@@ -166,67 +166,77 @@ public class GameLoader {
                         // Extraction des données après "option->"
                         String machineData = machineLine.split("option->")[1].trim();
 
-                        // Extraction des parties option, position, stock et inventaire
+                        // Extraction des parties option, position, stock, inventaire et recette
                         String[] machineParts = machineData.split("a la position");
                         String option = machineParts[0].trim();
 
-                        String[] positionStockInventory = machineParts[1].split("Stock->");
-                        
+                        String[] positionStockInventoryRecipe = machineParts[1].split("Stock->");
+
                         // Position
-                        String[] positionParts = positionStockInventory[0].trim().split(",");
+                        String[] positionParts = positionStockInventoryRecipe[0].trim().split(",");
                         int x = Integer.parseInt(positionParts[0].trim());
                         int y = Integer.parseInt(positionParts[1].trim());
                         Position position = new Position(x, y);
 
                         // Stock
                         ArrayList<Resource> stock = new ArrayList<>();
-                        if (positionStockInventory.length > 1) {
-                            String[] stockAndInventory = positionStockInventory[1].split("Inventaire->");
-                            String stockData = stockAndInventory[0].replace("{", "").replace("}", "").trim();
-                            
-                            if (!stockData.isEmpty()) {
-                                String[] stockItems = stockData.split("\\),");
-                                for (String item : stockItems) {
-                                    
-                                    String[] parts = item.replace("(", "").replace(")", "").split(";");
-                                    String resourceName = parts[0].trim();
-                                    int quantity = Integer.parseInt(parts[1].trim());
-                                    
-                                    Resource resource = createResource(resourceName, quantity);
-                                    
-                                    stock.add(resource);
-                                }
-                            }
-                            
+                        ArrayList<Resource> inventory = new ArrayList<>();
+                        String recipes = null;
 
-                            // Inventaire
-                            ArrayList<Resource> inventory = new ArrayList<>();
-                            if (stockAndInventory.length > 1) {
-                                String inventoryData = stockAndInventory[1].trim();
-                                
-                                inventoryData = inventoryData.replace("(", "").replace(")", "").trim(); // Nettoyage
-                                
-                                if (!inventoryData.isEmpty()) {
-                                    String[] inventoryItems = inventoryData.split(",");
-                                    for (String item : inventoryItems) {
-                                        String[] parts = item.split(";");
+                        if (positionStockInventoryRecipe.length > 1) {
+                            String[] stockAndInventoryRecipe = positionStockInventoryRecipe[1].split("Inventaire->");
+
+                            if (stockAndInventoryRecipe.length > 0) {
+                                String stockData = stockAndInventoryRecipe[0].replace("{", "").replace("}", "").trim();
+                                if (!stockData.isEmpty()) {
+                                    String[] stockItems = stockData.split("),");
+                                    for (String item : stockItems) {
+                                        String[] parts = item.replace("(", "").replace(")", "").split(";");
                                         String resourceName = parts[0].trim();
                                         int quantity = Integer.parseInt(parts[1].trim());
                                         Resource resource = createResource(resourceName, quantity);
-                                        inventory.add(resource);
+                                        stock.add(resource);
                                     }
                                 }
                             }
-                            // Création de l'objet machine avec le stock et l'inventaire
-                            Machine machine = createMachine(machineType, position, option, new Inventory(stock), new Inventory(inventory));
-                            machinesOnMap.add(machine); // Ajout à la liste des machines sur la carte
+
+                            if (stockAndInventoryRecipe.length > 1) {
+                                String[] inventoryAndRecipe = stockAndInventoryRecipe[1].split("Recette->");
+
+                                if (inventoryAndRecipe.length > 0) {
+                                    String inventoryData = inventoryAndRecipe[0].replace("(", "").replace(")", "").trim();
+                                    if (!inventoryData.isEmpty()) {
+                                        String[] inventoryItems = inventoryData.split(",");
+                                        for (String item : inventoryItems) {
+                                            String[] parts = item.split(";");
+                                            String resourceName = parts[0].trim();
+                                            int quantity = Integer.parseInt(parts[1].trim());
+                                            Resource resource = createResource(resourceName, quantity);
+                                            inventory.add(resource);
+                                        }
+                                    }
+                                }
+                                
+                                if (inventoryAndRecipe.length > 1) {
+                                    String recipeData = inventoryAndRecipe[1].trim();
+                                    System.out.println(recipeData);
+                                    recipes = recipeData;
+                                }
+                            }
                         }
+
+                        // Création de l'objet machine avec stock, inventaire et recettes
+                        Machine machine = createMachine(machineType, position, option, new Inventory(stock), new Inventory(inventory), recipes);
+
+                        machinesOnMap.add(machine); // Ajout à la liste des machines sur la carte
+
                     } catch (Exception e) {
                         System.err.println("Erreur lors de la lecture de la machine sur la carte : " + machineLine);
                     }
                 }
             }
         }
+
 
 
 
@@ -257,10 +267,14 @@ public class GameLoader {
         }
     }
 
-    private static Machine createMachine(String name, Position pos, String option, Inventory stock, Inventory resources) {
+    private static Machine createMachine(String name, Position pos, String option, Inventory stock, Inventory resources, String recette) {
         switch (name) {
             case "Usine":
-                return new Usine(resources, pos, option, stock, player);  // Utilisation de la sous-classe existante
+                Usine n = new Usine(resources, pos, option, stock, player);  // Utilisation de la sous-classe existante
+                if (recette != null){
+                    n.setRecette(recette);
+                }
+                return n;
             default:
                 return null;
         }

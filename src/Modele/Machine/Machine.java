@@ -1,5 +1,6 @@
 package Modele.Machine;
 
+import Modele.Resource.Recette;
 import Modele.Resource.Resource;
 import Vue.UpdateInterface;
 
@@ -113,7 +114,8 @@ public abstract class Machine {
     }
 
     public abstract String getResourcesSTR();
-
+    public abstract String getNomRecetteEnCours();
+    public void setPos(Position pos){this.pos = pos;}
     @Override
     public String toString(){
         return getName() + " " + getOption();

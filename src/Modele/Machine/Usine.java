@@ -13,6 +13,7 @@ public class Usine extends Machine {
     private Timer timer;  // Timer pour la production périodique
     //private String recetteEnCours;  // Nom de la recette en cours
     private Recette recetteEnCours = null;
+
     private boolean isCooking = false;
 
 
@@ -174,7 +175,16 @@ public class Usine extends Machine {
     public Inventory getStockResources() {
         return stockResources;
     }
-
+    public Recette getRecetteEnCours() {
+        return recetteEnCours;
+    }
+    public String getNomRecetteEnCours() {
+        try{
+            return getRecetteEnCours().getNom();
+        }catch(Exception e){
+            return "";
+        }
+    }
 
     
 }

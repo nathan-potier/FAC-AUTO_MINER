@@ -19,7 +19,7 @@ public class UsinePanel extends JPanel implements UpdateInterface {
     private JButton takeButton;
     private JPanel ingredientsPanel;
     private JLabel nomTypeUsine;
-
+    private JButton produceButton;
     public UsinePanel() {
         this.setLayout(new BorderLayout());
         this.setBackground(Color.DARK_GRAY);
@@ -89,14 +89,18 @@ public class UsinePanel extends JPanel implements UpdateInterface {
         ingredientsPanel.setBackground(Color.DARK_GRAY);
         recetteSelectionPanel.add(ingredientsPanel);
 
-        JButton produceButton = new JButton("Produire");
+        produceButton = new JButton("Produire");
         produceButton.setBackground(new Color(221, 242, 172));
         produceButton.setFocusPainted(false);
         produceButton.setForeground(Color.BLACK);
         produceButton.addActionListener(e -> {
             String selectedRecette = (String) recetteComboBox.getSelectedItem();
-            if (selectedRecette != null && usine != null) {
+            produceButton.setEnabled(true);
+            if (usine != null){
                 usine.setRecette(selectedRecette);
+            }
+            if (usine != null && usine.getRecetteEnCours() != null && !usine.getOption().equals("Polyvalente") ) {
+                
                 produceButton.setEnabled(false);
             }
         });
@@ -194,6 +198,13 @@ public class UsinePanel extends JPanel implements UpdateInterface {
             recetteComboBox.addItem(recette);
         }
 
+        if (usine != null && usine.getRecetteEnCours() == null ) {
+                
+            produceButton.setEnabled(true);
+        }else{
+            produceButton.setEnabled(false);
+        }
+        
         updateStockPanel();
         updateIngredientsPanel();
     }

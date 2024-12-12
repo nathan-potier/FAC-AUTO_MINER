@@ -81,7 +81,8 @@ public class GameSaver {
             for (Machine m : machines){
                 writer.write(m.getName() + " option-> "+ m.getOption() + " a la position " + m.getPosition().getX() + "," + m.getPosition().getY() 
                 + " Stock-> {" + m.getStockSTR() +"}" 
-                + " Inventaire-> "+ m.getResourcesSTR());
+                + " Inventaire-> "+ m.getResourcesSTR()
+                + "Recette->" + m.getNomRecetteEnCours());
                 writer.newLine();
             }
 

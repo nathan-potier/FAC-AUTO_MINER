@@ -124,18 +124,21 @@ public class UsinePanel extends JPanel implements UpdateInterface{
         middlePanel.add(stockScrollPane);
 
         // Panneau pour l'inventaire du joueur à gauche
+        JPanel inventaireBorderPanel = new JPanel();
+        inventaireBorderPanel.setLayout(new BorderLayout());
+        inventaireBorderPanel.setBackground(Color.DARK_GRAY);
+        inventaireBorderPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(221, 242, 172)), "Inventaire", 0, 0, new Font("Arial", Font.BOLD, 14), Color.white));
+
         inventairePanel = new JPanel();
-        inventairePanel.setPreferredSize(new Dimension(200, getHeight()));
         inventairePanel.setLayout(new BoxLayout(inventairePanel, BoxLayout.Y_AXIS));
         inventairePanel.setBackground(Color.DARK_GRAY);
-        inventairePanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(221, 242, 172)), "Inventaire", 0, 0, new Font("Arial", Font.BOLD, 14), Color.white));
 
         JScrollPane inventaireScrollPane = new JScrollPane(inventairePanel);
-        inventaireScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        inventaireScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
         inventaireScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        inventaireScrollPane.setBorder(BorderFactory.createEmptyBorder());
-
-        this.add(inventaireScrollPane, BorderLayout.WEST);
+        inventaireScrollPane.setBorder(BorderFactory.createEmptyBorder());  
+        inventaireBorderPanel.add(inventaireScrollPane, BorderLayout.CENTER);
+        this.add(inventaireBorderPanel, BorderLayout.WEST);
 
         // Bouton "Fermer"
         JPanel closeButtonPanel = new JPanel(new BorderLayout());

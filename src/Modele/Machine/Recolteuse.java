@@ -20,7 +20,7 @@ public class Recolteuse extends Machine {
         this.inventaire = inventaire;
         this.ressourceChoisie = ressourceChoisi;
     }
-
+ 
     // Méthode de récolte qui cherche les ressources adjacentes et les ajoute au stock
     public void recolterRessourcesAdjacentes(ArrayList<Resource> ressourcesAdjacentes) {
         if (getStock().size() >= stockMax) {
@@ -64,6 +64,18 @@ public class Recolteuse extends Machine {
 
     public void setRessourceChoisie(Resource ressourceChoisie) {
         this.ressourceChoisie = ressourceChoisie;
+    }
+
+    @Override
+    public String getResourcesSTR() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getResourcesSTR'");
+    }
+
+    @Override
+    public String getNomRecetteEnCours() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getNomRecetteEnCours'");
     }
 
 }

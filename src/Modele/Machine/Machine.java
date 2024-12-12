@@ -58,7 +58,10 @@ public abstract class Machine {
     }
 
     public static boolean isModifiable(String type) {
-        return false; // Toutes les usines sont non modifiables dans cet exemple
+        return switch (type) {
+            case "Polyvalente" -> true;
+            default -> false;
+        };
     }
 
     public static boolean fonctionneBien(String type) {
@@ -72,6 +75,7 @@ public abstract class Machine {
     public Position getPosition(){return pos;}
     public String getOption(){return option;}
     public Inventory getStock() {return stockProd;}
+    public boolean getIsModifiable(){return modifiable;}
 
     public void setInterfaceUpdate(UpdateInterface update){this.update = update;}
 

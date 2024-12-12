@@ -26,6 +26,8 @@ public class Market {
 
         // Ajouter des machines à la vente
         machinesForSale.add(new Usine("XL", player) );
+        machinesForSale.add(new Usine("Rapide", player) );
+        machinesForSale.add(new Usine("Polyvalente", player) );
         this.pos = pos;
 
     }
@@ -71,15 +73,14 @@ public class Market {
     // Méthode d'achat de machine
     public String buyMachine(Player player, Machine machine) {
 
-        for (Machine m : machinesForSale) {
-            if (m.getName().equals(machine.getName()) && player.getMoney() >= m.getPrix() && player.addMachine(m)) {
-                
-                player.setMoney(player.getMoney() - m.getPrix());
-                
-                return player.getPseudo() + " a acheté " + m.getName() + " pour " + m.getPrix() + " coins.";
-            }
-            System.out.println(player.getMoney() >= m.getPrix());
+        if ( player.getMoney() >= machine.getPrix() && player.addMachine(machine) ) {
+            
+            player.setMoney(player.getMoney() - machine.getPrix());
+            
+            return player.getPseudo() + " a acheté " + machine.getName() + " pour " + machine.getPrix() + " coins.";
         }
+        System.out.println(player.getMoney() >= machine.getPrix());
+    
         return "Machine non disponible ou fonds insuffisants.";
     }
 

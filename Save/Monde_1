@@ -1,0 +1,73 @@
+Joueur: 
+Position: 2,11
+Argent: 9999806
+Ressources du joueur:
+Wood:18
+Iron:6
+Wood:18
+Iron:6
+Pickaxe:1
+BlocDeFer:1
+Machines du joueur:
+Marche position:
+(0;7)
+Marche - Ressources a vendre:
+Marche - Machines a vendre:
+Objets sur la carte:
+Wood a la position 6,0
+Wood a la position 11,0
+Wood a la position 13,0
+Wood a la position 4,1
+Wood a la position 9,1
+Wood a la position 6,2
+Wood a la position 10,2
+Wood a la position 11,2
+Wood a la position 5,3
+Wood a la position 11,3
+Wood a la position 13,3
+Wood a la position 2,4
+Wood a la position 3,4
+Wood a la position 5,4
+Wood a la position 6,4
+Wood a la position 9,4
+Wood a la position 10,4
+Wood a la position 11,4
+Wood a la position 14,4
+Wood a la position 2,5
+Wood a la position 3,5
+Wood a la position 5,5
+Wood a la position 10,5
+Wood a la position 0,6
+Wood a la position 1,6
+Wood a la position 3,6
+Wood a la position 4,6
+Wood a la position 7,6
+Wood a la position 9,6
+Wood a la position 10,6
+Wood a la position 4,7
+Wood a la position 5,7
+Wood a la position 10,7
+Iron a la position 13,7
+Wood a la position 0,8
+Wood a la position 9,8
+Wood a la position 12,8
+Wood a la position 3,9
+Wood a la position 6,9
+Wood a la position 10,9
+Iron a la position 12,9
+Wood a la position 13,9
+Wood a la position 1,10
+Wood a la position 6,10
+Wood a la position 7,10
+Wood a la position 8,10
+Wood a la position 12,10
+Wood a la position 14,10
+Wood a la position 0,11
+Wood a la position 3,11
+Wood a la position 5,11
+Iron a la position 6,11
+Wood a la position 10,11
+Machines sur la carte:
+Usine option-> XL a la position 3,1 Stock-> {} Inventaire-> Recette->
+Usine option-> XL a la position 2,9 Stock-> {} Inventaire-> (Iron;0),(Wood;0),Recette->Pickaxe
+Usine option-> Polyvalente a la position 0,10 Stock-> {} Inventaire-> (Iron;2),Recette->BlocDeFer

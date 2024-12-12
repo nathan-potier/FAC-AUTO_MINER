@@ -189,7 +189,7 @@ public class GameLoader {
                             if (stockAndInventoryRecipe.length > 0) {
                                 String stockData = stockAndInventoryRecipe[0].replace("{", "").replace("}", "").trim();
                                 if (!stockData.isEmpty()) {
-                                    String[] stockItems = stockData.split("),");
+                                    String[] stockItems = stockData.split(",");
                                     for (String item : stockItems) {
                                         String[] parts = item.replace("(", "").replace(")", "").split(";");
                                         String resourceName = parts[0].trim();
@@ -262,6 +262,8 @@ public class GameLoader {
                 return new Iron(quantity);  // Utilisation de la sous-classe existante
             case "Pickaxe":
                 return new Pickaxe(quantity);  // Utilisation de la sous-classe existante
+            case "BlocDeFer" :
+                return new BlocDeFer(quantity);
             default:
                 return null;
         }
@@ -274,6 +276,7 @@ public class GameLoader {
                 if (recette != null){
                     n.setRecette(recette);
                 }
+                
                 return n;
             default:
                 return null;
@@ -288,6 +291,10 @@ public class GameLoader {
                 return new Iron(1, pos);  // Utilisation de la sous-classe existante
             case "Attente":
                 return new Attente(pos , null);  // Utilisation de la sous-classe existante
+            case "BlocDeFer" :
+                return new BlocDeFer(1, pos);
+            case "Pickaxe":
+                return new Pickaxe(1, pos);  // Utilisation de la sous-classe existante
             default:
                 return null;
         }

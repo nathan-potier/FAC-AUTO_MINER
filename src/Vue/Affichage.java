@@ -99,7 +99,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         // Ajout des panneaux au layeredPane
         layeredPane.add(cartePanel, Integer.valueOf(1));
         layeredPane.add(boutonPanel, Integer.valueOf(2));
-        layeredPane.add(inventairePanel, Integer.valueOf(3));
+        layeredPane.add(inventairePanel, Integer.valueOf(10));
         layeredPane.add(marketPanel, Integer.valueOf(2));
         layeredPane.add(usinePanel, Integer.valueOf(6));
         layeredPane.add(settingsPanel, Integer.valueOf(4));

@@ -1,69 +1,22 @@
-Joueur: nathan
+Joueur: 
 Position: 2,11
-Argent: 150
+Argent: 4
 Ressources du joueur:
-Wood:3
+Wood:15
+Iron:3
+Wood:20
+Iron:3
 Machines du joueur:
 Marche position:
-(14;5)
+(0;1)
 Marche - Ressources a vendre:
-Wood:1 pour 2 coins
-Iron:1 pour 3 coins
 Marche - Machines a vendre:
-Usine option-> XL
 Objets sur la carte:
-Wood a la position 4,0
-Wood a la position 7,0
-Wood a la position 12,0
 Wood a la position 13,0
-Wood a la position 12,1
-Wood a la position 0,2
-Wood a la position 5,2
-Wood a la position 7,2
-Wood a la position 8,2
-Wood a la position 11,2
-Wood a la position 3,3
-Wood a la position 4,3
-Wood a la position 5,3
-Wood a la position 7,3
-Wood a la position 11,3
-Wood a la position 0,4
-Wood a la position 4,4
-Wood a la position 14,4
-Wood a la position 1,5
-Wood a la position 2,5
-Wood a la position 3,5
-Iron a la position 10,5
-Wood a la position 11,5
-Wood a la position 12,5
-Wood a la position 13,5
-Wood a la position 3,6
-Wood a la position 4,6
+Iron a la position 9,5
 Wood a la position 5,6
-Wood a la position 7,6
-Wood a la position 10,6
-Wood a la position 0,7
-Wood a la position 7,7
-Wood a la position 11,7
-Wood a la position 3,8
-Wood a la position 5,8
-Wood a la position 9,8
-Wood a la position 14,8
-Wood a la position 5,9
-Iron a la position 7,9
-Wood a la position 8,9
-Wood a la position 9,9
-Wood a la position 10,9
-Wood a la position 12,9
-Wood a la position 1,10
-Wood a la position 2,10
-Wood a la position 4,10
-Iron a la position 5,10
-Wood a la position 6,10
-Wood a la position 8,10
-Wood a la position 13,10
-Wood a la position 8,11
-Wood a la position 9,11
-Wood a la position 13,11
+Wood a la position 6,7
+Iron a la position 13,9
+Iron a la position 13,10
 Machines sur la carte:
-Usine option-> XL a la position 3,1 Stock-> {} Inventaire-> 
+Usine option-> XL a la position 2,10 Stock-> {(Pickaxe;1),(Pickaxe;1),} Inventaire-> (Wood;4),(Iron;14),(Wood;1),(Iron;17),

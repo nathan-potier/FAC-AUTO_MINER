@@ -13,7 +13,7 @@ public class GameLoader {
     private static Player player = null;
 
     public static Game loadGame(String fileName, Game game) {
-        fileName = "Save/" + fileName;
+        fileName = "Save/" + fileName + ".txt";
 
         Market market = null;
         Map map = null;
@@ -90,41 +90,9 @@ public class GameLoader {
                     } catch (Exception e) {
                         System.err.println("Erreur lors de la lecture de la position du marché : " + marketLine);
                     }
-                } else if (marketLine.startsWith("Marche - Ressources à vendre:")) {
-                    try{
-  
-                        String resourcesData = readSection("Marche - Ressources à vendre:",fileName);
-                        for (String resourceLine : resourcesData.split("\n")) {
-                            if (resourceLine.startsWith("Marche - Machines à vendre:")){
-                                break;
-                            }
-                            String[] resourceData = resourceLine.split(":");
-                            String resourceName = resourceData[0].trim();
-
-                            int quantity = Integer.parseInt(resourceData[1].split(" pour ")[0].trim());
-                            marketResources.add(createResource(resourceName, quantity));
-                        }
-                    }catch(Exception e){
-                        System.err.println("Erreur lors de la lecture des Ressources à vendre du marché : " + marketLine);
-                    }   
-                } else if (marketLine.startsWith("Marche - Machines à vendre:")) {
-                    try {
-                        String machinesData = readSection("Marche - Machines à vendre:", fileName);
-                        for (String machineLine : machinesData.split("\n")) {
-                            if (machineLine.startsWith("Objets sur la carte:")){
-                                break;
-                            }
-                            String machineName = machineLine.split(" pour ")[0].trim();
-
-                            marketMachines.add(createMachine(machineName, null, null, null, null, null));
-                        }
-                    }catch(Exception e){
-                        System.err.println("Erreur lors de la lecture des Machines à vendre du marché : " + marketLine);
-                    }
                 }
             }
-
-            market = new Market(marketPosition, marketResources, marketMachines);
+            market = new Market(marketPosition);
 
         }
 

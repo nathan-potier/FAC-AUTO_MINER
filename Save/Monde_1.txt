@@ -1,0 +1,64 @@
+Joueur: nathan
+Position: 2,11
+Argent: 150
+Ressources du joueur:
+Wood:3
+Machines du joueur:
+Marche position:
+(0;6)
+Objets sur la carte:
+Wood a la position 2,0
+Wood a la position 3,0
+Wood a la position 6,0
+Wood a la position 12,0
+Wood a la position 4,1
+Wood a la position 6,1
+Wood a la position 10,1
+Wood a la position 11,1
+Wood a la position 12,1
+Wood a la position 14,1
+Wood a la position 0,2
+Wood a la position 1,2
+Wood a la position 10,2
+Wood a la position 14,2
+Wood a la position 3,3
+Wood a la position 5,3
+Wood a la position 7,3
+Wood a la position 12,3
+Wood a la position 13,3
+Wood a la position 3,4
+Wood a la position 4,4
+Wood a la position 6,4
+Wood a la position 9,4
+Wood a la position 11,4
+Wood a la position 12,4
+Wood a la position 1,5
+Iron a la position 2,5
+Wood a la position 4,5
+Wood a la position 6,5
+Wood a la position 12,5
+Wood a la position 1,6
+Wood a la position 11,6
+Wood a la position 9,7
+Wood a la position 10,7
+Wood a la position 11,7
+Wood a la position 13,7
+Wood a la position 1,8
+Wood a la position 3,8
+Wood a la position 4,8
+Wood a la position 0,9
+Wood a la position 3,9
+Wood a la position 6,9
+Wood a la position 7,9
+Wood a la position 8,9
+Wood a la position 10,9
+Wood a la position 13,9
+Iron a la position 3,10
+Wood a la position 9,10
+Wood a la position 0,11
+Wood a la position 4,11
+Wood a la position 6,11
+Iron a la position 8,11
+Wood a la position 9,11
+Machines sur la carte:
+Usine option-> XL a la position 3,1 Stock-> {} Inventaire-> Recette->

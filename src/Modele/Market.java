@@ -28,16 +28,16 @@ public class Market {
         machinesForSale.add(new Usine("XL", player) );
         machinesForSale.add(new Usine("Rapide", player) );
         machinesForSale.add(new Usine("Polyvalente", player) );
+        machinesForSale.add(new Usine("Fragile", player) );
         this.pos = pos;
 
     }
     public Market(Player player) {
         this(null, player);
     }
-    public Market(Position pos, List<Resource> resourcesForSale, List<Machine>machinesForSale) {
+    public Market(Position pos) {
         this.pos = pos;
-        this.resourcesForSale = resourcesForSale;
-        this.machinesForSale = machinesForSale;
+
     }
 
     public List<Resource> getResourcesForSale(){

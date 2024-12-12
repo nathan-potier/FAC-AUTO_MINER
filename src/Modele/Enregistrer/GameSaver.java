@@ -19,7 +19,7 @@ public class GameSaver {
 
     public static boolean saveGame(String fileName, Player player, Market market, ArrayList<ObjectWithPosition> objectsOnMap, ArrayList<Machine> machines) {
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(SAVE_DIRECTORY+"/"+fileName))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(SAVE_DIRECTORY+"/"+fileName+".txt"))) {
             // Sauvegarder les informations du joueur
             writer.write("Joueur: " + player.getPseudo());
             writer.newLine();
@@ -50,22 +50,7 @@ public class GameSaver {
             writer.newLine();
             writer.write("("+market.getPos().getX() + ";"+ market.getPos().getY() +")");
             writer.newLine();
-            writer.write("Marche - Ressources a vendre:");
-            writer.newLine();
 
-
-            for (Resource r : market.getResourcesForSale()) {
-                writer.write(r.getName() + ":" + r.getQuantity() + " pour " + r.getPrix() + " coins");
-                writer.newLine();
-            }
-
-            // Sauvegarder les machines disponibles dans le marché avec leur position
-            writer.write("Marche - Machines a vendre:");
-            writer.newLine();
-            for (Machine m : market.getMachinesForSale()) {
-                writer.write(m.getName() + " option-> " + m.getOption() );
-                writer.newLine();
-            }
 
             // Sauvegarder la position de tous les objets sur la carte
             writer.write("Objets sur la carte:");

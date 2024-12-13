@@ -7,11 +7,11 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import Modele.*;
-import Vue.UpdateInterface;
 
 public class Recolteuse extends Machine {
     private String typeRessource;
     private boolean isCollecting;
+    private ArrayList<Resource> ressourceCollectable = new ArrayList<>();
     private Map map;
 
     public Recolteuse(String option, String typeRessource, Player player) {
@@ -67,9 +67,14 @@ public class Recolteuse extends Machine {
         // Simuler la collecte des ressources dans la zone autour de la position
         ArrayList<Cell> cells = map.regarderAutour(getPosition());
         ArrayList<Resource> resources = new ArrayList<>();
-        for(Cell cell : cells){
-            if (cell != null && cell.getContent() instanceof Resource){
-                resources.add((Resource)cell.getContent());
+        for (Cell cell : cells) {
+            if (cell != null && cell.getContent() instanceof Resource) {
+                Resource resource = (Resource) cell.getContent();
+                
+                // Ajouter la ressource à ressourceCollectable si elle n'y est pas déjà
+                if (!ressourceCollectable.contains(resource)) {
+                    ressourceCollectable.add(resource);
+                }
             }
         }
         for (Resource resource : resources) {

@@ -12,6 +12,7 @@ public class Recolteuse extends Machine {
     private String typeRessource;
     private boolean isCollecting;
     private ArrayList<Resource> ressourceCollectable = new ArrayList<>();
+
     private Map map;
 
     public Recolteuse(String option, String typeRessource, Player player) {
@@ -30,6 +31,9 @@ public class Recolteuse extends Machine {
     }
     public String getTypeRessource() {
         return typeRessource;
+    }
+    public ArrayList<Resource> getRessourceCollectable() {
+        return ressourceCollectable;
     }
 
     public boolean isCollecting() {

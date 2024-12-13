@@ -9,6 +9,7 @@ import Modele.GameStates;
 import Modele.Position;
 import Modele.Controle;
 import Modele.Enregistrer.*;
+import Modele.Machine.Recolteuse;
 import Modele.Machine.Usine;
 
 public class Affichage extends JFrame implements VueGenerale, KeyListener, MouseListener, SetMenuListener{
@@ -23,6 +24,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
     private SauvegardePanel sauvegardePanel;
     private SettingsPanel settingsPanel;
     private UsinePanel usinePanel;
+    private RecolteusePanel recolteusePanel;
     private JPanel boutonPanel;
 
     private final int height;
@@ -80,6 +82,8 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         marketPanel = new MarketPanel(game.getMarket(), game.getPlayer());
         usinePanel = new UsinePanel();
         usinePanel.setBounds(10, 50, 775, 550);
+        recolteusePanel = new RecolteusePanel();
+        recolteusePanel.setBounds(10, 50, 775, 550);
 
         menuPanel = new MenuPanel(width / 2, height / 2, width, height);
 
@@ -102,6 +106,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         layeredPane.add(inventairePanel, Integer.valueOf(10));
         layeredPane.add(marketPanel, Integer.valueOf(2));
         layeredPane.add(usinePanel, Integer.valueOf(6));
+        layeredPane.add(recolteusePanel, Integer.valueOf(7));
         layeredPane.add(settingsPanel, Integer.valueOf(4));
         layeredPane.add(sauvegardePanel, Integer.valueOf(5));
         
@@ -109,6 +114,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         // Masquer les panneaux sauf la carte par défaut
         inventairePanel.setVisible(false);
         usinePanel.setVisible(false);
+        recolteusePanel.setVisible(false);
         marketPanel.setVisible(false);
         settingsPanel.setVisible(false);
         sauvegardePanel.setVisible(false);
@@ -342,6 +348,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         inventairePanel.setVisible(false);
         marketPanel.setVisible(false);
         usinePanel.setVisible(false);
+        recolteusePanel.setVisible(false);
         settingsPanel.setVisible(false);
         cartePanel.setVisible(true);
         menuBoutonClique = true;
@@ -428,6 +435,15 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
 
         usinePanel.setPlayer(game.getPlayer());
         usinePanel.setVisible(true);
+    }
+
+    @Override
+    public void transmettreRecolteuse(Recolteuse r) {
+        GameStates.setMoveOn(false);
+        recolteusePanel.setRecolteuse(r);
+
+        recolteusePanel.setPlayer(game.getPlayer());
+        recolteusePanel.setVisible(true);
     }
 
     @Override

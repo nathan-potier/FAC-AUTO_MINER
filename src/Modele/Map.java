@@ -87,11 +87,11 @@ public class Map {
         Timer timer = new Timer(temps, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                if (isLaborieuse){
-                    p.setEcoute(true);
-                }
-
+                try{
+                    if (isLaborieuse){
+                        p.setEcoute(true);
+                    }
+                }catch(Exception ee){System.out.println("Le joueur n'est pas définis");}
                 grid[position.getY()][position.getX()] = cell;
                 game.updateAffichage(true);
 
@@ -163,6 +163,8 @@ public class Map {
         return type.isInstance(grid[pos.getY()][pos.getX()].getContent());
     }
 
+   
+
     public void deplacerDun(Position nouvelle, Player p){
         Position startPos = p.getPos();
         grid[nouvelle.getY()][nouvelle.getX()] = new Cell(nouvelle, p);
@@ -190,10 +192,12 @@ public class Map {
            return true;
         }else if (isInstanceOf(Usine.class, nouvelle)) {
 
-            //deplacerOnUsine(p, nouvelle);
             vue.transmettreUsine((Usine)grid[nouvelle.getY()][nouvelle.getX()].getContent());
             return true;
-        } else if (isInstanceOf(Market.class, nouvelle)) {
+        }else if (isInstanceOf(Recolteuse.class, nouvelle)){
+            vue.transmettreRecolteuse((Recolteuse)grid[nouvelle.getY()][nouvelle.getX()].getContent()); 
+            return true;
+        }else if (isInstanceOf(Market.class, nouvelle)) {
 
             GameStates.setMoveOn(false);
             vue.transmettreMarket();
@@ -209,10 +213,11 @@ public class Map {
     public void collectRessource(Player p, Position nouvelle){
 
         int temps = 5000;
-        
-        if ( !(p.collectResource((Resource)grid[nouvelle.getY()][nouvelle.getX()].getContent())) ){
-            return;
-        }
+        try{
+            if ( !(p.collectResource((Resource)grid[nouvelle.getY()][nouvelle.getX()].getContent())) ){
+                return;
+            }
+        }catch(Exception e){System.out.println("Le Player n'est pas définis");}
         
         
         Cell cell = grid[nouvelle.getY()][nouvelle.getX()];
@@ -245,29 +250,6 @@ public class Map {
         }
     }
 
-
-    public void deplacerOnUsine(Player p, Position nouvelle) {
-        Usine usine = (Usine) grid[nouvelle.getY()][nouvelle.getX()].getContent();
-        Scanner scanner = new Scanner(System.in);
-    
-        System.out.println("Vous êtes sur une usine. Voulez-vous Récolter (R) ou Produire (P) ou voir le Stock (S)? (E) pour sortir");
-        String choix = scanner.nextLine().toUpperCase();
-    
-        if (choix.equals("R")) {
-            usine.recuperer();
-        } else if (choix.equals("P")) {
-            System.out.println("Quelle recette souhaitez-vous produire (Pickaxe ou Bloc de Fer) ?");
-            String recetteChoisie = scanner.nextLine();
-            usine.produire(recetteChoisie);
-        }else if (choix.equals("E")) {
-            System.out.println("Vous avez quitté l'usine");
-        }else if (choix.equals("S")) {
-            usine.afficherStock();
-            deplacerOnUsine(p, nouvelle);
-        }else {
-            System.out.println("Choix invalide.");
-        }
-    }
 
 
     
@@ -316,6 +298,10 @@ public class Map {
         Position posUsine = new Position(3, 1); // Position adjacente
         Usine usine = new Usine(new Inventory(), posUsine, "XL", new Inventory(), game.getPlayer());
         grid[posUsine.getY()][posUsine.getX()] = new Cell(posUsine, usine);
+
+        Position posRecolteuse = new Position(1, 1); // Position adjacente
+        Recolteuse recolteuse = new Recolteuse(posRecolteuse, "XL", new Inventory() , game.getPlayer());
+        grid[posRecolteuse.getY()][posRecolteuse.getX()] = new Cell(posRecolteuse, recolteuse);
 
         genNObjects(50, "Wood");
         genNObjects(3, "Iron");

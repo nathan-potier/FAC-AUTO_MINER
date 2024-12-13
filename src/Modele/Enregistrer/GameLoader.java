@@ -211,7 +211,12 @@ public class GameLoader {
 
         // Initialiser le jeu
         game = new Game(market, game.getSpawn(), player);
+        
 
+        for(int i = 0; i < machinesOnMap.size()  ; i++){
+            System.out.println(machinesOnMap.get(i));
+
+        }
         map = new Map(game, objectOnMap, machinesOnMap);
 
         game.setMap(map);

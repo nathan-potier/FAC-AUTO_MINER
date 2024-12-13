@@ -186,5 +186,10 @@ public class Usine extends Machine {
         }
     }
 
+    @Override
+    public Usine getClone(){
+        return new Usine(getOption(), getPlayer());
+    }
+
     
 }

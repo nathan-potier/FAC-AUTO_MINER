@@ -119,10 +119,11 @@ public abstract class Machine {
 
     public abstract String getResourcesSTR();
     public abstract String getNomRecetteEnCours();
+    public abstract Machine getClone();
     public void setPos(Position pos){this.pos = pos;}
     @Override
     public String toString(){
-        return getName() + " " + getOption();
+        return getName() + " " + getOption() + " " + getPosition();
     }
     
 }

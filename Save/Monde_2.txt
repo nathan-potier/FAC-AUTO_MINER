@@ -1,64 +1,65 @@
-Joueur: nathan
+Joueur: 
 Position: 2,11
-Argent: 150
+Argent: 0
 Ressources du joueur:
 Wood:3
 Machines du joueur:
 Marche position:
-(0;2)
+(0;3)
 Objets sur la carte:
-Wood a la position 1,0
-Wood a la position 4,0
-Wood a la position 7,0
-Wood a la position 10,0
-Wood a la position 4,1
-Wood a la position 6,1
+Wood a la position 0,0
+Wood a la position 5,0
+Wood a la position 12,0
+Wood a la position 2,1
+Wood a la position 5,1
 Wood a la position 11,1
-Wood a la position 3,2
-Wood a la position 4,2
+Wood a la position 13,1
+Wood a la position 0,2
+Wood a la position 1,2
+Wood a la position 6,2
 Wood a la position 7,2
-Wood a la position 8,2
-Wood a la position 11,2
-Wood a la position 13,2
-Wood a la position 0,3
 Wood a la position 1,3
-Wood a la position 8,3
+Wood a la position 5,3
+Wood a la position 6,3
+Wood a la position 10,3
+Wood a la position 12,3
 Wood a la position 14,3
-Iron a la position 2,4
-Wood a la position 8,4
-Wood a la position 13,4
+Wood a la position 5,4
+Wood a la position 7,4
+Wood a la position 0,5
+Wood a la position 3,5
 Wood a la position 7,5
+Wood a la position 8,5
 Wood a la position 10,5
-Iron a la position 11,5
-Wood a la position 13,5
-Wood a la position 0,6
+Wood a la position 14,5
+Wood a la position 1,6
 Wood a la position 2,6
 Wood a la position 4,6
 Wood a la position 7,6
-Wood a la position 8,6
 Wood a la position 12,6
+Wood a la position 13,6
+Wood a la position 14,6
 Wood a la position 1,7
-Wood a la position 4,7
+Wood a la position 2,7
+Wood a la position 5,7
 Wood a la position 9,7
-Wood a la position 14,7
-Wood a la position 3,8
-Wood a la position 4,8
-Wood a la position 6,8
-Wood a la position 7,8
-Wood a la position 8,8
+Wood a la position 10,7
+Wood a la position 12,7
+Wood a la position 13,7
+Iron a la position 6,8
+Iron a la position 7,8
 Wood a la position 13,8
-Wood a la position 14,8
-Iron a la position 1,9
-Wood a la position 5,9
+Wood a la position 0,9
+Wood a la position 1,9
+Wood a la position 2,9
 Wood a la position 8,9
 Wood a la position 9,9
 Wood a la position 11,9
 Wood a la position 12,9
-Wood a la position 0,10
-Wood a la position 1,10
 Wood a la position 4,10
-Wood a la position 9,10
-Wood a la position 7,11
-Wood a la position 14,11
+Iron a la position 8,10
+Wood a la position 13,10
+Wood a la position 3,11
 Machines sur la carte:
 Usine option-> XL a la position 3,1 Stock-> {} Inventaire-> Recette->
+Usine option-> Rapide a la position 3,3 Stock-> {} Inventaire-> Recette->

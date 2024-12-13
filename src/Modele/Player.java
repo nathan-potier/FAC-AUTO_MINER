@@ -51,7 +51,7 @@ public class Player {
     }
     public boolean addMachine(Machine machine) {
         
-        boolean b =  inventory.addMachine(machine);
+        boolean b =  inventory.addMachine(machine.getClone());
         marketInterface.notificationUpdate();
         return b;
     }

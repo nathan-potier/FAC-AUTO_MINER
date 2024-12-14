@@ -1,81 +1,119 @@
 package Modele.Machine;
 
-import java.util.ArrayList;
-
-import Modele.Inventory;
-import Modele.ObjectWithPosition;
-import Modele.Position;
 import Modele.Resource.Resource;
 
+import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import Modele.*;
+
 public class Recolteuse extends Machine {
-    private Position position; // Position actuelle de la récolteuse
-    private Inventory inventaire;
-    private int stockMax; // Capacité maximale du stock
-    private Resource ressourceChoisie; // La ressource choisie pour la récolte
+    private String typeRessource;
+    private boolean isCollecting;
+    private ArrayList<Resource> ressourceCollectable = new ArrayList<>();
 
-    public Recolteuse(Position position, int stockMax, Inventory inventaire, Resource ressourceChoisi) {
-        super("Recolteuse", 500, position);
-        this.position = position;
-        this.stockMax = stockMax;
-        this.inventaire = inventaire;
-        this.ressourceChoisie = ressourceChoisi;
+    private Map map;
+
+    public Recolteuse(String option, String typeRessource, Player player) {
+        super("Recolteuse", new Position(), option, new Inventory(), player);
+        this.typeRessource = typeRessource;
+        this.isCollecting = false;
     }
- 
-    // Méthode de récolte qui cherche les ressources adjacentes et les ajoute au stock
-    public void recolterRessourcesAdjacentes(ArrayList<Resource> ressourcesAdjacentes) {
-        if (getStock().size() >= stockMax) {
-            System.out.println("Le stock de la récolteuse est plein.");
-            return;
+
+    public Recolteuse(Position position, String option,  Inventory stock, Player player) {
+        super("Recolteuse", position, option, stock, player);
+        this.isCollecting = false;
+    }
+
+    public void setMap(Map map){
+        this.map = map;
+    }
+    public String getTypeRessource() {
+        return typeRessource;
+    }
+    public ArrayList<Resource> getRessourceCollectable() {
+        return ressourceCollectable;
+    }
+
+    public boolean isCollecting() {
+        return isCollecting;
+    }
+    public void setTypeRessource(String typeRessource) {
+        this.typeRessource = typeRessource;
+    }
+
+    public void startCollecting() {
+        if (isCollecting) {
+            return; // Déjà en cours de collecte
         }
 
-        if (ressourceChoisie == null) {
-            System.out.println("Aucune ressource choisie.");
-            return;
-        }
+        isCollecting = true;
+        int tempCollectMs = getTempFabriq(getOption()) * 1000;
 
-        // Vérifie si la ressource choisie est dans les ressources adjacentes
-        for (Resource ressource : ressourcesAdjacentes) {
-            if (ressourceChoisie.equals(ressource)) {
-                if (getStock().size() < stockMax) {
-                    recolter(ressource);
-                    System.out.println("Ressource récoltée : " + ressource.getName());
-                    return; // Une fois la ressource récoltée, on arrête
+        new Timer().scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                if (isCollecting) {
+                    collectResourcesAround();
+                } else {
+                    cancel(); // Arrête le Timer si la collecte est terminée
+                }
+            }
+        }, tempCollectMs, tempCollectMs);
+    }
+
+    public void stopCollecting() {
+        isCollecting = false;
+    }
+
+    private void collectResourcesAround() {
+        // Simuler la collecte des ressources dans la zone autour de la position
+        ArrayList<Cell> cells = map.regarderAutour(getPosition());
+        ArrayList<Resource> resources = new ArrayList<>();
+        for (Cell cell : cells) {
+            if (cell != null && cell.getContent() instanceof Resource) {
+                Resource resource = (Resource) cell.getContent();
+                
+                // Ajouter la ressource à ressourceCollectable si elle n'y est pas déjà
+                if (!ressourceCollectable.contains(resource)) {
+                    ressourceCollectable.add(resource);
                 }
             }
         }
-
-        System.out.println("La ressource choisie n'est pas présente parmi les ressources adjacentes.");
-    }
-
-
-    public void setPosition(Position position) {
-        this.position = position;
-    }
-
-    // Afficher le stock
-    @Override
-    public void afficherStock() {
-        super.afficherStock();
-    }
-
-    public Resource getRessourceChoisie() {
-        return ressourceChoisie;
-    }
-
-    public void setRessourceChoisie(Resource ressourceChoisie) {
-        this.ressourceChoisie = ressourceChoisie;
+        for (Resource resource : resources) {
+            if (resource.getName().equals(typeRessource)) {
+                ajouterAustock(resource);
+                map.collectRessource(null, resource.getPosition()); // Enlève la ressource de la carte
+                System.out.println("Récolte réussie : " + resource.getName());
+                if (getStock().getResources().stream().anyMatch(r -> r.getName().equals(resource.getName()) && r.getQuantity() >= getLimiteStock(getOption()))) {
+                    stopCollecting(); // Arrêter si la limite de stock est atteinte
+                }
+            }
+        }
     }
 
     @Override
     public String getResourcesSTR() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getResourcesSTR'");
+        String res = "";
+        for (Resource r : getStock().getResources()) {
+            res += "(" + r.getName() + ";" + r.getQuantity() + "),";
+        }
+        return res;
     }
 
     @Override
     public String getNomRecetteEnCours() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getNomRecetteEnCours'");
+        return null; // Pas applicable pour une récolteuse
     }
 
+    @Override
+    public Recolteuse getClone() {
+        return new Recolteuse(getOption(), typeRessource, getPlayer());
+    }
+
+    @Override
+    public void produire() {
+        startCollecting();
+    }
 }

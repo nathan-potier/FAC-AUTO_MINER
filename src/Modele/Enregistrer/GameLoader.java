@@ -219,6 +219,12 @@ public class GameLoader {
         }
         map = new Map(game, objectOnMap, machinesOnMap);
 
+        for (Machine m : machinesOnMap){
+            if (Recolteuse.class.isInstance(m)){
+                ((Recolteuse)m).setMap(map);
+            }
+        }
+
         game.setMap(map);
 
         return game;
@@ -251,6 +257,12 @@ public class GameLoader {
                 }
                 
                 return n;
+            case "Recolteuse" : 
+                Recolteuse r = new Recolteuse(pos, option, stock, player);
+                if (recette != null){
+                    r.setTypeRessource(recette);
+                }
+                return r;
             default:
                 return null;
         }

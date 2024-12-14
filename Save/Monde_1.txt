@@ -1,11 +1,10 @@
 Joueur: 
 Position: 2,11
-Argent: 997197
+Argent: 996919
 Ressources du joueur:
 Iron:1
-Wood:20
+Wood:9
 Machines du joueur:
-Usine a la position 0,0
 Marche position:
 (0;3)
 Objets sur la carte:

@@ -11,7 +11,7 @@ import Modele.Controle;
 import Modele.Enregistrer.*;
 import Modele.Machine.Usine;
 
-public class Affichage extends JFrame implements VueGenerale, KeyListener, MouseListener, SetMenuListener{
+public class Affichage extends JFrame implements VueGenerale, KeyListener, MouseListener, SetMenuListener, UpdateInterface{
     private Game game;
     private String pseudo;
     private CartePanel cartePanel;
@@ -24,6 +24,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
     private SettingsPanel settingsPanel;
     private UsinePanel usinePanel;
     private JPanel boutonPanel;
+    private JPanel button2Panel = new JPanel();
 
     private final int height;
     private final int width;
@@ -255,6 +256,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         GameStates.setMoveOn(true);
         isRunning = true;
         game.getPlayer().setMarketInterface(marketPanel);
+        game.getPlayer().setAffichageInterface(this);
         marketPanel.setPlayer(game.getPlayer());
         marketPanel.setMarket(game.getMarket());
         boutonPanel.setVisible(true);
@@ -278,6 +280,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
             isRunning = true;
             inventairePanel.setPlayer(game.getPlayer());
             game.getPlayer().setMarketInterface(marketPanel);
+            game.getPlayer().setAffichageInterface(this);
             marketPanel.setPlayer(game.getPlayer());
             marketPanel.setMarket(game.getMarket());
             boutonPanel.setVisible(true);
@@ -376,7 +379,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         });
         button1Panel.add(inventaire);
 
-        JPanel button2Panel = new JPanel();
+        button2Panel = new JPanel();
         button2Panel.setLayout(new BoxLayout(button2Panel, BoxLayout.X_AXIS));
         JButton placeUsine = new JButton("Placer l'usine");
         placeUsine.setFocusPainted(false);
@@ -384,6 +387,11 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
             @Override   
             public void actionPerformed(ActionEvent e) {
                 listener.onKeyPress(-1);
+                if (game.getPlayer().getInv().getMachine() == null){
+                    button2Panel.setVisible(false);
+                }else{
+                    button2Panel.setVisible(true);
+                }
                 requestFocusInWindow();
             }
         });
@@ -409,6 +417,11 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         boutonPanel.add(button2Panel);
         boutonPanel.add(Box.createVerticalStrut(20));
         boutonPanel.add(button3Panel);
+
+
+        if (game.getPlayer().getInv().getMachine() == null){
+            button2Panel.setVisible(false);
+        }
     }
 
     private void afficherBoiteDeDialogueFermeture() {
@@ -476,5 +489,11 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         sauvegardePanel.setVisible(false);
         menuBoutonClique = false;
         chargerPartie(nameGameLoad);
+    }
+
+    @Override
+    public void notificationUpdate() {
+        button2Panel.setVisible(true);
+        
     }
 }

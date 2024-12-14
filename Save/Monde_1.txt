@@ -1,7 +1,9 @@
 Joueur: 
 Position: 2,11
-Argent: 998102
+Argent: 996919
 Ressources du joueur:
+Iron:1
+Wood:9
 Machines du joueur:
 Marche position:
 (0;3)

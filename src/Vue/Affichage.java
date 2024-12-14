@@ -201,7 +201,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
     }
     public void saveAndBackMenu(){
         
-       
+        isRunning = false;
         String nomSv = "";
         if(isNewGame){
             nomSv = GameSaver.generateUniqueSaveName("Monde");

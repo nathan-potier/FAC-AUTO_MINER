@@ -8,7 +8,6 @@ import Modele.Resource.Resource;
 public class Inventory {
     private ArrayList<Resource> resources;
     private Machine machine;
-    private int limiteInventory = 10;
 
     public Inventory() {
         resources = new ArrayList<>();
@@ -40,12 +39,12 @@ public class Inventory {
             }
         }
 
-        if (resources.size() < limiteInventory){
-            resources.add(ressource.clone());
-            return true;
-        }
+        
+        resources.add(ressource.clone());
+        return true;
+        
 
-        return false;
+
         
     }
 

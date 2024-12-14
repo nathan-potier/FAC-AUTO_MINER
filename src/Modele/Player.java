@@ -10,7 +10,7 @@ public class Player {
     private boolean ecoute = true;
     private int money;
     private UpdateInterface marketInterface;
-
+    private UpdateInterface affichage;
     public void setEcoute(boolean ecoute) {
         this.ecoute = ecoute;
     }
@@ -49,10 +49,14 @@ public class Player {
     public void setMarketInterface(UpdateInterface marketInterface) {
         this.marketInterface = marketInterface;
     }
+    public void setAffichageInterface(UpdateInterface affichage) {
+        this.affichage = affichage;
+    }
     public boolean addMachine(Machine machine) {
         
         boolean b =  inventory.addMachine(machine.getClone());
         marketInterface.notificationUpdate();
+        affichage.notificationUpdate();
         return b;
     }
 

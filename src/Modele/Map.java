@@ -513,11 +513,11 @@ public class Map {
 
 
 
-    public void placerMachine(Player player){
+    public boolean placerMachine(Player player){
         Position posMachine = new Position(player.getPos().getX(), player.getPos().getY());
         
         if(!isValidPosition(posMachine) || player.getMachine() == null){
-            return;
+            return false;
         }
         
         Cell nouvMachine = new Cell(posMachine ,player.getMachine());
@@ -530,9 +530,10 @@ public class Map {
                 player.getMachine().setPos(posMachine);
                 player.removeMachine();
                 game.updateAffichage(false);
-                return;
+                return true;
             }
         }
+        return false;
         
     }
     

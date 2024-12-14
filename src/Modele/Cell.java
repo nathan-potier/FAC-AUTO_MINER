@@ -1,11 +1,10 @@
 package Modele;
 
-
-public class Cell {
+public class Cell<T> {
     private Position position;
-    private Object content; // Par exemple, une ressource, une machine, ou null si vide
+    private T content; // Le contenu de la cellule, générique
 
-    public Cell(Position position, Object content) {
+    public Cell(Position position, T content) {
         this.position = position;
         this.content = content;
     }
@@ -14,11 +13,11 @@ public class Cell {
         return position;
     }
 
-    public Object getContent() {
+    public T getContent() {
         return content;
     }
 
-    public void setContent(Object content) {
+    public void setContent(T content) {
         this.content = content;
     }
 
@@ -31,7 +30,23 @@ public class Cell {
         return "Cell[" + position + ", content=" + content + "]";
     }
 
-    public Boolean equals(Cell bis){
-        return this.toString().equals(bis.toString());
-    } 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Cell<?> other = (Cell<?>) obj;
+        return position.equals(other.position) && 
+               (content == null ? other.content == null : content.equals(other.content));
+    }
+
+    @Override
+    public int hashCode() {
+        int result = position.hashCode();
+        result = 31 * result + (content != null ? content.hashCode() : 0);
+        return result;
+    }
 }

@@ -27,9 +27,6 @@ public class GameLoader {
         Position playerPosition = null;
         Position marketPosition = null; // Position du marché
 
-        ArrayList<Resource> marketResources = new ArrayList<>();
-        ArrayList<Machine> marketMachines = new ArrayList<>();
-
         // Lecture du joueur
         String playerSection = readSection( "Joueur:", fileName);
         if (!playerSection.isEmpty()) {

@@ -86,8 +86,8 @@ public class Game implements Controle{
     public void updateAffichage(boolean b){
         ArrayList<Object> obj = new ArrayList<>();
         ArrayList<Position> pos = new ArrayList<>();
-        for (Cell[] cells : gameMap.getGrid()){
-            for (Cell c: cells){
+        for (Cell<?>[] cells : gameMap.getGrid()){
+            for (Cell<?> c: cells){
                 if(c != null && (!(c.getContent().getClass().equals(player.getClass())) || b)  ){
 
                     
@@ -127,7 +127,7 @@ public class Game implements Controle{
 
     public Usine getObjectAtPosition(int x, int y) {
         // Retourne l'objet à la position (x, y) de la gameMap
-        Cell c = gameMap.getGrid()[y][x];
+        Cell<?> c = gameMap.getGrid()[y][x];
         if (c != null){
             return (Usine)c.getContent();
         }

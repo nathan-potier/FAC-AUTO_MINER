@@ -69,9 +69,9 @@ public class Recolteuse extends Machine {
 
     private void collectResourcesAround() {
         // Simuler la collecte des ressources dans la zone autour de la position
-        ArrayList<Cell> cells = map.regarderAutour(getPosition());
+        ArrayList<Cell<?>> cells = map.regarderAutour(getPosition());
         ArrayList<Resource> resources = new ArrayList<>();
-        for (Cell cell : cells) {
+        for (Cell<?> cell : cells) {
             if (cell != null && cell.getContent() instanceof Resource) {
                 Resource resource = (Resource) cell.getContent();
                 

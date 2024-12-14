@@ -1,6 +1,5 @@
 package Modele.Machine;
 
-import Modele.Resource.Recette;
 import Modele.Resource.Resource;
 import Vue.UpdateInterface;
 

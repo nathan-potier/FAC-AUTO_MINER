@@ -18,11 +18,11 @@ import Modele.Resource.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import java.util.Scanner;
+
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Map {
-    private Cell[][] grid;
+    private Cell<?>[][] grid;
     private int width, height;
     private Spawn spawn;
     private Market market;
@@ -51,10 +51,10 @@ public class Map {
         this(game.getWidth(), game.getHeight(), game.getPlayer(), game.getSpawn(), game.getMarket(), game);
 
         for(ObjectWithPosition obj : objList){
-            grid[obj.getPosition().getY()][obj.getPosition().getX()] = new Cell(obj.getPosition(), obj);
+            grid[obj.getPosition().getY()][obj.getPosition().getX()] = new Cell<>(obj.getPosition(), obj);
         }
         for(Machine m : machinesListe){
-            grid[m.getPosition().getY()][m.getPosition().getX()] = new Cell(m.getPosition(), m);
+            grid[m.getPosition().getY()][m.getPosition().getX()] = new Cell<>(m.getPosition(), m);
         }
         
         generateMap(game.getPlayer());
@@ -64,16 +64,16 @@ public class Map {
 
     public void generateMap(Player p) {
 
-        grid[Spawn.getPos().getY()][Spawn.getPos().getX()] = new Cell(new Position( Spawn.getPos().getX(), Spawn.getPos().getY()), p);
+        grid[Spawn.getPos().getY()][Spawn.getPos().getX()] = new Cell<>(new Position( Spawn.getPos().getX(), Spawn.getPos().getY()), p);
         if (market.getPos() == null){
             Position posMarket = genRandomPosForMarket();
             while(!isValidPosition(posMarket)){
                 posMarket = genRandomPosForMarket();
             }
             market.setPos(posMarket);
-            grid[posMarket.getY()][posMarket.getX()] = new Cell(posMarket, market);
+            grid[posMarket.getY()][posMarket.getX()] = new Cell<>(posMarket, market);
         }else{
-            grid[market.getPos().getY()][market.getPos().getX()] = new Cell(new Position(market.getPos().getX(), market.getPos().getY()), market);
+            grid[market.getPos().getY()][market.getPos().getX()] = new Cell<>(new Position(market.getPos().getX(), market.getPos().getY()), market);
         }
 
         
@@ -82,7 +82,7 @@ public class Map {
     public void setVue(VueGenerale v){vue = v;}
     
 
-    public void attendreReplace(Position position, Cell cell, Player p, int temps, boolean isLaborieuse) {
+    public void attendreReplace(Position position, Cell<?> cell, Player p, int temps, boolean isLaborieuse) {
         
         Timer timer = new Timer(temps, new ActionListener() {
             @Override
@@ -118,8 +118,8 @@ public class Map {
     }
 
     
-    public ArrayList<Cell> regarderAutour(Position pos) {
-        ArrayList<Cell> resultats = new ArrayList<>();
+    public ArrayList<Cell<?>> regarderAutour(Position pos) {
+        ArrayList<Cell<?>> resultats = new ArrayList<>();
         ArrayList<Position> positionsAutour = posAutour4(pos);
 
         for (Position newPosition : positionsAutour) {
@@ -136,8 +136,8 @@ public class Map {
 
     
     public void ActionByClick(Player player, Position pos){
-        ArrayList<Cell> res = regarderAutour(player.getPos());
-        for (Cell c : res){
+        ArrayList<Cell<?>> res = regarderAutour(player.getPos());
+        for (Cell<?> c : res){
               if ( c != null && c.getPosition().getX() == pos.getX() && c.getPosition().getY() == pos.getY() ){
                 if(isInstanceOf(Resource.class, c.getPosition())  ){
                     //player.collectResource((Ressource)c.getContent());
@@ -167,7 +167,7 @@ public class Map {
 
     public void deplacerDun(Position nouvelle, Player p){
         Position startPos = p.getPos();
-        grid[nouvelle.getY()][nouvelle.getX()] = new Cell(nouvelle, p);
+        grid[nouvelle.getY()][nouvelle.getX()] = new Cell<>(nouvelle, p);
         grid[p.getPos().getY()][p.getPos().getX()] = null;
         p.setPos(nouvelle);
         verifSpawnAffichage(); 
@@ -220,7 +220,7 @@ public class Map {
         }catch(Exception e){System.out.println("Le Player n'est pas définis");}
         
         
-        Cell cell = grid[nouvelle.getY()][nouvelle.getX()];
+        Cell<?> cell = grid[nouvelle.getY()][nouvelle.getX()];
         Position pos = new Position(nouvelle.getX(), nouvelle.getY());
 
         
@@ -230,7 +230,7 @@ public class Map {
 
 
 
-        grid[nouvelle.getY()][nouvelle.getX()] = new Cell(pos, new Attente(pos, (Resource)cell.getContent()));
+        grid[nouvelle.getY()][nouvelle.getX()] = new Cell<>(pos, new Attente(pos, (Resource)cell.getContent()));
 
         
         game.updateAffichage(true);
@@ -256,7 +256,7 @@ public class Map {
 
     public void verifSpawnAffichage(){
         if(grid[Spawn.getPos().getY()][Spawn.getPos().getX()] == null){
-            grid[Spawn.getPos().getY()][Spawn.getPos().getX()] = new Cell(Spawn.getPos(), spawn);
+            grid[Spawn.getPos().getY()][Spawn.getPos().getX()] = new Cell<>(Spawn.getPos(), spawn);
         }
     }
     //temporaire
@@ -287,7 +287,7 @@ public class Map {
             }
     
             // Place l'objet dans la grille
-            grid[pos.getY()][pos.getX()] = new Cell(pos, obj);
+            grid[pos.getY()][pos.getX()] = new Cell<>(pos, obj);
         }
     }
     
@@ -297,11 +297,11 @@ public class Map {
         // Placer une usine à côté de la position de `Wood`
         Position posUsine = new Position(3, 1); // Position adjacente
         Usine usine = new Usine(new Inventory(), posUsine, "XL", new Inventory(), game.getPlayer());
-        grid[posUsine.getY()][posUsine.getX()] = new Cell(posUsine, usine);
+        grid[posUsine.getY()][posUsine.getX()] = new Cell<>(posUsine, usine);
 
         Position posRecolteuse = new Position(1, 1); // Position adjacente
         Recolteuse recolteuse = new Recolteuse(posRecolteuse, "XL", new Inventory() , game.getPlayer());
-        grid[posRecolteuse.getY()][posRecolteuse.getX()] = new Cell(posRecolteuse, recolteuse);
+        grid[posRecolteuse.getY()][posRecolteuse.getX()] = new Cell<>(posRecolteuse, recolteuse);
 
         genNObjects(50, "Wood");
         genNObjects(3, "Iron");
@@ -372,7 +372,7 @@ public class Map {
 
     private boolean isValidPosition(Position pos) {
         ArrayList<Position> posAutour = posAutour8(pos);
-        grid[pos.getY()][pos.getX()] = new Cell(pos, new Attente(pos, null));
+        grid[pos.getY()][pos.getX()] = new Cell<>(pos, new Attente(pos, null));
         for (Position neighbor : posAutour) {
             System.out.println(neighbor);
             boolean test = false;
@@ -520,7 +520,7 @@ public class Map {
             return false;
         }
         
-        Cell nouvMachine = new Cell(posMachine ,player.getMachine());
+        Cell<?> nouvMachine = new Cell<>(posMachine ,player.getMachine());
         ArrayList<Position> posAutour = posAutour4(posMachine);
         for(Position pos : posAutour){
             
@@ -540,8 +540,8 @@ public class Map {
 
     public ArrayList<ObjectWithPosition> getPositionObject() {
         ArrayList<ObjectWithPosition> res = new ArrayList<>();
-        for (Cell[] row : grid) {  // Parcours des lignes de la grille
-            for (Cell c2 : row) {   // Parcours des cellules dans chaque ligne
+        for (Cell<?>[] row : grid) {  // Parcours des lignes de la grille
+            for (Cell<?> c2 : row) {   // Parcours des cellules dans chaque ligne
                 if (c2 != null && c2.getContent() instanceof ObjectWithPosition) {
                     // Vérifier si le contenu de la cellule implémente ObjectWithPosition
                     ObjectWithPosition obj = (ObjectWithPosition) c2.getContent();
@@ -555,8 +555,8 @@ public class Map {
 
     public ArrayList<Machine> getMachines(){
         ArrayList<Machine> res = new ArrayList<>();
-        for (Cell[] row : grid) {  // Parcours des lignes de la grille
-            for (Cell c2 : row) {   // Parcours des cellules dans chaque ligne
+        for (Cell<?>[] row : grid) {  // Parcours des lignes de la grille
+            for (Cell<?> c2 : row) {   // Parcours des cellules dans chaque ligne
                 if (c2 != null && c2.getContent() instanceof Machine) {
 
                     Machine obj = (Machine) c2.getContent();
@@ -566,8 +566,8 @@ public class Map {
         }
         return res;  // Retourner la liste des objets ayant une position
     }
-    public Cell[][] getGrid(){return grid;}
-    public void setGrid(Cell[][] ngrid){grid = ngrid;}
+    public Cell<?>[][] getGrid(){return grid;}
+    public void setGrid(Cell<?>[][] ngrid){grid = ngrid;}
 
     @Override
     public String toString() {
@@ -576,7 +576,7 @@ public class Map {
         // Parcours de toutes les cases de la carte
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                Cell cell = grid[y][x];
+                Cell<?> cell = grid[y][x];
                 if (cell != null && cell.getContent() != null) {
                     sb.append(cell.getContent().getClass().getSimpleName().charAt(0)); // Utilise la première lettre du nom de la classe de l'objet contenu
                 } else {

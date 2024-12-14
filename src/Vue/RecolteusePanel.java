@@ -6,7 +6,6 @@ import Modele.Player;
 import Modele.Resource.Resource;
 import javax.swing.*;
 import java.awt.*;
-import java.util.List;
 
 public class RecolteusePanel extends JPanel implements UpdateInterface {
 

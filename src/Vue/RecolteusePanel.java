@@ -138,18 +138,6 @@ public class RecolteusePanel extends JPanel implements UpdateInterface {
         });
         parametresPanelInner.add(startCollectingButton);
 
-        // Ajouter un bouton pour fermer
-        closeButton = new JButton("Fermer");
-        closeButton.setBackground(new Color(221, 242, 172));
-        closeButton.setForeground(Color.BLACK);
-        closeButton.setFont(new Font("Arial", Font.BOLD, 14));
-        closeButton.addActionListener(e -> {
-            this.setVisible(false);
-            GameStates.setMoveOn(true);
-        });
-        parametresPanelInner.add(closeButton);
-
-        parametresPanel.add(parametresPanelInner);
     }
 
     private void initializeCloseButton() {
@@ -162,6 +150,7 @@ public class RecolteusePanel extends JPanel implements UpdateInterface {
         closeButton.setForeground(Color.BLACK);
         closeButton.addActionListener(e -> {
             this.setVisible(false);
+            GameStates.setMoveOn(true);
         });
 
         closeButtonPanel.add(closeButton, BorderLayout.CENTER);

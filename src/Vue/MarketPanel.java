@@ -34,7 +34,7 @@ public class MarketPanel extends JPanel implements UpdateInterface{
         this.setLayout(new BorderLayout());
         this.setBackground(Color.DARK_GRAY);
         this.setBorder(BorderFactory.createEmptyBorder(20, 40, 40, 40));
-        this.setBounds(100, 50, 600, 400);
+        this.setBounds(50, 50, 700, 500);
     
         // Affichage de l'argent du joueur avec espace supplémentaire en dessous
         JPanel moneyPanel = new JPanel(new BorderLayout());
@@ -82,12 +82,12 @@ public class MarketPanel extends JPanel implements UpdateInterface{
     
         // Ajout des panneaux dans des JScrollPane
         JScrollPane buyScrollPane = new JScrollPane(buyPanel);
-        buyScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        buyScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         buyScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         buyScrollPane.setBorder(BorderFactory.createEmptyBorder());
     
         JScrollPane sellScrollPane = new JScrollPane(sellPanel);
-        sellScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        sellScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         sellScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         sellScrollPane.setBorder(BorderFactory.createEmptyBorder());
     
@@ -123,8 +123,7 @@ public class MarketPanel extends JPanel implements UpdateInterface{
     }
 
     private void addItemToMarket(JPanel panel, String imagePath, String name, Resource resource, JPanel inventoryPanel) {
-        JPanel itemPanel = new JPanel();
-        itemPanel.setLayout(new BoxLayout(itemPanel, BoxLayout.X_AXIS));
+        JPanel itemPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5)); // Alignement à gauche
         itemPanel.setBackground(Color.DARK_GRAY);
     
         // Charger et redimensionner l'image
@@ -140,7 +139,7 @@ public class MarketPanel extends JPanel implements UpdateInterface{
         JLabel nameLabel = new JLabel(name);
         nameLabel.setForeground(Color.WHITE);
         nameLabel.setFont(new Font("Arial", Font.PLAIN, 14));
-        nameLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
+        nameLabel.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 5));
         itemPanel.add(nameLabel);
     
         // Récupérer le prix de la ressource
@@ -162,8 +161,7 @@ public class MarketPanel extends JPanel implements UpdateInterface{
     }
 
     private void addMachineToMarket(JPanel panel, String imagePath, String name, Machine machine, JPanel inventoryPanel) {
-        JPanel itemPanel = new JPanel();
-        itemPanel.setLayout(new BoxLayout(itemPanel, BoxLayout.X_AXIS));
+        JPanel itemPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
         itemPanel.setBackground(Color.DARK_GRAY);
 
         // Charger et redimensionner l'image de la machine
@@ -179,7 +177,6 @@ public class MarketPanel extends JPanel implements UpdateInterface{
         JLabel nameLabel = new JLabel(name);
         nameLabel.setForeground(Color.WHITE);
         nameLabel.setFont(new Font("Arial", Font.PLAIN, 14));
-        nameLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
         itemPanel.add(nameLabel);
 
         // Récupérer le prix de la machine
@@ -209,8 +206,7 @@ public class MarketPanel extends JPanel implements UpdateInterface{
     
         for (Resource resource : inventory) {
             if (resource.getQuantity() > 0){
-                JPanel itemPanel = new JPanel();
-                itemPanel.setLayout(new BoxLayout(itemPanel, BoxLayout.X_AXIS));
+                JPanel itemPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
                 itemPanel.setBackground(Color.DARK_GRAY);
         
                 // Image de la ressource

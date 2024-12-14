@@ -45,8 +45,6 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
     */
     private boolean isRunning = false;
 
-    
-
     public Affichage(Game game) {
         this.game = game;
         this.pseudo = game.getPlayer().getPseudo();
@@ -55,8 +53,13 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
 
         this.setTitle("AutoMiner");
         setPreferredSize(new Dimension(width, height-10));
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                afficherBoiteDeDialogueFermeture();
+            }
+        });
 
         // Initialisation des composants
         gamePanel = new JPanel(new BorderLayout());
@@ -65,7 +68,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         sauvegardePanel = new SauvegardePanel();
         boutonPanel = new JPanel();
 
-        ImageIcon icon = new ImageIcon("assets/Logo.png"); // Chemin vers l'image
+        ImageIcon icon = new ImageIcon("assets/Logo.png");
         this.setIconImage(icon.getImage());
 
         settingsPanel.setMenuListener(this);
@@ -73,6 +76,8 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
 
         cartePanel = new CartePanel(game.getWidth(), game.getHeight());
         this.game.addGameListener(cartePanel);
+        cartePanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 60, 0));
+
 
 
         inventairePanel = new InventairePanel(null);
@@ -83,7 +88,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
 
         menuPanel = new MenuPanel(width / 2, height / 2, width, height);
 
-        boutonPanel.setPreferredSize(new Dimension(160, height));
+        boutonPanel.setPreferredSize(new Dimension(140, height));
         boutonPanel.setBackground(Color.LIGHT_GRAY);
         boutonPanel.setLayout(new BoxLayout(boutonPanel, BoxLayout.Y_AXIS));
         boutonPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
@@ -122,16 +127,6 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
 
 
         this.add(gamePanel);
-
-        // Listener pour rendre le boutonPanel responsive
-        this.addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                boutonPanel.setPreferredSize(new Dimension((int) (getWidth() * 0.15), getHeight()));
-                boutonPanel.revalidate();
-                boutonPanel.repaint();
-            }
-        });
     
         this.pack();
         this.setLocationRelativeTo(null);
@@ -392,8 +387,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
                 requestFocusInWindow();
             }
         });
-        button2Panel.add(placeUsine);;
-
+        button2Panel.add(placeUsine);
 
         // Panneau pour le bouton "Retour Menu"
         JPanel button3Panel = new JPanel();
@@ -415,6 +409,37 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         boutonPanel.add(button2Panel);
         boutonPanel.add(Box.createVerticalStrut(20));
         boutonPanel.add(button3Panel);
+    }
+
+    private void afficherBoiteDeDialogueFermeture() {
+        String[] options = {"Sauvegarder et Quitter", "Quitter", "Annuler"};
+
+        if(isRunning){
+            int choix = JOptionPane.showOptionDialog(
+                this,
+                "Voulez-vous sauvegarder avant de quitter ?",
+                "Confirmer la fermeture",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.WARNING_MESSAGE,
+                null,
+                options,
+                options[0]
+            );
+            switch (choix) {
+                case 0:
+                    saveAndBackMenu();
+                    System.exit(0);
+                    break;
+                case 1:
+                    System.exit(0);
+                    break;
+                case 2: //annuler
+                default:
+                    break;
+            }
+        }else{
+            System.exit(0);
+        } 
     }
 
     @Override

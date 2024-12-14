@@ -1,0 +1,5 @@
+# Ignorer le répertoire des fichiers compilés
+/bin/
+
+# Ignorer les fichiers générés par Java pour l'optimisation du bytecode
+*.class

@@ -1,0 +1,122 @@
+package Modele;
+import java.util.ArrayList;
+import java.util.List;
+
+import Modele.Machine.*;
+import Modele.Resource.Iron;
+import Modele.Resource.Resource;
+import Modele.Resource.Wood;
+
+public class Market {
+    private List<Resource> resourcesForSale;
+    private List<Machine> machinesForSale;
+    private Position pos;
+
+    // Initialisation des ressources et des machines disponibles
+    public Market(Position pos, Player player) {
+        resourcesForSale = new ArrayList<>();
+        machinesForSale = new ArrayList<>();
+
+        // Ajouter des ressources à la vente
+        resourcesForSale.add(new Wood(1));  // Exemple de ressource
+        resourcesForSale.add(new Iron(1));
+
+  
+
+
+        // Ajouter des machines à la vente
+        machinesForSale.add(new Usine("XL", player) );
+        machinesForSale.add(new Usine("Rapide", player) );
+        machinesForSale.add(new Usine("Polyvalente", player) );
+        machinesForSale.add(new Usine("Fragile", player) );
+        this.pos = pos;
+
+    }
+    public Market(Player player) {
+        this(null, player);
+    }
+    public Market(Position pos) {
+        this.pos = pos;
+
+    }
+
+    public List<Resource> getResourcesForSale(){
+        return resourcesForSale;
+    }
+    public List<Machine> getMachinesForSale(){return machinesForSale;}
+
+    public String buyResource(Player player, Resource resource) {
+        int prix = resource.getQuantity() * resource.getPrix();
+        if(player.getMoney() >= prix){
+            if (player.collectResource(resource)){
+                player.setMoney(player.getMoney() - prix);
+                return player.getPseudo() + " a acheté " + resource.getName() + " pour " + prix + " coins.";
+            }
+            
+            
+            
+        }
+        return "Ressource non disponible ou fonds insuffisants.";
+    }
+
+    // Méthode de vente de ressource
+    public String sellResource(Player player, Resource resource) {
+        if (player.hasResource(resource)) {
+            player.setMoney(player.getMoney() + resource.getPrix() / 2);  // Vendre à moitié prix
+            player.removeResource(resource);
+            return player.getPseudo() + " a vendu " + resource.getName() + " pour " + resource.getPrix() / 2 + " coins.";
+        } else {
+            return "Le joueur ne possède pas cette ressource.";
+        }
+    }
+
+    // Méthode d'achat de machine
+    public String buyMachine(Player player, Machine machine) {
+
+        if ( player.getMoney() >= machine.getPrix() && player.addMachine(machine) ) {
+            
+            player.setMoney(player.getMoney() - machine.getPrix());
+            
+            return player.getPseudo() + " a acheté " + machine.getName() + " pour " + machine.getPrix() + " coins.";
+        }
+        System.out.println(player.getMoney() >= machine.getPrix());
+    
+        return "Machine non disponible ou fonds insuffisants.";
+    }
+
+    // Méthode de vente de machine
+    public String sellMachine(Player player, Machine machine) {
+        if (player.hasMachine(machine)) {
+            player.setMoney(player.getMoney() + machine.getPrix() / 2);  // Vendre à moitié prix
+            player.removeMachine();
+            return player.getPseudo() + " a vendu " + machine.getName() + " pour " + machine.getPrix() / 2 + " coins.";
+        } else {
+            return "Le joueur ne possède pas cette machine.";
+        }
+    }
+
+    // Méthode pour afficher les ressources disponibles à l'achat
+    public String displayResourcesForSale() {
+        StringBuilder display = new StringBuilder("Ressources disponibles à l'achat :\n");
+        for (Resource r : resourcesForSale) {
+            display.append(r.getName()).append(" - ").append(r.getPrix()).append(" coins\n");
+        }
+        return display.toString();
+    }
+
+    // Méthode pour afficher les machines disponibles à l'achat
+    public String displayMachinesForSale() {
+        StringBuilder display = new StringBuilder("Machines disponibles à l'achat :\n");
+        for (Machine m : machinesForSale) {
+            display.append(m.getName()).append(" - ").append(m.getPrix()).append(" coins\n");
+        }
+        return display.toString();
+    }
+
+    public Position getPos(){
+        return pos;
+    }
+    public void setPos(Position pos){
+        this.pos = pos;
+    }
+}

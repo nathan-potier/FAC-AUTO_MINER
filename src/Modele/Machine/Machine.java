@@ -5,7 +5,7 @@ import Vue.UpdateInterface;
 
 import Modele.*;
 
-public abstract class Machine {
+public abstract class Machine implements Savable{
     private String type; // "usine" ou "récolteuse"
     private Inventory stockProd = new Inventory(); // stock de ce qui est recolté ou produit
     private Player player;
@@ -125,6 +125,18 @@ public abstract class Machine {
     @Override
     public String toString(){
         return getName() + " " + getOption() + " " + getPosition();
+    }
+
+    @Override
+    public String saveAsString() {
+        return type + " option-> " + option + " a la position " + pos.getX() + "," + pos.getY() +
+                " Stock-> {" + getStockSTR() + "} Inventaire-> " + getResourcesSTR() + " Recette->" + getNomRecetteEnCours();
+    }
+    @Override
+    public void addToGrid(Cell[][] grid) {
+
+        grid[pos.getY()][pos.getX()] = new Cell<>(pos, this);
+
     }
     
 }

@@ -215,7 +215,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         }else{
             nomSv = nameGameLoad;
         }
-        GameSaver.saveGame(nomSv, game.getPlayer(), game.getMarket(), game.getPositionObject(), game.getMachines());
+        GameSaver.saveGame(nomSv, game.getPlayer(), game.getMarket(), game.getSavableObject());
 
 
     }

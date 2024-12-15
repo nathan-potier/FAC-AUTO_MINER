@@ -44,14 +44,11 @@ public class Map {
         this.game = game;
     }
 
-    public Map(Game game, ArrayList<ObjectWithPosition> objList, ArrayList<Machine> machinesListe){
+    public Map(Game game, ArrayList<Savable<?>> objList){
         this(game.getWidth(), game.getHeight(), game.getPlayer(), game.getSpawn(), game.getMarket(), game);
-
-        for(ObjectWithPosition obj : objList){
-            grid[obj.getPosition().getY()][obj.getPosition().getX()] = new Cell<>(obj.getPosition(), obj);
-        }
-        for(Machine m : machinesListe){
-            grid[m.getPosition().getY()][m.getPosition().getX()] = new Cell<>(m.getPosition(), m);
+        
+        for (Savable<?> obj : objList) {
+            obj.addToGrid(grid); // Chaque objet sait comment s'ajouter à la grille
         }
         
         generateMap(game.getPlayer());
@@ -524,13 +521,13 @@ public class Map {
     }
     
 
-    public ArrayList<ObjectWithPosition> getPositionObject() {
-        ArrayList<ObjectWithPosition> res = new ArrayList<>();
+    public ArrayList<Savable> getSavableObject() {
+        ArrayList<Savable> res = new ArrayList<>();
         for (Cell<?>[] row : grid) {  // Parcours des lignes de la grille
             for (Cell<?> c2 : row) {   // Parcours des cellules dans chaque ligne
-                if (c2 != null && c2.getContent() instanceof ObjectWithPosition) {
+                if (c2 != null && c2.getContent() instanceof Savable) {
                     // Vérifier si le contenu de la cellule implémente ObjectWithPosition
-                    ObjectWithPosition obj = (ObjectWithPosition) c2.getContent();
+                    Savable obj = (Savable) c2.getContent();
                     res.add(obj);
                 }
             }

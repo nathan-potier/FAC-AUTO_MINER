@@ -168,8 +168,8 @@ public class Game implements Controle{
 
     }
 
-    public ArrayList<ObjectWithPosition> getPositionObject(){
-        return gameMap.getPositionObject();
+    public ArrayList<Savable> getSavableObject(){
+        return gameMap.getSavableObject();
     }
 
     public ArrayList<Machine> getMachines(){

@@ -11,21 +11,21 @@ import Modele.Resource.*;
 
 public class GameLoader {
     private static Player player = null;
+    private static ArrayList<Machine> machinesOnMap = new ArrayList<>();
+    private static ArrayList<Savable<?>> objectOnMap = new ArrayList<>();
+    private static Market market = null;
+
 
     public static Game loadGame(String fileName, Game game) {
         fileName = "Save/" + fileName + ".txt";
 
-        Market market = null;
         Map map = null;
 
-        ArrayList<Machine> machinesOnMap = new ArrayList<>();
-        ArrayList<ObjectWithPosition> objectOnMap = new ArrayList<>();
 
         // Variables temporaires
         String pseudo = "";
         int money = 0;
         Position playerPosition = null;
-        Position marketPosition = null; // Position du marché
 
         // Lecture du joueur
         String playerSection = readSection( "Joueur:", fileName);
@@ -63,142 +63,45 @@ public class GameLoader {
                 }
             }
             player = new Player(pseudo, money, playerPosition, new Inventory(resources));
-
+            
+        }
+        
+        String machineSection = readSection("Machines du joueur:", fileName).split("\n")[0].trim();
+        Machine machineJoueur = null;
+        if (isMachine(machineSection)){
+            machineJoueur = lireMachine(machineSection);
         }
 
-        // Lecture du marché
-        String marketSection = readSection("Marche position:", fileName);
-
-        if (!marketSection.isEmpty()) { 
-            String[] marketLines = marketSection.split("\n");
 
 
-            for (String marketLine : marketLines) {
 
-                // Extraction de la position du marché
-                if (marketLine.trim().startsWith("(")) {
-
-                    try {
-                        String[] positionData = marketLine.substring(1, marketLine.indexOf(")")).split(";");
-                        int x = Integer.parseInt(positionData[0].trim());
-                        int y = Integer.parseInt(positionData[1].trim());
-                        marketPosition = new Position(x, y);
-                        
-                    } catch (Exception e) {
-                        System.err.println("Erreur lors de la lecture de la position du marché : " + marketLine);
-                    }
-                }
-            }
-            market = new Market(marketPosition);
-
-        }
-
+        
         // Lecture des objets sur la carte
         String objectsSection = readSection("Objets sur la carte:", fileName);
         if (!objectsSection.isEmpty()) {
             for (String objectLine : objectsSection.split("\n")) {
-
-                if (objectLine.equals("Machines sur la carte:")){
-                    break;
-                }
-                String[] objectData = objectLine.split(" a la position ");
-                if (objectData.length == 2) {
-                    String objectName = objectData[0].trim();
-                    String[] positionData = objectData[1].split(",");
-                    Position objectPosition = new Position(
-                        Integer.parseInt(positionData[0].trim()),
-                        Integer.parseInt(positionData[1].trim())
-                    );
-                    ObjectWithPosition object = createObject(objectName, objectPosition);
-                    if (object != null) {
-                        objectOnMap.add(object);
+                try{
+                    
+                    System.out.println(isMachine(objectLine));
+                    if (isMachine(objectLine)) {
+                        
+                       
+                        Machine machine = lireMachine(objectLine );
+                        objectOnMap.add(machine); // Ajout à la liste des machines sur la carte
+    
+                     
+                    }else if(isMarket(objectLine)){
+                        market = lireMarket(objectLine);
+                        
+                    }else{
+                        lireResource(objectLine);
+                        
+                        
                     }
+                }catch (Exception e) {
+                    System.err.println("Erreur lors de la lecture de : " + objectLine);
                 }
-            }
-        }
 
-        // Lecture des machines sur la carte avec gestion des recettes
-        String machinesOnMapSection = readSection("Machines sur la carte:", fileName);
-
-        if (!machinesOnMapSection.isEmpty()) {
-            for (String machineLine : machinesOnMapSection.split("\n")) {
-                if (machineLine.contains("option->")) {
-
-                    try {
-                        // Extraction du type de machine (e.g., "Usine")
-                        String machineType = machineLine.split("option->")[0].trim();
-
-                        // Extraction des données après "option->"
-                        String machineData = machineLine.split("option->")[1].trim();
-
-                        // Extraction des parties option, position, stock, inventaire et recette
-                        String[] machineParts = machineData.split("a la position");
-                        String option = machineParts[0].trim();
-
-                        String[] positionStockInventoryRecipe = machineParts[1].split("Stock->");
-
-                        // Position
-                        String[] positionParts = positionStockInventoryRecipe[0].trim().split(",");
-                        int x = Integer.parseInt(positionParts[0].trim());
-                        int y = Integer.parseInt(positionParts[1].trim());
-                        Position position = new Position(x, y);
-
-                        // Stock
-                        ArrayList<Resource> stock = new ArrayList<>();
-                        ArrayList<Resource> inventory = new ArrayList<>();
-                        String recipes = null;
-
-                        if (positionStockInventoryRecipe.length > 1) {
-                            String[] stockAndInventoryRecipe = positionStockInventoryRecipe[1].split("Inventaire->");
-
-                            if (stockAndInventoryRecipe.length > 0) {
-                                String stockData = stockAndInventoryRecipe[0].replace("{", "").replace("}", "").trim();
-                                if (!stockData.isEmpty()) {
-                                    String[] stockItems = stockData.split(",");
-                                    for (String item : stockItems) {
-                                        String[] parts = item.replace("(", "").replace(")", "").split(";");
-                                        String resourceName = parts[0].trim();
-                                        int quantity = Integer.parseInt(parts[1].trim());
-                                        Resource resource = createResource(resourceName, quantity);
-                                        stock.add(resource);
-                                    }
-                                }
-                            }
-
-                            if (stockAndInventoryRecipe.length > 1) {
-                                String[] inventoryAndRecipe = stockAndInventoryRecipe[1].split("Recette->");
-
-                                if (inventoryAndRecipe.length > 0) {
-                                    String inventoryData = inventoryAndRecipe[0].replace("(", "").replace(")", "").trim();
-                                    if (!inventoryData.isEmpty()) {
-                                        String[] inventoryItems = inventoryData.split(",");
-                                        for (String item : inventoryItems) {
-                                            String[] parts = item.split(";");
-                                            String resourceName = parts[0].trim();
-                                            int quantity = Integer.parseInt(parts[1].trim());
-                                            Resource resource = createResource(resourceName, quantity);
-                                            inventory.add(resource);
-                                        }
-                                    }
-                                }
-                                
-                                if (inventoryAndRecipe.length > 1) {
-                                    String recipeData = inventoryAndRecipe[1].trim();
-                                    System.out.println(recipeData);
-                                    recipes = recipeData;
-                                }
-                            }
-                        }
-
-                        // Création de l'objet machine avec stock, inventaire et recettes
-                        Machine machine = createMachine(machineType, position, option, new Inventory(stock), new Inventory(inventory), recipes);
-
-                        machinesOnMap.add(machine); // Ajout à la liste des machines sur la carte
-
-                    } catch (Exception e) {
-                        System.err.println("Erreur lors de la lecture de la machine sur la carte : " + machineLine);
-                    }
-                }
             }
         }
 
@@ -207,14 +110,15 @@ public class GameLoader {
 
 
         // Initialiser le jeu
+        if (machineJoueur != null){
+            player.addMachine(machineJoueur);
+        }
+
         game = new Game(market, game.getSpawn(), player);
         
 
-        for(int i = 0; i < machinesOnMap.size()  ; i++){
-            System.out.println(machinesOnMap.get(i));
-
-        }
-        map = new Map(game, objectOnMap, machinesOnMap);
+        map = new Map(game, objectOnMap);
+        
 
         for (Machine m : machinesOnMap){
             if (Recolteuse.class.isInstance(m)){
@@ -227,8 +131,119 @@ public class GameLoader {
         return game;
 
     }
-    
 
+    private static boolean isMachine(String objectLine){
+        return objectLine.contains("option->");
+    }
+    private static boolean isMarket(String objectLine){
+        return objectLine.contains("Market");
+    }
+
+    private static Machine lireMachine(String objectLine ){
+        System.out.println(objectLine);
+        // Extraction du type de machine (e.g., "Usine")
+        String machineType = objectLine.split("option->")[0].trim();
+
+        // Extraction des données après "option->"
+        String machineData = objectLine.split("option->")[1].trim();
+
+        // Extraction des parties option, position, stock, inventaire et recette
+        String[] machineParts = machineData.split("a la position");
+        String option = machineParts[0].trim();
+
+        String[] positionStockInventoryRecipe = machineParts[1].split("Stock->");
+
+        // Position
+        String[] positionParts = positionStockInventoryRecipe[0].trim().split(",");
+        int x = Integer.parseInt(positionParts[0].trim());
+        int y = Integer.parseInt(positionParts[1].trim());
+        Position position = new Position(x, y);
+
+        // Stock
+        ArrayList<Resource> stock = new ArrayList<>();
+        ArrayList<Resource> inventory = new ArrayList<>();
+        String recipes = null;
+
+        if (positionStockInventoryRecipe.length > 1) {
+            String[] stockAndInventoryRecipe = positionStockInventoryRecipe[1].split("Inventaire->");
+
+            if (stockAndInventoryRecipe.length > 0) {
+                String stockData = stockAndInventoryRecipe[0].replace("{", "").replace("}", "").trim();
+                if (!stockData.isEmpty()) {
+                    String[] stockItems = stockData.split(",");
+                    for (String item : stockItems) {
+                        String[] parts = item.replace("(", "").replace(")", "").split(";");
+                        String resourceName = parts[0].trim();
+                        int quantity = Integer.parseInt(parts[1].trim());
+                        Resource resource = createResource(resourceName, quantity);
+                        stock.add(resource);
+                    }
+                }
+            }
+
+            if (stockAndInventoryRecipe.length > 1) {
+                String[] inventoryAndRecipe = stockAndInventoryRecipe[1].split("Recette->");
+
+                if (inventoryAndRecipe.length > 0) {
+                    String inventoryData = inventoryAndRecipe[0].replace("(", "").replace(")", "").trim();
+                    if (!inventoryData.isEmpty()) {
+                        String[] inventoryItems = inventoryData.split(",");
+                        for (String item : inventoryItems) {
+                            String[] parts = item.split(";");
+                            String resourceName = parts[0].trim();
+                            int quantity = Integer.parseInt(parts[1].trim());
+                            Resource resource = createResource(resourceName, quantity);
+                            inventory.add(resource);
+                        }
+                    }
+                }
+                
+                if (inventoryAndRecipe.length > 1) {
+                    String recipeData = inventoryAndRecipe[1].trim();
+                    
+                    recipes = recipeData;
+                }
+            }
+        }
+        // Création de l'objet machine avec stock, inventaire et recettes
+        Machine machine = createMachine(machineType, position, option, new Inventory(stock), new Inventory(inventory), recipes);
+
+        return machine;
+    }
+    
+    private static void lireResource(String objectLine){
+        String[] objectData = objectLine.split(" a la position ");
+        if (objectData.length == 2) {
+            String objectName = objectData[0].trim();
+            String[] positionData = objectData[1].split(",");
+            Position objectPosition = new Position(
+                Integer.parseInt(positionData[0].trim()),
+                Integer.parseInt(positionData[1].trim())
+            );
+            Savable<?> object = createObject(objectName, objectPosition);
+            if (object != null) {
+                objectOnMap.add(object);
+            }
+        }
+    }
+
+    private static Market lireMarket(String objectLine){
+        Position marketPosition = null;
+        // Extraction de la position du marché
+        objectLine = objectLine.split("Market ")[1].trim();
+
+        try {
+            String[] positionData = objectLine.substring(1, objectLine.indexOf(")")).split(";");
+            int x = Integer.parseInt(positionData[0].trim());
+            int y = Integer.parseInt(positionData[1].trim());
+            marketPosition = new Position(x, y);
+            
+        } catch (Exception e) {
+            System.err.println("Erreur lors de la lecture de la position du marché : " + objectLine);
+        }
+
+        return new Market(marketPosition);
+    }
     // Méthode pour créer une ressource en fonction du nom
     private static Resource createResource(String name, int quantity) {
         switch (name) {
@@ -265,7 +280,7 @@ public class GameLoader {
         }
     }
 
-    private static ObjectWithPosition createObject(String name, Position pos) {
+    private static Savable<?> createObject(String name, Position pos) {
         switch (name) {
             case "Wood":
                 return new Wood(1, pos);  // Utilisation de la sous-classe existante

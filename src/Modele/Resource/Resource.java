@@ -2,7 +2,7 @@ package Modele.Resource;
 
 import Modele.*;
 
-public abstract class Resource implements  ObjectWithPosition{
+public abstract class Resource implements Savable{
     private String name;
     private int quantity;
     private int prix;
@@ -77,4 +77,14 @@ public abstract class Resource implements  ObjectWithPosition{
     }
     public abstract Resource clone();
     public abstract Resource cloneOne();
+    @Override
+    public String saveAsString(){
+        return name + " a la position " + pos.getX()+","+pos.getY();
+    }
+    @Override
+    public void addToGrid(Cell[][] grid) {
+
+        grid[pos.getY()][pos.getX()] = new Cell<>(pos, this);
+
+    }
 }

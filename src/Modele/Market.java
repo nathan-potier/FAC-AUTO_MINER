@@ -7,7 +7,7 @@ import Modele.Resource.Iron;
 import Modele.Resource.Resource;
 import Modele.Resource.Wood;
 
-public class Market {
+public class Market implements Savable{
     private List<Resource> resourcesForSale;
     private List<Machine> machinesForSale;
     private Position pos;
@@ -119,4 +119,15 @@ public class Market {
     public void setPos(Position pos){
         this.pos = pos;
     }
+    @Override
+    public String saveAsString() {
+        return "Market " + "(" + pos.getX() + ";" + pos.getY() + ")";
+    }
+    @Override
+    public void addToGrid(Cell[][] grid) {
+
+        grid[pos.getY()][pos.getX()] = new Cell<>(pos, this);
+
+    }
+
 }

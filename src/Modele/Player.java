@@ -55,8 +55,12 @@ public class Player {
     public boolean addMachine(Machine machine) {
         
         boolean b =  inventory.addMachine(machine.getClone());
-        marketInterface.notificationUpdate();
-        affichage.notificationUpdate();
+        
+        if (affichage != null && marketInterface != null){
+            marketInterface.notificationUpdate();
+            affichage.notificationUpdate();
+        }
+        
         return b;
     }
 

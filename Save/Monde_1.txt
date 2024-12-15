@@ -1,9 +1,9 @@
 Joueur: 
 Position: 2,11
-Argent: 996919
+Argent: 996862
 Ressources du joueur:
-Iron:1
-Wood:11
+Wood:20
+Iron:14
 Machines du joueur:
 Marche position:
 (0;9)
@@ -63,4 +63,5 @@ Wood a la position 12,11
 Wood a la position 14,11
 Machines sur la carte:
 Recolteuse option-> XL a la position 1,1 Stock-> {} Inventaire-> Recette->null
-Usine option-> XL a la position 3,1 Stock-> {} Inventaire-> Recette->
+Usine option-> XL a la position 3,1 Stock-> {} Inventaire-> (Iron;0),(Wood;6),Recette->Pickaxe
+Usine option-> Fragile a la position 2,7 Stock-> {(Pickaxe;5),} Inventaire-> (Wood;4),(Iron;0),Recette->Pickaxe

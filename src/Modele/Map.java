@@ -42,11 +42,8 @@ public class Map {
         this.spawn = spawn;
         this.market = m;
         this.game = game;
-
-        
-        
-
     }
+
     public Map(Game game, ArrayList<ObjectWithPosition> objList, ArrayList<Machine> machinesListe){
         this(game.getWidth(), game.getHeight(), game.getPlayer(), game.getSpawn(), game.getMarket(), game);
 
@@ -163,8 +160,6 @@ public class Map {
         return type.isInstance(grid[pos.getY()][pos.getX()].getContent());
     }
 
-   
-
     public void deplacerDun(Position nouvelle, Player p){
         Position startPos = p.getPos();
         grid[nouvelle.getY()][nouvelle.getX()] = new Cell<>(nouvelle, p);
@@ -250,15 +245,12 @@ public class Map {
         }
     }
 
-
-
-    
-
     public void verifSpawnAffichage(){
         if(grid[Spawn.getPos().getY()][Spawn.getPos().getX()] == null){
             grid[Spawn.getPos().getY()][Spawn.getPos().getX()] = new Cell<>(Spawn.getPos(), spawn);
         }
     }
+
     //temporaire
     private void genNObjects(int n, String type) {
         for (int i = 0; i < n; i++) {
@@ -290,8 +282,6 @@ public class Map {
             grid[pos.getY()][pos.getX()] = new Cell<>(pos, obj);
         }
     }
-    
-
 
     public void generateRessource(Player p){
         // Placer une usine à côté de la position de `Wood`
@@ -306,10 +296,6 @@ public class Map {
         genNObjects(50, "Wood");
         genNObjects(3, "Iron");
 
-        // Placer une récolteuse à côté de la position de `Iron`
-        // Position posRecolteuse = new Position(posIron1.getX() + 1, posIron1.getY()); // Position adjacente
-        // Recolteuse recolteuse = new Recolteuse(posRecolteuse, 10, p.getInv(), iron);  // 10 est la capacité du stock max
-        // grid[posRecolteuse.getY()][posRecolteuse.getX()] = new Cell(posRecolteuse, recolteuse);
 
     }
 
@@ -589,8 +575,5 @@ public class Map {
         
         return sb.toString();
     }
-
-
-
 
 }

@@ -1,6 +1,7 @@
 package Modele.Machine;
 
 import java.util.List;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -45,8 +46,10 @@ public class Usine extends Machine {
 
     private void startProduction() {
         stopProduction(); // Arrête tout timer existant
-        int tempFabriqMs = getTempFabriq(getOption()) * 1000;
+        int tempFabriqMs = getTempFabriq() * 1000;
         isCooking = true;
+
+ 
         
         if (!hasSufficientResourcesForRecipe(recetteEnCours)){stopProduction();}
         
@@ -55,6 +58,12 @@ public class Usine extends Machine {
             public void run() {
                 if (hasSufficientResourcesForRecipe(recetteEnCours)) {
                     produireRecette(recetteEnCours);
+                    Random random = new Random();
+                    int randomNumber = random.nextInt(1); // Génère un entier entre 0 et 10 inclus
+                    if (!getFonctionneBien() && randomNumber == 0){
+                        stopProduction();
+                        System.out.println("not good");
+                    }
                 } else {
                     stopProduction();
                     

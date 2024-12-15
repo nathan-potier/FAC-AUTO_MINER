@@ -75,6 +75,8 @@ public abstract class Machine {
     public String getOption(){return option;}
     public Inventory getStock() {return stockProd;}
     public boolean getIsModifiable(){return modifiable;}
+    public int getTempFabriq(){return tempFabriq;}
+    public boolean getFonctionneBien(){return fonctionneBien;}
 
     public void setInterfaceUpdate(UpdateInterface update){this.update = update;}
 

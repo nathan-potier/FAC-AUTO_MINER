@@ -51,12 +51,12 @@ public class Usine extends Machine {
 
  
         
-        if (!hasSufficientResourcesForRecipe(recetteEnCours)){stopProduction();}
+        if (!Recette.hasSufficientResourcesForRecipe(stockResources, recetteEnCours)){stopProduction();}
         
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                if (hasSufficientResourcesForRecipe(recetteEnCours)) {
+                if (Recette.hasSufficientResourcesForRecipe(stockResources, recetteEnCours)) {
                     produireRecette(recetteEnCours);
                     Random random = new Random();
                     int randomNumber = random.nextInt(1); // Génère un entier entre 0 et 10 inclus
@@ -146,22 +146,7 @@ public class Usine extends Machine {
         }
     }
 
-    private boolean hasSufficientResourcesForRecipe(Recette recette) {
-        // Vérifier si le joueur a suffisamment de ressources pour chaque ingrédient
-        for (Resource ingredient : recette.getIngredients()) {
-            int quantityInInventory = 0;
 
-            for (Resource ressource : stockResources.getResources()) {
-                if (ressource.getName().equals(ingredient.getName())) {
-                    quantityInInventory += ressource.getQuantity();
-                }
-            }
-            if (quantityInInventory < ingredient.getQuantity()) {
-                return false;  // Pas assez d'ingrédients
-            }
-        }
-        return true;  // Le joueur a suffisamment d'ingrédients
-    }
 
     private void stopProduction() {
         timer.cancel();

@@ -99,7 +99,6 @@ public class Player {
     public void removeResource(Resource r){
 
         inventory.removeResource(r, 1);
-        System.out.println("test");
         marketInterface.notificationUpdate();
     }
 

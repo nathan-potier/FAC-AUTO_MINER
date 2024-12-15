@@ -1,13 +1,26 @@
 package Modele;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-
 import Modele.Machine.Machine;
+import Modele.Resource.Recette;
 import Modele.Resource.Resource;
+import Vue.UpdateInterface;
+
+import javax.swing.Timer;
+
+
+import java.awt.event.ActionEvent;
+
+
+
+
 
 public class Inventory {
     private ArrayList<Resource> resources;
     private Machine machine;
+    private UpdateInterface craft;
+
 
     public Inventory() {
         resources = new ArrayList<>();
@@ -72,10 +85,14 @@ public class Inventory {
             if (r.getName().equals(ressource.getName())) {
                 r.removeQuantity(quantity);
                 
-                if (r.getQuantity() <= 0){
+                if (r.getQuantity() <= 0 && r.getName().equals(ressource.getName())){
+                    
+                    resources.remove(r);
+                   
 
-                    resources.remove(ressource);
+                    
                 }
+                
 
                 return;
             }
@@ -103,6 +120,7 @@ public class Inventory {
         }
         return res;
     }
+    public void setUpdateCraft(UpdateInterface craft){this.craft = craft;}
 
     @Override
     public String toString() {
@@ -126,6 +144,48 @@ public class Inventory {
     
         return sb.toString();
     }
+    
+    public void produire(Recette recette) {
+        // Vérification de la disponibilité des ingrédients
+        if (!Recette.hasSufficientResourcesForRecipe(this, recette)){
+            craft.notificationUpdate();
+            return;
+        }
+
+        Inventory temp = this;
+        if (recette.isTempo()) {
+            Timer timer = new Timer(5000, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (!Recette.hasSufficientResourcesForRecipe(temp, recette)){
+                        return;
+                    }
+                    effectuerProduction(recette);
+                    craft.notificationUpdate();
+
+
+                }
+            });
+            timer.setRepeats(false); // S'assure que le timer ne se répète pas
+            timer.start();
+        } else {
+            effectuerProduction(recette);
+            craft.notificationUpdate();
+        }
+
+    }
+
+    // Méthode interne pour gérer la production réelle
+    private void effectuerProduction(Recette recette) {
+        for (Resource ingredient : recette.getIngredients()) {
+            removeResource(ingredient, ingredient.getQuantity());
+        }
+
+        addResource(recette.getProduitFinal().clone());
+        System.out.println("Production réussie : " + recette.getNom());
+    }
+
+    
     
 
 }

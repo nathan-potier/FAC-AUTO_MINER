@@ -163,13 +163,16 @@ public class Inventory {
                     effectuerProduction(recette);
                     craft.notificationUpdate();
 
+
                 }
             });
             timer.setRepeats(false); // S'assure que le timer ne se répète pas
             timer.start();
         } else {
             effectuerProduction(recette);
+            craft.notificationUpdate();
         }
+
     }
 
     // Méthode interne pour gérer la production réelle

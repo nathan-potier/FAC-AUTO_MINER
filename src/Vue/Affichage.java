@@ -466,7 +466,9 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
 
     @Override
     public void transmettreMarket(){
+        marketPanel.notificationUpdate();
         marketPanel.setVisible(true);
+        
     }
     @Override
     public void transmettreUsine(Usine u) {

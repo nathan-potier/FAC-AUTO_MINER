@@ -21,7 +21,7 @@ import java.awt.event.ActionListener;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class Map {
+public class Carte {
     private Cell<?>[][] grid;
     private int width, height;
     private Spawn spawn;
@@ -34,7 +34,7 @@ public class Map {
     private VueGenerale vue;
     
 
-    public Map(int width, int height, Player p, Spawn spawn, Market m, Game game) {
+    public Carte(int width, int height, Player p, Spawn spawn, Market m, Game game) {
         grid = new Cell[height][width];
         
         this.width = width;
@@ -44,7 +44,7 @@ public class Map {
         this.game = game;
     }
 
-    public Map(Game game, ArrayList<Savable<?>> objList){
+    public Carte(Game game, ArrayList<Savable<?>> objList){
         this(game.getWidth(), game.getHeight(), game.getPlayer(), game.getSpawn(), game.getMarket(), game);
         
         for (Savable<?> obj : objList) {

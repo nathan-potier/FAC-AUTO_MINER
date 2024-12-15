@@ -1,65 +1,64 @@
-Joueur: 
+Joueur: nathan
 Position: 2,11
-Argent: 130
+Argent: 150
 Ressources du joueur:
-Wood:0
-Iron:0
-Pickaxe:2
+Wood:20
+Iron:2
 Machines du joueur:
 Objets sur la carte:
-Wood a la position 1,0
-Wood a la position 2,0
-Iron a la position 8,0
-Iron a la position 10,0
-Wood a la position 11,0
-Wood a la position 14,0
+Wood a la position 3,0
+Wood a la position 4,0
+Wood a la position 5,0
+Wood a la position 7,0
+Wood a la position 8,0
+Wood a la position 10,0
+Wood a la position 0,1
 Recolteuse option-> XL a la position 1,1 Stock-> {} Inventaire->  Recette->null
 Usine option-> XL a la position 3,1 Stock-> {} Inventaire->  Recette->
-Wood a la position 7,1
 Wood a la position 12,1
-Wood a la position 5,2
-Wood a la position 7,2
-Wood a la position 8,2
-Wood a la position 9,2
-Wood a la position 11,2
-Wood a la position 12,2
-Wood a la position 14,2
-Wood a la position 2,3
-Wood a la position 4,3
+Wood a la position 14,1
+Wood a la position 6,2
+Iron a la position 7,2
+Wood a la position 10,2
+Iron a la position 11,2
+Iron a la position 13,2
+Wood a la position 6,3
+Wood a la position 8,3
 Wood a la position 11,3
-Wood a la position 14,3
-Market (0;4)
+Wood a la position 1,4
 Wood a la position 3,4
-Wood a la position 7,4
-Wood a la position 3,5
+Wood a la position 5,4
+Wood a la position 11,4
+Wood a la position 14,4
+Wood a la position 2,5
+Wood a la position 4,5
 Wood a la position 5,5
-Wood a la position 9,5
-Wood a la position 10,5
+Wood a la position 7,5
 Wood a la position 11,5
-Wood a la position 12,5
 Wood a la position 13,5
-Wood a la position 3,6
-Wood a la position 7,6
+Wood a la position 14,5
+Wood a la position 2,6
+Wood a la position 6,6
+Wood a la position 8,6
+Wood a la position 9,6
+Wood a la position 13,6
 Wood a la position 1,7
-Wood a la position 10,7
-Wood a la position 13,7
+Wood a la position 4,7
+Wood a la position 9,7
+Wood a la position 12,7
+Wood a la position 0,8
 Wood a la position 2,8
-Wood a la position 3,8
-Wood a la position 5,8
-Wood a la position 13,8
-Wood a la position 4,9
-Iron a la position 5,9
-Wood a la position 7,9
-Wood a la position 8,9
+Wood a la position 6,8
+Wood a la position 7,8
+Wood a la position 0,9
+Wood a la position 5,9
+Wood a la position 6,9
+Wood a la position 9,9
 Wood a la position 10,9
-Wood a la position 12,9
-Wood a la position 1,10
-Wood a la position 3,10
-Wood a la position 4,10
-Wood a la position 9,10
-Wood a la position 10,10
-Wood a la position 1,11
-Wood a la position 3,11
+Wood a la position 11,9
+Wood a la position 0,10
+Wood a la position 11,10
+Market (0;11)
+Wood a la position 4,11
 Wood a la position 7,11
 Wood a la position 8,11
-Wood a la position 12,11

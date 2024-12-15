@@ -13,7 +13,7 @@ public class Recolteuse extends Machine {
     private boolean isCollecting;
     private ArrayList<Resource> ressourceCollectable = new ArrayList<>();
 
-    private Map map;
+    private Carte map;
 
     public Recolteuse(String option, String typeRessource, Player player) {
         super("Recolteuse", new Position(), option, new Inventory(), player);
@@ -26,7 +26,7 @@ public class Recolteuse extends Machine {
         this.isCollecting = false;
     }
 
-    public void setMap(Map map){
+    public void setMap(Carte map){
         this.map = map;
     }
     public String getTypeRessource() {
@@ -104,7 +104,10 @@ public class Recolteuse extends Machine {
 
     @Override
     public String getNomRecetteEnCours() {
-        return null; // Pas applicable pour une récolteuse
+        if (typeRessource != null){
+            return typeRessource;
+        }
+        return "";
     }
 
     @Override

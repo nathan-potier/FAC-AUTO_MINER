@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.function.Function;
 
 import Modele.*;
 import Modele.Machine.*;
@@ -19,7 +21,7 @@ public class GameLoader {
     public static Game loadGame(String fileName, Game game) {
         fileName = "Save/" + fileName + ".txt";
 
-        Map map = null;
+        Carte map = null;
 
 
         // Variables temporaires
@@ -59,7 +61,7 @@ public class GameLoader {
                     
                     String resourceName = resourceData[0].trim();
                     int resourceQuantity = Integer.parseInt(resourceData[1].trim());
-                    resources.add(createResource(resourceName, resourceQuantity));
+                    resources.add((Resource)createEntity(resourceName, resourceQuantity, null));
                 }
             }
             player = new Player(pseudo, money, playerPosition, new Inventory(resources));
@@ -117,7 +119,7 @@ public class GameLoader {
         game = new Game(market, game.getSpawn(), player);
         
 
-        map = new Map(game, objectOnMap);
+        map = new Carte(game, objectOnMap);
         
 
         for (Machine m : machinesOnMap){
@@ -175,7 +177,7 @@ public class GameLoader {
                         String[] parts = item.replace("(", "").replace(")", "").split(";");
                         String resourceName = parts[0].trim();
                         int quantity = Integer.parseInt(parts[1].trim());
-                        Resource resource = createResource(resourceName, quantity);
+                        Resource resource = (Resource) createEntity(resourceName, quantity);
                         stock.add(resource);
                     }
                 }
@@ -192,7 +194,7 @@ public class GameLoader {
                             String[] parts = item.split(";");
                             String resourceName = parts[0].trim();
                             int quantity = Integer.parseInt(parts[1].trim());
-                            Resource resource = createResource(resourceName, quantity);
+                            Resource resource = (Resource) createEntity(resourceName, quantity);
                             inventory.add(resource);
                         }
                     }
@@ -206,7 +208,17 @@ public class GameLoader {
             }
         }
         // Création de l'objet machine avec stock, inventaire et recettes
-        Machine machine = createMachine(machineType, position, option, new Inventory(stock), new Inventory(inventory), recipes);
+        Machine machine = (Machine) createEntity(
+                machineType, 
+                new Inventory(inventory), // args[0] -> Inventory (inventory)
+                position,        // args[1] -> Position
+                option,          // args[2] -> String (option)
+                new Inventory(stock),    // args[3] -> Inventory (stock)
+                player,     // args[4] -> Player
+                recipes          // args[5] -> String (recette, nullable)
+        );
+
+        
 
         return machine;
     }
@@ -220,7 +232,11 @@ public class GameLoader {
                 Integer.parseInt(positionData[0].trim()),
                 Integer.parseInt(positionData[1].trim())
             );
-            Savable<?> object = createObject(objectName, objectPosition);
+            Savable<?> object = (Savable<?>) createEntity(
+                objectName,     // args[0] -> String (nom de l'objet)
+                1,
+                objectPosition  // args[1] -> Position (position de l'objet)
+            );
             if (object != null) {
                 objectOnMap.add(object);
             }
@@ -244,58 +260,38 @@ public class GameLoader {
 
         return new Market(marketPosition);
     }
-    // Méthode pour créer une ressource en fonction du nom
-    private static Resource createResource(String name, int quantity) {
-        switch (name) {
-            case "Wood":
-                return new Wood(quantity);  // Utilisation de la sous-classe existante
-            case "Iron":
-                return new Iron(quantity);  // Utilisation de la sous-classe existante
-            case "Pickaxe":
-                return new Pickaxe(quantity);  // Utilisation de la sous-classe existante
-            case "BlocDeFer" :
-                return new BlocDeFer(quantity);
-            default:
-                return null;
-        }
+    private static final Map<String, Function<Object[], Object>> ENTITY_CREATORS = Map.of(
+        // Ressources
+        "Wood", args -> new Wood((int) args[0], (Position) args[1]),
+        "Iron", args -> new Iron((int) args[0], (Position) args[1]),
+        "Pickaxe", args -> new Pickaxe((int) args[0], (Position) args[1]),
+        "BlocDeFer", args -> new BlocDeFer((int) args[0], (Position) args[1]),
+
+        // Machines
+        "Usine", args -> {
+            Usine usine = new Usine((Inventory) args[0], (Position) args[1], (String) args[2], (Inventory) args[3], (Player) args[4]);
+            if (args[5] != null) {
+                usine.setRecette((String) args[5]);
+            }
+            return usine;
+        },
+        "Recolteuse", args -> {
+            Recolteuse recolteuse = new Recolteuse((Position) args[1], (String) args[2], (Inventory) args[3], (Player) args[4]);
+            if (args[5] != null) {
+                recolteuse.setTypeRessource((String) args[5]);
+            }
+            return recolteuse;
+        },
+
+        // Objets spécifiques
+        "Attente", args -> new Attente((Position) args[1], null)
+    );
+
+    public static Object createEntity(String name, Object... args) {
+        Function<Object[], Object> creator = ENTITY_CREATORS.get(name);
+        return creator != null ? creator.apply(args) : null;
     }
 
-    private static Machine createMachine(String name, Position pos, String option, Inventory stock, Inventory resources, String recette) {
-        switch (name) {
-            case "Usine":
-                Usine n = new Usine(resources, pos, option, stock, player);  // Utilisation de la sous-classe existante
-                if (recette != null){
-                    n.setRecette(recette);
-                }
-                
-                return n;
-            case "Recolteuse" : 
-                Recolteuse r = new Recolteuse(pos, option, stock, player);
-                if (recette != null){
-                    r.setTypeRessource(recette);
-                }
-                return r;
-            default:
-                return null;
-        }
-    }
-
-    private static Savable<?> createObject(String name, Position pos) {
-        switch (name) {
-            case "Wood":
-                return new Wood(1, pos);  // Utilisation de la sous-classe existante
-            case "Iron":
-                return new Iron(1, pos);  // Utilisation de la sous-classe existante
-            case "Attente":
-                return new Attente(pos , null);  // Utilisation de la sous-classe existante
-            case "BlocDeFer" :
-                return new BlocDeFer(1, pos);
-            case "Pickaxe":
-                return new Pickaxe(1, pos);  // Utilisation de la sous-classe existante
-            default:
-                return null;
-        }
-    }
 
     public static String readSection(String startKeyword, String fileName)  {
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {

@@ -15,7 +15,7 @@ import Vue.GameListener;
 
 
 public class Game implements Controle{
-    private Map gameMap;
+    private Carte gameMap;
     private Player player;
     private Spawn spawn;
     private int width = 15, height = 12;
@@ -25,7 +25,7 @@ public class Game implements Controle{
 
     public void create() {
         player = new Player(player.getPseudo(), Spawn.getPos());
-        gameMap = new Map(width, height, player, spawn, market, this);
+        gameMap = new Carte(width, height, player, spawn, market, this);
         gameMap.generateMap(player);
         gameMap.generateRessource(player);
         player.collectResource(new Wood(3)); 
@@ -36,7 +36,7 @@ public class Game implements Controle{
 
     public void start(){updateAffichage(true);}
 
-    public void setMap(Map map){this.gameMap = map;}
+    public void setMap(Carte map){this.gameMap = map;}
 
 
 
@@ -116,7 +116,7 @@ public class Game implements Controle{
 
         //this.gameMap = map;
     }
-    public Map getMap(){return gameMap;}
+    public Carte getMap(){return gameMap;}
     public int getHeight(){return height;}
     public int getWidth(){return width;}
     public Player getPlayer(){return player;}

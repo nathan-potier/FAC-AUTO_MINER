@@ -16,6 +16,8 @@ public class InventairePanel extends JPanel {
     private JPanel rightPanel;
     private JPanel borderPanel;
     private List<Recette> recettes = Recette.initialiserRecettes();
+    private boolean isProducing = false; // Indique si une production est en cours
+
 
     public InventairePanel(Player player) {
         this.player = player;
@@ -39,7 +41,7 @@ public class InventairePanel extends JPanel {
     
         // Envelopper le panneau des recettes dans un JScrollPane
         JScrollPane rightScrollPane = new JScrollPane(rightPanel);
-        rightScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        rightScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
         rightScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER); // Pour éviter le défilement horizontal
         rightScrollPane.setBorder(null); // Pour éviter le bord autour du JScrollPane
     
@@ -151,7 +153,6 @@ public class InventairePanel extends JPanel {
     
             // Ajouter la flèche après les ingrédients
             JLabel arrowLabel = new JLabel(new ImageIcon(new ImageIcon("assets/ArrowRight.png").getImage().getScaledInstance(30, 50, Image.SCALE_SMOOTH)));
-            arrowLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
             recettePanel.add(arrowLabel);
         
             // Ajouter l'ingrédient final sans la quantité
@@ -170,10 +171,31 @@ public class InventairePanel extends JPanel {
             produceButton.setBackground(new Color(221, 242, 172));
             produceButton.setForeground(Color.BLACK);
             produceButton.setFocusPainted(false);
+    
+            // Ajouter un ActionListener au bouton
             produceButton.addActionListener(e -> {
-                System.out.println("Cliqué : " + recette.getNom());
+                if (!isProducing || !recette.isTempo()) {
+                    if (recette.isTempo()) {
+                        isProducing = true;
+                        setAllProduceButtonsVisible(false); // Rendre tous les boutons invisibles
+                    }
+    
+                    player.getInv().produire(recette);
+                    afficherInventaire();
+    
+                    if (recette.isTempo()) {
+                        // Utiliser un Timer uniquement pour les recettes temporisées
+                        Timer timer = new Timer(30000, evt -> {
+                            isProducing = false;
+                            setAllProduceButtonsVisible(true); // Réactiver les boutons après production
+                            afficherInventaire();
+                        });
+                        timer.setRepeats(false);
+                        timer.start();
+                    }
+                }
             });
-        
+    
             recettePanel.add(produceButton);
             rightPanel.add(recettePanel);
         }
@@ -182,6 +204,7 @@ public class InventairePanel extends JPanel {
         rightPanel.revalidate();
         rightPanel.repaint();
     }
+    
     
     private void addIngredientToPanel(JPanel ingredientsPanel, String resourceName, int quantity) {
         JPanel itemPanel = new JPanel();
@@ -202,4 +225,18 @@ public class InventairePanel extends JPanel {
     
         ingredientsPanel.add(itemPanel);
     }
+
+    private void setAllProduceButtonsVisible(boolean visible) {
+        for (Component comp : rightPanel.getComponents()) {
+            if (comp instanceof JPanel) {
+                JPanel recettePanel = (JPanel) comp;
+                for (Component innerComp : recettePanel.getComponents()) {
+                    if (innerComp instanceof JButton) {
+                        innerComp.setVisible(visible);
+                    }
+                }
+            }
+        }
+    }
+    
 }

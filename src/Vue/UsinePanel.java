@@ -20,6 +20,7 @@ public class UsinePanel extends JPanel implements UpdateInterface {
     private JPanel ingredientsPanel;
     private JLabel nomTypeUsine;
     private JButton produceButton;
+    
     public UsinePanel() {
         this.setLayout(new BorderLayout());
         this.setBackground(Color.DARK_GRAY);

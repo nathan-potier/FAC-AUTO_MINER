@@ -7,24 +7,22 @@ public class Recette {
     private String nom;
     private List<Resource> ingredients;
     private Resource produitFinal;
+    private boolean isTempo; 
 
-    public Recette(String n, List<Resource> ingr, Resource prodFinal) {
+    public Recette(String n, List<Resource> ingr, Resource prodFinal, boolean b) {
         nom = n;
         ingredients = ingr;
         produitFinal = prodFinal;
+        isTempo = b;
     }
 
-    public String getNom() {
-        return nom;
-    }
+    public String getNom() {return nom;}
 
-    public List<Resource> getIngredients() {
-        return ingredients;
-    }
+    public List<Resource> getIngredients() {return ingredients;}
 
-    public Resource getProduitFinal() {
-        return produitFinal;
-    }
+    public Resource getProduitFinal() {return produitFinal;}
+    
+    public boolean isTempo() {return isTempo;}
 
     public static List<Recette> initialiserRecettes() {
         List<Recette> recettes = new ArrayList<>();
@@ -33,12 +31,12 @@ public class Recette {
         List<Resource> ingredientsPickaxe = new ArrayList<>();
         ingredientsPickaxe.add(new Wood(2));
         ingredientsPickaxe.add(new Iron(3));
-        recettes.add(new Recette("Pickaxe", ingredientsPickaxe, new Pickaxe(1)));
+        recettes.add(new Recette("Pickaxe", ingredientsPickaxe, new Pickaxe(1), true));
 
         // Recette pour un bloc de fer (9 fer)
         List<Resource> ingredientsBlocFer = new ArrayList<>();
         ingredientsBlocFer.add(new Iron(9));
-        recettes.add(new Recette("BlocDeFer", ingredientsBlocFer, new BlocDeFer(1)));
+        recettes.add(new Recette("BlocDeFer", ingredientsBlocFer, new BlocDeFer(1), false));
 
         return recettes;
     }

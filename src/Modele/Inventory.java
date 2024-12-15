@@ -1,13 +1,18 @@
 package Modele;
 import java.util.ArrayList;
 
-
 import Modele.Machine.Machine;
+import Modele.Resource.Recette;
 import Modele.Resource.Resource;
+
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class Inventory {
     private ArrayList<Resource> resources;
     private Machine machine;
+
 
     public Inventory() {
         resources = new ArrayList<>();
@@ -126,6 +131,47 @@ public class Inventory {
     
         return sb.toString();
     }
+    
+    public void produire(Recette recette) {
+        // Vérification de la disponibilité des ingrédients
+        for (Resource ingredient : recette.getIngredients()) {
+            boolean found = false;
+            for (Resource ressource : resources) {
+                if (ressource.getName().equals(ingredient.getName()) && ressource.getQuantity() >= ingredient.getQuantity()) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                System.out.println("Pas assez de " + ingredient.getName() + " pour produire " + recette.getNom());
+                return;
+            }
+        }
+
+        if (recette.isTempo()) {
+            // Production temporisée avec délai de 30 secondes
+            System.out.println("Production de " + recette.getNom() + " en cours... Veuillez patienter 30 secondes.");
+            ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+            scheduler.schedule(() -> {
+                effectuerProduction(recette);
+                scheduler.shutdown();
+            }, 30, TimeUnit.SECONDS);
+        } else {
+            effectuerProduction(recette);
+        }
+    }
+
+    // Méthode interne pour gérer la production réelle
+    private void effectuerProduction(Recette recette) {
+        for (Resource ingredient : recette.getIngredients()) {
+            removeResource(ingredient, ingredient.getQuantity());
+        }
+
+        addResource(recette.getProduitFinal().clone());
+        System.out.println("Production réussie : " + recette.getNom());
+    }
+
+    
     
 
 }

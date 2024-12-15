@@ -10,7 +10,7 @@ import Modele.Resource.Recette;
 import Modele.Resource.Resource;
 import java.util.List;
 
-public class InventairePanel extends JPanel {
+public class InventairePanel extends JPanel implements UpdateInterface{
 
     private Player player;
     private JPanel leftPanel;
@@ -175,25 +175,15 @@ public class InventairePanel extends JPanel {
     
             // Ajouter un ActionListener au bouton
             produceButton.addActionListener(e -> {
-                if (!isProducing || !recette.isTempo()) {
+                if (!isProducing ) {
                     if (recette.isTempo()) {
                         isProducing = true;
                         setAllProduceButtonsVisible(false); // Rendre tous les boutons invisibles
+
                     }
     
                     player.getInv().produire(recette);
-                    afficherInventaire();
-    
-                    if (recette.isTempo()) {
-                        // Utiliser un Timer uniquement pour les recettes temporisées
-                        Timer timer = new Timer(30000, evt -> {
-                            isProducing = false;
-                            setAllProduceButtonsVisible(true); // Réactiver les boutons après production
-                            afficherInventaire();
-                        });
-                        timer.setRepeats(false);
-                        timer.start();
-                    }
+
                 }
             });
     
@@ -233,11 +223,20 @@ public class InventairePanel extends JPanel {
                 JPanel recettePanel = (JPanel) comp;
                 for (Component innerComp : recettePanel.getComponents()) {
                     if (innerComp instanceof JButton) {
-                        innerComp.setVisible(visible);
+                        innerComp.setEnabled(visible);
                     }
                 }
             }
         }
     }
+
+
+    @Override
+    public void notificationUpdate() {
+        setAllProduceButtonsVisible(true);
+        isProducing = false;
+        afficherInventaire();
+    }
+
     
 }

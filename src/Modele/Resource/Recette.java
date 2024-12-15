@@ -3,6 +3,8 @@ package Modele.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
+import Modele.Inventory;
+
 public class Recette {
     private String nom;
     private List<Resource> ingredients;
@@ -39,6 +41,22 @@ public class Recette {
         recettes.add(new Recette("BlocDeFer", ingredientsBlocFer, new BlocDeFer(1), false));
 
         return recettes;
+    }
+    public static boolean hasSufficientResourcesForRecipe(Inventory stockResources ,Recette recette) {
+        // Vérifier si le joueur a suffisamment de ressources pour chaque ingrédient
+        for (Resource ingredient : recette.getIngredients()) {
+            int quantityInInventory = 0;
+
+            for (Resource ressource : stockResources.getResources()) {
+                if (ressource.getName().equals(ingredient.getName())) {
+                    quantityInInventory += ressource.getQuantity();
+                }
+            }
+            if (quantityInInventory < ingredient.getQuantity()) {
+                return false;  // Pas assez d'ingrédients
+            }
+        }
+        return true;  // Le joueur a suffisamment d'ingrédients
     }
 
 }

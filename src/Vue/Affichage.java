@@ -263,6 +263,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         isRunning = true;
         game.getPlayer().setMarketInterface(marketPanel);
         game.getPlayer().setAffichageInterface(this);
+        game.getPlayer().getInv().setUpdateCraft(inventairePanel);
         marketPanel.setPlayer(game.getPlayer());
         marketPanel.setMarket(game.getMarket());
         boutonPanel.setVisible(true);
@@ -287,6 +288,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
             inventairePanel.setPlayer(game.getPlayer());
             game.getPlayer().setMarketInterface(marketPanel);
             game.getPlayer().setAffichageInterface(this);
+            game.getPlayer().getInv().setUpdateCraft(inventairePanel);
             marketPanel.setPlayer(game.getPlayer());
             marketPanel.setMarket(game.getMarket());
             boutonPanel.setVisible(true);

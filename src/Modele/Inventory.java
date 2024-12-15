@@ -1,17 +1,25 @@
 package Modele;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import Modele.Machine.Machine;
 import Modele.Resource.Recette;
 import Modele.Resource.Resource;
+import Vue.UpdateInterface;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import javax.swing.Timer;
+
+
+import java.awt.event.ActionEvent;
+
+
+
+
 
 public class Inventory {
     private ArrayList<Resource> resources;
     private Machine machine;
+    private UpdateInterface craft;
 
 
     public Inventory() {
@@ -77,10 +85,14 @@ public class Inventory {
             if (r.getName().equals(ressource.getName())) {
                 r.removeQuantity(quantity);
                 
-                if (r.getQuantity() <= 0){
+                if (r.getQuantity() <= 0 && r.getName().equals(ressource.getName())){
+                    
+                    resources.remove(r);
+                   
 
-                    resources.remove(ressource);
+                    
                 }
+                
 
                 return;
             }
@@ -108,6 +120,7 @@ public class Inventory {
         }
         return res;
     }
+    public void setUpdateCraft(UpdateInterface craft){this.craft = craft;}
 
     @Override
     public String toString() {
@@ -134,28 +147,26 @@ public class Inventory {
     
     public void produire(Recette recette) {
         // Vérification de la disponibilité des ingrédients
-        for (Resource ingredient : recette.getIngredients()) {
-            boolean found = false;
-            for (Resource ressource : resources) {
-                if (ressource.getName().equals(ingredient.getName()) && ressource.getQuantity() >= ingredient.getQuantity()) {
-                    found = true;
-                    break;
-                }
-            }
-            if (!found) {
-                System.out.println("Pas assez de " + ingredient.getName() + " pour produire " + recette.getNom());
-                return;
-            }
+        if (!Recette.hasSufficientResourcesForRecipe(this, recette)){
+            craft.notificationUpdate();
+            return;
         }
 
+        Inventory temp = this;
         if (recette.isTempo()) {
-            // Production temporisée avec délai de 30 secondes
-            System.out.println("Production de " + recette.getNom() + " en cours... Veuillez patienter 30 secondes.");
-            ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
-            scheduler.schedule(() -> {
-                effectuerProduction(recette);
-                scheduler.shutdown();
-            }, 30, TimeUnit.SECONDS);
+            Timer timer = new Timer(5000, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (!Recette.hasSufficientResourcesForRecipe(temp, recette)){
+                        return;
+                    }
+                    effectuerProduction(recette);
+                    craft.notificationUpdate();
+
+                }
+            });
+            timer.setRepeats(false); // S'assure que le timer ne se répète pas
+            timer.start();
         } else {
             effectuerProduction(recette);
         }

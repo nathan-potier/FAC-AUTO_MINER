@@ -1,8 +1,8 @@
-Joueur: nathan
+Joueur: 
 Position: 2,11
-Argent: 150000
+Argent: 149780
 Ressources du joueur:
-Wood:3
+Iron:2
 Machines du joueur:
 Objets sur la carte:
 Iron a la position 2,0
@@ -10,9 +10,12 @@ Market (14;0)
 Recolteuse option-> XL a la position 1,1 Stock-> {} Inventaire-> {} Recette->
 Usine option-> XL a la position 3,1 Stock-> {} Inventaire-> {} Recette->
 Wood a la position 8,1
+Recolteuse option-> Fragile a la position 1,2 Stock-> {} Inventaire-> {} Recette->
 Iron a la position 5,2
+Recolteuse option-> Fragile a la position 8,2 Stock-> {} Inventaire-> {} Recette->
 Wood a la position 1,3
 Wood a la position 8,3
+Usine option-> Polyvalente a la position 10,3 Stock-> {} Inventaire-> {(Scie;2),(Iron;2),} Recette->Scie
 Wood a la position 2,4
 Wood a la position 0,5
 Iron a la position 2,6

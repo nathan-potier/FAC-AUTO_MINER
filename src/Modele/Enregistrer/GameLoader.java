@@ -186,6 +186,7 @@ public class GameLoader {
                         String resourceName = parts[0].trim();
                         int quantity = Integer.parseInt(parts[1].trim());
                         Resource resource = (Resource) createEntity(resourceName, quantity, null);
+                        
                         stock.add(resource);
                     }
                 }
@@ -218,6 +219,7 @@ public class GameLoader {
                 }
             }
         }
+
         // Création de l'objet machine avec stock, inventaire et recettes
         Machine machine = (Machine) createEntity(
                 machineType, 
@@ -281,6 +283,7 @@ public class GameLoader {
         ENTITY_CREATORS.put("Planche", args -> new Planche((int) args[0], (Position) args[1]));
         ENTITY_CREATORS.put("Pierre", args -> new Pierre((int) args[0], (Position) args[1]));
         ENTITY_CREATORS.put("Marteau", args -> new Marteau((int) args[0], (Position) args[1]));
+        ENTITY_CREATORS.put("Scie", args -> new Scie((int) args[0], (Position) args[1]));
         
         // Meubles
         ENTITY_CREATORS.put("Chaise", args -> new Chaise((int) args[0], (Position) args[1]));

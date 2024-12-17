@@ -84,7 +84,7 @@ public class GameLoader {
             for (String objectLine : objectsSection.split("\n")) {
                 try{
                     
-                    System.out.println(isMachine(objectLine));
+                    
                     if (isMachine(objectLine)) {
                         
                        
@@ -166,40 +166,48 @@ public class GameLoader {
         ArrayList<Resource> inventory = new ArrayList<>();
         String recipes = null;
 
+        //lecture du stock
         if (positionStockInventoryRecipe.length > 1) {
             String[] stockAndInventoryRecipe = positionStockInventoryRecipe[1].split("Inventaire->");
 
             if (stockAndInventoryRecipe.length > 0) {
+                    
                 String stockData = stockAndInventoryRecipe[0].replace("{", "").replace("}", "").trim();
+                    
                 if (!stockData.isEmpty()) {
+                   
                     String[] stockItems = stockData.split(",");
                     for (String item : stockItems) {
+                        System.out.println(item);
                         String[] parts = item.replace("(", "").replace(")", "").split(";");
                         String resourceName = parts[0].trim();
                         int quantity = Integer.parseInt(parts[1].trim());
-                        Resource resource = (Resource) createEntity(resourceName, quantity);
+                        Resource resource = (Resource) createEntity(resourceName, quantity, null);
                         stock.add(resource);
                     }
                 }
             }
 
+            //lecture de l'inventaire
             if (stockAndInventoryRecipe.length > 1) {
+                
                 String[] inventoryAndRecipe = stockAndInventoryRecipe[1].split("Recette->");
+                String inventoryData = inventoryAndRecipe[0].replace("{", "").replace("}", "").trim();
 
-                if (inventoryAndRecipe.length > 0) {
-                    String inventoryData = inventoryAndRecipe[0].replace("(", "").replace(")", "").trim();
-                    if (!inventoryData.isEmpty()) {
-                        String[] inventoryItems = inventoryData.split(",");
-                        for (String item : inventoryItems) {
-                            String[] parts = item.split(";");
-                            String resourceName = parts[0].trim();
-                            int quantity = Integer.parseInt(parts[1].trim());
-                            Resource resource = (Resource) createEntity(resourceName, quantity);
-                            inventory.add(resource);
-                        }
+                if (!inventoryData.isEmpty()) {
+                    String[] inventoryItems = inventoryData.split(",");
+                    for (String item : inventoryItems) {
+                        
+                        String[] parts = item.replace("(", "").replace(")", "").split(";");
+                        String resourceName = parts[0].trim();
+                        int quantity = Integer.parseInt(parts[1].trim());
+                        Resource resource = (Resource) createEntity(resourceName, quantity, null);
+                        
+                        inventory.add(resource);
                     }
                 }
                 
+                //lecture de la recette
                 if (inventoryAndRecipe.length > 1) {
                     String recipeData = inventoryAndRecipe[1].trim();
                     

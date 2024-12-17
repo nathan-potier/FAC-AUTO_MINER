@@ -130,7 +130,7 @@ public abstract class Machine implements Savable{
     @Override
     public String saveAsString() {
         return type + " option-> " + option + " a la position " + pos.getX() + "," + pos.getY() +
-                " Stock-> {" + getStockSTR() + "} Inventaire-> " + getResourcesSTR() + " Recette->" + getNomRecetteEnCours();
+                " Stock-> {" + getStockSTR() + "} Inventaire-> {" + getResourcesSTR() + "} Recette->" + getNomRecetteEnCours();
     }
     @Override
     public void addToGrid(Cell[][] grid) {

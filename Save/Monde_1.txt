@@ -1,9 +1,8 @@
-Joueur: nathan
+Joueur: 
 Position: 2,11
 Argent: 150
 Ressources du joueur:
-Wood:20
-Iron:2
+Wood:12
 Machines du joueur:
 Objets sur la carte:
 Wood a la position 3,0
@@ -13,8 +12,8 @@ Wood a la position 7,0
 Wood a la position 8,0
 Wood a la position 10,0
 Wood a la position 0,1
-Recolteuse option-> XL a la position 1,1 Stock-> {} Inventaire->  Recette->null
-Usine option-> XL a la position 3,1 Stock-> {} Inventaire->  Recette->
+Recolteuse option-> XL a la position 1,1 Stock-> {} Inventaire-> {} Recette->null
+Usine option-> XL a la position 3,1 Stock-> {(Pickaxe;1),} Inventaire-> {(Wood;6),} Recette->Pickaxe
 Wood a la position 12,1
 Wood a la position 14,1
 Wood a la position 6,2

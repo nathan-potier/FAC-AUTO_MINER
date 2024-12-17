@@ -53,9 +53,9 @@ public class Player {
         this.affichage = affichage;
     }
     public boolean addMachine(Machine machine) {
-        
+
         boolean b =  inventory.addMachine(machine.getClone());
-        
+
         if (affichage != null && marketInterface != null){
             marketInterface.notificationUpdate();
             affichage.notificationUpdate();

@@ -193,6 +193,7 @@ public class MarketPanel extends JPanel implements UpdateInterface{
         int price = machine.getPrix();
         JButton buyButton = new JButton(price + " coins");
         buyButton.addActionListener(e -> {
+            System.out.println(player);
             market.buyMachine(player, machine);
             updateMoneyLabel();
             updateInventoryPanel(inventoryPanel);
@@ -206,7 +207,7 @@ public class MarketPanel extends JPanel implements UpdateInterface{
     private void updateInventoryPanel(JPanel panel) {
         panel.removeAll();  // Supprime tous les composants actuels
         List<Resource> inventory = player.getInv().getResources();
-    
+        
         for (Resource resource : inventory) {
             if (resource.getQuantity() > 0){
                 JPanel itemPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));

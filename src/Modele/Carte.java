@@ -45,13 +45,13 @@ public class Carte {
     }
 
     public Carte(Game game, ArrayList<Savable<?>> objList){
-        this(game.getWidth(), game.getHeight(), game.getPlayer(), game.getSpawn(), game.getMarket(), game);
+        this(game.getWidth(), game.getHeight(), Game.getPlayer(), game.getSpawn(), game.getMarket(), game);
         
         for (Savable<?> obj : objList) {
             obj.addToGrid(grid); // Chaque objet sait comment s'ajouter à la grille
         }
         
-        generateMap(game.getPlayer());
+        generateMap(Game.getPlayer());
         
         
     }
@@ -82,7 +82,7 @@ public class Carte {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try{
-                    if (isLaborieuse && p != null){
+                    if (isLaborieuse){
 
                         p.setEcoute(true);
                     }
@@ -290,11 +290,11 @@ public class Carte {
     public void generateRessource(Player p){
         // Placer une usine à côté de la position de `Wood`
         Position posUsine = new Position(3, 1); // Position adjacente
-        Usine usine = new Usine(new Inventory(), posUsine, "XL", new Inventory(), game.getPlayer());
+        Usine usine = new Usine(new Inventory(), posUsine, "XL", new Inventory());
         grid[posUsine.getY()][posUsine.getX()] = new Cell<>(posUsine, usine);
 
         Position posRecolteuse = new Position(1, 1); // Position adjacente
-        Recolteuse recolteuse = new Recolteuse(posRecolteuse, "XL", new Inventory() , game.getPlayer());
+        Recolteuse recolteuse = new Recolteuse(posRecolteuse, "XL", new Inventory());
         grid[posRecolteuse.getY()][posRecolteuse.getX()] = new Cell<>(posRecolteuse, recolteuse);
 
         genNObjects(10, "Wood");
@@ -365,7 +365,7 @@ public class Carte {
         ArrayList<Position> posAutour = posAutour8(pos);
         grid[pos.getY()][pos.getX()] = new Cell<>(pos, new Attente(pos, null));
         for (Position neighbor : posAutour) {
-            System.out.println(neighbor);
+            
             boolean test = false;
     
             // Vérifie si la grille contient un élément à la position voisine.
@@ -396,7 +396,7 @@ public class Carte {
     private Position genRandomPosValid() {
         Position pos = genRandomPos();
     
-        System.out.println(pos);
+        
 
         
     
@@ -449,7 +449,7 @@ public class Carte {
     
         // Vérifier si un chemin a été trouvé
         if (prev[cible.getY()][cible.getX()] == null) {
-            System.out.println("Pas de chemin disponible.");
+            //System.out.println("Pas de chemin disponible.");
             return null;
         }
     
@@ -520,6 +520,7 @@ public class Carte {
                 grid[posMachine.getY()][posMachine.getX()] = nouvMachine;
                 player.getMachine().setPos(posMachine);
                 player.getMachine().setMap(this);
+
                 player.removeMachine();
                 game.updateAffichage(false);
 

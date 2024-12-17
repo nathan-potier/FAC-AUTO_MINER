@@ -16,7 +16,7 @@ import Vue.GameListener;
 
 public class Game implements Controle{
     private Carte gameMap;
-    private Player player;
+    private static Player player;
     private Spawn spawn;
     private int width = 15, height = 12;
     private GameListener listener ;
@@ -24,7 +24,6 @@ public class Game implements Controle{
 
 
     public void create() {
-        player = new Player(player.getPseudo(), Spawn.getPos());
         gameMap = new Carte(width, height, player, spawn, market, this);
         gameMap.generateMap(player);
         gameMap.generateRessource(player);
@@ -70,7 +69,7 @@ public class Game implements Controle{
                 gameMap.deplacer(player, Direction.RIGHT);
                 break;  
             case -1 :
-                gameMap.placerMachine(this.player);
+                gameMap.placerMachine(player);
                 break;
                 
                 
@@ -105,20 +104,22 @@ public class Game implements Controle{
         
         spawn = new Spawn(new Position( width - (width - 2), height - 1));
         player = new Player(pseudo, Spawn.getPos());
-        market = new Market(player);
+        market = new Market(null);
     }
 
     public Game(Market market, Spawn spawn, Player player){
+
         this.market = market;
         this.spawn = spawn;
-        this.player = player;
+        Game.player = player;
+
 
         //this.gameMap = map;
     }
     public Carte getMap(){return gameMap;}
     public int getHeight(){return height;}
     public int getWidth(){return width;}
-    public Player getPlayer(){return player;}
+    public static Player getPlayer(){return player;}
     public Market getMarket() {return market;}
     public void initVue(VueGenerale v){gameMap.setVue(v);}
     public Spawn getSpawn(){return spawn;}

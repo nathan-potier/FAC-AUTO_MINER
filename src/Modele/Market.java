@@ -19,8 +19,11 @@ public class Market implements Savable{
     private List<Machine> machinesForSale;
     private Position pos;
 
+
+
     // Initialisation des ressources et des machines disponibles
-    public Market(Position pos, Player player) {
+    public Market(Position pos) {
+
         resourcesForSale = new ArrayList<>();
         machinesForSale = new ArrayList<>();
 
@@ -39,26 +42,20 @@ public class Market implements Savable{
 
 
         // Ajouter des machines à la vente
-        machinesForSale.add(new Usine("XL", player) );
-        machinesForSale.add(new Usine("Rapide", player) );
-        machinesForSale.add(new Usine("Polyvalente", player) );
-        machinesForSale.add(new Usine("Fragile", player) );
+        machinesForSale.add(new Usine("XL") );
+        machinesForSale.add(new Usine("Rapide") );
+        machinesForSale.add(new Usine("Polyvalente") );
+        machinesForSale.add(new Usine("Fragile") );
         // Ajouter des machines à la vente
-        machinesForSale.add(new Recolteuse("XL",  player) );
-        machinesForSale.add(new Recolteuse("Rapide",   player) );
-        machinesForSale.add(new Recolteuse("Polyvalente",  player) );
-        machinesForSale.add(new Recolteuse("Fragile",  player) );
+        machinesForSale.add(new Recolteuse("XL") );
+        machinesForSale.add(new Recolteuse("Rapide") );
+        machinesForSale.add(new Recolteuse("Polyvalente") );
+        machinesForSale.add(new Recolteuse("Fragile") );
 
         this.pos = pos;
 
     }
-    public Market(Player player) {
-        this(null, player);
-    }
-    public Market(Position pos) {
-        this.pos = pos;
-
-    }
+ 
 
     public List<Resource> getResourcesForSale(){
         return resourcesForSale;

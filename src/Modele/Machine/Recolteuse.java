@@ -15,13 +15,13 @@ public class Recolteuse extends Machine {
 
     private Carte map;
 
-    public Recolteuse(String option,  Player player) {
-        super("Recolteuse", new Position(), option, new Inventory(), player);
+    public Recolteuse(String option) {
+        super("Recolteuse", new Position(), option, new Inventory());
         this.isCollecting = false;
     }
 
-    public Recolteuse(Position position, String option,  Inventory stock, Player player) {
-        super("Recolteuse", position, option, stock, player);
+    public Recolteuse(Position position, String option,  Inventory stock) {
+        super("Recolteuse", position, option, stock);
         this.isCollecting = false;
     }
 
@@ -113,7 +113,7 @@ public class Recolteuse extends Machine {
                 Resource ressource = getStock().getResources().get(i);
                 for (int j = 0; j < getStock().getResources().get(i).getQuantity(); j++){
                     
-                    if(getPlayer().collectQuantityResource(ressource, 1)){// Ajoute la ressource à l'inventaire
+                    if(Game.getPlayer().collectQuantityResource(ressource, 1)){// Ajoute la ressource à l'inventaire
                         getStock().removeResource(ressource, 1);
                         if(ressource.getQuantity() == 0){break;}
                     } 
@@ -144,7 +144,7 @@ public class Recolteuse extends Machine {
 
     @Override
     public Recolteuse getClone() {
-        return new Recolteuse(getOption(),  getPlayer());
+        return new Recolteuse(getOption());
     }
 
     @Override

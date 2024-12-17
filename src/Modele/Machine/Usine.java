@@ -18,14 +18,14 @@ public class Usine extends Machine {
     private boolean isCooking = false;
 
 
-    public Usine(Inventory stockResources, Position position, String option, Inventory stock, Player player) {
-        super("Usine", position, option, stock, player);
+    public Usine(Inventory stockResources, Position position, String option, Inventory stock) {
+        super("Usine", position, option, stock);
         this.stockResources = stockResources;
         this.recettesDisponibles = Recette.initialiserRecettes();
         this.timer = new Timer();
     }
-    public Usine(String option, Player player) {
-        super("Usine", new Position(), option, new Inventory(), player);
+    public Usine(String option) {
+        super("Usine", new Position(), option, new Inventory());
         this.stockResources = new Inventory();
         this.recettesDisponibles = Recette.initialiserRecettes();
         this.timer = new Timer();
@@ -49,7 +49,7 @@ public class Usine extends Machine {
         int tempFabriqMs = getTempFabriq() * 1000;
         isCooking = true;
 
- 
+
         
         if (!Recette.hasSufficientResourcesForRecipe(stockResources, recetteEnCours)){stopProduction();}
         
@@ -71,7 +71,7 @@ public class Usine extends Machine {
             }
         }, tempFabriqMs, tempFabriqMs); // Délai initial de 5 secondes, puis répétition toutes les 5 secondes
     }
-
+    @Override
     public String getResourcesSTR(){
         String res = "";
         for (Resource r : stockResources.getResources()){
@@ -97,21 +97,7 @@ public class Usine extends Machine {
         // Ajouter le produit final au stock de l'usine
         ajouterAustock(recette.getProduitFinal().clone());
         System.out.println("Production réussie : " + recette.getNom());
-    }
-    
-
-    // Méthode pour démarrer la production, appelée lorsque l'utilisateur appuie sur "produire"
-    public void produire(String nomRecette) {
-        if (recetteEnCours != null && !recetteEnCours.getNom().equals(nomRecette)) {
-            // Si une autre recette est déjà en cours, arrêtez la production actuelle
-            stopProduction();
-        }
-
-        // Démarrer la production périodique pour la recette choisie
-        startProduction();
-    }
-
-    
+    } 
 
     public void recuperer() {
         if (getStock().getResources().isEmpty()) {
@@ -122,7 +108,7 @@ public class Usine extends Machine {
                 Resource ressource = getStock().getResources().get(i);
                 for (int j = 0; j < getStock().getResources().get(i).getQuantity(); j++){
                     
-                    if(getPlayer().collectQuantityResource(ressource, 1)){// Ajoute la ressource à l'inventaire
+                    if(Game.getPlayer().collectQuantityResource(ressource, 1)){// Ajoute la ressource à l'inventaire
                         getStock().removeResource(ressource, 1);
                         if(ressource.getQuantity() == 0){break;}
                     } 
@@ -141,7 +127,7 @@ public class Usine extends Machine {
     }
     public void retirerRessource(Resource r){
         
-        if (getPlayer().collectQuantityResource(r, 1)){
+        if (Game.getPlayer().collectQuantityResource(r, 1)){
             stockResources.removeResource(r, 1);
         }
     }
@@ -172,6 +158,7 @@ public class Usine extends Machine {
     public Recette getRecetteEnCours() {
         return recetteEnCours;
     }
+    @Override
     public String getNomRecetteEnCours() {
         try{
             return getRecetteEnCours().getNom();
@@ -182,7 +169,8 @@ public class Usine extends Machine {
 
     @Override
     public Usine getClone(){
-        return new Usine(getOption(), getPlayer());
+        System.out.println(Game.getPlayer());
+        return new Usine(getOption());
     }
     @Override
     public void setMap(Carte map) {}

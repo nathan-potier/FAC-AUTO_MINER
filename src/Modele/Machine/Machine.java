@@ -8,7 +8,6 @@ import Modele.*;
 public abstract class Machine implements Savable{
     private String type; // "usine" ou "récolteuse"
     private Inventory stockProd = new Inventory(); // stock de ce qui est recolté ou produit
-    private Player player;
     private int prix;
     private Position pos;
     private int tempFabriq;
@@ -18,12 +17,12 @@ public abstract class Machine implements Savable{
     private String option;
     private UpdateInterface update;
 
-    public Machine(String type, Position pos, String option, Inventory stockProd, Player player) {
+    public Machine(String type, Position pos, String option, Inventory stockProd) {
         if (stockProd != null){
             this.stockProd = stockProd;
         }
         this.type = type;
-        this.player = player;
+    
         this.prix = getPrix(option);
         this.pos = pos;
         this.tempFabriq = getTempFabriq(option);
@@ -81,7 +80,7 @@ public abstract class Machine implements Savable{
     public void setInterfaceUpdate(UpdateInterface update){this.update = update;}
     public UpdateInterface getInterfaceUpdate(){return update;}
 
-    public Player getPlayer(){return player;}
+
 
     public void ajouterAustock(Resource ressourceProduite) {
         for (Resource resource : stockProd.getResources()){

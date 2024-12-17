@@ -66,7 +66,7 @@ public class GameLoader {
                 }
             }
             player = new Player(pseudo, money, playerPosition, new Inventory(resources));
-            
+
         }
         
         String machineSection = readSection("Machines du joueur:", fileName).split("\n")[0].trim();
@@ -102,6 +102,7 @@ public class GameLoader {
                         
                     }
                 }catch (Exception e) {
+                    
                     System.err.println("Erreur lors de la lecture de : " + objectLine);
                 }
 
@@ -116,7 +117,7 @@ public class GameLoader {
         if (machineJoueur != null){
             player.addMachine(machineJoueur);
         }
-
+        
         game = new Game(market, game.getSpawn(), player);
         
 
@@ -224,8 +225,7 @@ public class GameLoader {
                 position,        // args[1] -> Position
                 option,          // args[2] -> String (option)
                 new Inventory(stock),    // args[3] -> Inventory (stock)
-                player,     // args[4] -> Player
-                recipes          // args[5] -> String (recette, nullable)
+                recipes          // args[4] -> String (recette, nullable)
         );
 
         
@@ -258,7 +258,6 @@ public class GameLoader {
         // Extraction de la position du marché
         try{
 
-
         objectLine = objectLine.split("Market ")[1].trim();
 
         String[] positionData = objectLine.substring(1, objectLine.indexOf(")")).split(";");
@@ -269,6 +268,7 @@ public class GameLoader {
             e.printStackTrace();
             System.err.println("Erreur lors de la lecture de la position du marché : " + objectLine);
         }
+        
         return new Market(marketPosition);
     }
     private static final Map<String, Function<Object[], Object>> ENTITY_CREATORS = new HashMap<>();
@@ -289,17 +289,17 @@ public class GameLoader {
         
         // Machines
         ENTITY_CREATORS.put("Usine", args -> {
-            Usine usine = new Usine((Inventory) args[0], (Position) args[1], (String) args[2], (Inventory) args[3], (Player) args[4]);
-            if (args[5] != null) {
-                usine.setRecette((String) args[5]);
+            Usine usine = new Usine((Inventory) args[0], (Position) args[1], (String) args[2], (Inventory) args[3]);
+            if (args[4] != null) {
+                usine.setRecette((String) args[4]);
             }
             return usine;
         });
 
         ENTITY_CREATORS.put("Recolteuse", args -> {
-            Recolteuse recolteuse = new Recolteuse((Position) args[1], (String) args[2], (Inventory) args[3], (Player) args[4]);
-            if (args[5] != null) {
-                recolteuse.setTypeRessource((String) args[5]);
+            Recolteuse recolteuse = new Recolteuse((Position) args[1], (String) args[2], (Inventory) args[3]);
+            if (args[4] != null) {
+                recolteuse.setTypeRessource((String) args[4]);
             }
             return recolteuse;
         });

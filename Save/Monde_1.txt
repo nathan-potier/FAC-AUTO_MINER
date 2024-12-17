@@ -12,7 +12,7 @@ Wood a la position 7,0
 Wood a la position 8,0
 Wood a la position 10,0
 Wood a la position 0,1
-Recolteuse option-> XL a la position 1,1 Stock-> {} Inventaire-> {} Recette->null
+Recolteuse option-> XL a la position 1,1 Stock-> {(Pickaxe;1),} Inventaire-> {} Recette->null
 Usine option-> XL a la position 3,1 Stock-> {(Pickaxe;1),} Inventaire-> {(Wood;6),} Recette->Pickaxe
 Wood a la position 12,1
 Wood a la position 14,1

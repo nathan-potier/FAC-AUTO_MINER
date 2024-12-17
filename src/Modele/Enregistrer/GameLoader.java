@@ -142,7 +142,7 @@ public class GameLoader {
     }
 
     private static Machine lireMachine(String objectLine ){
-        System.out.println(objectLine);
+
         // Extraction du type de machine (e.g., "Usine")
         String machineType = objectLine.split("option->")[0].trim();
 
@@ -178,7 +178,7 @@ public class GameLoader {
                    
                     String[] stockItems = stockData.split(",");
                     for (String item : stockItems) {
-                        System.out.println(item);
+                        
                         String[] parts = item.replace("(", "").replace(")", "").split(";");
                         String resourceName = parts[0].trim();
                         int quantity = Integer.parseInt(parts[1].trim());

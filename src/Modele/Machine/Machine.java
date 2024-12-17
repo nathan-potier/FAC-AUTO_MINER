@@ -99,13 +99,6 @@ public abstract class Machine implements Savable{
 
     public void produire() {}
 
-    // Méthode de récolte spécifique aux récolteuses
-    public void recolter(Resource ressource) {
-        if ("recolteuse".equals(type)) {
-            // Logique de récolte pour ajouter la ressource au stock
-            ajouterAustock(ressource);
-        }
-    }
 
 
     public String getStockSTR(){
@@ -119,6 +112,7 @@ public abstract class Machine implements Savable{
     public abstract String getResourcesSTR();
     public abstract String getNomRecetteEnCours();
     public abstract Machine getClone();
+    public abstract void setMap(Carte map);
     public void setPos(Position pos){this.pos = pos;}
     @Override
     public String toString(){

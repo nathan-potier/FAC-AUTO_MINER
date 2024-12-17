@@ -184,6 +184,8 @@ public class Usine extends Machine {
     public Usine getClone(){
         return new Usine(getOption(), getPlayer());
     }
+    @Override
+    public void setMap(Carte map) {}
 
     
 }

@@ -515,8 +515,10 @@ public class Carte {
                 deplacerDun(pos, player);
                 grid[posMachine.getY()][posMachine.getX()] = nouvMachine;
                 player.getMachine().setPos(posMachine);
+                player.getMachine().setMap(this);
                 player.removeMachine();
                 game.updateAffichage(false);
+
                 return true;
             }
         }

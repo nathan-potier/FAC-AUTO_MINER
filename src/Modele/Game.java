@@ -30,8 +30,7 @@ public class Game implements Controle{
         gameMap.generateRessource(player);
         player.collectResource(new Wood(3)); 
         updateAffichage(true);
-
-        
+      
     }
 
     public void start(){updateAffichage(true);}
@@ -58,7 +57,6 @@ public class Game implements Controle{
     public void onKeyPress(int keyCode) {
         switch (keyCode) {
             case KeyEvent.VK_UP:
-                System.out.println(player.getInv());
                 gameMap.deplacer(player, Direction.UP) ;
                 break; 
             case KeyEvent.VK_DOWN:

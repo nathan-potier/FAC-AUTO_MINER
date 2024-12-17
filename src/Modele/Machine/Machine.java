@@ -43,8 +43,8 @@ public abstract class Machine implements Savable{
 
     public static int getTempFabriq(String type) {
         return switch (type) {
-            case "Rapide" -> 2;
-            default -> 5;
+            case "Rapide" -> 6;
+            default -> 10;
         };
     }
 
@@ -87,7 +87,10 @@ public abstract class Machine implements Savable{
             resource.setLimiteStock(limiteStock); 
         }
         stockProd.addResource(ressourceProduite);
-        update.notificationUpdate();
+        if (update != null){
+            update.notificationUpdate();
+        }
+
     }
     
 
@@ -112,6 +115,7 @@ public abstract class Machine implements Savable{
     public abstract String getNomRecetteEnCours();
     public abstract Machine getClone();
     public abstract void setMap(Carte map);
+    public abstract void stopWorking();
     public void setPos(Position pos){this.pos = pos;}
     @Override
     public String toString(){

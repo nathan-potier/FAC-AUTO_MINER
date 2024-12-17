@@ -173,6 +173,10 @@ public class Usine extends Machine {
         return new Usine(getOption());
     }
     @Override
+    public void stopWorking(){
+        stopProduction();
+    }
+    @Override
     public void setMap(Carte map) {}
 
     

@@ -148,6 +148,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
     }
 
     public void resetGame(){
+        game.stopGame();
         this.game = new Game(pseudo);
         this.game.addGameListener(cartePanel);
     }
@@ -194,20 +195,17 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
             }
 
         }else if (e.getKeyCode() == KeyEvent.VK_ESCAPE ){
-            GameStates.setMoveOn(false);
+            
             saveAndBackMenu();
-            menuBoutonClique = true;
-            closeAll();
-            menuPanel.setVisible(true);
-            sauvegardePanel.mettreAJourSauvegardes();
-            resetGame();
+
         }
         else if (listener != null && GameStates.isMoveOn()) {
             listener.onKeyPress(e.getKeyCode());
         }
     }
     public void saveAndBackMenu(){
-        
+        GameStates.setMoveOn(false);
+
         isRunning = false;
         String nomSv = "";
         if(isNewGame){
@@ -216,7 +214,11 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
             nomSv = nameGameLoad;
         }
         GameSaver.saveGame(nomSv, Game.getPlayer(), game.getSavableObject());
-
+        menuBoutonClique = true;
+        closeAll();
+        menuPanel.setVisible(true);
+        sauvegardePanel.mettreAJourSauvegardes();
+        resetGame();
 
     }
 
@@ -239,7 +241,6 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
     public void transmettreAction(String action) {
         switch (action) {
             case "Sauvegarder et Quitter":
-                game.sauvegarderCarte("Sauvegarde_1");
                 System.exit(0);
                 break;
             case "Nouvelle Partie":
@@ -355,14 +356,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         menuBoutonClique = true;
     }
 
-    public void sortirJeu(){
-        GameStates.setMoveOn(false);
-        saveAndBackMenu();
-        menuBoutonClique = true;
-        closeAll();
-        menuPanel.setVisible(true);
-        sauvegardePanel.mettreAJourSauvegardes();
-    }
+
 
     public void initialiserBoutons(){
         JPanel button1Panel = new JPanel();
@@ -414,7 +408,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         retourMenuButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                sortirJeu();
+                saveAndBackMenu();
                 requestFocusInWindow();
             }
         });
@@ -484,7 +478,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         GameStates.setMoveOn(false);
         recolteusePanel.setRecolteuse(r);
 
-        recolteusePanel.setPlayer(Game.getPlayer());
+
         recolteusePanel.setVisible(true);
     }
 

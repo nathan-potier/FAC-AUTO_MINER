@@ -4,13 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 
 import Modele.GameStates;
-import Modele.Player;
 import Modele.Machine.Recolteuse;
 import Modele.Resource.*;
 
 public class RecolteusePanel extends JPanel implements UpdateInterface {
 
-    private Player player;
     private Recolteuse recolteuse;
     private JPanel stockPanel;
     private JComboBox<String> ressourceComboBox;
@@ -135,12 +133,13 @@ public class RecolteusePanel extends JPanel implements UpdateInterface {
         this.add(closeButtonPanel, BorderLayout.SOUTH);
     }
 
-    public void setPlayer(Player player) {
-        this.player = player;
-    }
+
 
     public void setRecolteuse(Recolteuse recolteuse) {
         this.recolteuse = recolteuse;
+        if (recolteuse.getOption().equals("Polyvalente") || recolteuse.getNomRecetteEnCours() != null){
+            ressourceComboBox.setEnabled(true);
+        }
         nomTypeRecolteuse.setText("Recolteuse : " + recolteuse.getOption());
         recolteuse.setInterfaceUpdate(this);
         ressourceComboBox.removeAllItems();
@@ -168,7 +167,7 @@ public class RecolteusePanel extends JPanel implements UpdateInterface {
 
     private void stopHarvesting() {
         if (recolteuse != null) {
-            recolteuse.stopCollecting();
+            recolteuse.stopWorking();
             statusLabel.setText("Status: Inactif");
         }
     }
@@ -207,6 +206,7 @@ public class RecolteusePanel extends JPanel implements UpdateInterface {
             takeButton.setForeground(Color.BLACK);
             takeButton.setFocusPainted(false);
             takeButton.addActionListener(e -> {
+                
                 recolteuse.recuperer();
                 updateStockPanel();
                 });

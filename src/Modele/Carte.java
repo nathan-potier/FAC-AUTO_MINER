@@ -26,7 +26,7 @@ public class Carte {
     private int width, height;
     private Spawn spawn;
     private Market market;
-
+    private Timer timer;
 
     private Game game;
 
@@ -78,7 +78,7 @@ public class Carte {
 
     public void attendreReplace(Position position, Cell<?> cell, Player p, int temps, boolean isLaborieuse) {
         
-        Timer timer = new Timer(temps, new ActionListener() {
+        timer = new Timer(temps, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try{
@@ -513,6 +513,7 @@ public class Carte {
         
         Cell<?> nouvMachine = new Cell<>(posMachine ,player.getMachine());
         ArrayList<Position> posAutour = posAutour4(posMachine);
+        
         for(Position pos : posAutour){
             
             if (trouverChemin(Spawn.getPos(), pos) != null){
@@ -527,6 +528,7 @@ public class Carte {
                 return true;
             }
         }
+
         return false;
         
     }
@@ -562,7 +564,9 @@ public class Carte {
     }
     public Cell<?>[][] getGrid(){return grid;}
     public void setGrid(Cell<?>[][] ngrid){grid = ngrid;}
-
+    public void stopUpdateTimer(){
+        timer.stop();
+    }
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

@@ -6,11 +6,11 @@ public class Scie extends Resource {
     private static final int prix = Prix.PRIX_SCIE;
 
     public Scie(int quantity) {
-        super("Scie", quantity, true, prix);
+        super("Scie", quantity, false, prix);
     }
 
     public Scie(int quantity, Position pos) {
-        super("Scie", quantity, true, prix, pos);
+        super("Scie", quantity, false, prix, pos);
     }
 
     public Scie clone() {

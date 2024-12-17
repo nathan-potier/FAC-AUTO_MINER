@@ -12,17 +12,19 @@ public class Recolteuse extends Machine {
     private String typeRessource;
     private boolean isCollecting;
     private ArrayList<Resource> ressourceCollectable = new ArrayList<>();
-
+    private Timer timer;  
     private Carte map;
 
     public Recolteuse(String option) {
         super("Recolteuse", new Position(), option, new Inventory());
         this.isCollecting = false;
+        this.timer = new Timer();
     }
 
     public Recolteuse(Position position, String option,  Inventory stock) {
         super("Recolteuse", position, option, stock);
         this.isCollecting = false;
+        this.timer = new Timer();
     }
 
     public void setMap(Carte map){
@@ -35,11 +37,9 @@ public class Recolteuse extends Machine {
             }
 
         }
-        System.out.println("bonjour");
+        
     }
-    public String getTypeRessource() {
-        return typeRessource;
-    }
+
     public ArrayList<Resource> getRessourceCollectable() {
         return ressourceCollectable;
     }
@@ -49,6 +49,7 @@ public class Recolteuse extends Machine {
     }
     public void setTypeRessource(String typeRessource) {
         this.typeRessource = typeRessource;
+        startCollecting();
     }
 
     public void startCollecting() {
@@ -59,20 +60,21 @@ public class Recolteuse extends Machine {
         isCollecting = true;
         int tempCollectMs = getTempFabriq(getOption()) * 1000;
 
-        new Timer().scheduleAtFixedRate(new TimerTask() {
+        timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 if (isCollecting) {
                     collectResourcesAround();
                 } else {
-                    cancel(); // Arrête le Timer si la collecte est terminée
+                    stopWorking(); // Arrête le Timer si la collecte est terminée
                 }
             }
         }, tempCollectMs, tempCollectMs);
     }
-
-    public void stopCollecting() {
+    @Override
+    public void stopWorking() {
         isCollecting = false;
+        timer.cancel();
     }
 
     private void collectResourcesAround() {
@@ -99,7 +101,7 @@ public class Recolteuse extends Machine {
                 map.collectRessource(null, resource.getPosition()); // Enlève la ressource de la carte
                 System.out.println("Récolte réussie : " + resource.getName());
                 if (getStock().getResources().stream().anyMatch(r -> r.getName().equals(resource.getName()) && r.getQuantity() >= getLimiteStock(getOption()))) {
-                    stopCollecting(); // Arrêter si la limite de stock est atteinte
+                    stopWorking(); // Arrêter si la limite de stock est atteinte
                 }
             }
         }

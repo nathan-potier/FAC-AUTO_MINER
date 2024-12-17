@@ -6,11 +6,11 @@ public class Marteau extends Resource {
     private static final int prix = Prix.PRIX_MARTEAU;
 
     public Marteau(int quantity) {
-        super("Marteau", quantity, true, prix);
+        super("Marteau", quantity, false, prix);
     }
 
     public Marteau(int quantity, Position pos) {
-        super("Marteau", quantity, true, prix, pos);
+        super("Marteau", quantity, false, prix, pos);
     }
 
     public Marteau clone() {

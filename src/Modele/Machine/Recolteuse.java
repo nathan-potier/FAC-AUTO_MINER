@@ -54,12 +54,18 @@ public class Recolteuse extends Machine {
 
     public void startCollecting() {
         if (isCollecting) {
-            return; // Déjà en cours de collecte
+            return; // Si la collecte est déjà en cours, on ne fait rien
+        }
+
+        // Réinitialiser le Timer
+        if (timer != null) {
+            timer.cancel();  // Annuler l'ancien Timer s'il existe
+            timer = new Timer(); // Créer une nouvelle instance du Timer
         }
 
         isCollecting = true;
         int tempCollectMs = getTempFabriq(getOption()) * 1000;
-
+    
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -71,6 +77,7 @@ public class Recolteuse extends Machine {
             }
         }, tempCollectMs, tempCollectMs);
     }
+    
     @Override
     public void stopWorking() {
         isCollecting = false;
@@ -116,14 +123,12 @@ public class Recolteuse extends Machine {
                 for (int j = 0; j < getStock().getResources().get(i).getQuantity(); j++){
                     
                     if(Game.getPlayer().collectQuantityResource(ressource)){// Ajoute la ressource à l'inventaire
+                        startCollecting();
                         getStock().removeResource(ressource, 1);
                         if(ressource.getQuantity() == 0){break;}
                     } 
                 }
             }
-                
-
-            
         }
     }
 

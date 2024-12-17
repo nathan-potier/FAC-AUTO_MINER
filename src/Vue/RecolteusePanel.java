@@ -137,8 +137,12 @@ public class RecolteusePanel extends JPanel implements UpdateInterface {
 
     public void setRecolteuse(Recolteuse recolteuse) {
         this.recolteuse = recolteuse;
-        if (recolteuse.getOption().equals("Polyvalente") || recolteuse.getNomRecetteEnCours() != null){
+        if (recolteuse.getOption().equals("Polyvalente") || recolteuse.getNomRecetteEnCours() == null){
             ressourceComboBox.setEnabled(true);
+            
+        }else{
+            ressourceComboBox.setEnabled(false);
+            statusLabel.setText("Status: Collecte en cours");
         }
         nomTypeRecolteuse.setText("Recolteuse : " + recolteuse.getOption());
         recolteuse.setInterfaceUpdate(this);

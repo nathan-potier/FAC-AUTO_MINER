@@ -565,7 +565,10 @@ public class Carte {
     public Cell<?>[][] getGrid(){return grid;}
     public void setGrid(Cell<?>[][] ngrid){grid = ngrid;}
     public void stopUpdateTimer(){
-        timer.stop();
+        if (timer != null){
+            timer.stop();
+        }
+
     }
     @Override
     public String toString() {

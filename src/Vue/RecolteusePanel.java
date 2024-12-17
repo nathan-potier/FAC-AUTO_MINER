@@ -159,6 +159,8 @@ public class RecolteusePanel extends JPanel implements UpdateInterface {
             statusLabel.setText("Status: Collecte en cours");
             if (!recolteuse.getOption().equals("Polyvalente")){
                 ressourceComboBox.setEnabled(false);
+            }else{
+                ressourceComboBox.setEnabled(true);
             }
             
         }
@@ -206,6 +208,7 @@ public class RecolteusePanel extends JPanel implements UpdateInterface {
             takeButton.setFocusPainted(false);
             takeButton.addActionListener(e -> {
                 recolteuse.recuperer();
+                updateStockPanel();
                 });
 
             takeButtonPanel.add(takeButton);

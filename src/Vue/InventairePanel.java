@@ -134,39 +134,39 @@ public class InventairePanel extends JPanel implements UpdateInterface{
 
     public void afficherRecettes(List<Recette> recettes) {
         rightPanel.removeAll(); // Nettoie les anciennes recettes
-        
+    
         // Ajouter chaque recette dans le panneau de droite
         for (Recette recette : recettes) {
             JPanel recettePanel = new JPanel();
             recettePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
             recettePanel.setBackground(Color.DARK_GRAY);
-        
+    
             // Ajouter les ingrédients de la recette avec les images
             JPanel ingredientsPanel = new JPanel();
             ingredientsPanel.setLayout(new BoxLayout(ingredientsPanel, BoxLayout.Y_AXIS));
             ingredientsPanel.setBackground(Color.DARK_GRAY);
-        
+    
             for (Resource ingredient : recette.getIngredients()) {
                 addIngredientToPanel(ingredientsPanel, ingredient.getClass().getSimpleName(), ingredient.getQuantity());
             }
-        
+    
             recettePanel.add(ingredientsPanel);
     
             // Ajouter la flèche après les ingrédients
             JLabel arrowLabel = new JLabel(new ImageIcon(new ImageIcon("assets/ArrowRight.png").getImage().getScaledInstance(30, 50, Image.SCALE_SMOOTH)));
             recettePanel.add(arrowLabel);
-        
+    
             // Ajouter l'ingrédient final sans la quantité
             Resource finalIngredient = recette.getProduitFinal();
             if (finalIngredient != null) {
                 JPanel finalIngredientPanel = new JPanel();
                 finalIngredientPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
                 finalIngredientPanel.setBackground(Color.DARK_GRAY);
-                
+    
                 addIngredientToPanel(finalIngredientPanel, finalIngredient.getClass().getSimpleName(), -1); // Passer -1 pour ne pas afficher la quantité
                 recettePanel.add(finalIngredientPanel);
             }
-            
+    
             // Ajouter le bouton de production pour chaque recette
             JButton produceButton = new JButton("Produire");
             produceButton.setBackground(new Color(221, 242, 172));
@@ -175,26 +175,31 @@ public class InventairePanel extends JPanel implements UpdateInterface{
     
             // Ajouter un ActionListener au bouton
             produceButton.addActionListener(e -> {
-                if (!isProducing ) {
+                if (!isProducing) {
                     if (recette.isTempo()) {
                         isProducing = true;
                         setAllProduceButtonsVisible(false); // Rendre tous les boutons invisibles
-
                     }
     
                     player.getInv().produire(recette);
-
                 }
             });
     
             recettePanel.add(produceButton);
             rightPanel.add(recettePanel);
+    
+            // Ajouter une barre horizontale pour séparer les recettes
+            JSeparator separator = new JSeparator(SwingConstants.HORIZONTAL);
+            separator.setForeground(Color.LIGHT_GRAY); // Couleur de la ligne
+            separator.setPreferredSize(new Dimension(rightPanel.getWidth(), 1)); // Ajuster la taille
+            rightPanel.add(separator);
         }
-        
+    
         // Mettre à jour la vue des recettes
         rightPanel.revalidate();
         rightPanel.repaint();
     }
+    
     
     
     private void addIngredientToPanel(JPanel ingredientsPanel, String resourceName, int quantity) {

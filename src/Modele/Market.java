@@ -44,10 +44,10 @@ public class Market implements Savable{
         machinesForSale.add(new Usine("Polyvalente", player) );
         machinesForSale.add(new Usine("Fragile", player) );
         // Ajouter des machines à la vente
-        machinesForSale.add(new Recolteuse("XL", null,  player) );
-        machinesForSale.add(new Recolteuse("Rapide", null,  player) );
-        machinesForSale.add(new Recolteuse("Polyvalente", null, player) );
-        machinesForSale.add(new Recolteuse("Fragile", null, player) );
+        machinesForSale.add(new Recolteuse("XL",  player) );
+        machinesForSale.add(new Recolteuse("Rapide",   player) );
+        machinesForSale.add(new Recolteuse("Polyvalente",  player) );
+        machinesForSale.add(new Recolteuse("Fragile",  player) );
 
         this.pos = pos;
 

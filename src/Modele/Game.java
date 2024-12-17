@@ -102,9 +102,10 @@ public class Game implements Controle{
 
     public Game(String pseudo){ 
 
-        market = new Market(player);
+        
         spawn = new Spawn(new Position( width - (width - 2), height - 1));
         player = new Player(pseudo, Spawn.getPos());
+        market = new Market(player);
     }
 
     public Game(Market market, Spawn spawn, Player player){

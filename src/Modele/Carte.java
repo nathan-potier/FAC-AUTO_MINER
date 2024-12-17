@@ -82,7 +82,8 @@ public class Carte {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try{
-                    if (isLaborieuse){
+                    if (isLaborieuse && p != null){
+
                         p.setEcoute(true);
                     }
                 }catch(Exception ee){System.out.println("Le joueur n'est pas définis");}
@@ -187,6 +188,7 @@ public class Carte {
             vue.transmettreUsine((Usine)grid[nouvelle.getY()][nouvelle.getX()].getContent());
             return true;
         }else if (isInstanceOf(Recolteuse.class, nouvelle)){
+
             vue.transmettreRecolteuse((Recolteuse)grid[nouvelle.getY()][nouvelle.getX()].getContent()); 
             return true;
         }else if (isInstanceOf(Market.class, nouvelle)) {
@@ -236,8 +238,10 @@ public class Carte {
         }
         
         else if (isLaborieuse){
-            
-            p.setEcoute(false);
+            if (p != null){
+                p.setEcoute(false);
+            }
+
             attendreReplace(pos, cell, p, temps, isLaborieuse);
         }
     }

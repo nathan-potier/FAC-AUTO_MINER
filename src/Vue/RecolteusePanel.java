@@ -17,6 +17,7 @@ public class RecolteusePanel extends JPanel implements UpdateInterface {
     private JButton startButton;
     private JButton stopButton;
     private JLabel statusLabel;
+    private JLabel nomTypeRecolteuse;
 
     public RecolteusePanel() {
         this.setLayout(new BorderLayout());
@@ -35,7 +36,7 @@ public class RecolteusePanel extends JPanel implements UpdateInterface {
         titre.setBackground(Color.DARK_GRAY);
         titre.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
 
-        JLabel nomTypeRecolteuse = new JLabel("Récolteuse");
+        nomTypeRecolteuse = new JLabel("");
         nomTypeRecolteuse.setForeground(Color.white);
         nomTypeRecolteuse.setFont(new Font("Arial", Font.BOLD, 16));
         nomTypeRecolteuse.setHorizontalAlignment(SwingConstants.CENTER);
@@ -134,6 +135,7 @@ public class RecolteusePanel extends JPanel implements UpdateInterface {
 
     public void setRecolteuse(Recolteuse recolteuse) {
         this.recolteuse = recolteuse;
+        nomTypeRecolteuse.setText("Recolteuse : " + recolteuse.getOption());
         recolteuse.setInterfaceUpdate(this);
         ressourceComboBox.removeAllItems();
         for (Resource ressource : recolteuse.getRessourceCollectable()) {

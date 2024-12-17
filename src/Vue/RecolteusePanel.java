@@ -18,6 +18,7 @@ public class RecolteusePanel extends JPanel implements UpdateInterface {
     private JButton stopButton;
     private JLabel statusLabel;
     private JLabel nomTypeRecolteuse;
+    private String typeResource;
 
     public RecolteusePanel() {
         this.setLayout(new BorderLayout());
@@ -79,7 +80,11 @@ public class RecolteusePanel extends JPanel implements UpdateInterface {
         startButton = new JButton("Commencer la récolte");
         startButton.setBackground(new Color(221, 242, 172));
         startButton.setForeground(Color.BLACK);
-        startButton.addActionListener(e -> startHarvesting());
+        startButton.addActionListener(e -> {
+            typeResource = (String) ressourceComboBox.getSelectedItem();
+            startHarvesting();
+
+        });
         ressourceSelectionPanel.add(startButton);
 
         stopButton = new JButton("Arrêter la récolte");
@@ -147,8 +152,14 @@ public class RecolteusePanel extends JPanel implements UpdateInterface {
 
     private void startHarvesting() {
         if (recolteuse != null) {
+   
+            recolteuse.setTypeRessource(typeResource);
             recolteuse.startCollecting();
             statusLabel.setText("Status: Collecte en cours");
+            if (!recolteuse.getOption().equals("Polyvalente")){
+                ressourceComboBox.setEnabled(false);
+            }
+            
         }
     }
 

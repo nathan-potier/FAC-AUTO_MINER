@@ -255,18 +255,19 @@ public class GameLoader {
     private static Market lireMarket(String objectLine){
         Position marketPosition = null;
         // Extraction de la position du marché
+        try{
+
+
         objectLine = objectLine.split("Market ")[1].trim();
 
-        try {
-            String[] positionData = objectLine.substring(1, objectLine.indexOf(")")).split(";");
-            int x = Integer.parseInt(positionData[0].trim());
-            int y = Integer.parseInt(positionData[1].trim());
-            marketPosition = new Position(x, y);
-            
-        } catch (Exception e) {
+        String[] positionData = objectLine.substring(1, objectLine.indexOf(")")).split(";");
+        int x = Integer.parseInt(positionData[0].trim());
+        int y = Integer.parseInt(positionData[1].trim());
+        marketPosition = new Position(x, y);
+        }catch(StringIndexOutOfBoundsException | NumberFormatException e){
+            e.printStackTrace();
             System.err.println("Erreur lors de la lecture de la position du marché : " + objectLine);
         }
-
         return new Market(marketPosition);
     }
     private static final Map<String, Function<Object[], Object>> ENTITY_CREATORS = Map.of(

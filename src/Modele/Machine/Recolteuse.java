@@ -3,7 +3,6 @@ package Modele.Machine;
 import Modele.Resource.Resource;
 
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -16,9 +15,8 @@ public class Recolteuse extends Machine {
 
     private Carte map;
 
-    public Recolteuse(String option, String typeRessource, Player player) {
+    public Recolteuse(String option,  Player player) {
         super("Recolteuse", new Position(), option, new Inventory(), player);
-        this.typeRessource = typeRessource;
         this.isCollecting = false;
     }
 
@@ -66,7 +64,6 @@ public class Recolteuse extends Machine {
             public void run() {
                 if (isCollecting) {
                     collectResourcesAround();
-                    System.out.println("TestTestTestTestTest" + getStockSTR());
                 } else {
                     cancel(); // Arrête le Timer si la collecte est terminée
                 }
@@ -82,17 +79,21 @@ public class Recolteuse extends Machine {
         // Simuler la collecte des ressources dans la zone autour de la position
         ArrayList<Cell<?>> cells = map.regarderAutour(getPosition());
         ArrayList<Resource> resources = new ArrayList<>();
+
         for (Cell<?> cell : cells) {
             if (cell != null && cell.getContent() instanceof Resource) {
                 Resource resource = (Resource) cell.getContent();
-                
-                // Ajouter la ressource à ressourceCollectable si elle n'y est pas déjà
-                if (!ressourceCollectable.contains(resource)) {
-                    ressourceCollectable.add(resource);
+
+                if (!resources.contains(resource)) {
+                    
+                    resources.add(resource);
                 }
             }
         }
+ 
         for (Resource resource : resources) {
+            System.out.println(typeRessource);
+
             if (resource.getName().equals(typeRessource)) {
                 ajouterAustock(resource);
                 map.collectRessource(null, resource.getPosition()); // Enlève la ressource de la carte
@@ -123,7 +124,7 @@ public class Recolteuse extends Machine {
 
     @Override
     public Recolteuse getClone() {
-        return new Recolteuse(getOption(), typeRessource, getPlayer());
+        return new Recolteuse(getOption(),  getPlayer());
     }
 
     @Override

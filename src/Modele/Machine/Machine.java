@@ -98,14 +98,6 @@ public abstract class Machine implements Savable{
 
     public void produire() {}
 
-    // Méthode de récolte spécifique aux récolteuses
-    public void recolter(Resource ressource) {
-        if ("recolteuse".equals(type)) {
-            // Logique de récolte pour ajouter la ressource au stock
-            ajouterAustock(ressource);
-        }
-    }
-
     public void afficherStock() {
         System.out.println(stockProd);
     }

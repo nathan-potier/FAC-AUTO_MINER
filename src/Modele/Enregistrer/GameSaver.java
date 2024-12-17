@@ -17,7 +17,7 @@ public class GameSaver {
     private static final String SAVE_DIRECTORY = "Save";
     private static final String SAVE_LIST_FILE = SAVE_DIRECTORY + File.separator + "nom_save.txt";
 
-    public static boolean saveGame(String fileName, Player player, Market market, ArrayList<Savable<?>> savables) {
+    public static boolean saveGame(String fileName, Player player,  ArrayList<Savable> savables) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(SAVE_DIRECTORY + "/" + fileName + ".txt"))) {
             // Sauvegarder les informations du joueur
             writer.write("Joueur: " + player.getPseudo());

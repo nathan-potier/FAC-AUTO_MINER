@@ -66,6 +66,7 @@ public class Recolteuse extends Machine {
             public void run() {
                 if (isCollecting) {
                     collectResourcesAround();
+                    System.out.println("TestTestTestTestTest" + getStockSTR());
                 } else {
                     cancel(); // Arrête le Timer si la collecte est terminée
                 }

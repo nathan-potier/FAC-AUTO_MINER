@@ -30,8 +30,7 @@ public class Game implements Controle{
         gameMap.generateRessource(player);
         player.collectResource(new Wood(3)); 
         updateAffichage(true);
-
-        
+      
     }
 
     public void start(){updateAffichage(true);}

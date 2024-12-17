@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Modele.*;
-import Modele.Machine.Machine;
 import Modele.Resource.*;
 
 
@@ -18,7 +17,7 @@ public class GameSaver {
     private static final String SAVE_DIRECTORY = "Save";
     private static final String SAVE_LIST_FILE = SAVE_DIRECTORY + File.separator + "nom_save.txt";
 
-    public static boolean saveGame(String fileName, Player player, Market market, ArrayList<Savable> savables) {
+    public static boolean saveGame(String fileName, Player player, Market market, ArrayList<Savable<?>> savables) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(SAVE_DIRECTORY + "/" + fileName + ".txt"))) {
             // Sauvegarder les informations du joueur
             writer.write("Joueur: " + player.getPseudo());
@@ -39,7 +38,7 @@ public class GameSaver {
             // Sauvegarder les machines du joueur avec leur position
             writer.write("Machines du joueur:");
             writer.newLine();
-            Savable machine = player.getInv().getMachine();
+            Savable<?> machine = player.getInv().getMachine();
             if (machine != null){
                 writer.write(machine.saveAsString());
                 writer.newLine();
@@ -49,7 +48,7 @@ public class GameSaver {
             writer.newLine();
 
             // Sauvegarder les savables (machines, objets, etc.) dynamiquement
-            for (Savable savable : savables) {
+            for (Savable<?> savable : savables) {
                 writer.write(savable.saveAsString());
                 writer.newLine();
             }

@@ -13,7 +13,7 @@ import Modele.Resource.*;
 
 public class GameLoader {
     private static Player player = null;
-    private static ArrayList<Machine> machinesOnMap = new ArrayList<>();
+
     private static ArrayList<Savable<?>> objectOnMap = new ArrayList<>();
     private static Market market = null;
 
@@ -122,10 +122,11 @@ public class GameLoader {
         map = new Carte(game, objectOnMap);
         
 
-        for (Machine m : machinesOnMap){
-            if (Recolteuse.class.isInstance(m)){
-                ((Recolteuse)m).setMap(map);
+        for (Savable<?> m : objectOnMap){
+            if (m instanceof Machine){
+                ((Machine)m).setMap(map);
             }
+
         }
 
         game.setMap(map);

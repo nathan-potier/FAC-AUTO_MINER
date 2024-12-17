@@ -1,0 +1,64 @@
+Joueur: nathan
+Position: 2,11
+Argent: 0
+Ressources du joueur:
+Wood:3
+Machines du joueur:
+Objets sur la carte:
+Wood a la position 7,0
+Wood a la position 8,0
+Wood a la position 10,0
+Wood a la position 12,0
+Wood a la position 0,1
+Recolteuse option-> XL a la position 1,1 Stock-> {} Inventaire-> {} Recette->
+Wood a la position 2,1
+Usine option-> XL a la position 3,1 Stock-> {} Inventaire-> {} Recette->
+Wood a la position 6,1
+Wood a la position 2,2
+Wood a la position 4,2
+Iron a la position 8,2
+Wood a la position 9,2
+Wood a la position 11,2
+Wood a la position 14,2
+Wood a la position 1,3
+Wood a la position 6,3
+Recolteuse option-> XL a la position 14,3 Stock-> {} Inventaire-> {} Recette->
+Iron a la position 1,4
+Wood a la position 2,4
+Wood a la position 6,4
+Wood a la position 8,4
+Wood a la position 10,4
+Market (14;4)
+Wood a la position 5,5
+Wood a la position 6,5
+Wood a la position 7,5
+Wood a la position 10,5
+Wood a la position 13,5
+Wood a la position 1,6
+Wood a la position 2,6
+Wood a la position 4,6
+Wood a la position 5,6
+Wood a la position 11,6
+Wood a la position 13,6
+Wood a la position 2,7
+Wood a la position 3,7
+Wood a la position 6,7
+Wood a la position 11,7
+Wood a la position 4,8
+Wood a la position 6,8
+Wood a la position 13,8
+Wood a la position 2,9
+Wood a la position 6,9
+Wood a la position 7,9
+Wood a la position 8,9
+Wood a la position 12,9
+Wood a la position 13,9
+Wood a la position 1,10
+Wood a la position 2,10
+Wood a la position 5,10
+Wood a la position 7,10
+Iron a la position 11,10
+Wood a la position 12,10
+Wood a la position 1,11
+Wood a la position 7,11
+Wood a la position 9,11

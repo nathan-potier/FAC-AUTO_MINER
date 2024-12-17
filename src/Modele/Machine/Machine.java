@@ -121,6 +121,7 @@ public abstract class Machine implements Savable{
     public abstract String getResourcesSTR();
     public abstract String getNomRecetteEnCours();
     public abstract Machine getClone();
+    public abstract void setMap(Carte map);
     public void setPos(Position pos){this.pos = pos;}
     @Override
     public String toString(){

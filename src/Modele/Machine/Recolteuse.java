@@ -3,6 +3,7 @@ package Modele.Machine;
 import Modele.Resource.Resource;
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -28,6 +29,15 @@ public class Recolteuse extends Machine {
 
     public void setMap(Carte map){
         this.map = map;
+        ArrayList<Position> positions = map.posAutour4(getPosition());
+        for(Position pos : positions){
+            Cell<?> content = map.getGrid()[pos.getY()][pos.getX()];
+            if (content != null && content.getContent() instanceof Resource){
+                ressourceCollectable.add((Resource)map.getGrid()[pos.getY()][pos.getX()].getContent());
+            }
+
+        }
+        System.out.println("bonjour");
     }
     public String getTypeRessource() {
         return typeRessource;

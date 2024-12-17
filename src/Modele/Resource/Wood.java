@@ -2,7 +2,7 @@ package Modele.Resource;
 import Modele.*;
 
 public class Wood extends Resource {
-    private static final int prix = 2;
+    private static final int prix = Prix.PRIX_BOIS;
     public Wood(int quantity) {
         super("Wood", quantity, false, prix);
 

@@ -59,10 +59,10 @@ public class Usine extends Machine {
                 if (Recette.hasSufficientResourcesForRecipe(stockResources, recetteEnCours)) {
                     produireRecette(recetteEnCours);
                     Random random = new Random();
-                    int randomNumber = random.nextInt(1); // Génère un entier entre 0 et 10 inclus
+                    int randomNumber = random.nextInt(5); 
                     if (!getFonctionneBien() && randomNumber == 0){
                         stopProduction();
-                        System.out.println("not good");
+                        getInterfaceUpdate().notificationUpdate();
                     }
                 } else {
                     stopProduction();

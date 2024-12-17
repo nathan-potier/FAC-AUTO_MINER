@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -270,38 +271,47 @@ public class GameLoader {
         }
         return new Market(marketPosition);
     }
-    private static final Map<String, Function<Object[], Object>> ENTITY_CREATORS = Map.of(
-        // Ressources
-        "Wood", args -> new Wood((int) args[0], (Position) args[1]),
-        "Iron", args -> new Iron((int) args[0], (Position) args[1]),
-        "Pickaxe", args -> new Pickaxe((int) args[0], (Position) args[1]),
-        "BlocDeFer", args -> new BlocDeFer((int) args[0], (Position) args[1]),
+    private static final Map<String, Function<Object[], Object>> ENTITY_CREATORS = new HashMap<>();
 
+    static {
+        // Ressources
+        ENTITY_CREATORS.put("Wood", args -> new Wood((int) args[0], (Position) args[1]));
+        ENTITY_CREATORS.put("Iron", args -> new Iron((int) args[0], (Position) args[1]));
+        ENTITY_CREATORS.put("Clou", args -> new Clou((int) args[0], (Position) args[1]));
+        ENTITY_CREATORS.put("Planche", args -> new Planche((int) args[0], (Position) args[1]));
+        ENTITY_CREATORS.put("Pierre", args -> new Pierre((int) args[0], (Position) args[1]));
+        ENTITY_CREATORS.put("Marteau", args -> new Marteau((int) args[0], (Position) args[1]));
+        
+        // Meubles
+        ENTITY_CREATORS.put("Chaise", args -> new Chaise((int) args[0], (Position) args[1]));
+        ENTITY_CREATORS.put("Table", args -> new Table((int) args[0], (Position) args[1]));
+        ENTITY_CREATORS.put("Armoire", args -> new Armoire((int) args[0], (Position) args[1]));
+        
         // Machines
-        "Usine", args -> {
+        ENTITY_CREATORS.put("Usine", args -> {
             Usine usine = new Usine((Inventory) args[0], (Position) args[1], (String) args[2], (Inventory) args[3], (Player) args[4]);
             if (args[5] != null) {
                 usine.setRecette((String) args[5]);
             }
             return usine;
-        },
-        "Recolteuse", args -> {
+        });
+
+        ENTITY_CREATORS.put("Recolteuse", args -> {
             Recolteuse recolteuse = new Recolteuse((Position) args[1], (String) args[2], (Inventory) args[3], (Player) args[4]);
             if (args[5] != null) {
                 recolteuse.setTypeRessource((String) args[5]);
             }
             return recolteuse;
-        },
-
+        });
+        
         // Objets spécifiques
-        "Attente", args -> new Attente((Position) args[1], null)
-    );
+        ENTITY_CREATORS.put("Attente", args -> new Attente((Position) args[1], null));
+    }
 
     public static Object createEntity(String name, Object... args) {
         Function<Object[], Object> creator = ENTITY_CREATORS.get(name);
         return creator != null ? creator.apply(args) : null;
     }
-
 
     public static String readSection(String startKeyword, String fileName)  {
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {

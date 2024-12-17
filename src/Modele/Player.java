@@ -33,8 +33,8 @@ public class Player {
         
         return false;
     }
-    public boolean collectQuantityResource(Resource resource, int quantity) {
-        if(inventory.addQuantityResource(resource, quantity)){
+    public boolean collectQuantityResource(Resource resource) {
+        if(inventory.addQuantityResource(resource)){
             try{
                 marketInterface.notificationUpdate();
             }catch(Exception e){

@@ -115,7 +115,7 @@ public class Recolteuse extends Machine {
                 Resource ressource = getStock().getResources().get(i);
                 for (int j = 0; j < getStock().getResources().get(i).getQuantity(); j++){
                     
-                    if(Game.getPlayer().collectQuantityResource(ressource, 1)){// Ajoute la ressource à l'inventaire
+                    if(Game.getPlayer().collectQuantityResource(ressource)){// Ajoute la ressource à l'inventaire
                         getStock().removeResource(ressource, 1);
                         if(ressource.getQuantity() == 0){break;}
                     } 

@@ -67,6 +67,7 @@ public class InventairePanel extends JPanel implements UpdateInterface{
     public void setPlayer(Player p) {
         player = p;
     }
+    public boolean isProducing(){return isProducing;}
 
     public void afficherInventaire() {
         leftPanel.removeAll(); // Nettoie les anciens slots dans le panneau gauche

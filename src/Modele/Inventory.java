@@ -61,7 +61,7 @@ public class Inventory {
         
     }
 
-    public boolean addQuantityResource(Resource ressource, int quantity){
+    public boolean addQuantityResource(Resource ressource){
         for (Resource r : resources) {
             if (r.getName().equals(ressource.getName())) {
                 return r.addQuantity(1);
@@ -154,9 +154,11 @@ public class Inventory {
 
         Inventory temp = this;
         if (recette.isTempo()) {
+            GameStates.setMoveOn(false);
             Timer timer = new Timer(5000, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
+                    GameStates.setMoveOn(true);
                     if (!Recette.hasSufficientResourcesForRecipe(temp, recette)){
                         return;
                     }
@@ -177,11 +179,14 @@ public class Inventory {
 
     // Méthode interne pour gérer la production réelle
     private void effectuerProduction(Recette recette) {
-        for (Resource ingredient : recette.getIngredients()) {
-            removeResource(ingredient, ingredient.getQuantity());
+        if (addResource(recette.getProduitFinal().clone())){
+            for (Resource ingredient : recette.getIngredients()) {
+                removeResource(ingredient, ingredient.getQuantity());
+            }
         }
 
-        addResource(recette.getProduitFinal().clone());
+
+
         System.out.println("Production réussie : " + recette.getNom());
     }
 

@@ -108,7 +108,7 @@ public class Usine extends Machine {
                 Resource ressource = getStock().getResources().get(i);
                 for (int j = 0; j < getStock().getResources().get(i).getQuantity(); j++){
                     
-                    if(Game.getPlayer().collectQuantityResource(ressource, 1)){// Ajoute la ressource à l'inventaire
+                    if(Game.getPlayer().collectQuantityResource(ressource)){// Ajoute la ressource à l'inventaire
                         getStock().removeResource(ressource, 1);
                         if(ressource.getQuantity() == 0){break;}
                     } 
@@ -123,11 +123,11 @@ public class Usine extends Machine {
     public boolean ajouterRessource(Resource r){
         if (recetteEnCours != null && !isCooking){startProduction();}
         
-        return stockResources.addQuantityResource(r, 1);
+        return stockResources.addQuantityResource(r);
     }
     public void retirerRessource(Resource r){
         
-        if (Game.getPlayer().collectQuantityResource(r, 1)){
+        if (Game.getPlayer().collectQuantityResource(r)){
             stockResources.removeResource(r, 1);
         }
     }

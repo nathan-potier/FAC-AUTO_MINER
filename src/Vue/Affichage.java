@@ -181,25 +181,8 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
 
         lastActionTime = currentTime;  // Met à jour l'heure de la dernière action
 
-        
-        if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-            if (inventaireAfficher) {
-                afficherCarte();
-                GameStates.setMoveOn(true);
-                inventaireAfficher = false;
-            } else {
-                GameStates.setMoveOn(false);
-                afficherInventaire();
-                inventaireAfficher = true;
 
-            }
-
-        }else if (e.getKeyCode() == KeyEvent.VK_ESCAPE ){
-            
-            saveAndBackMenu();
-
-        }
-        else if (listener != null && GameStates.isMoveOn()) {
+        if (listener != null && GameStates.isMoveOn()) {
             listener.onKeyPress(e.getKeyCode());
         }
     }
@@ -366,7 +349,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         inventaire.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (inventaireAfficher) {
+                if (inventaireAfficher && !inventairePanel.isProducing() ) {
                     afficherCarte();
                     GameStates.setMoveOn(true);
                     inventaireAfficher = false;

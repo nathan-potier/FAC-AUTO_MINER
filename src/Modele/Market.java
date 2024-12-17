@@ -3,8 +3,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Modele.Machine.*;
+import Modele.Resource.Armoire;
+import Modele.Resource.Chaise;
+import Modele.Resource.Clou;
 import Modele.Resource.Iron;
+import Modele.Resource.Marteau;
+import Modele.Resource.Pierre;
+import Modele.Resource.Planche;
 import Modele.Resource.Resource;
+import Modele.Resource.Table;
 import Modele.Resource.Wood;
 
 public class Market implements Savable{
@@ -18,10 +25,17 @@ public class Market implements Savable{
         machinesForSale = new ArrayList<>();
 
         // Ajouter des ressources à la vente
-        resourcesForSale.add(new Wood(1));  // Exemple de ressource
-        resourcesForSale.add(new Iron(1));
+        resourcesForSale.add(new Wood(1));   // Bois
+        resourcesForSale.add(new Iron(1));   // Fer
+        resourcesForSale.add(new Clou(1));   // Clou
+        resourcesForSale.add(new Planche(1)); // Planche
+        resourcesForSale.add(new Pierre(1)); // Pierre
+        resourcesForSale.add(new Marteau(1)); // Marteau
+        resourcesForSale.add(new Chaise(1)); // Chaise
+        resourcesForSale.add(new Table(1));  // Table
+        resourcesForSale.add(new Armoire(1)); // Armoire
 
-  
+    
 
 
         // Ajouter des machines à la vente
@@ -29,6 +43,12 @@ public class Market implements Savable{
         machinesForSale.add(new Usine("Rapide", player) );
         machinesForSale.add(new Usine("Polyvalente", player) );
         machinesForSale.add(new Usine("Fragile", player) );
+        // Ajouter des machines à la vente
+        machinesForSale.add(new Recolteuse("XL", null,  player) );
+        machinesForSale.add(new Recolteuse("Rapide", null,  player) );
+        machinesForSale.add(new Recolteuse("Polyvalente", null, player) );
+        machinesForSale.add(new Recolteuse("Fragile", null, player) );
+
         this.pos = pos;
 
     }

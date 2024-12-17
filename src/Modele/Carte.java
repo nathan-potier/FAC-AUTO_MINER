@@ -269,6 +269,9 @@ public class Carte {
                 case "iron":
                     obj = new Iron(1, pos);
                     break;
+                case "pierre":
+                    obj = new Pierre(1, pos);
+                    break;
                 // Ajouter d'autres types d'objets ici si nécessaire
                 default:
                     System.out.println("Type inconnu : " + type);
@@ -290,8 +293,9 @@ public class Carte {
         Recolteuse recolteuse = new Recolteuse(posRecolteuse, "XL", new Inventory() , game.getPlayer());
         grid[posRecolteuse.getY()][posRecolteuse.getX()] = new Cell<>(posRecolteuse, recolteuse);
 
-        genNObjects(50, "Wood");
+        genNObjects(10, "Wood");
         genNObjects(3, "Iron");
+        genNObjects(3, "Pierre");
 
 
     }

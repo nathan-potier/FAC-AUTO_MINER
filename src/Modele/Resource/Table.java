@@ -3,7 +3,7 @@ package Modele.Resource;
 import Modele.*;
 
 public class Table extends Resource {
-    private static final int prix = 80;
+    private static final int prix = Prix.PRIX_TABLE;
 
     public Table(int quantity) {
         super("Table", quantity, true, prix);

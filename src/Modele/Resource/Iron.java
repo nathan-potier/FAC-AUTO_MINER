@@ -1,7 +1,7 @@
 package Modele.Resource;
 import Modele.*;
 public class Iron extends Resource {
-    private static final int prix = 3;
+    private static final int prix = Prix.PRIX_FER;
 
     public Iron(int quantity) {
         super("Iron", quantity, true, prix);

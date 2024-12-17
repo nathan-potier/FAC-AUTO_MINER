@@ -370,6 +370,10 @@ public class UsinePanel extends JPanel implements UpdateInterface {
             }
         }
 
+        if(!usine.getFonctionneBien() && !usine.isCooking()){
+            produceButton.setEnabled(true);
+        }
+
         ingredientsPanel.revalidate();
         ingredientsPanel.repaint();
     }

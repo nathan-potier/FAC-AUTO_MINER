@@ -1,0 +1,27 @@
+Joueur: nathan
+Position: 2,11
+Argent: 100000
+Ressources du joueur:
+Wood:3
+Machines du joueur:
+Objets sur la carte:
+Market (0;0)
+Pierre a la position 8,0
+Recolteuse option-> XL a la position 1,1 Stock-> {} Inventaire-> {} Recette->
+Usine option-> XL a la position 3,1 Stock-> {} Inventaire-> {} Recette->
+Wood a la position 14,1
+Iron a la position 9,2
+Iron a la position 14,2
+Wood a la position 0,3
+Iron a la position 4,3
+Wood a la position 9,3
+Wood a la position 12,3
+Pierre a la position 14,3
+Wood a la position 10,4
+Wood a la position 0,5
+Wood a la position 4,5
+Wood a la position 8,5
+Usine option-> Fragile a la position 0,7 Stock-> {} Inventaire-> {} Recette->
+Pierre a la position 12,7
+Wood a la position 11,9
+Wood a la position 14,9

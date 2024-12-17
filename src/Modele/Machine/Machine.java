@@ -79,6 +79,7 @@ public abstract class Machine implements Savable{
     public boolean getFonctionneBien(){return fonctionneBien;}
 
     public void setInterfaceUpdate(UpdateInterface update){this.update = update;}
+    public UpdateInterface getInterfaceUpdate(){return update;}
 
     public Player getPlayer(){return player;}
 
@@ -106,9 +107,6 @@ public abstract class Machine implements Savable{
         }
     }
 
-    public void afficherStock() {
-        System.out.println(stockProd);
-    }
 
     public String getStockSTR(){
         String res = "";

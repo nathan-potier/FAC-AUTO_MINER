@@ -19,6 +19,7 @@ public class RecolteusePanel extends JPanel implements UpdateInterface {
     private JLabel statusLabel;
     private JLabel nomTypeRecolteuse;
     private String typeResource;
+    private JButton takeButton;
 
     public RecolteusePanel() {
         this.setLayout(new BorderLayout());
@@ -194,6 +195,23 @@ public class RecolteusePanel extends JPanel implements UpdateInterface {
                     stockPanel.add(itemPanel);
                 }
             }
+
+            JPanel takeButtonPanel = new JPanel();
+            takeButtonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+            takeButtonPanel.setBackground(Color.DARK_GRAY);
+
+            takeButton = new JButton("Prendre");
+            takeButton.setBackground(new Color(221, 242, 172));
+            takeButton.setForeground(Color.BLACK);
+            takeButton.setFocusPainted(false);
+            takeButton.addActionListener(e -> {
+                recolteuse.recuperer();
+                });
+
+            takeButtonPanel.add(takeButton);
+
+            stockPanel.add(Box.createHorizontalGlue());
+            stockPanel.add(takeButtonPanel);
         }
 
         stockPanel.revalidate();

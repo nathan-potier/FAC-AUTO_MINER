@@ -75,7 +75,7 @@ public class MarketPanel extends JPanel implements UpdateInterface{
         }
         // Ajouter des objets au marché
         for (Machine machine : market.getMachinesForSale()){
-            addMachineToMarket(buyPanel, "assets/"+ machine.getName()+".png", machine.getName() + " " + machine.getOption(), machine, sellPanel);
+            addMachineToMarket(buyPanel, "assets/"+ machine.getName()+".png", machine, sellPanel);
         }
 
     
@@ -159,46 +159,50 @@ public class MarketPanel extends JPanel implements UpdateInterface{
         panel.add(itemPanel);
     }
 
-    private void addMachineToMarket(JPanel panel, String imagePath, String name, Machine machine, JPanel inventoryPanel) {
+    private void addMachineToMarket(JPanel panel, String imagePath, Machine machine, JPanel inventoryPanel) {
         JPanel itemPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
         itemPanel.setBackground(Color.DARK_GRAY);
-
+    
         // Charger et redimensionner l'image de la machine
         ImageIcon originalIcon = new ImageIcon(imagePath);
         Image scaledImage = originalIcon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
         ImageIcon scaledIcon = new ImageIcon(scaledImage);
-
+    
         // Image de la machine
         JLabel imageLabel = new JLabel(scaledIcon);
         itemPanel.add(imageLabel);
-
-        // Nom de la machine
-        JLabel nameLabel = new JLabel(name);
+    
+        // Panel pour le texte (nom et option)
+        JPanel textPanel = new JPanel();
+        textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.Y_AXIS));
+        textPanel.setBackground(Color.DARK_GRAY);
+    
+        JLabel nameLabel = new JLabel(machine.getName());
         nameLabel.setForeground(Color.WHITE);
-        nameLabel.setFont(new Font("Arial", Font.PLAIN, 14));
-        itemPanel.add(nameLabel);
-
-        // Récupérer le prix de la machine
-        int price = machine.getPrix();
-
+        nameLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        textPanel.add(nameLabel);
+    
+        JLabel optionLabel = new JLabel(machine.getOption());
+        optionLabel.setForeground(Color.LIGHT_GRAY);
+        optionLabel.setFont(new Font("Arial", Font.ITALIC, 12));
+        textPanel.add(optionLabel);
+    
+        itemPanel.add(textPanel);
+    
         // Bouton d'achat (prix)
+        int price = machine.getPrix();
         JButton buyButton = new JButton(price + " coins");
         buyButton.addActionListener(e -> {
-            System.out.println(market.buyMachine(player, machine));
+            market.buyMachine(player, machine);
             updateMoneyLabel();
-            updateInventoryPanel(inventoryPanel); // Utilise directement le panneau d'inventaire
-            
+            updateInventoryPanel(inventoryPanel);
         });
         itemPanel.add(buyButton);
-
-        // Ajouter un peu d'espacement autour de l'item
+    
         itemPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         panel.add(itemPanel);
     }
-
     
-    
-
     private void updateInventoryPanel(JPanel panel) {
         panel.removeAll();  // Supprime tous les composants actuels
         List<Resource> inventory = player.getInv().getResources();

@@ -365,7 +365,6 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
     }
 
     public void initialiserBoutons(){
-        // Panneau pour le bouton "Retour Menu"
         JPanel button1Panel = new JPanel();
         button1Panel.setLayout(new BoxLayout(button1Panel, BoxLayout.X_AXIS));
         JButton inventaire = new JButton("Inventaire");

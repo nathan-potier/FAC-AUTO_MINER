@@ -26,7 +26,7 @@ public class Carte {
     private int width, height;
     private Spawn spawn;
     private Market market;
-    private Timer timer;
+    private ArrayList<Timer> timers;
 
     private Game game;
 
@@ -36,7 +36,7 @@ public class Carte {
 
     public Carte(int width, int height, Player p, Spawn spawn, Market m, Game game) {
         grid = new Cell[height][width];
-        
+        timers = new ArrayList<>();
         this.width = width;
         this.height = height; 
         this.spawn = spawn;
@@ -77,27 +77,23 @@ public class Carte {
     
 
     public void attendreReplace(Position position, Cell<?> cell, Player p, int temps, boolean isLaborieuse) {
-        
-        timer = new Timer(temps, new ActionListener() {
+        Timer timer = new Timer(temps, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                if (isLaborieuse && p != null){
-
-    
+                if (isLaborieuse && p != null) {
                     GameStates.setMoveOn(true);
                 }
 
                 grid[position.getY()][position.getX()] = cell;
                 game.updateAffichage(true);
 
-
                 ((Timer) e.getSource()).stop();
             }
         });
-        timer.setRepeats(false); // S'assure que le timer ne se répète pas
-        timer.start();
-        
+
+        timer.setRepeats(false); // Assure que le timer ne se répète pas
+        timers.add(timer); // Ajouter ce timer à la liste
+        timer.start(); // Démarrer le timer
     }
     
     public ArrayList<Position> posAutour4(Position pos) {
@@ -558,8 +554,10 @@ public class Carte {
     public Cell<?>[][] getGrid(){return grid;}
     public void setGrid(Cell<?>[][] ngrid){grid = ngrid;}
     public void stopUpdateTimer(){
-        if (timer != null){
-            timer.stop();
+        for (Timer t : timers) {
+            if (t != null) {
+                t.stop();
+            }
         }
 
     }

@@ -62,13 +62,7 @@ public class Recolteuse extends Machine {
             if (resource.getName().equals(typeRessource) &&
                 getLimiteStock(getOption()) <= resource.getQuantity()){return;}
         }
-
-
-
-
             startCollecting();
-
-
     }
 
     public void startCollecting() {

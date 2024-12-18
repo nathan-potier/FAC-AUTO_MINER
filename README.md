@@ -84,11 +84,6 @@ Le jeu permet de sauvegarder l'état de la partie dans un fichier `Monde_n.txt` 
     ```bash
     ├───assets
     ├───bin
-    │   ├───Modele
-    │   │   ├───Enregistrer
-    │   │   ├───Machine
-    │   │   └───Resource
-    │   └───Vue
     ├───Save
     └───src
         ├───Modele

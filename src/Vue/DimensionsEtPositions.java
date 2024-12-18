@@ -6,16 +6,39 @@ import java.awt.Toolkit;
 
 public class DimensionsEtPositions {
 
-    // Valeur de base de CELL_SIZE, que tu peux ajuster facilement
+    // Valeur de base de CELL_SIZE, ajustable en fonction de la taille de l'écran
     private static final int BASE_CELL_SIZE = 50;  // Valeur de base pour CELL_SIZE (ajustable)
 
     // Récupérer la taille de l'écran
     private static final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
     // Calcul de CELL_SIZE en fonction de la taille de l'écran
-    // Nous allons multiplier BASE_CELL_SIZE par un facteur d'adaptation basé sur la largeur de l'écran
-    private static final double scaleFactor = screenSize.width / 1920.0;  // 1920 est la résolution cible
-    public static final int CELL_SIZE = (int) (BASE_CELL_SIZE * scaleFactor);
+    private static int calculateCellSize() {
+        int screenWidth = screenSize.width;
+        int screenHeight = screenSize.height;
+
+        // Calcul d'un facteur d'échelle basé sur la largeur de l'écran, par rapport à une largeur cible de 1920
+        double scaleFactorWidth = screenWidth / 1920.0; // Basé sur la largeur de l'écran
+        double scaleFactorHeight = screenHeight / 1080.0; // Basé sur la hauteur de l'écran
+
+        // On prend le minimum entre les deux facteurs d'échelle pour assurer que la fenêtre ne dépasse pas
+        double scaleFactor = Math.min(scaleFactorWidth, scaleFactorHeight);
+
+        // Calculer la taille des cellules en fonction du facteur d'échelle
+        int cellSize = (int) (BASE_CELL_SIZE * scaleFactor);
+
+        // Limiter la taille des cellules pour éviter qu'elles ne deviennent trop grandes ou trop petites
+        if (cellSize < 40) {
+            cellSize = 40;  // Limite minimum de taille de cellule
+        } else if (cellSize > 100) {
+            cellSize = 100;  // Limite maximum de taille de cellule
+        }
+
+        return cellSize;
+    }
+
+    // Appliquer le calcul dynamique de CELL_SIZE
+    public static final int CELL_SIZE = calculateCellSize();
 
     // Dimensions principales
     public static final int WINDOW_WIDTH = 19 * CELL_SIZE;
@@ -27,10 +50,9 @@ public class DimensionsEtPositions {
     public static final Dimension RECOLTEUSE_PANEL_DIMENSION = new Dimension(775, 550); // Panneau Récolteuse
 
     // Positions des panneaux
-    public static final Point USINE_PANEL_POSITION = new Point(10, 50); // Position de Usine Panel
-    public static final Point RECOLTEUSE_PANEL_POSITION = new Point(10, 50); // Position de Recolteuse Panel
+    public static final Point USINE_PANEL_POSITION = new Point(10, 50); // Position du panneau Usine
+    public static final Point RECOLTEUSE_PANEL_POSITION = new Point(10, 50); // Position du panneau Récolteuse
 
     // Dimensions des boutons
     public static final Dimension BUTTON_DIMENSION = new Dimension(120, 40); // Taille des boutons
-
 }

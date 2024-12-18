@@ -69,7 +69,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         }
 
         this.setTitle("AutoMiner");
-        setPreferredSize(new Dimension(width, height-10));
+        setPreferredSize(new Dimension(width, height));
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
             @Override

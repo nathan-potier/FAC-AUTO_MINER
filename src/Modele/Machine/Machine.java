@@ -40,7 +40,7 @@ public abstract class Machine implements Savable{
             
         };
     }
-
+    
     public static int getTempFabriq(String type) {
         return switch (type) {
             case "Rapide" -> 6;

@@ -200,10 +200,13 @@ public class UsinePanel extends JPanel implements UpdateInterface {
         }
 
         if (usine != null && usine.getRecetteEnCours() == null || usine.getIsModifiable() ) {
-                
+            if (usine.getRecetteEnCours() != null){
+                recetteComboBox.setSelectedItem(usine.getNomRecetteEnCours());
+            }
             produceButton.setEnabled(true);
             recetteComboBox.setEnabled(true);
         }else{
+            recetteComboBox.setSelectedItem(usine.getNomRecetteEnCours());
             produceButton.setEnabled(false);
             recetteComboBox.setEnabled(false);
         }

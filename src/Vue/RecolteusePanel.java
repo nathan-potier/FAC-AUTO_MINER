@@ -137,18 +137,23 @@ public class RecolteusePanel extends JPanel implements UpdateInterface {
 
     public void setRecolteuse(Recolteuse recolteuse) {
         this.recolteuse = recolteuse;
-        if (recolteuse.getOption().equals("Polyvalente") || recolteuse.getNomRecetteEnCours() == null){
+        statusLabel.setText("Status: Inactif");
+        if (recolteuse.isCollecting()){
+            statusLabel.setText("Status: Collecte en cours");
+        }
+        if (recolteuse.getOption().equals("Polyvalente") || !recolteuse.typeRessourceIsSet() ){
             ressourceComboBox.setEnabled(true);
+            
             
         }else{
             ressourceComboBox.setEnabled(false);
-            statusLabel.setText("Status: Collecte en cours");
+            
         }
         nomTypeRecolteuse.setText("Recolteuse : " + recolteuse.getOption());
         recolteuse.setInterfaceUpdate(this);
         ressourceComboBox.removeAllItems();
-        for (Resource ressource : recolteuse.getRessourceCollectable()) {
-            ressourceComboBox.addItem(ressource.getName());
+        for (String RessourceCollectable : recolteuse.getRessourceCollectable()) {
+            ressourceComboBox.addItem(RessourceCollectable);
         }
         updateStockPanel();
         
@@ -168,8 +173,16 @@ public class RecolteusePanel extends JPanel implements UpdateInterface {
             
         }
     }
+    private void updateStatus(){
+        if(recolteuse.isCollecting()){
+            statusLabel.setText("Status: Collecte en cours");
+        }else{
+            statusLabel.setText("Status: Inactif");
+        }
+    }
 
     private void stopHarvesting() {
+        
         if (recolteuse != null) {
             recolteuse.stopWorking();
             statusLabel.setText("Status: Inactif");
@@ -213,6 +226,7 @@ public class RecolteusePanel extends JPanel implements UpdateInterface {
                 
                 recolteuse.recuperer();
                 updateStockPanel();
+                updateStatus();
                 });
 
             takeButtonPanel.add(takeButton);
@@ -228,5 +242,6 @@ public class RecolteusePanel extends JPanel implements UpdateInterface {
     @Override
     public void notificationUpdate() {
         updateStockPanel();
+        updateStatus();
     }
 }

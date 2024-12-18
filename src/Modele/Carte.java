@@ -81,12 +81,12 @@ public class Carte {
         timer = new Timer(temps, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try{
-                    if (isLaborieuse){
 
-                        p.setEcoute(true);
-                    }
-                }catch(Exception ee){System.out.println("Le joueur n'est pas définis");}
+                if (isLaborieuse && p != null){
+
+                    p.setEcoute(true);
+                }
+
                 grid[position.getY()][position.getX()] = cell;
                 game.updateAffichage(true);
 
@@ -207,11 +207,11 @@ public class Carte {
     public void collectRessource(Player p, Position nouvelle){
 
         int temps = 5000;
-        try{
-            if ( !(p.collectResource((Resource)grid[nouvelle.getY()][nouvelle.getX()].getContent())) ){
-                return;
-            }
-        }catch(Exception e){System.out.println("Le Player n'est pas définis");}
+
+        if (p != null &&  !(p.collectResource((Resource)grid[nouvelle.getY()][nouvelle.getX()].getContent())) ){
+            return;
+        }
+
         
         
         Cell<?> cell = grid[nouvelle.getY()][nouvelle.getX()];
@@ -228,7 +228,7 @@ public class Carte {
 
         
         game.updateAffichage(true);
-        System.out.println((Attente)grid[nouvelle.getY()][nouvelle.getX()].getContent());
+        
 
   
 
@@ -288,14 +288,6 @@ public class Carte {
     }
 
     public void generateRessource(Player p){
-        // Placer une usine à côté de la position de `Wood`
-        Position posUsine = new Position(3, 1); // Position adjacente
-        Usine usine = new Usine(new Inventory(), posUsine, "XL", new Inventory());
-        grid[posUsine.getY()][posUsine.getX()] = new Cell<>(posUsine, usine);
-
-        Position posRecolteuse = new Position(1, 1); // Position adjacente
-        Recolteuse recolteuse = new Recolteuse(posRecolteuse, "XL", new Inventory());
-        grid[posRecolteuse.getY()][posRecolteuse.getX()] = new Cell<>(posRecolteuse, recolteuse);
 
         genNObjects(10, "Wood");
         genNObjects(3, "Iron");
@@ -416,7 +408,6 @@ public class Carte {
     public ArrayList<Position> trouverChemin(Position depart, Position cible) {
         if (!posIsValid(cible) || 
             (grid[cible.getY()][cible.getX()] != null && !(grid[cible.getY()][cible.getX()].getContent() instanceof Spawn))) {
-            //System.out.println("Position cible invalide ou occupée.");
             return null;
         }
     
@@ -449,7 +440,6 @@ public class Carte {
     
         // Vérifier si un chemin a été trouvé
         if (prev[cible.getY()][cible.getX()] == null) {
-            //System.out.println("Pas de chemin disponible.");
             return null;
         }
     

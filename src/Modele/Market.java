@@ -96,7 +96,7 @@ public class Market implements Savable{
             
             return player.getPseudo() + " a acheté " + machine.getName() + " pour " + machine.getPrix() + " coins.";
         }
-        System.out.println(player.getMoney() >= machine.getPrix());
+
     
         return "Machine non disponible ou fonds insuffisants.";
     }

@@ -193,7 +193,6 @@ public class MarketPanel extends JPanel implements UpdateInterface{
         int price = machine.getPrix();
         JButton buyButton = new JButton(price + " coins");
         buyButton.addActionListener(e -> {
-            System.out.println(player);
             market.buyMachine(player, machine);
             updateMoneyLabel();
             updateInventoryPanel(inventoryPanel);

@@ -3,9 +3,12 @@ package Modele;
 import Modele.Resource.*;
 
 public class Attente implements Savable {
-    public Position pos;
-    public Resource r;
+    private Position pos;
+    private Resource r;
     public Attente(Position pos, Resource r){this.pos = pos; this.r = r;}
+
+
+    public Resource getResource(){return r;}
 
     @Override
     public String saveAsString() {

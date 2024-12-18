@@ -81,6 +81,23 @@ Le jeu permet de sauvegarder l'état de la partie dans un fichier `Monde_n.txt` 
 - `Save/` : Dossier contenant les sauvegardes  .  
 - `assets/` : Ressources additionnelles du jeu .  
 
+    ```bash
+    ├───assets
+    ├───bin
+    │   ├───Modele
+    │   │   ├───Enregistrer
+    │   │   ├───Machine
+    │   │   └───Resource
+    │   └───Vue
+    ├───Save
+    └───src
+        ├───Modele
+        │   ├───Enregistrer
+        │   ├───Machine
+        │   └───Resource
+        └───Vue
+    ```
+
 
 ## Développement et Collaboration
 

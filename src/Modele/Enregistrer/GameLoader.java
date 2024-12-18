@@ -13,18 +13,18 @@ import Modele.Machine.*;
 import Modele.Resource.*;
 
 public class GameLoader {
-    private static Player player = null;
-
     private static ArrayList<Savable<?>> objectOnMap = new ArrayList<>();
-    private static Market market = null;
+
 
 
     public static Game loadGame(String fileName, Game game) {
         fileName = "Save/" + fileName + ".txt";
 
         Carte map = null;
-
-
+        GameLoader.objectOnMap = new ArrayList<>();
+        Market market = null;
+        Player player = null;
+        
         // Variables temporaires
         String pseudo = "";
         int money = 0;

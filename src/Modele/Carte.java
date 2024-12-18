@@ -497,7 +497,8 @@ public class Carte {
     public boolean placerMachine(Player player){
         Position posMachine = new Position(player.getPos().getX(), player.getPos().getY());
         
-        if(!isValidPosition(posMachine) || player.getMachine() == null){
+        if(!isValidPosition(posMachine) || player.getMachine() == null || 
+        (posMachine.getX() == Spawn.getPos().getX() && posMachine.getY() == Spawn.getPos().getY())){
             return false;
         }
         

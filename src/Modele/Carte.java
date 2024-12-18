@@ -84,7 +84,8 @@ public class Carte {
 
                 if (isLaborieuse && p != null){
 
-                    p.setEcoute(true);
+    
+                    GameStates.setMoveOn(true);
                 }
 
                 grid[position.getY()][position.getX()] = cell;
@@ -171,7 +172,7 @@ public class Carte {
     public boolean deplacer(Player p, Direction d){
         
         Position nouvelle = d.move(p.getPos());
-        if (!posIsValid(nouvelle) || !p.isEcoute()){
+        if (!posIsValid(nouvelle) || !GameStates.isMoveOn()){
             
             return false;
         }
@@ -239,7 +240,8 @@ public class Carte {
         
         else if (isLaborieuse){
             if (p != null){
-                p.setEcoute(false);
+                
+                GameStates.setMoveOn(false);
             }
 
             attendreReplace(pos, cell, p, temps, isLaborieuse);
@@ -498,7 +500,7 @@ public class Carte {
         Position posMachine = new Position(player.getPos().getX(), player.getPos().getY());
         
         if(!isValidPosition(posMachine) || player.getMachine() == null || 
-        (posMachine.getX() == Spawn.getPos().getX() && posMachine.getY() == Spawn.getPos().getY())){
+        posMachine.equals(Spawn.getPos())){
             return false;
         }
         

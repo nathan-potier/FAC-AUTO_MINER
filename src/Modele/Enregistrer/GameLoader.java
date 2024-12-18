@@ -25,15 +25,8 @@ public class GameLoader {
 
     public static Game loadGame(String fileName, Game game) {
         GameLoader.fileName = "Save/" + fileName + ".txt";
+        initVariable();
 
-        GameLoader.map = null;
-        GameLoader.objectOnMap = new ArrayList<>();
-        GameLoader.market = null;
-        GameLoader.player = null;
-        GameLoader.pseudo = "";
-        GameLoader.money = 0;
-        GameLoader.playerPosition = null;
-        GameLoader.machineJoueur = null;
 
         // Lecture du joueur
         lireJoueur();
@@ -57,6 +50,16 @@ public class GameLoader {
 
     }
 
+    private static void initVariable(){
+        GameLoader.map = null;
+        GameLoader.objectOnMap = new ArrayList<>();
+        GameLoader.market = null;
+        GameLoader.player = null;
+        GameLoader.pseudo = "";
+        GameLoader.money = 0;
+        GameLoader.playerPosition = null;
+        GameLoader.machineJoueur = null;
+    }
 
     private static void lireObjectOnMap(){
         String objectsSection = readSection("Objets sur la carte:", GameLoader.fileName);

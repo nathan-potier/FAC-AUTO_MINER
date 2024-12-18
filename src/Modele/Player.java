@@ -28,7 +28,10 @@ public class Player {
     
     public boolean collectResource(Resource resource) {
         if(inventory.addResource(resource)){
-            marketInterface.notificationUpdate();
+            if(marketInterface != null){
+                marketInterface.notificationUpdate();
+            }
+
             return true;
             
         }
@@ -37,7 +40,9 @@ public class Player {
 
     public boolean collectQuantityResource(Resource resource) {
         if(inventory.addQuantityResource(resource)){
-            marketInterface.notificationUpdate();
+            if(marketInterface != null){
+                marketInterface.notificationUpdate();
+            }
             return true;
 
         }

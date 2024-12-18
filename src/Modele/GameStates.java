@@ -1,6 +1,4 @@
 package Modele;
-
-
 import java.util.Stack;
 
 public class GameStates {
@@ -17,7 +15,6 @@ public class GameStates {
             if(!moveOn.peek()){
                 moveOn.pop(); 
             }
-
         }else{
             moveOn.push(m);
         }

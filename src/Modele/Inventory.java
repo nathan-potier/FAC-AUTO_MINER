@@ -1,105 +1,102 @@
 package Modele;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-
 import Modele.Machine.Machine;
-import Modele.Resource.Recette;
-import Modele.Resource.Resource;
+import Modele.Resource.*;
+
 import Vue.UpdateInterface;
 
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import javax.swing.Timer;
-
-
 import java.awt.event.ActionEvent;
-
-
-
-
 
 public class Inventory {
     private ArrayList<Resource> resources;
     private Machine machine;
     private UpdateInterface craft;
 
-
     public Inventory() {
         resources = new ArrayList<>();
     }
+
     public Inventory(ArrayList<Resource> resources){
         this.resources = resources;
     }
-
-    public ArrayList<Resource> getResources() {
-        return resources;
-    }
-
-    public boolean addMachine(Machine m){
-        if (machine == null){
-            machine = m;
-            return true;
-        }
-        return false;
-        
-    }
-    public Machine getMachine(){return machine;}
-    public boolean hasMachine(Machine m){return machine.getName().equals(m.getName());}
-    public void removeMachine(){machine = null;}
-
+    
     public boolean addResource(Resource ressource) {
         for (Resource r : resources) {
             if (r.getName().equals(ressource.getName())) {
                 return r.addQuantity(ressource.getQuantity());
             }
         }
-
         
         resources.add(ressource.clone());
         return true;
-        
-
-
-        
+              
     }
 
     public boolean addQuantityResource(Resource ressource){
         for (Resource r : resources) {
             if (r.getName().equals(ressource.getName())) {
                 return r.addQuantity(1);
-
             }
         }
-
-        if (resources.size() < 10){
-            resources.add(ressource.cloneOne());
-            return true;
-        }
-
-        return false;
+        
+        resources.add(ressource.cloneOne());
+        return true;
     }
-
-
 
     public void removeResource(Resource ressource, int quantity) {
         for (Resource r : resources) {
-
             if (r.getName().equals(ressource.getName())) {
                 r.removeQuantity(quantity);
-                
                 if (r.getQuantity() <= 0 && r.getName().equals(ressource.getName())){
-                    
-                    resources.remove(r);
-                   
-
-                    
+                    resources.remove(r);               
                 }
-                
-
                 return;
             }
         }
     }
+   
+    public void produire(Recette recette) {
+        // Vérification de la disponibilité des ingrédients
+        if (!Recette.hasSufficientResourcesForRecipe(this, recette)){
+            craft.notificationUpdate();
+            return;
+        }
+        Inventory temp = this;
+        if (recette.isTempo()) {
+            GameStates.setMoveOn(false);
+            Timer timer = new Timer(5000, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    GameStates.setMoveOn(true);
+                    if (!Recette.hasSufficientResourcesForRecipe(temp, recette)){
+                        return;
+                    }
+                    effectuerProduction(recette);
+                    craft.notificationUpdate();
+                }
+            });
+            timer.setRepeats(false); // S'assure que le timer ne se répète pas
+            timer.start();
+        } else {
+            effectuerProduction(recette);
+            craft.notificationUpdate();
+        }
+    }
 
+    // Méthode interne pour gérer la production réelle
+    private void effectuerProduction(Recette recette) {
+        if (addResource(recette.getProduitFinal().clone())){
+            for (Resource ingredient : recette.getIngredients()) {
+                removeResource(ingredient, ingredient.getQuantity());
+            }
+        }
+    }
 
+    public Machine getMachine(){return machine;}
+    public boolean hasMachine(Machine m){return machine.getName().equals(m.getName());}
+    public ArrayList<Resource> getResources() {return resources;}
     public String[] getResInvName(){
         String [] res = new String[resources.size()];
         for (int i = 0; i < resources.size(); i++){
@@ -107,7 +104,6 @@ public class Inventory {
         }
         return res;
     }
-
     public int[] getResInvQuant(){
         int [] res = new int[resources.size()];
         for (int i = 0; i < resources.size(); i++){
@@ -115,7 +111,16 @@ public class Inventory {
         }
         return res;
     }
+    
     public void setUpdateCraft(UpdateInterface craft){this.craft = craft;}
+    public void removeMachine(){machine = null;}
+    public boolean addMachine(Machine m){
+        if (machine == null){
+            machine = m;
+            return true;
+        }
+        return false;
+    }
 
     @Override
     public String toString() {
@@ -139,49 +144,5 @@ public class Inventory {
     
         return sb.toString();
     }
-    
-    public void produire(Recette recette) {
-        // Vérification de la disponibilité des ingrédients
-        if (!Recette.hasSufficientResourcesForRecipe(this, recette)){
-            craft.notificationUpdate();
-            return;
-        }
-
-        Inventory temp = this;
-        if (recette.isTempo()) {
-            GameStates.setMoveOn(false);
-            Timer timer = new Timer(5000, new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    GameStates.setMoveOn(true);
-                    if (!Recette.hasSufficientResourcesForRecipe(temp, recette)){
-                        return;
-                    }
-                    effectuerProduction(recette);
-                    craft.notificationUpdate();
-
-
-                }
-            });
-            timer.setRepeats(false); // S'assure que le timer ne se répète pas
-            timer.start();
-        } else {
-            effectuerProduction(recette);
-            craft.notificationUpdate();
-        }
-
-    }
-
-    // Méthode interne pour gérer la production réelle
-    private void effectuerProduction(Recette recette) {
-        if (addResource(recette.getProduitFinal().clone())){
-            for (Resource ingredient : recette.getIngredients()) {
-                removeResource(ingredient, ingredient.getQuantity());
-            }
-        }
-    }
-
-    
-    
 
 }

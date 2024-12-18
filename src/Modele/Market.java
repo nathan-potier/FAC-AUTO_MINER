@@ -11,8 +11,6 @@ public class Market implements Savable{
     private List<Machine> machinesForSale;
     private Position pos;
 
-
-
     // Initialisation des ressources et des machines disponibles
     public Market(Position pos) {
 

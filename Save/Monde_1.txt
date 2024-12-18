@@ -1,6 +1,6 @@
 Joueur: 
 Position: 2,11
-Argent: 148491
+Argent: 148441
 Ressources du joueur:
 Wood:20
 Machines du joueur:
@@ -23,6 +23,7 @@ Usine option-> Rapide a la position 12,3 Stock-> {} Inventaire-> {} Recette->Clo
 Usine option-> Rapide a la position 13,3 Stock-> {(Planche;1),} Inventaire-> {} Recette->Planche
 Wood a la position 2,4
 Recolteuse option-> Polyvalente a la position 3,4 Stock-> {(Wood;17),} Inventaire-> {(Wood;17),} Recette->Wood
+Usine option-> Fragile a la position 10,4 Stock-> {} Inventaire-> {} Recette->
 Wood a la position 0,5
 Iron a la position 2,6
 Wood a la position 11,6

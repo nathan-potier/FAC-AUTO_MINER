@@ -69,7 +69,6 @@ public class Game implements Controle{
                 
                 
             default:
-                System.out.println("Autre touche pressée.");
                 break;  
         }
     }

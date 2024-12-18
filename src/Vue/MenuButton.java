@@ -35,7 +35,7 @@ public class MenuButton {
             imgs[1] = resizeImage(original2, width, height);
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("Erreur lors du chargement des images.");
+            System.err.println("Erreur lors du chargement des images.");
 
             // Ajouter des images par défaut si le chargement échoue
             imgs[0] = createPlaceholderImage(Color.RED);

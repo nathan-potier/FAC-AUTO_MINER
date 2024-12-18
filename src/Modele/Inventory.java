@@ -99,11 +99,6 @@ public class Inventory {
         }
     }
 
-    public void displayInventory() {
-        for (Resource resource : resources) {
-            System.out.println(resource.getName() + ": " + resource.getQuantity());
-        }
-    }
 
     public String[] getResInvName(){
         String [] res = new String[resources.size()];
@@ -184,10 +179,6 @@ public class Inventory {
                 removeResource(ingredient, ingredient.getQuantity());
             }
         }
-
-
-
-        System.out.println("Production réussie : " + recette.getNom());
     }
 
     

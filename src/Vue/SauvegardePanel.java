@@ -106,9 +106,6 @@ public class SauvegardePanel extends JPanel {
         if (sauvegardesFile.exists()) {
             try {
                 List<String> sauvegardes = Files.readAllLines(Paths.get(sauvegardesFile.getPath()));
-                if (sauvegardes.isEmpty()) {
-                    System.out.println("Le fichier de sauvegarde est vide.");
-                }
 
                 for (String sauvegarde : sauvegardes) {
                     JPanel sauvegardePanel = new JPanel();

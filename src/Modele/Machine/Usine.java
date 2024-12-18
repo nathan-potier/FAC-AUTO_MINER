@@ -96,7 +96,7 @@ public class Usine extends Machine {
     
         // Ajouter le produit final au stock de l'usine
         ajouterAustock(recette.getProduitFinal().clone());
-        System.out.println("Production réussie : " + recette.getNom());
+
     } 
 
     public void recuperer() {
@@ -169,7 +169,7 @@ public class Usine extends Machine {
 
     @Override
     public Usine getClone(){
-        System.out.println(Game.getPlayer());
+
         return new Usine(getOption());
     }
     @Override

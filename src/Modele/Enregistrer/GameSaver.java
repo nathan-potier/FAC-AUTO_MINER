@@ -53,7 +53,7 @@ public class GameSaver {
                 writer.newLine();
             }
 
-            System.out.println("Partie sauvegardee dans " + fileName);
+            
             updateSaveList(fileName);
             return true;
 

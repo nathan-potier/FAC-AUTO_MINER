@@ -232,7 +232,7 @@ public class UsinePanel extends JPanel implements UpdateInterface {
             emptyLabel.setFont(new Font("Arial", Font.ITALIC, 14));
             stockPanel.add(emptyLabel);
         } else {
-            System.out.println(usine.getStockSTR());
+            
             for (Resource r : usine.getStock().getResources()) {
                 if (r.getQuantity() > 0) {
                     JPanel itemPanel = new JPanel();

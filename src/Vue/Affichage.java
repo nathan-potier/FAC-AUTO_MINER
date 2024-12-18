@@ -28,8 +28,8 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
     private JPanel boutonPanel;
     private JPanel button2Panel = new JPanel();
 
-    private final int height;
-    private final int width;
+    private int height;
+    private int width;
 
     private boolean inventaireAfficher = false;
     private boolean menuBoutonClique = true;
@@ -51,8 +51,22 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
     public Affichage(Game game) {
         this.game = game;
         this.pseudo = Game.getPlayer().getPseudo();
-        width = (game.getWidth()+4)*50;
-        height = (game.getHeight()+1)*50;
+        // Récupérer la taille de l'écran
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int screenWidth = (int) screenSize.getWidth();
+        int screenHeight = (int) screenSize.getHeight();
+
+        // Définir la taille de la fenêtre
+        width = DimensionsEtPositions.WINDOW_WIDTH;
+        height = DimensionsEtPositions.WINDOW_HEIGHT;
+
+        // Ajuster la taille de la fenêtre pour qu'elle ne dépasse pas l'écran
+        if (width > screenWidth) {
+            width = screenWidth - 50;  // Ajouter une marge de sécurité
+        }
+        if (height > screenHeight) {
+            height = screenHeight - 50;  // Ajouter une marge de sécurité
+        }
 
         this.setTitle("AutoMiner");
         setPreferredSize(new Dimension(width, height-10));
@@ -237,8 +251,8 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         int y = location.y;
 
         // Convertir ces coordonnées en indices de cellule sur la carte
-        int gridX = x   / cartePanel.getCellSize(); // Diviser par la taille d'une cellule pour obtenir l'indice de la cellule
-        int gridY = y  / cartePanel.getCellSize();
+        int gridX = x   / DimensionsEtPositions.CELL_SIZE; // Diviser par la taille d'une cellule pour obtenir l'indice de la cellule
+        int gridY = y  / DimensionsEtPositions.CELL_SIZE;
 
         return new Position(gridX, gridY);
     }

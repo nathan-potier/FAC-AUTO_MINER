@@ -3,17 +3,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Modele.Machine.*;
-import Modele.Resource.Armoire;
-import Modele.Resource.Chaise;
-import Modele.Resource.Clou;
-import Modele.Resource.Iron;
-import Modele.Resource.Marteau;
-import Modele.Resource.Pierre;
-import Modele.Resource.Planche;
-import Modele.Resource.Resource;
-import Modele.Resource.Table;
-import Modele.Resource.Wood;
+import Modele.Resource.*;
 
+@SuppressWarnings("rawtypes")
 public class Market implements Savable{
     private List<Resource> resourcesForSale;
     private List<Machine> machinesForSale;
@@ -38,9 +30,6 @@ public class Market implements Savable{
         resourcesForSale.add(new Table(1));  // Table
         resourcesForSale.add(new Armoire(1)); // Armoire
 
-    
-
-
         // Ajouter des machines à la vente
         machinesForSale.add(new Usine("XL") );
         machinesForSale.add(new Usine("Rapide") );
@@ -55,12 +44,6 @@ public class Market implements Savable{
         this.pos = pos;
 
     }
- 
-
-    public List<Resource> getResourcesForSale(){
-        return resourcesForSale;
-    }
-    public List<Machine> getMachinesForSale(){return machinesForSale;}
 
     public String buyResource(Player player, Resource resource) {
         int prix = resource.getQuantity() * resource.getPrix();
@@ -69,9 +52,6 @@ public class Market implements Savable{
                 player.setMoney(player.getMoney() - prix);
                 return player.getPseudo() + " a acheté " + resource.getName() + " pour " + prix + " coins.";
             }
-            
-            
-            
         }
         return "Ressource non disponible ou fonds insuffisants.";
     }
@@ -82,22 +62,17 @@ public class Market implements Savable{
             player.setMoney(player.getMoney() + resource.getPrix() / 2);  // Vendre à moitié prix
             player.removeResource(resource);
             return player.getPseudo() + " a vendu " + resource.getName() + " pour " + resource.getPrix() / 2 + " coins.";
-        } else {
-            return "Le joueur ne possède pas cette ressource.";
-        }
+        } 
+        return "Le joueur ne possède pas cette ressource.";
+        
     }
 
     // Méthode d'achat de machine
     public String buyMachine(Player player, Machine machine) {
-
         if ( player.getMoney() >= machine.getPrix() && player.addMachine(machine) ) {
-            
             player.setMoney(player.getMoney() - machine.getPrix());
-            
             return player.getPseudo() + " a acheté " + machine.getName() + " pour " + machine.getPrix() + " coins.";
         }
-
-    
         return "Machine non disponible ou fonds insuffisants.";
     }
 
@@ -107,44 +82,24 @@ public class Market implements Savable{
             player.setMoney(player.getMoney() + machine.getPrix() / 2);  // Vendre à moitié prix
             player.removeMachine();
             return player.getPseudo() + " a vendu " + machine.getName() + " pour " + machine.getPrix() / 2 + " coins.";
-        } else {
-            return "Le joueur ne possède pas cette machine.";
         }
+        return "Le joueur ne possède pas cette machine.";
+        
     }
 
-    // Méthode pour afficher les ressources disponibles à l'achat
-    public String displayResourcesForSale() {
-        StringBuilder display = new StringBuilder("Ressources disponibles à l'achat :\n");
-        for (Resource r : resourcesForSale) {
-            display.append(r.getName()).append(" - ").append(r.getPrix()).append(" coins\n");
-        }
-        return display.toString();
-    }
+    public Position getPos(){return pos;}
+    public List<Resource> getResourcesForSale(){return resourcesForSale;}
+    public List<Machine> getMachinesForSale(){return machinesForSale;}
 
-    // Méthode pour afficher les machines disponibles à l'achat
-    public String displayMachinesForSale() {
-        StringBuilder display = new StringBuilder("Machines disponibles à l'achat :\n");
-        for (Machine m : machinesForSale) {
-            display.append(m.getName()).append(" - ").append(m.getPrix()).append(" coins\n");
-        }
-        return display.toString();
-    }
+    public void setPos(Position pos){this.pos = pos;}
 
-    public Position getPos(){
-        return pos;
-    }
-    public void setPos(Position pos){
-        this.pos = pos;
-    }
     @Override
     public String saveAsString() {
         return "Market " + "(" + pos.getX() + ";" + pos.getY() + ")";
     }
     @Override
     public void addToGrid(Cell[][] grid) {
-
         grid[pos.getY()][pos.getX()] = new Cell<>(pos, this);
-
     }
 
 }

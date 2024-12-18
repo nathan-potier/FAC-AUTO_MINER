@@ -8,12 +8,15 @@ public class Planche extends Resource{
     public Planche(int quantity) {
         super("Planche", quantity, false, prix);
     }
+    
     public Planche(int quantity, Position pos){
         super("Planche", quantity, false, prix, pos);
     }
+
     public Planche clone() {
         return new Planche(this.getQuantity());
-    }   
+    }  
+
     public Planche cloneOne(){return new Planche(1);}
 
 

@@ -6,6 +6,7 @@ public class Iron extends Resource {
     public Iron(int quantity) {
         super("Iron", quantity, true, prix);
     }
+
     public Iron(int quantity, Position pos){
         super("Iron", quantity, true, prix, pos);
     }
@@ -13,6 +14,7 @@ public class Iron extends Resource {
     public Iron clone() {
         return new Iron(this.getQuantity());
     }
+    
     public Iron cloneOne(){return new Iron(1);}
 
 }

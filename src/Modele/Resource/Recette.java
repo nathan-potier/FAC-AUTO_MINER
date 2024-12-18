@@ -19,14 +19,6 @@ public class Recette {
         isTempo = prodFinal.isLaborieuse();
     }
 
-    public String getNom() {return nom;}
-
-    public List<Resource> getIngredients() {return ingredients;}
-
-    public Resource getProduitFinal() {return produitFinal;}
-    
-    public boolean isTempo() {return isTempo;}
-
     public static List<Recette> initialiserRecettes() {
         List<Recette> recettes = new ArrayList<>();
     
@@ -73,11 +65,10 @@ public class Recette {
         ingredientsArmoire.add(new Scie(1));    // 1 scie
         ingredientsArmoire.add(new Marteau(1)); // 1 marteau
         recettes.add(new Recette("Armoire", ingredientsArmoire, new Armoire(1)));
-
-
-    
+   
         return recettes;
     }
+
     public static boolean hasSufficientResourcesForRecipe(Inventory stockResources ,Recette recette) {
         // Vérifier si le joueur a suffisamment de ressources pour chaque ingrédient
         for (Resource ingredient : recette.getIngredients()) {
@@ -94,5 +85,10 @@ public class Recette {
         }
         return true;  // Le joueur a suffisamment d'ingrédients
     }
+
+    public String getNom() {return nom;}
+    public List<Resource> getIngredients() {return ingredients;}
+    public Resource getProduitFinal() {return produitFinal;}
+    public boolean isTempo() {return isTempo;}
 
 }

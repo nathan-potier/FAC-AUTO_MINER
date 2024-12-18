@@ -10,7 +10,6 @@ public abstract class Resource implements Savable{
     private boolean temporisee = false;
     private Position pos;
     private int limiteStock = 20;
-    
 
     public Resource(String name, int quantity, Boolean laborieuse, int prix) {
         this.name = name;
@@ -30,53 +29,34 @@ public abstract class Resource implements Savable{
         this.quantity = quantity;
     }
 
-    public String getName() {
-        return name;
-    }
-    
-    public Position getPosition(){return pos;}
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public boolean isFull(){
-        return quantity >= limiteStock;
-    }
-
     public boolean addQuantity(int amount) {
-
         if(quantity + amount <= limiteStock){
 
             quantity += amount;
             return true;
         }
-        
         return false;
-
-    }
-    public void setQuantity(int q){
-        this.quantity = q;
     }
 
-    public void removeQuantity(int amount) {
-        quantity = Math.max(0, quantity - amount);
+    public boolean isFull(){
+        return quantity >= limiteStock;
     }
+    
+    public void removeQuantity(int amount) {quantity = Math.max(0, quantity - amount);}
 
-    public boolean isLaborieuse() {
-        return laborieuse;
-    }
-
-    public boolean isTemporisee() {
-        return temporisee;
-    }
+    public String getName() {return name;}
+    public Position getPosition(){return pos;}
+    public int getQuantity() {return quantity;}
+    public boolean isLaborieuse() {return laborieuse;}
+    public boolean isTemporisee() {return temporisee;}
     public int getPrix(){return prix;}
 
-    public void setLimiteStock(int limite){
-        this.limiteStock = limite;
-    }
+    public void setLimiteStock(int limite){this.limiteStock = limite;}
+    public void setQuantity(int q){this.quantity = q;}
+
     public abstract Resource clone();
     public abstract Resource cloneOne();
+
     @Override
     public String saveAsString(){
         return name + " a la position " + pos.getX()+","+pos.getY();

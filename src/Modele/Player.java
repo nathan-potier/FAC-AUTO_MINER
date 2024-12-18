@@ -77,7 +77,7 @@ public class Player {
         this.pseudo = pseudo;
         inventory = new Inventory();
         this.position = position;
-        money = 150;
+        money = 0;
     }
 
     public Player(String pseudo, int money, Position playerPosition, Inventory inventory) {

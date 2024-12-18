@@ -14,41 +14,107 @@ import Modele.Resource.*;
 
 public class GameLoader {
     private static ArrayList<Savable<?>> objectOnMap = new ArrayList<>();
-
-
+    private static String fileName;
+    private static Carte map;
+    private static Market market;
+    private static Player player;
+    private static String pseudo;
+    private static int money;
+    private static Position playerPosition;
+    private static Machine machineJoueur;
 
     public static Game loadGame(String fileName, Game game) {
-        fileName = "Save/" + fileName + ".txt";
+        GameLoader.fileName = "Save/" + fileName + ".txt";
 
-        Carte map = null;
+        GameLoader.map = null;
         GameLoader.objectOnMap = new ArrayList<>();
-        Market market = null;
-        Player player = null;
-        
-        // Variables temporaires
-        String pseudo = "";
-        int money = 0;
-        Position playerPosition = null;
+        GameLoader.market = null;
+        GameLoader.player = null;
+        GameLoader.pseudo = "";
+        GameLoader.money = 0;
+        GameLoader.playerPosition = null;
+        GameLoader.machineJoueur = null;
 
         // Lecture du joueur
-        String playerSection = readSection( "Joueur:", fileName);
+        lireJoueur();
+
+        
+        // Lecture des objets sur la carte
+ 
+        lireObjectOnMap();
+
+        
+        game = new Game(market, game.getSpawn(), player);
+        
+
+        map = new Carte(game, objectOnMap);
+        
+        setMapForMachine();
+
+        game.setMap(map);
+
+        return game;
+
+    }
+
+
+    private static void lireObjectOnMap(){
+        String objectsSection = readSection("Objets sur la carte:", GameLoader.fileName);
+        if (!objectsSection.isEmpty()) {
+            for (String objectLine : objectsSection.split("\n")) {
+                try{
+                    
+                    
+                    if (isMachine(objectLine)) {
+                        
+                       
+                        Machine machine = lireMachine(objectLine );
+                        GameLoader.objectOnMap.add(machine); // Ajout à la liste des machines sur la carte
+    
+                     
+                    }else if(isMarket(objectLine)){
+                        GameLoader.market = lireMarket(objectLine);
+                        
+                    }else{
+                        lireResource(objectLine);
+                        
+                        
+                    }
+                }catch (Exception e) {
+                    
+                    System.err.println("Erreur lors de la lecture de : " + objectLine);
+                }
+
+            }
+        }
+        if (GameLoader.machineJoueur != null){
+            GameLoader.player.addMachine(GameLoader.machineJoueur);
+        }
+
+    }
+
+    private static void lireJoueur(){
+        String playerSection = readSection( "Joueur:", GameLoader.fileName);
         if (!playerSection.isEmpty()) {
 
             String[] lines = playerSection.split("\n");
             for (String playerLine : lines) {
                 if (playerLine.startsWith("Joueur:")) {
-                    pseudo = playerLine.split(":")[1].trim();
+                    GameLoader.pseudo = playerLine.split(":")[1].trim();
                 } else if (playerLine.startsWith("Position:")) {
                     String[] coords = playerLine.split(":")[1].trim().split(",");
-                    playerPosition = new Position(Integer.parseInt(coords[0].trim()), Integer.parseInt(coords[1].trim()));
+                    GameLoader.playerPosition = new Position(Integer.parseInt(coords[0].trim()), Integer.parseInt(coords[1].trim()));
                 } else if (playerLine.startsWith("Argent:")) {
-                    money = Integer.parseInt(playerLine.split(":")[1].trim());
+                    GameLoader.money = Integer.parseInt(playerLine.split(":")[1].trim());
                 }
             }
         }
+        lireInventaireJoueur();
+    }
 
+    private static void lireInventaireJoueur(){
         // Lecture des ressources du joueur
-        String resourcesSection = readSection("Ressources du joueur:", fileName);
+        String resourcesSection = readSection("Ressources du joueur:", GameLoader.fileName);
 
         if (!resourcesSection.isEmpty()) {
             ArrayList<Resource> resources = new ArrayList<>();
@@ -68,78 +134,28 @@ public class GameLoader {
             player = new Player(pseudo, money, playerPosition, new Inventory(resources));
 
         }
-        
-        String machineSection = readSection("Machines du joueur:", fileName).split("\n")[0].trim();
-        Machine machineJoueur = null;
+        String machineSection = readSection("Machines du joueur:", GameLoader.fileName).split("\n")[0].trim();
+
         if (isMachine(machineSection)){
-            machineJoueur = lireMachine(machineSection);
+            GameLoader.machineJoueur = lireMachine(machineSection);
         }
 
+                
+    }
 
-
-
-        
-        // Lecture des objets sur la carte
-        String objectsSection = readSection("Objets sur la carte:", fileName);
-        if (!objectsSection.isEmpty()) {
-            for (String objectLine : objectsSection.split("\n")) {
-                try{
-                    
-                    
-                    if (isMachine(objectLine)) {
-                        
-                       
-                        Machine machine = lireMachine(objectLine );
-                        objectOnMap.add(machine); // Ajout à la liste des machines sur la carte
-    
-                     
-                    }else if(isMarket(objectLine)){
-                        market = lireMarket(objectLine);
-                        
-                    }else{
-                        lireResource(objectLine);
-                        
-                        
-                    }
-                }catch (Exception e) {
-                    
-                    System.err.println("Erreur lors de la lecture de : " + objectLine);
-                }
-
-            }
-        }
-
-
-
-
-
-        // Initialiser le jeu
-        if (machineJoueur != null){
-            player.addMachine(machineJoueur);
-        }
-        
-        game = new Game(market, game.getSpawn(), player);
-        
-
-        map = new Carte(game, objectOnMap);
-        
-
-        for (Savable<?> m : objectOnMap){
+    private static void setMapForMachine(){
+        for (Savable<?> m : GameLoader.objectOnMap){
             if (m instanceof Machine){
-                ((Machine)m).setMap(map);
+                ((Machine)m).setMap(GameLoader.map);
             }
 
         }
-
-        game.setMap(map);
-
-        return game;
-
     }
 
     private static boolean isMachine(String objectLine){
         return objectLine.contains("option->");
     }
+
     private static boolean isMarket(String objectLine){
         return objectLine.contains("Market");
     }
@@ -273,6 +289,7 @@ public class GameLoader {
         
         return new Market(marketPosition);
     }
+    
     private static final Map<String, Function<Object[], Object>> ENTITY_CREATORS = new HashMap<>();
 
     static {

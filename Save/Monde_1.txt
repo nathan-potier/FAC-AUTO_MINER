@@ -1,41 +1,25 @@
 Joueur: 
 Position: 2,11
-Argent: 148441
+Argent: 850
 Ressources du joueur:
-Wood:20
+Wood:3
 Machines du joueur:
+Usine option-> XL a la position 0,0 Stock-> {} Inventaire-> {} Recette->
 Objets sur la carte:
-Iron a la position 2,0
-Recolteuse option-> Rapide a la position 8,0 Stock-> {(Wood;20),} Inventaire-> {(Wood;20),} Recette->Wood
-Usine option-> Rapide a la position 11,0 Stock-> {} Inventaire-> {} Recette->Clous
-Market (14;0)
-Recolteuse option-> XL a la position 1,1 Stock-> {} Inventaire-> {} Recette->
-Usine option-> XL a la position 3,1 Stock-> {} Inventaire-> {} Recette->Chaise
-Wood a la position 8,1
-Recolteuse option-> Fragile a la position 1,2 Stock-> {(Wood;16),} Inventaire-> {(Wood;16),} Recette->Wood
-Iron a la position 5,2
-Recolteuse option-> Fragile a la position 8,2 Stock-> {(Wood;20),} Inventaire-> {(Wood;20),} Recette->Wood
+Iron a la position 6,0
+Wood a la position 1,1
+Market (0;3)
 Wood a la position 1,3
-Wood a la position 8,3
-Usine option-> Polyvalente a la position 10,3 Stock-> {} Inventaire-> {(Scie;1),(Clou;2),(Wood;20),} Recette->Armoire
-Usine option-> Rapide a la position 11,3 Stock-> {} Inventaire-> {} Recette->Marteau
-Usine option-> Rapide a la position 12,3 Stock-> {} Inventaire-> {} Recette->Clous
-Usine option-> Rapide a la position 13,3 Stock-> {(Planche;1),} Inventaire-> {} Recette->Planche
-Wood a la position 2,4
-Recolteuse option-> Polyvalente a la position 3,4 Stock-> {(Wood;17),} Inventaire-> {(Wood;17),} Recette->Wood
-Usine option-> Fragile a la position 10,4 Stock-> {} Inventaire-> {} Recette->
-Wood a la position 0,5
-Iron a la position 2,6
-Wood a la position 11,6
-Recolteuse option-> XL a la position 12,6 Stock-> {(Wood;30),} Inventaire-> {(Wood;30),} Recette->Wood
-Recolteuse option-> Rapide a la position 11,7 Stock-> {(Wood;20),} Inventaire-> {(Wood;20),} Recette->Wood
-Wood a la position 12,7
-Pierre a la position 1,8
-Wood a la position 13,9
-Recolteuse option-> XL a la position 4,10 Stock-> {(Wood;30),} Inventaire-> {(Wood;30),} Recette->Wood
-Wood a la position 5,10
-Pierre a la position 12,10
-Wood a la position 4,11
-Recolteuse option-> Rapide a la position 5,11 Stock-> {(Wood;20),} Inventaire-> {(Wood;20),} Recette->Wood
-Recolteuse option-> Rapide a la position 12,11 Stock-> {(Pierre;20),} Inventaire-> {(Pierre;20),} Recette->Pierre
-Pierre a la position 13,11
+Pierre a la position 3,3
+Pierre a la position 12,3
+Wood a la position 14,3
+Wood a la position 5,4
+Wood a la position 6,5
+Wood a la position 3,6
+Wood a la position 6,6
+Iron a la position 14,6
+Wood a la position 4,8
+Iron a la position 1,9
+Pierre a la position 2,10
+Wood a la position 13,10
+Wood a la position 7,11

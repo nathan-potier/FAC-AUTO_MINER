@@ -223,10 +223,20 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         Game.getPlayer().setMarketInterface(marketPanel);
         Game.getPlayer().setAffichageInterface(this);
         Game.getPlayer().getInv().setUpdateCraft(inventairePanel);
+        updateBtnMachine();
         marketPanel.setPlayer(Game.getPlayer());
         marketPanel.setMarket(game.getMarket());
         boutonPanel.setVisible(true);
         settingsPanel.setVisible(false);
+    }
+
+
+    private void updateBtnMachine(){
+        if (Game.getPlayer().getInv().getMachine() == null){
+            button2Panel.setVisible(false);
+        }else{
+            button2Panel.setVisible(true);
+        }
     }
 
     public Position getCaseFromClick(MouseEvent e) {

@@ -188,7 +188,7 @@ public class CartePanel extends JPanel implements GameListener {
      * Gestion des icônes
      */
     private ImageIcon getIconForDirection() {
-        return getIconForType("Player_" + playerDirection, "png");
+        return getIconForType("Player_" + playerDirection.toLowerCase(), "png");
     }
 
     private ImageIcon getIconForType(String type, String format) {

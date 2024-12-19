@@ -25,7 +25,6 @@ public class UsinePanel extends JPanel implements UpdateInterface {
         this.setLayout(new BorderLayout());
         this.setBackground(Color.DARK_GRAY);
         this.setBorder(BorderFactory.createEmptyBorder(0, 0, 60, 0));
-        this.setBounds(50, 50, 700, 500);
 
         initializeTitrePanel();
         initializeMiddlePanel();
@@ -64,32 +63,36 @@ public class UsinePanel extends JPanel implements UpdateInterface {
     }
 
     private void addRecetteSelectionPanel(JPanel parent) {
-        JPanel recetteSelectionPanel = new JPanel(new FlowLayout());
+        JPanel recetteSelectionPanel = new JPanel(new FlowLayout(FlowLayout.LEFT)); // Change to LEFT flow for more flexibility
         recetteSelectionPanel.setBackground(Color.DARK_GRAY);
         recetteSelectionPanel.setBorder(BorderFactory.createTitledBorder(
             BorderFactory.createLineBorder(new Color(221, 242, 172)), 
             "Choisir une recette", 0, 0, new Font("Arial", Font.BOLD, 14), Color.white
         ));
         recetteSelectionPanel.setMinimumSize(new Dimension(300, 100));
-        recetteSelectionPanel.setMinimumSize(new Dimension(300, 100));
-        recetteSelectionPanel.setMinimumSize(new Dimension(300, 100));
-
+        
+        // Create a JScrollPane with both horizontal and vertical scrollbars as needed
+        JScrollPane scrollPane = new JScrollPane(recetteSelectionPanel);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setBackground(Color.DARK_GRAY);  // Fond sombre du viewport
+        
         recetteComboBox = new JComboBox<>();
         recetteComboBox.setBackground(Color.LIGHT_GRAY);
         recetteComboBox.setForeground(Color.BLACK);
         recetteComboBox.setFont(new Font("Arial", Font.PLAIN, 14));
         recetteComboBox.addActionListener(e -> updateIngredientsPanel());
         recetteSelectionPanel.add(recetteComboBox);
-
-        JLabel arrowLabel = new JLabel(new ImageIcon(new ImageIcon("assets/ArrowRight.png").getImage().getScaledInstance(30, 50, Image.SCALE_SMOOTH)));
+        
+        JLabel arrowLabel = new JLabel(new ImageIcon(new ImageIcon("assets/ArrowRight.png").getImage().getScaledInstance(10, 30, Image.SCALE_SMOOTH)));
         arrowLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
         recetteSelectionPanel.add(arrowLabel);
-
+        
         ingredientsPanel = new JPanel();
         ingredientsPanel.setLayout(new BoxLayout(ingredientsPanel, BoxLayout.Y_AXIS));
         ingredientsPanel.setBackground(Color.DARK_GRAY);
         recetteSelectionPanel.add(ingredientsPanel);
-
+        
         produceButton = new JButton("Produire");
         produceButton.setBackground(new Color(221, 242, 172));
         produceButton.setFocusPainted(false);
@@ -100,14 +103,16 @@ public class UsinePanel extends JPanel implements UpdateInterface {
                 usine.setRecette(selectedRecette);
             }
             if (usine != null && usine.getRecetteEnCours() != null && !usine.getIsModifiable())  {
-                
                 produceButton.setEnabled(false);
                 recetteComboBox.setEnabled(false);
             }
         });
         recetteSelectionPanel.add(produceButton);
-        parent.add(recetteSelectionPanel);
+        
+        parent.add(scrollPane); // Add the scrollPane to the parent panel
     }
+    
+    
 
     private void addStockPanel(JPanel parent) {
         stockPanel = new JPanel();
@@ -386,17 +391,28 @@ public class UsinePanel extends JPanel implements UpdateInterface {
     private void addIngredientToPanel(String resourceName, int quantity) {
         JPanel itemPanel = new JPanel();
         itemPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-        itemPanel.setBackground(Color.DARK_GRAY);   
-
-        ImageIcon icon = new ImageIcon(new ImageIcon("assets/" + resourceName + ".png").getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH));
-        JLabel ingredientLabel = new JLabel(icon );
+        itemPanel.setBackground(Color.DARK_GRAY);
+        int width;
+        int height;
+        if(Dimensions.BASE_CELL_SIZE == 50){
+            width = 30;
+            height = 30;
+        }else{
+            width = 50;
+            height = 50;
+        }
+        ImageIcon icon = new ImageIcon(new ImageIcon("assets/" + resourceName + ".png").getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
+    
+        JLabel ingredientLabel = new JLabel(icon);
         ingredientLabel.setText(resourceName + " x" + quantity);
         ingredientLabel.setForeground(Color.white);
         ingredientLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+        
         itemPanel.add(ingredientLabel);
-
+    
         ingredientsPanel.add(itemPanel);
     }
+    
 
     @Override
     public void notificationUpdate() {

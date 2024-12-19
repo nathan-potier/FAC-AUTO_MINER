@@ -246,15 +246,6 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         }
     }
 
-
-    private void updateBtnMachine(){
-        if (Game.getPlayer().getInv().getMachine() == null){
-            button2Panel.setVisible(false);
-        }else{
-            button2Panel.setVisible(true);
-        }
-    }
-
     public Position getCaseFromClick(MouseEvent e) {
         Point location = SwingUtilities.convertPoint(this, e.getPoint(), cartePanel);
 

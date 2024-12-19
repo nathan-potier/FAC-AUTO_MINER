@@ -34,7 +34,8 @@ public abstract class Machine implements Savable{
     }
     public static int getPrix(String type) {
         return switch (type) {
-            case "XL", "Rapide" -> 150;
+            case "XL" -> 150;
+            case"Rapide" -> 150;
             case "Fragile" -> 50;
             default -> 100; // Polyvalente
             

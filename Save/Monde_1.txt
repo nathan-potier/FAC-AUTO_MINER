@@ -1,10 +1,11 @@
 Joueur: 
 Position: 2,11
-Argent: 148453
+Argent: 148353
 Ressources du joueur:
 Wood:19
 Iron:1
 Machines du joueur:
+Recolteuse option-> Polyvalente a la position 0,0 Stock-> {} Inventaire-> {} Recette->
 Objets sur la carte:
 Iron a la position 2,0
 Recolteuse option-> Rapide a la position 8,0 Stock-> {(Wood;20),} Inventaire-> {(Wood;20),} Recette->Wood

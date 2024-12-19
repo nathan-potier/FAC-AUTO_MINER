@@ -4,6 +4,7 @@ import Modele.Resource.Resource;
 import Vue.UpdateInterface;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -28,7 +29,7 @@ public class Recolteuse extends Machine {
 
     public void setMap(Carte map){
         this.map = map;
-        ArrayList<Position> positions = map.posAutour4(getPosition());
+        ArrayList<Position> positions = getPosition().posAutour4();
         for(Position pos : positions){
             Cell<?> content = map.getGrid()[pos.getY()][pos.getX()];
             if (content != null && content.getContent() instanceof Resource ){
@@ -62,13 +63,7 @@ public class Recolteuse extends Machine {
             if (resource.getName().equals(typeRessource) &&
                 getLimiteStock(getOption()) <= resource.getQuantity()){return;}
         }
-
-
-
-
             startCollecting();
-
-
     }
 
     public void startCollecting() {
@@ -90,6 +85,12 @@ public class Recolteuse extends Machine {
             public void run() {
                 if (isCollecting) {
                     collectResourcesAround();
+                    Random random = new Random();
+                    int randomNumber = random.nextInt(5); 
+                    if (!getFonctionneBien() && randomNumber == 0){
+                        stopWorking();
+
+                    }
                 } else {
                     stopWorking(); // Arrête le Timer si la collecte est terminée
                 }

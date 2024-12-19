@@ -180,7 +180,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
     }
 
     public void saveAndBackMenu(){
-        GameStates.setMoveOn(false);
+        GameStates.reset();
         isRunning = false;
         String nomSv = "";
         if(isNewGame){
@@ -238,6 +238,15 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         boutonPanel.setVisible(true);
         settingsPanel.setVisible(false);
     }
+    private void updateBtnMachine(){
+        if (Game.getPlayer().getInv().getMachine() == null){
+            button2Panel.setVisible(false);
+        }else{
+            button2Panel.setVisible(true);
+        }
+    }
+
+
     private void updateBtnMachine(){
         if (Game.getPlayer().getInv().getMachine() == null){
             button2Panel.setVisible(false);

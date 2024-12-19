@@ -12,8 +12,9 @@ public class Spawn {
 
     public static Position getPos(){return pos;}
 
-
-
+    public static boolean isSpawn(Position pos){
+        return pos.getX() == Spawn.getPos().getX() && pos.getY() == Spawn.getPos().getY();
+    }
 
     
 }

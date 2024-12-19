@@ -12,7 +12,6 @@ import java.util.List;
 import Modele.*;
 import Modele.Resource.*;
 
-
 public class GameSaver {
     private static final String SAVE_DIRECTORY = "Save";
     private static final String SAVE_LIST_FILE = SAVE_DIRECTORY + File.separator + "nom_save.txt";

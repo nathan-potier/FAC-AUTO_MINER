@@ -160,11 +160,10 @@ public class Usine extends Machine {
     }
     @Override
     public String getNomRecetteEnCours() {
-        try{
-            return getRecetteEnCours().getNom();
-        }catch(Exception e){
-            return "";
+        if (recetteEnCours != null){
+            return recetteEnCours.getNom();
         }
+        return "";
     }
 
     @Override

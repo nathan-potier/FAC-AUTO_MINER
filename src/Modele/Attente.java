@@ -7,7 +7,6 @@ public class Attente implements Savable {
     private Resource r;
     public Attente(Position pos, Resource r){this.pos = pos; this.r = r;}
 
-
     public Resource getResource(){return r;}
 
     @Override
@@ -17,9 +16,7 @@ public class Attente implements Savable {
 
     @Override
     public void addToGrid(Cell[][] grid) {
-
         grid[pos.getY()][pos.getX()] = new Cell<>(pos, this);
-
     }
 
 }

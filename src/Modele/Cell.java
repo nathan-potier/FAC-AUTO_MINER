@@ -9,21 +9,12 @@ public class Cell<T> {
         this.content = content;
     }
 
-    public Position getPosition() {
-        return position;
-    }
+    public boolean isEmpty() {return content == null;}
 
-    public T getContent() {
-        return content;
-    }
+    public Position getPosition() {return position;}
+    public T getContent() {return content;}
 
-    public void setContent(T content) {
-        this.content = content;
-    }
-
-    public boolean isEmpty() {
-        return content == null;
-    }
+    public void setContent(T content) {this.content = content;}
 
     @Override
     public String toString() {

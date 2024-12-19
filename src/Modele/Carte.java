@@ -3,21 +3,14 @@ package Modele;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.Random;
-
-
 import javax.swing.Timer;
-
-
 
 import Vue.VueGenerale;
 import Modele.Machine.*;
 import Modele.Resource.*;
 
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -26,17 +19,16 @@ public class Carte {
     private int width, height;
     private Spawn spawn;
     private Market market;
-    private Timer timer;
+    private ArrayList<Timer> timers;
+    private int temps = 5000;
 
     private Game game;
 
-
     private VueGenerale vue;
-    
 
     public Carte(int width, int height, Player p, Spawn spawn, Market m, Game game) {
         grid = new Cell[height][width];
-        
+        timers = new ArrayList<>();
         this.width = width;
         this.height = height; 
         this.spawn = spawn;
@@ -45,82 +37,56 @@ public class Carte {
     }
 
     public Carte(Game game, ArrayList<Savable<?>> objList){
-        this(game.getWidth(), game.getHeight(), Game.getPlayer(), game.getSpawn(), game.getMarket(), game);
+        this(Game.getWidth(), Game.getHeight(), Game.getPlayer(), game.getSpawn(), game.getMarket(), game);
         
         for (Savable<?> obj : objList) {
             obj.addToGrid(grid); // Chaque objet sait comment s'ajouter à la grille
         }
-        
         generateMap(Game.getPlayer());
-        
-        
     }
 
     public void generateMap(Player p) {
-
         grid[Spawn.getPos().getY()][Spawn.getPos().getX()] = new Cell<>(new Position( Spawn.getPos().getX(), Spawn.getPos().getY()), p);
         if (market.getPos() == null){
-            Position posMarket = genRandomPosForMarket();
-            while(!isValidPosition(posMarket)){
-                posMarket = genRandomPosForMarket();
+            Position posMarket = Position.genRandomPosForMarket(this);
+            while(!posMarket.isValidPosition(this)){
+                posMarket = Position.genRandomPosForMarket(this);
             }
             market.setPos(posMarket);
             grid[posMarket.getY()][posMarket.getX()] = new Cell<>(posMarket, market);
         }else{
             grid[market.getPos().getY()][market.getPos().getX()] = new Cell<>(new Position(market.getPos().getX(), market.getPos().getY()), market);
-        }
-
-        
+        }  
     }
 
-    public void setVue(VueGenerale v){vue = v;}
-    
-
     public void attendreReplace(Position position, Cell<?> cell, Player p, int temps, boolean isLaborieuse) {
-        
-        timer = new Timer(temps, new ActionListener() {
+        Timer timer = new Timer(temps, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                if (isLaborieuse && p != null){
-
-                    p.setEcoute(true);
+                if (isLaborieuse && p != null) {
+                    GameStates.setMoveOn(true);
                 }
 
                 grid[position.getY()][position.getX()] = cell;
                 game.updateAffichage(true);
 
-
                 ((Timer) e.getSource()).stop();
             }
         });
-        timer.setRepeats(false); // S'assure que le timer ne se répète pas
-        timer.start();
-        
-    }
-    
-    public ArrayList<Position> posAutour4(Position pos) {
-        Direction[] directions = {Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT};
-        ArrayList<Position> positions = new ArrayList<>();
 
-        for (Direction direction : directions) {
-            Position newPosition = direction.move(pos);
-            if (posIsValid(newPosition)) { // Vérification des limites du tableau
-                positions.add(newPosition);
-            }
-        }
-        return positions;
+        timer.setRepeats(false); // Assure que le timer ne se répète pas
+        timers.add(timer); // Ajouter ce timer à la liste
+        timer.start(); // Démarrer le timer
     }
-
     
     public ArrayList<Cell<?>> regarderAutour(Position pos) {
         ArrayList<Cell<?>> resultats = new ArrayList<>();
-        ArrayList<Position> positionsAutour = posAutour4(pos);
+        ArrayList<Position> positionsAutour = pos.posAutour4();
 
         for (Position newPosition : positionsAutour) {
             // Ajouter la cellule si elle existe, sinon null
-            if (grid[newPosition.getY()][newPosition.getX()] != null) {
-                resultats.add(grid[newPosition.getY()][newPosition.getX()]);
+            if (getElementAt(newPosition) != null) {
+                resultats.add(getElementAt(newPosition));
             } else {
                 resultats.add(null);
             }
@@ -129,134 +95,92 @@ public class Carte {
         return resultats;
     }
 
-    
     public void ActionByClick(Player player, Position pos){
         ArrayList<Cell<?>> res = regarderAutour(player.getPos());
         for (Cell<?> c : res){
               if ( c != null && c.getPosition().getX() == pos.getX() && c.getPosition().getY() == pos.getY() ){
                 if(isInstanceOf(Resource.class, c.getPosition())  ){
-                    //player.collectResource((Ressource)c.getContent());
                     collectRessource(player, c.getPosition());
                 }else if (isInstanceOf(Market.class, c.getPosition()) || isInstanceOf(Machine.class, c.getPosition())){
                     deplacer(player, Direction.getDirection(player.getPos(), c.getPosition()));
                 }
             }
         }
-    }
-    
-    public boolean posIsValid(Position position){
-        return (position.getX() >= 0 && position.getY() >= 0 && position.getX() < width && position.getY() < height );
-
-    }
-    public boolean isSpawn(Position pos){
-        return pos.getX() == Spawn.getPos().getX() && pos.getY() == Spawn.getPos().getY();
-    }
-    public boolean cellIsEmpty(Position pos){
-        return grid[pos.getY()][pos.getX()] == null;
-    }
-    public boolean isInstanceOf(Class<?> type, Position pos){
-        return type.isInstance(grid[pos.getY()][pos.getX()].getContent());
-    }
-
-    public void deplacerDun(Position nouvelle, Player p){
-        Position startPos = p.getPos();
-        grid[nouvelle.getY()][nouvelle.getX()] = new Cell<>(nouvelle, p);
-        grid[p.getPos().getY()][p.getPos().getX()] = null;
-        p.setPos(nouvelle);
-        verifSpawnAffichage(); 
-        game.notifyMove(p, startPos, p.getPos(), Direction.getDirection(startPos, p.getPos()).toString());
-        game.updateAffichage(false);
-    }
+    } 
 
     public boolean deplacer(Player p, Direction d){
-        
         Position nouvelle = d.move(p.getPos());
-        if (!posIsValid(nouvelle) || !p.isEcoute()){
-            
+        if (!nouvelle.posIsInMap() || !GameStates.isMoveOn()){  
             return false;
         }
-        else if(cellIsEmpty(nouvelle) || isSpawn(nouvelle)){
-            deplacerDun(nouvelle, p);
- 
+        else if(cellIsEmpty(nouvelle) || Spawn.isSpawn(nouvelle)){
+            p.deplacerDun(nouvelle, grid, game);
+            verifSpawnAffichage(); 
             return true;
+        }    
+        // Gestion des interactions spécifiques
+        Object content = getElementAt(nouvelle).getContent();
+        if (interagirAvecElement(content, nouvelle, p)) {
+            return true;
+        }
+        return false;
+    }
 
-        }else if (isInstanceOf(Resource.class, nouvelle)) {
+    private boolean interagirAvecElement(Object content, Position nouvelle, Player p) {
+        if (content instanceof Resource) {
             collectRessource(p, nouvelle);
-           return true;
-        }else if (isInstanceOf(Usine.class, nouvelle)) {
-
-            vue.transmettreUsine((Usine)grid[nouvelle.getY()][nouvelle.getX()].getContent());
             return true;
-        }else if (isInstanceOf(Recolteuse.class, nouvelle)){
-
-            vue.transmettreRecolteuse((Recolteuse)grid[nouvelle.getY()][nouvelle.getX()].getContent()); 
+        } else if (content instanceof Usine) {
+            vue.transmettreUsine((Usine) content);
             return true;
-        }else if (isInstanceOf(Market.class, nouvelle)) {
-
+        } else if (content instanceof Recolteuse) {
+            vue.transmettreRecolteuse((Recolteuse) content);
+            return true;
+        } else if (content instanceof Market) {
             GameStates.setMoveOn(false);
             vue.transmettreMarket();
             return true;
         }
-
-
         return false;
-
-
     }
+    
 
     public void collectRessource(Player p, Position nouvelle){
-
-        int temps = 5000;
-
-        if (p != null &&  !(p.collectResource((Resource)grid[nouvelle.getY()][nouvelle.getX()].getContent())) ){
+        if (p != null &&  !(p.collectResource((Resource)getElementAt(nouvelle).getContent())) ){
             return;
         }
-
         
-        
-        Cell<?> cell = grid[nouvelle.getY()][nouvelle.getX()];
+        Cell<?> cell = getElementAt(nouvelle);
         Position pos = new Position(nouvelle.getX(), nouvelle.getY());
 
-        
-
-        Boolean isTemporisee = ((Resource)grid[nouvelle.getY()][nouvelle.getX()].getContent()).isTemporisee();
-        Boolean isLaborieuse = ((Resource)grid[nouvelle.getY()][nouvelle.getX()].getContent()).isLaborieuse();
-
-
+        Boolean isTemporisee = ((Resource)getElementAt(nouvelle).getContent()).isTemporisee();
 
         grid[nouvelle.getY()][nouvelle.getX()] = new Cell<>(pos, new Attente(pos, (Resource)cell.getContent()));
 
         
         game.updateAffichage(true);
-        
-
-  
 
         if(isTemporisee){
             attendreReplace(pos, cell, p, temps, false);
             
-        }
-        
-        else if (isLaborieuse){
+        }else{
             if (p != null){
-                p.setEcoute(false);
+                GameStates.setMoveOn(false);
             }
-
-            attendreReplace(pos, cell, p, temps, isLaborieuse);
+            attendreReplace(pos, cell, p, temps, true);
         }
     }
 
     public void verifSpawnAffichage(){
-        if(grid[Spawn.getPos().getY()][Spawn.getPos().getX()] == null){
+        if(getElementAt(Spawn.getPos()) == null){
             grid[Spawn.getPos().getY()][Spawn.getPos().getX()] = new Cell<>(Spawn.getPos(), spawn);
         }
     }
 
-    //temporaire
-    private void genNObjects(int n, String type) {
+    public void genNObjects(int n, String type) {
         for (int i = 0; i < n; i++) {
             // Générer une position valide
-            Position pos = genRandomPosValid();
+            Position pos = Position.genRandomPosValid(this);
     
             // Vérifie si une position valide est trouvée
             if (pos == null) {
@@ -288,126 +212,14 @@ public class Carte {
     }
 
     public void generateRessource(Player p){
-
         genNObjects(10, "Wood");
-        genNObjects(3, "Iron");
-        genNObjects(3, "Pierre");
-
-
-    }
-
-    private Position genRandomPos(){
-        Random rand = new Random();
-        int aleatoireX = rand.nextInt(width);
-        int aleatoireY = rand.nextInt(height);
-
-        Position pos= new Position(aleatoireX, aleatoireY);
-        int limiteExecution = 50;
-        int execution = 0;
-        while (isSpawn(pos) || grid[pos.getY()][pos.getX()] != null) {
-            if (limiteExecution <= execution){return null;}
-            pos = genRandomPos();
-            execution++;
-        }
-        return pos;
-    }
-
-    private Position genRandomPosForMarket(){
-        Random rand = new Random();
-        int aleatoireX = (rand.nextInt(2) == 0) ? 0 : width - 1;
-        int aleatoireY = rand.nextInt(height);
-
-        Position pos= new Position(aleatoireX, aleatoireY);
-        int limiteExecution = 50;
-        int execution = 0;
-        while (isSpawn(pos) || grid[pos.getY()][pos.getX()] != null) {
-            if (limiteExecution <= execution){return null;}
-            pos = genRandomPos();
-            execution++;
-        }
-        return pos;
-    }
-
-    /**
-     * Cette méthode retourne toutes les positions valide autour d'une position donnée.
-     *
-     * @param pos La position de départ à partir de laquelle les positions autours seront calculées.
-     * @return Une liste de toutes les positions valides autour de la position donnée.
-     */
-    public ArrayList<Position> posAutour8(Position pos){
-        ArrayList<Position> posAutour = posAutour4(pos);
-        // Calcul des positions diagonales
-        Position[] diagonales = {
-            new Position(pos.getX() - 1, pos.getY() - 1), // Haut gauche
-            new Position(pos.getX() + 1, pos.getY() - 1), // Haut droit
-            new Position(pos.getX() - 1, pos.getY() + 1), // Bas gauche
-            new Position(pos.getX() + 1, pos.getY() + 1)  // Bas droit
-        };
-
-        // Vérification si les positions diagonales sont valides
-        for (Position p : diagonales) {
-            if (posIsValid(p)) {
-                posAutour.add(p);
-            }
-        }
-        return posAutour;
-    }
-
-    private boolean isValidPosition(Position pos) {
-        ArrayList<Position> posAutour = posAutour8(pos);
-        grid[pos.getY()][pos.getX()] = new Cell<>(pos, new Attente(pos, null));
-        for (Position neighbor : posAutour) {
-            
-            boolean test = false;
-    
-            // Vérifie si la grille contient un élément à la position voisine.
-            if (grid[neighbor.getY()][neighbor.getX()] != null) {
-                test = true;
-    
-                // Vérifie les positions autour de cet élément.
-                ArrayList<Position> posAutourElement = posAutour4(neighbor);
-                for (Position neighborNeighbor : posAutourElement) {
-                    if (trouverChemin(Spawn.getPos(), neighborNeighbor) != null) {
-                        test = false;
-                        break;
-                    }
-                }
-            }
-    
-            // Vérifie les autres conditions pour refuser la position.
-            if ((trouverChemin(Spawn.getPos(), neighbor) == null && grid[neighbor.getY()][neighbor.getX()] == null) || test) {
-                grid[pos.getY()][pos.getX()] = null;
-                return false;
-            }
-        }
-        grid[pos.getY()][pos.getX()] = null;
-        return true; // Si aucune condition n'échoue, la position est valide.
-    }
-    
-
-    private Position genRandomPosValid() {
-        Position pos = genRandomPos();
-    
-        
-
-        
-    
-        // Vérifie si la position est valide en utilisant la fonction de validation.
-        if (!isValidPosition(pos)) {
-            return genRandomPosValid(); // Rappel récursif pour trouver une position valide.
-        }
-    
-        grid[pos.getY()][pos.getX()] = null; // Nettoie la grille.
-        return pos; // Retourne la position valide.
-    }
-    
-
-    
-
-
+        genNObjects(5, "Iron");
+        genNObjects(5, "Pierre");
+    }  
+  
     public ArrayList<Position> trouverChemin(Position depart, Position cible) {
-        if (!posIsValid(cible) || 
-            (grid[cible.getY()][cible.getX()] != null && !(grid[cible.getY()][cible.getX()].getContent() instanceof Spawn))) {
+        if (!cible.posIsInMap() || 
+            (getElementAt(cible) != null && !(getElementAt(cible).getContent() instanceof Spawn))) {
             return null;
         }
     
@@ -429,8 +241,8 @@ public class Carte {
     
             for (Direction d : directions) {
                 Position next = d.move(current);
-                if (posIsValid(next) && !visited[next.getY()][next.getX()] &&
-                    (grid[next.getY()][next.getX()] == null || grid[next.getY()][next.getX()].getContent() instanceof Spawn)) {
+                if (next.posIsInMap() && !visited[next.getY()][next.getX()] &&
+                    (getElementAt(next) == null || getElementAt(next).getContent() instanceof Spawn)) {
                     queue.add(next);
                     visited[next.getY()][next.getX()] = true;
                     prev[next.getY()][next.getX()] = current;
@@ -492,22 +304,33 @@ public class Carte {
         return true;
     }
 
-
-
     public boolean placerMachine(Player player){
         Position posMachine = new Position(player.getPos().getX(), player.getPos().getY());
         
-        if(!isValidPosition(posMachine) || player.getMachine() == null){
+        if(!posMachine.isValidPosition(this) || player.getMachine() == null || 
+        posMachine.equals(Spawn.getPos())){
             return false;
         }
+
+
+        ArrayList<Position> posAutour = posMachine.posAutour4();
+        boolean placablerecolteuse = false;
         
-        Cell<?> nouvMachine = new Cell<>(posMachine ,player.getMachine());
-        ArrayList<Position> posAutour = posAutour4(posMachine);
+        for (Position pos : posAutour){
+            if (getElementAt(pos) != null && isInstanceOf(Resource.class, pos)){
+                placablerecolteuse = true;
+            }
+        }
+
+        if(!placablerecolteuse && player.getMachine() instanceof Recolteuse){return false;}
+
         
         for(Position pos : posAutour){
             
             if (trouverChemin(Spawn.getPos(), pos) != null){
-                deplacerDun(pos, player);
+                Cell<?> nouvMachine = new Cell<>(posMachine ,player.getMachine());
+                player.deplacerDun(pos, grid, game);
+                verifSpawnAffichage(); 
                 grid[posMachine.getY()][posMachine.getX()] = nouvMachine;
                 player.getMachine().setPos(posMachine);
                 player.getMachine().setMap(this);
@@ -522,7 +345,14 @@ public class Carte {
         return false;
         
     }
-    
+
+    public void stopUpdateTimer(){
+        for (Timer t : timers) {
+            if (t != null) {
+                t.stop();
+            }
+        }
+    }
 
     public ArrayList<Savable> getSavableObject() {
         ArrayList<Savable> res = new ArrayList<>();
@@ -538,7 +368,6 @@ public class Carte {
         return res;  // Retourner la liste des objets ayant une position
     }
 
-
     public ArrayList<Machine> getMachines(){
         ArrayList<Machine> res = new ArrayList<>();
         for (Cell<?>[] row : grid) {  // Parcours des lignes de la grille
@@ -552,14 +381,17 @@ public class Carte {
         }
         return res;  // Retourner la liste des objets ayant une position
     }
-    public Cell<?>[][] getGrid(){return grid;}
-    public void setGrid(Cell<?>[][] ngrid){grid = ngrid;}
-    public void stopUpdateTimer(){
-        if (timer != null){
-            timer.stop();
-        }
 
-    }
+    public Cell<?>[][] getGrid(){return grid;}
+    public Cell<?> getElementAt(Position pos){return grid[pos.getY()][pos.getX()];}
+    public boolean cellIsEmpty(Position pos){return getElementAt(pos) == null;}
+    
+    public boolean isInstanceOf(Class<?> type, Position pos){return type.isInstance(grid[pos.getY()][pos.getX()].getContent());}
+    
+    public void setGrid(Cell<?>[][] ngrid){grid = ngrid;}
+    public void setElementAt(Position pos, Cell<?> cell){grid[pos.getY()][pos.getX()] = cell;}
+    public void setVue(VueGenerale v){vue = v;}
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

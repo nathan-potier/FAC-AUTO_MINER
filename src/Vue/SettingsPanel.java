@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 public class SettingsPanel extends JPanel {
 
     private boolean isFullScreen;
-    private int controlMode = 0; // 0 = Arrows, 1 = Mouse, 2 = Les deux
+    private int controlMode = 0; // 1 = Mouse, 0 = Les deux
 
     private SetMenuListener listener;  // Référence au listener pour notifier l'action
 
@@ -50,8 +50,8 @@ public class SettingsPanel extends JPanel {
         fullScreenLabel.setForeground(Color.WHITE);
         fullScreenLabel.setFont(new Font("Arial", Font.PLAIN, 18));
 
-        JButton fullScreenButton = new JButton("OFF");
-        fullScreenButton.setFocusPainted(false); // Désactiver le focus visuel
+        JButton fullScreenButton = new JButton(isFullScreen ? "ON" : "OFF");
+        fullScreenButton.setFocusPainted(false);
         fullScreenButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -81,12 +81,9 @@ public class SettingsPanel extends JPanel {
                 tempControlMode = (tempControlMode + 1) % 3; // Passer à la prochaine option
                 switch (tempControlMode) {
                     case 0:
-                        controlButton.setText("Arrows");
-                        break;
-                    case 1:
                         controlButton.setText("Mouse");
                         break;
-                    case 2:
+                    case 1:
                         controlButton.setText("Arrows and Mouse");
                         break;
                 }
@@ -125,25 +122,34 @@ public class SettingsPanel extends JPanel {
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                // Vérifier si le mode plein écran a changé
+                boolean fullScreenChanged = (tempFullScreen != isFullScreen);
+        
                 // Appliquer les modifications
                 isFullScreen = tempFullScreen;
                 controlMode = tempControlMode;
+        
+                // Sauvegarder l'état dans Game
                 Game game = frame.getGame();
-                frame.close();
-                // Mettre à jour BASE_CELL_SIZE en fonction du mode plein écran
-                if (isFullScreen) {
-                    Dimensions.BASE_CELL_SIZE = 80; // Mode plein écran
-                } else {
-                    Dimensions.BASE_CELL_SIZE = 50; // Mode fenêtre
-                    
+                game.setFullScreen(isFullScreen);
+        
+                // Fermer et rouvrir la fenêtre seulement si le mode plein écran a changé
+                if (fullScreenChanged) {
+                    frame.close();
+                    if (isFullScreen) {
+                        Dimensions.BASE_CELL_SIZE = 80; // Mode plein écran
+                    } else {
+                        Dimensions.BASE_CELL_SIZE = 50; // Mode fenêtré
+                    }
+        
+                    Affichage affichage = new Affichage(game);
+                    affichage.setVisible(true);
                 }
-
-                Affichage affichage = new Affichage(game);
         
                 // Afficher le message de confirmation
                 confirmationLabel.setText("Preferences sauvegardées");
                 confirmationLabel.setVisible(true);
-
+        
                 // Supprimer le message après un court délai
                 Timer timer = new Timer(2000, new ActionListener() {
                     @Override

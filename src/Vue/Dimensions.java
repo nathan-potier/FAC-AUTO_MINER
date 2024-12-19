@@ -42,10 +42,10 @@ public class Dimensions {
 
 
     // Calcul des dimensions et position
-    public static final int PANEL_X = (int) (screenWidth * 0.01);
-    public static final int PANEL_Y = (int) (screenHeight * 0.05);
-    public static final int PANEL_WIDTH = 15 * calculateCellSize();
-    public static final int PANEL_HEIGHT = 10 * calculateCellSize();
+    public static int PANEL_X = (int) (screenWidth * 0.01);
+    public static int PANEL_Y = (int) (screenHeight * 0.05);
+    public static int PANEL_WIDTH = 15 * calculateCellSize();
+    public static int PANEL_HEIGHT = 10 * calculateCellSize();
 
     // Méthode pour appliquer ces valeurs aux Panels
     public static void setPanelBounds(JPanel Panel) {

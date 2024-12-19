@@ -16,6 +16,15 @@ public class Game implements Controle{
     private int width = 15, height = 12;
     private GameListener listener ;
     private Market market;
+    private boolean fullScreen = false;
+    
+    public boolean isFullScreen() {
+        return fullScreen;
+    }
+
+    public void setFullScreen(boolean fullScreen) {
+        this.fullScreen = fullScreen;
+    }
 
 
     public void create() {

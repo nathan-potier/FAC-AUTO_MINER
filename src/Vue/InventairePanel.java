@@ -134,7 +134,7 @@ public class InventairePanel extends JPanel implements UpdateInterface{
     }
 
     public void afficherRecettes(List<Recette> recettes) {
-        rightPanel.removeAll(); // Nettoie les anciennes recettes
+        rightPanel.removeAll();
     
         // Ajouter chaque recette dans le panneau de droite
         for (Recette recette : recettes) {
@@ -142,7 +142,6 @@ public class InventairePanel extends JPanel implements UpdateInterface{
             recettePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
             recettePanel.setBackground(Color.DARK_GRAY);
     
-            // Ajouter les ingrédients de la recette avec les images
             JPanel ingredientsPanel = new JPanel();
             ingredientsPanel.setLayout(new BoxLayout(ingredientsPanel, BoxLayout.Y_AXIS));
             ingredientsPanel.setBackground(Color.DARK_GRAY);
@@ -150,10 +149,7 @@ public class InventairePanel extends JPanel implements UpdateInterface{
             for (Resource ingredient : recette.getIngredients()) {
                 addIngredientToPanel(ingredientsPanel, ingredient.getClass().getSimpleName(), ingredient.getQuantity());
             }
-    
             recettePanel.add(ingredientsPanel);
-    
-            // Ajouter la flèche après les ingrédients
             JLabel arrowLabel = new JLabel(new ImageIcon(new ImageIcon("assets/ArrowRight.png").getImage().getScaledInstance(30, 50, Image.SCALE_SMOOTH)));
             recettePanel.add(arrowLabel);
     
@@ -181,7 +177,6 @@ public class InventairePanel extends JPanel implements UpdateInterface{
                         isProducing = true;
                         setAllProduceButtonsVisible(false); // Rendre tous les boutons invisibles
                     }
-    
                     player.getInv().produire(recette);
                 }
             });
@@ -195,13 +190,9 @@ public class InventairePanel extends JPanel implements UpdateInterface{
             separator.setPreferredSize(new Dimension(rightPanel.getWidth(), 1)); // Ajuster la taille
             rightPanel.add(separator);
         }
-    
-        // Mettre à jour la vue des recettes
         rightPanel.revalidate();
         rightPanel.repaint();
     }
-    
-    
     
     private void addIngredientToPanel(JPanel ingredientsPanel, String resourceName, int quantity) {
         JPanel itemPanel = new JPanel();
@@ -236,13 +227,10 @@ public class InventairePanel extends JPanel implements UpdateInterface{
         }
     }
 
-
     @Override
     public void notificationUpdate() {
         setAllProduceButtonsVisible(true);
         isProducing = false;
         afficherInventaire();
     }
-
-    
 }

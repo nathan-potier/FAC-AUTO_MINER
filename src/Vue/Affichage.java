@@ -358,22 +358,14 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         int boutonPanelWidth = (int)(0.15 * width); // 15% de la largeur de la fenêtre
         boutonPanel.setLayout(new BoxLayout(boutonPanel, BoxLayout.Y_AXIS));
         boutonPanel.setPreferredSize(new Dimension(boutonPanelWidth, height));
-        boutonPanel.setBackground(Color.GRAY); // Changer la couleur de fond en gris
-        boutonPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
+        boutonPanel.setBackground(Color.GRAY);
+        boutonPanel.setBorder(BorderFactory.createEmptyBorder(width /4, 10, 0, 10));
     
         if (Game.getPlayer().getInv().getMachine() == null){
             button2Panel.setVisible(false);
         }
     }
     
-    
-
-    
-    
-    
-    
-    
-
     private void afficherBoiteDeDialogueFermeture() {
         String[] options = {"Sauvegarder et Quitter", "Quitter", "Annuler"};
         if(isRunning){

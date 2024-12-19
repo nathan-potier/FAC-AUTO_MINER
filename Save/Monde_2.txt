@@ -1,0 +1,29 @@
+Joueur: nathan
+Position: 2,11
+Argent: 0
+Ressources du joueur:
+Wood:7
+Clou:4
+Machines du joueur:
+Objets sur la carte:
+Wood a la position 1,0
+Iron a la position 4,0
+Wood a la position 10,0
+Market (14;0)
+Iron a la position 1,1
+Pierre a la position 4,1
+Wood a la position 8,1
+Wood a la position 13,1
+Wood a la position 14,1
+Iron a la position 6,2
+Wood a la position 14,3
+Pierre a la position 1,5
+Wood a la position 10,5
+Pierre a la position 13,5
+Pierre a la position 14,5
+Wood a la position 13,6
+Iron a la position 2,7
+Wood a la position 0,10
+Pierre a la position 2,10
+Wood a la position 8,11
+Iron a la position 9,11

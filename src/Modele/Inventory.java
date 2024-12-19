@@ -65,11 +65,11 @@ public class Inventory {
         }
         Inventory temp = this;
         if (recette.isTempo()) {
-            GameStates.setMoveOn(false);
+
             Timer timer = new Timer(5000, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    GameStates.setMoveOn(true);
+
                     if (!Recette.hasSufficientResourcesForRecipe(temp, recette)){
                         return;
                     }

@@ -171,7 +171,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
     }
 
     public void saveAndBackMenu(){
-        GameStates.setMoveOn(false);
+        GameStates.reset();
         isRunning = false;
         String nomSv = "";
         if(isNewGame){
@@ -298,7 +298,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         inventaire.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (inventaireAfficher && !inventairePanel.isProducing() ) {
+                if (inventaireAfficher  ) {
                     afficherCarte();
                     GameStates.setMoveOn(true);
                     inventaireAfficher = false;

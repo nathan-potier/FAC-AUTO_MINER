@@ -314,6 +314,15 @@ public class Carte {
         
         Cell<?> nouvMachine = new Cell<>(posMachine ,player.getMachine());
         ArrayList<Position> posAutour = posMachine.posAutour4();
+        boolean placablerecolteuse = false;
+        for (Position pos : posAutour){
+            if (getElementAt(pos) != null && isInstanceOf(Resource.class, pos)){
+                placablerecolteuse = true;
+            }
+        }
+
+        if(!placablerecolteuse && player.getMachine() instanceof Recolteuse){return false;}
+
         
         for(Position pos : posAutour){
             

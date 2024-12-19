@@ -46,8 +46,8 @@ public class MenuPanel extends JPanel {
             int logoSize = 200;
 
             // Vérifier si BASE_CELL_SIZE est 50 et si l'écran n'est pas en 1920x1080
-            if (DimensionsEtPositions.BASE_CELL_SIZE == 50 &&
-                (DimensionsEtPositions.screenWidth != 1920 || DimensionsEtPositions.screenHeight != 1080)) {
+            if (Dimensions.BASE_CELL_SIZE == 50 &&
+                (Dimensions.screenWidth != 1920 || Dimensions.screenHeight != 1080)) {
                 logoSize = 150;  // Réduire la taille du logo pour un écran plus petit
             }
 

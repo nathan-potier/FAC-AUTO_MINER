@@ -57,8 +57,8 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         int screenHeight = (int) screenSize.getHeight();
 
         // Définir la taille de la fenêtre
-        width = DimensionsEtPositions.WINDOW_WIDTH;
-        height = DimensionsEtPositions.WINDOW_HEIGHT;
+        width = Dimensions.WINDOW_WIDTH;
+        height = Dimensions.WINDOW_HEIGHT;
 
         // Ajuster la taille de la fenêtre pour qu'elle ne dépasse pas l'écran
         if (width > screenWidth) {
@@ -248,8 +248,8 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         int y = location.y;
 
         // Convertir ces coordonnées en indices de cellule sur la carte
-        int gridX = x   / DimensionsEtPositions.CELL_SIZE; // Diviser par la taille d'une cellule pour obtenir l'indice de la cellule
-        int gridY = y  / DimensionsEtPositions.CELL_SIZE;
+        int gridX = x   / Dimensions.CELL_SIZE; // Diviser par la taille d'une cellule pour obtenir l'indice de la cellule
+        int gridY = y  / Dimensions.CELL_SIZE;
 
         return new Position(gridX, gridY);
     }
@@ -291,15 +291,8 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
 
 
 
-    public void initialiserBoutons(){
-        // Panel principal pour les boutons
-        int boutonPanelWidth = (int)(0.15 * width); // 15% de la largeur de la fenêtre
-        boutonPanel.setLayout(new BoxLayout(boutonPanel, BoxLayout.Y_AXIS));
-        boutonPanel.setPreferredSize(new Dimension(boutonPanelWidth, height));
-        boutonPanel.setBackground(Color.GRAY); // Changer la couleur de fond en gris
-        boutonPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
-        
-        // Créer chaque bouton
+    // Fonction pour initialiser le bouton "Inventaire"
+    public JButton creerBoutonInventaire() {
         JButton inventaire = new JButton("Inventaire");
         inventaire.setFocusPainted(false);
         inventaire.setFont(new Font("Arial", Font.PLAIN, Math.max(14, width / 80)));
@@ -318,7 +311,11 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
                 requestFocusInWindow();
             }
         });
-        
+        return inventaire;
+    }
+
+    // Fonction pour initialiser le bouton "Placer l'usine"
+    public JButton creerBoutonPlaceUsine() {
         JButton placeUsine = new JButton("Placer l'usine");
         placeUsine.setFocusPainted(false);
         placeUsine.setFont(new Font("Arial", Font.PLAIN, Math.max(14, width / 80)));
@@ -326,15 +323,19 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
             @Override
             public void actionPerformed(ActionEvent e) {
                 listener.onKeyPress(-1);
-                if (Game.getPlayer().getInv().getMachine() == null){
+                if (Game.getPlayer().getInv().getMachine() == null) {
                     button2Panel.setVisible(false);
-                }else{
+                } else {
                     button2Panel.setVisible(true);
                 }
                 requestFocusInWindow();
             }
         });
-    
+        return placeUsine;
+    }
+
+    // Fonction pour initialiser le bouton "Retour Menu"
+    public JButton creerBoutonRetourMenu() {
         JButton retourMenuButton = new JButton("Retour Menu");
         retourMenuButton.setFocusPainted(false);
         retourMenuButton.setFont(new Font("Arial", Font.PLAIN, Math.max(14, width / 80)));
@@ -345,26 +346,43 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
                 requestFocusInWindow();
             }
         });
-    
+        return retourMenuButton;
+    }
+
+    // Fonction pour initialiser le panneau des boutons
+    public void initialiserBoutons() {
+        // Panel principal pour les boutons
+        int boutonPanelWidth = (int)(0.15 * width); // 15% de la largeur de la fenêtre
+        boutonPanel.setLayout(new BoxLayout(boutonPanel, BoxLayout.Y_AXIS));
+        boutonPanel.setPreferredSize(new Dimension(boutonPanelWidth, height));
+        boutonPanel.setBackground(Color.GRAY); // Couleur de fond gris
+        boutonPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
+
+        // Créer les boutons en appelant les fonctions spécifiques
+        JButton inventaire = creerBoutonInventaire();
+        JButton placeUsine = creerBoutonPlaceUsine();
+        JButton retourMenuButton = creerBoutonRetourMenu();
+
         // Créer un panneau temporaire pour centrer les boutons
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 20));  // Centré avec un espacement vertical
         buttonPanel.setPreferredSize(new Dimension(boutonPanelWidth, 100));  // Ajuster la taille
         buttonPanel.setBackground(Color.GRAY); // Mettre aussi ce panneau en gris
-    
+
         // Ajouter les boutons dans le panneau
         buttonPanel.add(inventaire);
         buttonPanel.add(placeUsine);
         buttonPanel.add(retourMenuButton);
-    
+
         // Ajouter ce panneau au boutonPanel
         boutonPanel.add(buttonPanel);
-    
+
         // Si pas de machine, masquer le bouton "Placer l'usine"
-        if (Game.getPlayer().getInv().getMachine() == null){
+        if (Game.getPlayer().getInv().getMachine() == null) {
             placeUsine.setVisible(false);
         }
     }
+
     
     
     

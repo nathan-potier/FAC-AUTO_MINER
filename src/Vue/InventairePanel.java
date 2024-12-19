@@ -22,48 +22,48 @@ public class InventairePanel extends JPanel implements UpdateInterface{
 
     public InventairePanel(Player player) {
         this.player = player;
-    
+
         // Définir la mise en page principale
         this.setLayout(new BorderLayout());
         this.setBorder(new LineBorder(Color.DARK_GRAY, 20));
         this.setBackground(Color.DARK_GRAY);
-    
-        // Panneau gauche (colonnes)
+
+        // Calculer la taille de la cellule de base en fonction de la résolution
+        int baseCellSize = (Toolkit.getDefaultToolkit().getScreenSize().width > 1200) ? 80 : 50; // Ajuster la taille de la cellule
         leftPanel = new JPanel();
         leftPanel.setLayout(new GridLayout(0, 2, 5, 5));
         leftPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 50, 10));
         leftPanel.setBackground(Color.DARK_GRAY);
-    
+
         // Panneau droit avec texte "Recette"
         rightPanel = new JPanel();
         rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS)); // Organiser les recettes en colonne
         rightPanel.setBackground(Color.DARK_GRAY);
         rightPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 50, 0));
-    
+
         // Envelopper le panneau des recettes dans un JScrollPane
         JScrollPane rightScrollPane = new JScrollPane(rightPanel);
         rightScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
         rightScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER); // Pour éviter le défilement horizontal
         rightScrollPane.setBorder(null); // Pour éviter le bord autour du JScrollPane
-    
+
         // Panneau de bordure de 150px à droite
         borderPanel = new JPanel();
         borderPanel.setPreferredSize(new Dimension(150, 0));
         borderPanel.setBackground(Color.DARK_GRAY);
-    
+
         // Utiliser JSplitPane pour diviser l'espace
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, new JScrollPane(leftPanel), rightScrollPane);
-        splitPane.setDividerLocation(375);
-        splitPane.setDividerSize(0); 
+        splitPane.setDividerLocation(baseCellSize * 3); // Utiliser baseCellSize pour calculer la largeur
+        splitPane.setDividerSize(0);
         splitPane.setBorder(null);
-    
+
         this.add(splitPane, BorderLayout.CENTER);
         this.add(borderPanel, BorderLayout.EAST);
-    
+
         afficherRecettes(recettes);
     }
     
-
     public void setPlayer(Player p) {
         player = p;
     }

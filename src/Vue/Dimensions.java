@@ -1,10 +1,9 @@
 package Vue;
 
 import java.awt.Dimension;
-import java.awt.Point;
 import java.awt.Toolkit;
 
-public class DimensionsEtPositions {
+public class Dimensions {
 
     // Valeur de base de CELL_SIZE, ajustable en fonction de la taille de l'écran
     public static final int BASE_CELL_SIZE = 50;  // Valeur de base pour CELL_SIZE (ajustable)
@@ -45,16 +44,4 @@ public class DimensionsEtPositions {
     // Dimensions principales
     public static final int WINDOW_WIDTH = 19 * CELL_SIZE;
     public static final int WINDOW_HEIGHT = 13 * CELL_SIZE;
-
-    // Dimensions des panneaux
-    public static final Dimension PANEL_DIMENSION = new Dimension(140, WINDOW_HEIGHT); // Panneau de boutons
-    public static final Dimension USINE_PANEL_DIMENSION = new Dimension(775, 550); // Panneau Usine
-    public static final Dimension RECOLTEUSE_PANEL_DIMENSION = new Dimension(775, 550); // Panneau Récolteuse
-
-    // Positions des panneaux
-    public static final Point USINE_PANEL_POSITION = new Point(10, 50); // Position du panneau Usine
-    public static final Point RECOLTEUSE_PANEL_POSITION = new Point(10, 50); // Position du panneau Récolteuse
-
-    // Dimensions des boutons
-    public static final Dimension BUTTON_DIMENSION = new Dimension(120, 40); // Taille des boutons
 }

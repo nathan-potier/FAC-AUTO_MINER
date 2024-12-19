@@ -102,10 +102,6 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         recolteusePanel.setBounds((int) (screenWidth * 0.01), (int) (screenHeight * 0.05), 15 * Dimensions.calculateCellSize(), 10 * Dimensions.calculateCellSize());
         marketPanel.setBounds((int) (screenWidth * 0.01), (int) (screenHeight * 0.05), 15 * Dimensions.calculateCellSize(), 10 * Dimensions.calculateCellSize());
 
-        boutonPanel.setPreferredSize(new Dimension(140, height));
-        boutonPanel.setBackground(Color.LIGHT_GRAY);
-        boutonPanel.setLayout(new BoxLayout(boutonPanel, BoxLayout.Y_AXIS));
-        boutonPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
 
         // Configuration des panneaux dans le layeredPane
         cartePanel.setBounds(0, 0, width, height);
@@ -359,12 +355,18 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         boutonPanel.add(button2Panel);
         boutonPanel.add(Box.createVerticalStrut(20));
         boutonPanel.add(button3Panel);
+        int boutonPanelWidth = (int)(0.15 * width); // 15% de la largeur de la fenêtre
         boutonPanel.setLayout(new BoxLayout(boutonPanel, BoxLayout.Y_AXIS));
+        boutonPanel.setPreferredSize(new Dimension(boutonPanelWidth, height));
+        boutonPanel.setBackground(Color.GRAY); // Changer la couleur de fond en gris
+        boutonPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
     
         if (Game.getPlayer().getInv().getMachine() == null){
             button2Panel.setVisible(false);
         }
     }
+    
+    
 
     
     

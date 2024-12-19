@@ -17,6 +17,15 @@ public class Game implements Controle{
     private static final int WIDTH = 15, HEIGHT = 12;
     private GameListener listener ;
     private Market market;
+    private boolean fullScreen = false;
+    
+    public boolean isFullScreen() {
+        return fullScreen;
+    }
+
+    public void setFullScreen(boolean fullScreen) {
+        this.fullScreen = fullScreen;
+    }
 
     public Game(String pseudo){ 
         spawn = new Spawn(new Position( WIDTH - (WIDTH - 2), HEIGHT - 1));

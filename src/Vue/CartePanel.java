@@ -15,7 +15,7 @@ import Modele.Player;
 import Modele.Position;
 
 public class CartePanel extends JPanel implements GameListener {
-    private final int CELL_SIZE = 50; // Taille d'une cellule
+    private final int CELL_SIZE = Dimensions.calculateCellSize(); // Taille d'une cellule
     private final Map<Object, Point> animatedPositions = new ConcurrentHashMap<>();
     private final List<Runnable> animationQueue = new ArrayList<>();
 
@@ -27,10 +27,6 @@ public class CartePanel extends JPanel implements GameListener {
 
     public CartePanel(int width, int height) {
         this.setBackground(Color.DARK_GRAY);
-    }
-
-    public int getCellSize() {
-        return CELL_SIZE;
     }
 
     @Override

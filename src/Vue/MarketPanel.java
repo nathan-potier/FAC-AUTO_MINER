@@ -33,7 +33,6 @@ public class MarketPanel extends JPanel implements UpdateInterface{
         this.setLayout(new BorderLayout());
         this.setBackground(Color.DARK_GRAY);
         this.setBorder(BorderFactory.createEmptyBorder(20, 40, 40, 40));
-        this.setBounds(50, 50, 700, 500);
     
         // Affichage de l'argent du joueur avec espace supplémentaire en dessous
         JPanel moneyPanel = new JPanel(new BorderLayout());

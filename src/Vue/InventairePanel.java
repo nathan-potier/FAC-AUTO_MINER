@@ -22,55 +22,59 @@ public class InventairePanel extends JPanel implements UpdateInterface{
 
     public InventairePanel(Player player) {
         this.player = player;
-    
+
         // Définir la mise en page principale
         this.setLayout(new BorderLayout());
         this.setBorder(new LineBorder(Color.DARK_GRAY, 20));
         this.setBackground(Color.DARK_GRAY);
-    
-        // Panneau gauche (colonnes)
+
+        // Calculer la taille de la cellule de base en fonction de la résolution
+        int baseCellSize = Math.min((int) (getWidth() * 0.08), 80); // 8% de la largeur de la fenêtre, max 80px
         leftPanel = new JPanel();
         leftPanel.setLayout(new GridLayout(0, 2, 5, 5));
         leftPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 50, 10));
         leftPanel.setBackground(Color.DARK_GRAY);
-    
+
         // Panneau droit avec texte "Recette"
         rightPanel = new JPanel();
-        rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS)); // Organiser les recettes en colonne
+        rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
         rightPanel.setBackground(Color.DARK_GRAY);
         rightPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 50, 0));
-    
+
         // Envelopper le panneau des recettes dans un JScrollPane
         JScrollPane rightScrollPane = new JScrollPane(rightPanel);
         rightScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-        rightScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER); // Pour éviter le défilement horizontal
-        rightScrollPane.setBorder(null); // Pour éviter le bord autour du JScrollPane
-    
+        rightScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        rightScrollPane.setBorder(null);
+
         // Panneau de bordure de 150px à droite
         borderPanel = new JPanel();
         borderPanel.setPreferredSize(new Dimension(150, 0));
         borderPanel.setBackground(Color.DARK_GRAY);
-    
+
         // Utiliser JSplitPane pour diviser l'espace
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, new JScrollPane(leftPanel), rightScrollPane);
-        splitPane.setDividerLocation(375);
-        splitPane.setDividerSize(0); 
+        splitPane.setDividerSize(0);
         splitPane.setBorder(null);
-    
+        splitPane.setResizeWeight(0.7);
+
         this.add(splitPane, BorderLayout.CENTER);
         this.add(borderPanel, BorderLayout.EAST);
-    
+
         afficherRecettes(recettes);
     }
     
-
     public void setPlayer(Player p) {
         player = p;
     }
     public boolean isProducing(){return isProducing;}
 
     public void afficherInventaire() {
-        leftPanel.removeAll(); // Nettoie les anciens slots dans le panneau gauche
+        leftPanel.removeAll();
+
+        // Calculer la taille dynamique des slots
+        int baseCellSize = Math.min((int) (getWidth() * 0.08), 80); // Calcul dynamique basé sur la taille du panneau
+        Dimension slotSize = new Dimension(baseCellSize, baseCellSize); // Taille de chaque slot
 
         // Affichage des ressources
         String[] resInvName = player.getInv().getResInvName();
@@ -78,14 +82,14 @@ public class InventairePanel extends JPanel implements UpdateInterface{
 
         // Ajouter les ressources à gauche
         for (int i = 0; i < resInvName.length; i++) {
-            JPanel slot = creerSlot(resInvName[i], resInvQuant[i]);
+            JPanel slot = creerSlot(resInvName[i], resInvQuant[i], slotSize);
             leftPanel.add(slot);
         }
 
         // Affichage de la machine si elle existe
         Machine machine = player.getInv().getMachine();
         if (machine != null) {
-            JPanel machineSlot = creerSlot(machine.getName() + " (" + machine.getOption() + ")", 1); // Ex. Nom de la machine
+            JPanel machineSlot = creerSlot(machine.getName(), 1, slotSize);
             leftPanel.add(machineSlot);
         }
 
@@ -102,11 +106,12 @@ public class InventairePanel extends JPanel implements UpdateInterface{
     }
 
     // Méthode utilitaire pour créer un slot
-    private JPanel creerSlot(String name, int quantity) {
+    private JPanel creerSlot(String name, int quantity, Dimension slotSize) {
         JPanel slot = new JPanel();
         slot.setLayout(new GridBagLayout());
         slot.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2));
         slot.setBackground(Color.DARK_GRAY);
+        slot.setPreferredSize(slotSize);
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.CENTER;
@@ -134,7 +139,7 @@ public class InventairePanel extends JPanel implements UpdateInterface{
     }
 
     public void afficherRecettes(List<Recette> recettes) {
-        rightPanel.removeAll(); // Nettoie les anciennes recettes
+        rightPanel.removeAll();
     
         // Ajouter chaque recette dans le panneau de droite
         for (Recette recette : recettes) {
@@ -142,7 +147,6 @@ public class InventairePanel extends JPanel implements UpdateInterface{
             recettePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
             recettePanel.setBackground(Color.DARK_GRAY);
     
-            // Ajouter les ingrédients de la recette avec les images
             JPanel ingredientsPanel = new JPanel();
             ingredientsPanel.setLayout(new BoxLayout(ingredientsPanel, BoxLayout.Y_AXIS));
             ingredientsPanel.setBackground(Color.DARK_GRAY);
@@ -150,10 +154,7 @@ public class InventairePanel extends JPanel implements UpdateInterface{
             for (Resource ingredient : recette.getIngredients()) {
                 addIngredientToPanel(ingredientsPanel, ingredient.getClass().getSimpleName(), ingredient.getQuantity());
             }
-    
             recettePanel.add(ingredientsPanel);
-    
-            // Ajouter la flèche après les ingrédients
             JLabel arrowLabel = new JLabel(new ImageIcon(new ImageIcon("assets/ArrowRight.png").getImage().getScaledInstance(30, 50, Image.SCALE_SMOOTH)));
             recettePanel.add(arrowLabel);
     
@@ -181,7 +182,6 @@ public class InventairePanel extends JPanel implements UpdateInterface{
                         isProducing = true;
                         setAllProduceButtonsVisible(false); // Rendre tous les boutons invisibles
                     }
-    
                     player.getInv().produire(recette);
                 }
             });
@@ -195,13 +195,9 @@ public class InventairePanel extends JPanel implements UpdateInterface{
             separator.setPreferredSize(new Dimension(rightPanel.getWidth(), 1)); // Ajuster la taille
             rightPanel.add(separator);
         }
-    
-        // Mettre à jour la vue des recettes
         rightPanel.revalidate();
         rightPanel.repaint();
     }
-    
-    
     
     private void addIngredientToPanel(JPanel ingredientsPanel, String resourceName, int quantity) {
         JPanel itemPanel = new JPanel();
@@ -236,13 +232,10 @@ public class InventairePanel extends JPanel implements UpdateInterface{
         }
     }
 
-
     @Override
     public void notificationUpdate() {
         setAllProduceButtonsVisible(true);
         isProducing = false;
         afficherInventaire();
     }
-
-    
 }

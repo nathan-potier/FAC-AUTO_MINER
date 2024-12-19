@@ -51,6 +51,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
     public Affichage(Game game) {
         this.game = game;
         this.pseudo = Game.getPlayer().getPseudo();
+        this.setResizable(false);  // Désactive le redimensionnement
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenWidth = (int) screenSize.getWidth();
         int screenHeight = (int) screenSize.getHeight();

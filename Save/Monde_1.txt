@@ -24,7 +24,7 @@ Usine option-> Rapide a la position 11,3 Stock-> {} Inventaire-> {} Recette->Mar
 Usine option-> Rapide a la position 12,3 Stock-> {} Inventaire-> {} Recette->Clous
 Usine option-> Rapide a la position 13,3 Stock-> {(Planche;1),} Inventaire-> {} Recette->Planche
 Wood a la position 2,4
-Recolteuse option-> Polyvalente a la position 3,4 Stock-> {(Wood;19),} Inventaire-> {(Wood;19),} Recette->Wood
+Recolteuse option-> Polyvalente a la position 3,4 Stock-> {(Wood;20),} Inventaire-> {(Wood;20),} Recette->Wood
 Usine option-> Fragile a la position 10,4 Stock-> {} Inventaire-> {(Wood;1),} Recette->
 Wood a la position 0,5
 Iron a la position 2,6

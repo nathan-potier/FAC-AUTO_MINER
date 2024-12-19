@@ -3,8 +3,6 @@ package Vue;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
-import javax.swing.JPanel;
-
 public class Dimensions {
 
     public static int BASE_CELL_SIZE = 50;
@@ -34,21 +32,5 @@ public class Dimensions {
             cellSize = 100;
         }
         return cellSize;
-    }
-
- 
-
-
-
-
-    // Calcul des dimensions et position
-    public static int PANEL_X = (int) (screenWidth * 0.01);
-    public static int PANEL_Y = (int) (screenHeight * 0.05);
-    public static int PANEL_WIDTH = 15 * calculateCellSize();
-    public static int PANEL_HEIGHT = 10 * calculateCellSize();
-
-    // Méthode pour appliquer ces valeurs aux Panels
-    public static void setPanelBounds(JPanel Panel) {
-        Panel.setBounds(PANEL_X, PANEL_Y, PANEL_WIDTH, PANEL_HEIGHT);
     }
 }

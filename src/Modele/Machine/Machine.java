@@ -33,33 +33,42 @@ public abstract class Machine implements Savable{
         
     }
     public static int getPrix(String type) {
-        return switch (type) {
-            case "XL", "Rapide" -> 150;
-            case "Fragile" -> 50;
-            default -> 100; // Polyvalente
-            
-        };
+        switch (type) {
+            case "XL":
+            case "Rapide":
+                return 150;
+            case "Fragile":
+                return 50;
+            default:
+                return 100; // Polyvalente
+        }
     }
     
     public static int getTempFabriq(String type) {
-        return switch (type) {
-            case "Rapide" -> 6;
-            default -> 10;
-        };
+        switch (type) {
+            case "Rapide":
+                return 6;
+            default:
+                return 10;
+        }
     }
-
+    
     public static int getLimiteStock(String type) {
-        return switch (type) {
-            case "XL" -> 30;
-            default -> 20;
-        };
+        switch (type) {
+            case "XL":
+                return 30;
+            default:
+                return 20;
+        }
     }
-
+    
     public static boolean isModifiable(String type) {
-        return switch (type) {
-            case "Polyvalente" -> true;
-            default -> false;
-        };
+        switch (type) {
+            case "Polyvalente":
+                return true;
+            default:
+                return false;
+        }
     }
 
     public static boolean fonctionneBien(String type) {

@@ -188,12 +188,14 @@ public class CartePanel extends JPanel implements GameListener {
      * Gestion des icônes
      */
     private ImageIcon getIconForDirection() {
-        return getIconForType("Player_" + playerDirection, "png");
+        return getIconForType("Player_" + playerDirection.toLowerCase(), "png");
     }
 
     private ImageIcon getIconForType(String type, String format) {
         String relativePath = "assets/" + type + "." + format;
         File file = new File(relativePath);
+  
+
 
         if (!file.exists()) {
             //System.err.println("Fichier non trouvé : " + file.getAbsolutePath());

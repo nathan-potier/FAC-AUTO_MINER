@@ -88,6 +88,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         usinePanel = new UsinePanel();
         recolteusePanel = new RecolteusePanel();
         menuPanel = new MenuPanel(width / 2, height / 2, width, height);
+        boutonPanel.setLayout(new BoxLayout(boutonPanel, BoxLayout.Y_AXIS));
 
         ImageIcon icon = new ImageIcon("assets/Logo.png");
         this.setIconImage(icon.getImage());
@@ -293,20 +294,11 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
     }
 
 
-    public void initialiserBoutons() {
-        // Calcul des dimensions du panel et des boutons en fonction de la taille de la fenêtre
-        int boutonPanelWidth = (int) (0.15 * width); // Largeur dynamique basée sur la largeur de la fenêtre
-        boutonPanel.setLayout(new BoxLayout(boutonPanel, BoxLayout.Y_AXIS));
-        boutonPanel.setPreferredSize(new Dimension(boutonPanelWidth, height));
-        boutonPanel.setBackground(Color.GRAY);
-        boutonPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-    
-        // Panel pour le bouton "Inventaire"
+    public void initialiserBoutons(){
         JPanel button1Panel = new JPanel();
         button1Panel.setLayout(new BoxLayout(button1Panel, BoxLayout.X_AXIS));
         JButton inventaire = new JButton("Inventaire");
         inventaire.setFocusPainted(false);
-        inventaire.setFont(new Font("Arial", Font.PLAIN, Math.max(14, width / 80))); // Police dynamique
         inventaire.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -324,19 +316,17 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         });
         button1Panel.add(inventaire);
     
-        // Panel pour le bouton "Placer l'usine"
         button2Panel = new JPanel();
         button2Panel.setLayout(new BoxLayout(button2Panel, BoxLayout.X_AXIS));
         JButton placeUsine = new JButton("Placer l'usine");
         placeUsine.setFocusPainted(false);
-        placeUsine.setFont(new Font("Arial", Font.PLAIN, Math.max(14, width / 80))); // Police dynamique
         placeUsine.addActionListener(new ActionListener() {
-            @Override
+            @Override   
             public void actionPerformed(ActionEvent e) {
                 listener.onKeyPress(-1);
-                if (Game.getPlayer().getInv().getMachine() == null) {
+                if (Game.getPlayer().getInv().getMachine() == null){
                     button2Panel.setVisible(false);
-                } else {
+                }else{
                     button2Panel.setVisible(true);
                 }
                 requestFocusInWindow();
@@ -344,12 +334,10 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         });
         button2Panel.add(placeUsine);
     
-        // Panel pour le bouton "Retour Menu"
         JPanel button3Panel = new JPanel();
         button3Panel.setLayout(new BoxLayout(button3Panel, BoxLayout.X_AXIS));
         JButton retourMenuButton = new JButton("Retour Menu");
         retourMenuButton.setFocusPainted(false);
-        retourMenuButton.setFont(new Font("Arial", Font.PLAIN, Math.max(14, width / 80))); // Police dynamique
         retourMenuButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -357,9 +345,8 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
                 requestFocusInWindow();
             }
         });
-        button3Panel.add(retourMenuButton);
+        button3Panel.add(retourMenuButton);;
     
-        // Ajouter des espaces et les panels au panel principal
         boutonPanel.add(Box.createVerticalStrut(20));
         boutonPanel.add(button1Panel);
         boutonPanel.add(Box.createVerticalStrut(20));
@@ -367,8 +354,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         boutonPanel.add(Box.createVerticalStrut(20));
         boutonPanel.add(button3Panel);
     
-        // Si pas de machine, masquer le bouton "Placer l'usine"
-        if (Game.getPlayer().getInv().getMachine() == null) {
+        if (Game.getPlayer().getInv().getMachine() == null){
             button2Panel.setVisible(false);
         }
     }

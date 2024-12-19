@@ -54,7 +54,7 @@ public class InventairePanel extends JPanel implements UpdateInterface{
 
         // Utiliser JSplitPane pour diviser l'espace
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, new JScrollPane(leftPanel), rightScrollPane);
-        splitPane.setDividerLocation(baseCellSize * 3); // Utiliser baseCellSize pour calculer la largeur
+        splitPane.setDividerLocation(baseCellSize * 4); // Utiliser baseCellSize pour calculer la largeur
         splitPane.setDividerSize(0);
         splitPane.setBorder(null);
 
@@ -85,7 +85,7 @@ public class InventairePanel extends JPanel implements UpdateInterface{
         // Affichage de la machine si elle existe
         Machine machine = player.getInv().getMachine();
         if (machine != null) {
-            JPanel machineSlot = creerSlot(machine.getName() + " (" + machine.getOption() + ")", 1); // Ex. Nom de la machine
+            JPanel machineSlot = creerSlot(machine.getName(), 1);
             leftPanel.add(machineSlot);
         }
 

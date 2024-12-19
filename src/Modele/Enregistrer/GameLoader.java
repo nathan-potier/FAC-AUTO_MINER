@@ -84,7 +84,7 @@ public class GameLoader {
                         
                     }
                 }catch (Exception e) {
-                    
+                    e.printStackTrace();
                     System.err.println("Erreur lors de la lecture de : " + objectLine);
                 }
 

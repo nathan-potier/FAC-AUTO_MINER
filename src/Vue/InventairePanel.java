@@ -29,7 +29,7 @@ public class InventairePanel extends JPanel implements UpdateInterface{
         this.setBackground(Color.DARK_GRAY);
 
         // Calculer la taille de la cellule de base en fonction de la résolution
-        int baseCellSize = (Toolkit.getDefaultToolkit().getScreenSize().width > 1200) ? 80 : 50; // Ajuster la taille de la cellule
+        int baseCellSize = Math.min((int) (getWidth() * 0.08), 80); // 8% de la largeur de la fenêtre, max 80px
         leftPanel = new JPanel();
         leftPanel.setLayout(new GridLayout(0, 2, 5, 5));
         leftPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 50, 10));
@@ -37,15 +37,15 @@ public class InventairePanel extends JPanel implements UpdateInterface{
 
         // Panneau droit avec texte "Recette"
         rightPanel = new JPanel();
-        rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS)); // Organiser les recettes en colonne
+        rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
         rightPanel.setBackground(Color.DARK_GRAY);
         rightPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 50, 0));
 
         // Envelopper le panneau des recettes dans un JScrollPane
         JScrollPane rightScrollPane = new JScrollPane(rightPanel);
         rightScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-        rightScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER); // Pour éviter le défilement horizontal
-        rightScrollPane.setBorder(null); // Pour éviter le bord autour du JScrollPane
+        rightScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        rightScrollPane.setBorder(null);
 
         // Panneau de bordure de 150px à droite
         borderPanel = new JPanel();
@@ -54,9 +54,9 @@ public class InventairePanel extends JPanel implements UpdateInterface{
 
         // Utiliser JSplitPane pour diviser l'espace
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, new JScrollPane(leftPanel), rightScrollPane);
-        splitPane.setDividerLocation(baseCellSize * 4); // Utiliser baseCellSize pour calculer la largeur
         splitPane.setDividerSize(0);
         splitPane.setBorder(null);
+        splitPane.setResizeWeight(0.7);
 
         this.add(splitPane, BorderLayout.CENTER);
         this.add(borderPanel, BorderLayout.EAST);
@@ -70,7 +70,11 @@ public class InventairePanel extends JPanel implements UpdateInterface{
     public boolean isProducing(){return isProducing;}
 
     public void afficherInventaire() {
-        leftPanel.removeAll(); // Nettoie les anciens slots dans le panneau gauche
+        leftPanel.removeAll();
+
+        // Calculer la taille dynamique des slots
+        int baseCellSize = Math.min((int) (getWidth() * 0.08), 80); // Calcul dynamique basé sur la taille du panneau
+        Dimension slotSize = new Dimension(baseCellSize, baseCellSize); // Taille de chaque slot
 
         // Affichage des ressources
         String[] resInvName = player.getInv().getResInvName();
@@ -78,14 +82,14 @@ public class InventairePanel extends JPanel implements UpdateInterface{
 
         // Ajouter les ressources à gauche
         for (int i = 0; i < resInvName.length; i++) {
-            JPanel slot = creerSlot(resInvName[i], resInvQuant[i]);
+            JPanel slot = creerSlot(resInvName[i], resInvQuant[i], slotSize);
             leftPanel.add(slot);
         }
 
         // Affichage de la machine si elle existe
         Machine machine = player.getInv().getMachine();
         if (machine != null) {
-            JPanel machineSlot = creerSlot(machine.getName(), 1);
+            JPanel machineSlot = creerSlot(machine.getName(), 1, slotSize);
             leftPanel.add(machineSlot);
         }
 
@@ -102,11 +106,12 @@ public class InventairePanel extends JPanel implements UpdateInterface{
     }
 
     // Méthode utilitaire pour créer un slot
-    private JPanel creerSlot(String name, int quantity) {
+    private JPanel creerSlot(String name, int quantity, Dimension slotSize) {
         JPanel slot = new JPanel();
         slot.setLayout(new GridBagLayout());
         slot.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2));
         slot.setBackground(Color.DARK_GRAY);
+        slot.setPreferredSize(slotSize);
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.CENTER;

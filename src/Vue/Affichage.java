@@ -359,7 +359,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         boutonPanel.setLayout(new BoxLayout(boutonPanel, BoxLayout.Y_AXIS));
         boutonPanel.setPreferredSize(new Dimension(boutonPanelWidth, height));
         boutonPanel.setBackground(Color.GRAY);
-        boutonPanel.setBorder(BorderFactory.createEmptyBorder(width /4, 10, 0, 10));
+        boutonPanel.setBorder(BorderFactory.createEmptyBorder(width /4, 5, 0, 5));
     
         if (Game.getPlayer().getInv().getMachine() == null){
             button2Panel.setVisible(false);

@@ -16,7 +16,6 @@ public class UsinePanel extends JPanel implements UpdateInterface {
     private JPanel stockPanel;
     private JPanel ressourcePanel;
     private JComboBox<String> recetteComboBox;
-    private JButton takeButton;
     private JPanel ingredientsPanel;
     private JLabel nomTypeUsine;
     private JButton produceButton;

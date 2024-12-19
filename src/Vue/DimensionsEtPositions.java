@@ -7,10 +7,12 @@ import java.awt.Toolkit;
 public class DimensionsEtPositions {
 
     // Valeur de base de CELL_SIZE, ajustable en fonction de la taille de l'écran
-    private static final int BASE_CELL_SIZE = 50;  // Valeur de base pour CELL_SIZE (ajustable)
+    public static final int BASE_CELL_SIZE = 50;  // Valeur de base pour CELL_SIZE (ajustable)
 
     // Récupérer la taille de l'écran
     private static final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    public static int screenWidth = screenSize.width;
+    public static int screenHeight = screenSize.height;
 
     // Calcul de CELL_SIZE en fonction de la taille de l'écran
     private static int calculateCellSize() {
@@ -18,8 +20,8 @@ public class DimensionsEtPositions {
         int screenHeight = screenSize.height;
 
         // Calcul d'un facteur d'échelle basé sur la largeur de l'écran, par rapport à une largeur cible de 1920
-        double scaleFactorWidth = screenWidth / 1920.0; // Basé sur la largeur de l'écran
-        double scaleFactorHeight = screenHeight / 1080.0; // Basé sur la hauteur de l'écran
+        double scaleFactorWidth = screenWidth / 1920.0;
+        double scaleFactorHeight = screenHeight / 1080.0;
 
         // On prend le minimum entre les deux facteurs d'échelle pour assurer que la fenêtre ne dépasse pas
         double scaleFactor = Math.min(scaleFactorWidth, scaleFactorHeight);
@@ -29,9 +31,9 @@ public class DimensionsEtPositions {
 
         // Limiter la taille des cellules pour éviter qu'elles ne deviennent trop grandes ou trop petites
         if (cellSize < 40) {
-            cellSize = 40;  // Limite minimum de taille de cellule
+            cellSize = 40;
         } else if (cellSize > 100) {
-            cellSize = 100;  // Limite maximum de taille de cellule
+            cellSize = 100;
         }
 
         return cellSize;

@@ -56,8 +56,8 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         int screenHeight = (int) screenSize.getHeight();
 
         // Définir la taille de la fenêtre
-        width = Dimensions.WINDOW_WIDTH;
-        height = Dimensions.WINDOW_HEIGHT;
+        width = 19 * Dimensions.calculateCellSize();
+        height = 13 * Dimensions.calculateCellSize();
 
         // Ajuster la taille de la fenêtre pour qu'elle ne dépasse pas l'écran
         if (width > screenWidth) {
@@ -80,7 +80,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         // Initialisation des composants
         gamePanel = new JPanel(new BorderLayout());
         layeredPane = new JLayeredPane();
-        settingsPanel = new SettingsPanel();
+        settingsPanel = new SettingsPanel(this);
         sauvegardePanel = new SauvegardePanel();
         boutonPanel = new JPanel();
         inventairePanel = new InventairePanel(null);
@@ -248,8 +248,8 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         int y = location.y;
 
         // Convertir ces coordonnées en indices de cellule sur la carte
-        int gridX = x   / Dimensions.CELL_SIZE; // Diviser par la taille d'une cellule pour obtenir l'indice de la cellule
-        int gridY = y  / Dimensions.CELL_SIZE;
+        int gridX = x   / Dimensions.calculateCellSize(); // Diviser par la taille d'une cellule pour obtenir l'indice de la cellule
+        int gridY = y  / Dimensions.calculateCellSize();
 
         return new Position(gridX, gridY);
     }
@@ -416,6 +416,9 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
             System.exit(0);
         } 
     }
+
+    public Game getGame(){return game;}
+    public void close(){dispose();}
 
     @Override
     public void transmettreMarket(){

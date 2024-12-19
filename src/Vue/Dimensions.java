@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 
 public class Dimensions {
 
-    public static int BASE_CELL_SIZE = 80;
+    public static int BASE_CELL_SIZE = 50;
 
     // Récupérer la taille de l'écran
     private static final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -15,7 +15,7 @@ public class Dimensions {
     public static int screenHeight = screenSize.height;
 
     // Calcul de CELL_SIZE en fonction de la taille de l'écran
-    private static int calculateCellSize() {
+    public static int calculateCellSize() {
         int screenWidth = screenSize.width;
         int screenHeight = screenSize.height;
 
@@ -36,16 +36,16 @@ public class Dimensions {
         return cellSize;
     }
 
-    public static final int CELL_SIZE = calculateCellSize();
+ 
 
-    public static final int WINDOW_WIDTH = 19 * CELL_SIZE;
-    public static final int WINDOW_HEIGHT = 13 * CELL_SIZE;
+
+
 
     // Calcul des dimensions et position
     public static final int PANEL_X = (int) (screenWidth * 0.01);
     public static final int PANEL_Y = (int) (screenHeight * 0.05);
-    public static final int PANEL_WIDTH = 15 * CELL_SIZE;
-    public static final int PANEL_HEIGHT = 10 * CELL_SIZE;
+    public static final int PANEL_WIDTH = 15 * calculateCellSize();
+    public static final int PANEL_HEIGHT = 10 * calculateCellSize();
 
     // Méthode pour appliquer ces valeurs aux Panels
     public static void setPanelBounds(JPanel Panel) {

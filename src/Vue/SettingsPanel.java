@@ -1,6 +1,9 @@
 package Vue;
 
 import javax.swing.*;
+
+import Modele.Game;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,7 +19,7 @@ public class SettingsPanel extends JPanel {
     private boolean tempFullScreen = false;
     private int tempControlMode = 0;
 
-    public SettingsPanel() {
+    public SettingsPanel(Affichage frame) {
         // Configuration du JPanel principal
         setLayout(new BorderLayout());
         setBackground(Color.DARK_GRAY);
@@ -125,13 +128,17 @@ public class SettingsPanel extends JPanel {
                 // Appliquer les modifications
                 isFullScreen = tempFullScreen;
                 controlMode = tempControlMode;
-        
+                Game game = frame.getGame();
+                frame.close();
                 // Mettre à jour BASE_CELL_SIZE en fonction du mode plein écran
                 if (isFullScreen) {
                     Dimensions.BASE_CELL_SIZE = 80; // Mode plein écran
                 } else {
                     Dimensions.BASE_CELL_SIZE = 50; // Mode fenêtre
+                    
                 }
+
+                Affichage affichage = new Affichage(game);
         
                 // Afficher le message de confirmation
                 confirmationLabel.setText("Preferences sauvegardées");

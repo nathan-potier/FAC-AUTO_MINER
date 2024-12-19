@@ -133,18 +133,18 @@ public class SettingsPanel extends JPanel {
                 Game game = frame.getGame();
                 game.setFullScreen(isFullScreen);
         
-                // Fermer et rouvrir la fenêtre seulement si le mode plein écran a changé
-                if (fullScreenChanged) {
-                    frame.close();
-                    if (isFullScreen) {
-                        Dimensions.BASE_CELL_SIZE = 80; // Mode plein écran
-                    } else {
-                        Dimensions.BASE_CELL_SIZE = 50; // Mode fenêtré
-                    }
-        
-                    Affichage affichage = new Affichage(game);
-                    affichage.setVisible(true);
+
+            
+                frame.close();
+                if (isFullScreen) {
+                    Dimensions.BASE_CELL_SIZE = 80; // Mode plein écran
+                } else {
+                    Dimensions.BASE_CELL_SIZE = 50; // Mode fenêtré
                 }
+    
+                Affichage affichage = new Affichage(game);
+                affichage.setVisible(true);
+
         
                 // Afficher le message de confirmation
                 confirmationLabel.setText("Preferences sauvegardées");

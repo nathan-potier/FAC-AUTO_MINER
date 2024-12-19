@@ -83,6 +83,14 @@ public class Player {
         marketInterface.notificationUpdate();
     }
 
+    public void deplacerDun(Position nouvelle, Cell[][] grid, Game game){
+        Position startPos = position;
+        grid[nouvelle.getY()][nouvelle.getX()] = new Cell<>(nouvelle, this);
+        grid[position.getY()][position.getX()] = null;
+        this.position = nouvelle;
+        game.notifyMove(this, startPos, position, Direction.getDirection(startPos, position).toString());
+        game.updateAffichage(false);
+    }
 
     public Position getPos(){return position;}
     public Inventory getInv() {return inventory;}

@@ -38,12 +38,7 @@ public abstract class Resource implements Savable{
         return false;
     }
 
-    public boolean isFull(){
-        return quantity >= limiteStock;
-    }
-    
-    public void removeQuantity(int amount) {quantity = Math.max(0, quantity - amount);}
-
+    public boolean isFull(){ return quantity >= limiteStock;}
     public String getName() {return name;}
     public Position getPosition(){return pos;}
     public int getQuantity() {return quantity;}
@@ -53,6 +48,8 @@ public abstract class Resource implements Savable{
 
     public void setLimiteStock(int limite){this.limiteStock = limite;}
     public void setQuantity(int q){this.quantity = q;}
+    public void removeQuantity(int amount) {quantity = Math.max(0, quantity - amount);}
+    public void setPos(Position pos){this.pos = pos;}
 
     public abstract Resource clone();
     public abstract Resource cloneOne();

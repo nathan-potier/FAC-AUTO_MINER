@@ -14,12 +14,12 @@ public class Game implements Controle{
     private Carte gameMap;
     private static Player player;
     private Spawn spawn;
-    private int width = 15, height = 12;
+    private static final int WIDTH = 15, HEIGHT = 12;
     private GameListener listener ;
     private Market market;
 
     public Game(String pseudo){ 
-        spawn = new Spawn(new Position( width - (width - 2), height - 1));
+        spawn = new Spawn(new Position( WIDTH - (WIDTH - 2), HEIGHT - 1));
         player = new Player(pseudo, Spawn.getPos());
         market = new Market(null);
     }
@@ -31,7 +31,7 @@ public class Game implements Controle{
     }
 
     public void create() {
-        gameMap = new Carte(width, height, player, spawn, market, this);
+        gameMap = new Carte(WIDTH, HEIGHT, player, spawn, market, this);
         gameMap.generateMap(player);
         gameMap.generateRessource(player);
         player.collectResource(new Wood(3)); 
@@ -70,8 +70,8 @@ public class Game implements Controle{
 
     public static Player getPlayer(){return player;}
     public Carte getMap(){return gameMap;}
-    public int getHeight(){return height;}
-    public int getWidth(){return width;}
+    public static int getHeight(){return HEIGHT;}
+    public static int getWidth(){return WIDTH;}
     public Market getMarket() {return market;}
     public void initVue(VueGenerale v){gameMap.setVue(v);}
     public Spawn getSpawn(){return spawn;}
@@ -93,7 +93,7 @@ public class Game implements Controle{
     @Override
     public void clickOnCase(Position pos) {
         gameMap.ActionByClick(player, pos);
-        if(gameMap.posIsValid(pos) && GameStates.isMoveOn()){
+        if(pos.posIsInMap() && GameStates.isMoveOn()){
             gameMap.deplacerVersPosition(player, pos);
         }
     }

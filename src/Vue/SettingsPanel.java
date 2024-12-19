@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 
 public class SettingsPanel extends JPanel {
 
-    private boolean isFullScreen = false;
+    private boolean isFullScreen;
     private int controlMode = 0; // 0 = Arrows, 1 = Mouse, 2 = Les deux
 
     private SetMenuListener listener;  // Référence au listener pour notifier l'action
@@ -125,7 +125,14 @@ public class SettingsPanel extends JPanel {
                 // Appliquer les modifications
                 isFullScreen = tempFullScreen;
                 controlMode = tempControlMode;
-
+        
+                // Mettre à jour BASE_CELL_SIZE en fonction du mode plein écran
+                if (isFullScreen) {
+                    Dimensions.BASE_CELL_SIZE = 80; // Mode plein écran
+                } else {
+                    Dimensions.BASE_CELL_SIZE = 50; // Mode fenêtre
+                }
+        
                 // Afficher le message de confirmation
                 confirmationLabel.setText("Preferences sauvegardées");
                 confirmationLabel.setVisible(true);
@@ -141,6 +148,7 @@ public class SettingsPanel extends JPanel {
                 timer.start();
             }
         });
+        
 
         bottomPanel.add(saveButton);
 
@@ -162,5 +170,7 @@ public class SettingsPanel extends JPanel {
     public void setMenuListener(SetMenuListener listener) {
         this.listener = listener;
     }
+
+    
 
 }

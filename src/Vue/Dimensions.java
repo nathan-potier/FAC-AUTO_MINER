@@ -41,14 +41,14 @@ public class Dimensions {
     public static final int WINDOW_WIDTH = 19 * CELL_SIZE;
     public static final int WINDOW_HEIGHT = 13 * CELL_SIZE;
 
-    // Calcul des dimensions et position de l'usinePanel
-    public static final int MACHINE_PANEL_X = (int) (screenWidth * 0.01);
-    public static final int MACHINE_PANEL_Y = (int) (screenHeight * 0.05);
-    public static final int MACHINE_PANEL_WIDTH = 15 * CELL_SIZE;
-    public static final int MACHINE_PANEL_HEIGHT = 10 * CELL_SIZE;
+    // Calcul des dimensions et position
+    public static final int PANEL_X = (int) (screenWidth * 0.01);
+    public static final int PANEL_Y = (int) (screenHeight * 0.05);
+    public static final int PANEL_WIDTH = 15 * CELL_SIZE;
+    public static final int PANEL_HEIGHT = 10 * CELL_SIZE;
 
-    // Méthode pour appliquer ces valeurs à MachinePanel
-    public static void setMachinePanelBounds(JPanel machinePanel) {
-        machinePanel.setBounds(MACHINE_PANEL_X, MACHINE_PANEL_Y, MACHINE_PANEL_WIDTH, MACHINE_PANEL_HEIGHT);
+    // Méthode pour appliquer ces valeurs aux Panels
+    public static void setPanelBounds(JPanel Panel) {
+        Panel.setBounds(PANEL_X, PANEL_Y, PANEL_WIDTH, PANEL_HEIGHT);
     }
 }

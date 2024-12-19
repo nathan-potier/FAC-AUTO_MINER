@@ -51,7 +51,6 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
     public Affichage(Game game) {
         this.game = game;
         this.pseudo = Game.getPlayer().getPseudo();
-        // Récupérer la taille de l'écran
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenWidth = (int) screenSize.getWidth();
         int screenHeight = (int) screenSize.getHeight();
@@ -99,9 +98,9 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         cartePanel = new CartePanel(game.getWidth(), game.getHeight());
         this.game.addGameListener(cartePanel);
         cartePanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 60, 0));
-        Dimensions.setMachinePanelBounds(usinePanel);
-        Dimensions.setMachinePanelBounds(recolteusePanel);
-        Dimensions.setMachinePanelBounds(marketPanel);
+        Dimensions.setPanelBounds(usinePanel);
+        Dimensions.setPanelBounds(recolteusePanel);
+        Dimensions.setPanelBounds(marketPanel);
 
 
 

@@ -116,22 +116,26 @@ public class UsinePanel extends JPanel implements UpdateInterface {
 
     private void addStockPanel(JPanel parent) {
         stockPanel = new JPanel();
-        stockPanel.setLayout(new BoxLayout(stockPanel, BoxLayout.Y_AXIS));
+        stockPanel.setLayout(new BoxLayout(stockPanel, BoxLayout.X_AXIS)); // Disposition horizontale
         stockPanel.setBackground(Color.DARK_GRAY);
         stockPanel.setBorder(BorderFactory.createTitledBorder(
             BorderFactory.createLineBorder(new Color(221, 242, 172)), 
             "Stock de Production", 0, 0, new Font("Arial", Font.BOLD, 14), Color.white
         ));
-        stockPanel.setPreferredSize(new Dimension(300, 150));
-        stockPanel.setMaximumSize(new Dimension(300, 150));
-        stockPanel.setMinimumSize(new Dimension(300, 150));
-
+    
+        // Suppression des dimensions fixes pour que le panneau s'adapte dynamiquement
+        stockPanel.setPreferredSize(new Dimension(500, 150)); // Taille préférée, mais pas fixe
+        stockPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 150)); // Largeur infinie, hauteur fixe
+    
+        // Ajout d'un JScrollPane pour gérer le défilement horizontal et vertical
         JScrollPane scrollPane = new JScrollPane(stockPanel);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED); // Ajout du défilement horizontal
+    
         parent.add(scrollPane, BorderLayout.CENTER);
     }
-
+    
+    
     private void initializeInventairePanels() {
         JPanel inventaire = createInventairePanel("Inventaire");
         JPanel Ressources = createInventairePanel("Ressources");
@@ -230,51 +234,51 @@ public class UsinePanel extends JPanel implements UpdateInterface {
 
     private void updateStockPanel() {
         stockPanel.removeAll();
-
+    
         if (usine == null || usine.getStock().getResources().isEmpty()) {
             JLabel emptyLabel = new JLabel("Le stock est vide.");
             emptyLabel.setForeground(Color.white);
             emptyLabel.setFont(new Font("Arial", Font.ITALIC, 14));
             stockPanel.add(emptyLabel);
         } else {
+            // Change to GridLayout with 3 columns for production stock
+            stockPanel.setLayout(new GridLayout(0, 3)); // 0 rows means it will adjust based on content
             
             for (Resource r : usine.getStock().getResources()) {
                 if (r.getQuantity() > 0) {
                     JPanel itemPanel = new JPanel();
                     itemPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
                     itemPanel.setBackground(Color.DARK_GRAY);
-
-                    ImageIcon icon = new ImageIcon(new ImageIcon("assets/" + r.getName() + ".png").getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH));
+    
+                    ImageIcon icon = new ImageIcon(new ImageIcon("assets/" + r.getName() + ".png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH));
                     JLabel itemLabel = new JLabel(icon);
                     itemLabel.setText(" " + r.getName() + " x" + r.getQuantity());
                     itemLabel.setForeground(Color.white);
                     itemLabel.setFont(new Font("Arial", Font.PLAIN, 14));
                     itemPanel.add(itemLabel);
+    
+                    // Add "Prendre" button for each resource
+                    JButton takeResourceButton = new JButton("Prendre");
+                    takeResourceButton.setBackground(new Color(221, 242, 172));
+                    takeResourceButton.setForeground(Color.BLACK);
+                    takeResourceButton.setFocusPainted(false);
+                    takeResourceButton.addActionListener(e -> {
+                        usine.recupererRessource(r);
+                        updateAll();
+                    });
+    
+                    itemPanel.add(takeResourceButton);
+                    
                     stockPanel.add(itemPanel);
                 }
             }
-            JPanel takeButtonPanel = new JPanel();
-            takeButtonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-            takeButtonPanel.setBackground(Color.DARK_GRAY);
-
-            takeButton = new JButton("Prendre");
-            takeButton.setBackground(new Color(221, 242, 172));
-            takeButton.setForeground(Color.BLACK);
-            takeButton.setFocusPainted(false);
-            takeButton.addActionListener(e -> {
-                usine.recuperer();
-                updateAll();
-                });
-
-            takeButtonPanel.add(takeButton);
-
-            stockPanel.add(Box.createHorizontalGlue());
-            stockPanel.add(takeButtonPanel);
         }
-
+    
         stockPanel.revalidate();
         stockPanel.repaint();
     }
+    
+    
 
     private void updateInventairePanel() {
         inventairePanel.removeAll();

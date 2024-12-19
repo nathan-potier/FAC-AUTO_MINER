@@ -9,7 +9,7 @@ Recolteuse option-> Polyvalente a la position 0,0 Stock-> {} Inventaire-> {} Rec
 Objets sur la carte:
 Iron a la position 2,0
 Recolteuse option-> Rapide a la position 8,0 Stock-> {(Wood;20),} Inventaire-> {(Wood;20),} Recette->Wood
-Usine option-> Rapide a la position 11,0 Stock-> {} Inventaire-> {} Recette->Clous
+Usine option-> Rapide a la position 11,0 Stock-> {(Iron;2),(Wood;2),(Iron;2),(Wood;2),(Iron;2),(Wood;2),(Wood;20),} Inventaire-> {} Recette->Clous
 Market (14;0)
 Recolteuse option-> XL a la position 1,1 Stock-> {} Inventaire-> {} Recette->
 Usine option-> XL a la position 3,1 Stock-> {} Inventaire-> {} Recette->Chaise

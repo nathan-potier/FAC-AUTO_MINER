@@ -311,10 +311,11 @@ public class Carte {
         posMachine.equals(Spawn.getPos())){
             return false;
         }
-        
-        Cell<?> nouvMachine = new Cell<>(posMachine ,player.getMachine());
+
+
         ArrayList<Position> posAutour = posMachine.posAutour4();
         boolean placablerecolteuse = false;
+        
         for (Position pos : posAutour){
             if (getElementAt(pos) != null && isInstanceOf(Resource.class, pos)){
                 placablerecolteuse = true;
@@ -327,6 +328,7 @@ public class Carte {
         for(Position pos : posAutour){
             
             if (trouverChemin(Spawn.getPos(), pos) != null){
+                Cell<?> nouvMachine = new Cell<>(posMachine ,player.getMachine());
                 player.deplacerDun(pos, grid, game);
                 verifSpawnAffichage(); 
                 grid[posMachine.getY()][posMachine.getX()] = nouvMachine;

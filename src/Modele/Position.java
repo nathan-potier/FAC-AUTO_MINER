@@ -98,6 +98,7 @@ public class Position {
     
     public boolean isValidPosition(Carte map) {
         ArrayList<Position> posAutour = this.posAutour8();
+        Cell<?> act = map.getElementAt(this);
         map.setElementAt(this , new Cell<>(this, new Attente(this, null)));
         for (Position neighbor : posAutour) {
             
@@ -119,11 +120,11 @@ public class Position {
     
             // Vérifie les autres conditions pour refuser la position.
             if ((map.trouverChemin(Spawn.getPos(), neighbor) == null && map.getElementAt(neighbor) == null) || test) {
-                map.setElementAt(this, null);
+                map.setElementAt(this, act);
                 return false;
             }
         }
-        map.setElementAt(this, null);
+        map.setElementAt(this, act);
         return true; // Si aucune condition n'échoue, la position est valide.
     }
 

@@ -1,12 +1,13 @@
 Joueur: 
 Position: 2,11
-Argent: 253
+Argent: 103
 Ressources du joueur:
 Wood:20
 Clou:8
 Planche:4
 Marteau:1
 Machines du joueur:
+Recolteuse option-> XL a la position 0,0 Stock-> {} Inventaire-> {} Recette->
 Objets sur la carte:
 Iron a la position 6,0
 Wood a la position 1,1
@@ -21,7 +22,7 @@ Usine option-> XL a la position 2,5 Stock-> {(Clou;8),} Inventaire-> {} Recette-
 Recolteuse option-> Rapide a la position 5,5 Stock-> {(Wood;20),} Inventaire-> {(Wood;20),} Recette->Wood
 Wood a la position 6,5
 Wood a la position 3,6
-Recolteuse option-> Rapide a la position 5,6 Stock-> {(Wood;11),} Inventaire-> {(Wood;11),} Recette->Wood
+Recolteuse option-> Rapide a la position 5,6 Stock-> {(Wood;13),} Inventaire-> {(Wood;13),} Recette->Wood
 Wood a la position 6,6
 Iron a la position 14,6
 Wood a la position 4,8

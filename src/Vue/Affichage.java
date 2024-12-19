@@ -99,8 +99,8 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         cartePanel = new CartePanel(game.getWidth(), game.getHeight());
         this.game.addGameListener(cartePanel);
         cartePanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 60, 0));
-        Dimensions.setUsinePanelBounds(usinePanel);
-        recolteusePanel.setBounds(10, 50, 775, 550);
+        Dimensions.setMachinePanelBounds(usinePanel);
+        Dimensions.setMachinePanelBounds(recolteusePanel);
 
 
 

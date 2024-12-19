@@ -54,7 +54,18 @@ public class Dimensions {
     public static final int USINE_PANEL_HEIGHT = 10 * CELL_SIZE;  // 10 cellules de haut
 
     // Méthode pour appliquer ces valeurs à usinePanel
-    public static void setUsinePanelBounds(JPanel usinePanel) {
+    public static void setMachinePanelBounds(JPanel usinePanel) {
         usinePanel.setBounds(USINE_PANEL_X, USINE_PANEL_Y, USINE_PANEL_WIDTH, USINE_PANEL_HEIGHT);
+    }
+
+    // Calcul des dimensions et position de l'usinePanel
+    public static final int RECOLTEUSE_PANEL_X = (int) (screenWidth * 0.01);  // 1% de la largeur de l'écran
+    public static final int RECOLTEUSE_PANEL_Y = (int) (screenHeight * 0.05);  // 5% de la hauteur de l'écran
+    public static final int RECOLTEUSE_PANEL_WIDTH = 15 * CELL_SIZE;  // 15 cellules de large
+    public static final int RECOLTEUSE_PANEL_HEIGHT = 10 * CELL_SIZE;  // 10 cellules de haut
+
+    // Méthode pour appliquer ces valeurs à usinePanel
+    public static void setRecolteusePanelBounds(JPanel recolteusPanel) {
+        recolteusPanel.setBounds(RECOLTEUSE_PANEL_X, RECOLTEUSE_PANEL_Y, RECOLTEUSE_PANEL_WIDTH, RECOLTEUSE_PANEL_HEIGHT);
     }
 }

@@ -101,6 +101,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         cartePanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 60, 0));
         Dimensions.setMachinePanelBounds(usinePanel);
         Dimensions.setMachinePanelBounds(recolteusePanel);
+        Dimensions.setMachinePanelBounds(marketPanel);
 
 
 

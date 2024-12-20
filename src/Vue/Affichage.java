@@ -317,7 +317,9 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         placeUsine.addActionListener(new ActionListener() {
             @Override   
             public void actionPerformed(ActionEvent e) {
-                listener.onKeyPress(-1);
+                if(!marketPanel.isVisible() && !usinePanel.isVisible() && !recolteusePanel.isVisible() && !inventairePanel.isVisible()){
+                    listener.onKeyPress(-1);
+                }
                 if (Game.getPlayer().getInv().getMachine() == null){
                     button2Panel.setVisible(false);
                 }else{

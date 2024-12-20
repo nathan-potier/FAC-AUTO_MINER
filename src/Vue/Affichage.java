@@ -141,7 +141,6 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
     
         this.pack();
         this.setLocationRelativeTo(null);
-        this.setVisible(true);
 
         menuPanel.addMouseListener(this);
         this.addMouseListener(this);

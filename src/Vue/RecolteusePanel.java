@@ -23,12 +23,10 @@ public class RecolteusePanel extends JPanel implements UpdateInterface {
         this.setLayout(new BorderLayout());
         this.setBackground(Color.DARK_GRAY);
         this.setBorder(BorderFactory.createEmptyBorder(0, 0, 60, 0));
-        this.setBounds(50, 50, 700, 500);
-
+        
         initializeTitrePanel();
         initializeMiddlePanel();
         initializeCloseButton();
-
     }
 
     private void initializeTitrePanel() {
@@ -50,13 +48,11 @@ public class RecolteusePanel extends JPanel implements UpdateInterface {
         middlePanel.setPreferredSize(new Dimension(100, 500));
         middlePanel.setBackground(Color.DARK_GRAY);
 
-        // Retirer le inventairePanel et ne garder que le middlePanel
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, middlePanel, null);
         splitPane.setDividerSize(0);
         splitPane.setResizeWeight(0.2);
         this.add(splitPane, BorderLayout.CENTER);
 
-        // Ajouter les panels sélection de ressource et stock
         addRessourceSelectionPanel(middlePanel);
         addStockPanel(middlePanel);
     }
@@ -66,7 +62,7 @@ public class RecolteusePanel extends JPanel implements UpdateInterface {
         ressourceSelectionPanel.setBackground(Color.DARK_GRAY);
         ressourceSelectionPanel.setBorder(BorderFactory.createTitledBorder(
                 BorderFactory.createLineBorder(new Color(221, 242, 172)),
-                "Choisir une ressource", 0, 0, new Font("Arial", Font.BOLD, 14), Color.white
+                "Choose a Resource", 0, 0, new Font("Arial", Font.BOLD, 14), Color.white
         ));
         ressourceSelectionPanel.setMinimumSize(new Dimension(300, 100));
 
@@ -76,7 +72,7 @@ public class RecolteusePanel extends JPanel implements UpdateInterface {
         ressourceComboBox.setFont(new Font("Arial", Font.PLAIN, 14));
         ressourceSelectionPanel.add(ressourceComboBox);
 
-        startButton = new JButton("Commencer la récolte");
+        startButton = new JButton("Start harvesting");
         startButton.setBackground(new Color(221, 242, 172));
         startButton.setForeground(Color.BLACK);
         startButton.addActionListener(e -> {
@@ -86,13 +82,13 @@ public class RecolteusePanel extends JPanel implements UpdateInterface {
         });
         ressourceSelectionPanel.add(startButton);
 
-        stopButton = new JButton("Arrêter la récolte");
+        stopButton = new JButton("Stop harvesting");
         stopButton.setBackground(new Color(221, 242, 172));
         stopButton.setForeground(Color.BLACK);
         stopButton.addActionListener(e -> stopHarvesting());
         ressourceSelectionPanel.add(stopButton);
 
-        statusLabel = new JLabel("Status: Inactif");
+        statusLabel = new JLabel("Status: Inactive");
         statusLabel.setForeground(Color.white);
         statusLabel.setFont(new Font("Arial", Font.PLAIN, 14));
         ressourceSelectionPanel.add(statusLabel);
@@ -106,7 +102,7 @@ public class RecolteusePanel extends JPanel implements UpdateInterface {
         stockPanel.setBackground(Color.DARK_GRAY);
         stockPanel.setBorder(BorderFactory.createTitledBorder(
                 BorderFactory.createLineBorder(new Color(221, 242, 172)),
-                "Stock de Récolte", 0, 0, new Font("Arial", Font.BOLD, 14), Color.white
+                "Harvest Stock", 0, 0, new Font("Arial", Font.BOLD, 14), Color.white
         ));
         stockPanel.setPreferredSize(new Dimension(300, 150));
 
@@ -120,7 +116,7 @@ public class RecolteusePanel extends JPanel implements UpdateInterface {
         JPanel closeButtonPanel = new JPanel(new BorderLayout());
         closeButtonPanel.setBackground(Color.DARK_GRAY);
 
-        JButton closeButton = new JButton("Fermer");
+        JButton closeButton = new JButton("Close");
         closeButton.setFont(new Font("Arial", Font.BOLD, 14));
         closeButton.setBackground(new Color(221, 242, 172));
         closeButton.setForeground(Color.BLACK);
@@ -133,13 +129,11 @@ public class RecolteusePanel extends JPanel implements UpdateInterface {
         this.add(closeButtonPanel, BorderLayout.SOUTH);
     }
 
-
-
     public void setRecolteuse(Recolteuse recolteuse) {
         this.recolteuse = recolteuse;
-        statusLabel.setText("Status: Inactif");
+        statusLabel.setText("Status: Inactive");
         if (recolteuse.isCollecting()){
-            statusLabel.setText("Status: Collecte en cours");
+            statusLabel.setText("Status: Collection in progress");
         }
         if (recolteuse.getOption().equals("Polyvalente") || !recolteuse.typeRessourceIsSet() ){
             ressourceComboBox.setEnabled(true);
@@ -149,7 +143,7 @@ public class RecolteusePanel extends JPanel implements UpdateInterface {
             ressourceComboBox.setEnabled(false);
             
         }
-        nomTypeRecolteuse.setText("Recolteuse : " + recolteuse.getOption());
+        nomTypeRecolteuse.setText("Harvester : " + recolteuse.getOption());
         recolteuse.setInterfaceUpdate(this);
         ressourceComboBox.removeAllItems();
         for (String RessourceCollectable : recolteuse.getRessourceCollectable()) {
@@ -161,39 +155,36 @@ public class RecolteusePanel extends JPanel implements UpdateInterface {
 
     private void startHarvesting() {
         if (recolteuse != null) {
-   
             recolteuse.setTypeRessource(typeResource);
             recolteuse.startCollecting();
-            statusLabel.setText("Status: Collecte en cours");
+            statusLabel.setText("Status: Collection in progress");
             if (!recolteuse.getOption().equals("Polyvalente")){
                 ressourceComboBox.setEnabled(false);
             }else{
                 ressourceComboBox.setEnabled(true);
             }
-            
         }
     }
+
     private void updateStatus(){
         if(recolteuse.isCollecting()){
-            statusLabel.setText("Status: Collecte en cours");
+            statusLabel.setText("Status: Collection in progress");
         }else{
-            statusLabel.setText("Status: Inactif");
+            statusLabel.setText("Status: Inactive");
         }
     }
 
     private void stopHarvesting() {
-        
         if (recolteuse != null) {
             recolteuse.stopWorking();
-            statusLabel.setText("Status: Inactif");
+            statusLabel.setText("Status: Inactive");
         }
     }
 
     private void updateStockPanel() {
         stockPanel.removeAll();
-
         if (recolteuse == null || recolteuse.getStock().getResources().isEmpty()) {
-            JLabel emptyLabel = new JLabel("Le stock est vide.");
+            JLabel emptyLabel = new JLabel("Stock is empty");
             emptyLabel.setForeground(Color.white);
             emptyLabel.setFont(new Font("Arial", Font.ITALIC, 14));
             stockPanel.add(emptyLabel);
@@ -218,7 +209,7 @@ public class RecolteusePanel extends JPanel implements UpdateInterface {
             takeButtonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
             takeButtonPanel.setBackground(Color.DARK_GRAY);
 
-            takeButton = new JButton("Prendre");
+            takeButton = new JButton("Collect");
             takeButton.setBackground(new Color(221, 242, 172));
             takeButton.setForeground(Color.BLACK);
             takeButton.setFocusPainted(false);
@@ -227,14 +218,12 @@ public class RecolteusePanel extends JPanel implements UpdateInterface {
                 recolteuse.recuperer();
                 updateStockPanel();
                 updateStatus();
-                });
-
+            });
             takeButtonPanel.add(takeButton);
 
             stockPanel.add(Box.createHorizontalGlue());
             stockPanel.add(takeButtonPanel);
         }
-
         stockPanel.revalidate();
         stockPanel.repaint();
     }

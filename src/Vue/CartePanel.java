@@ -163,7 +163,6 @@ public class CartePanel extends JPanel implements GameListener {
         return timer;
     }
 
-
     //Gestion des icônes
     private ImageIcon getIconForDirection() {
         return getIconForType("Player_" + playerDirection.toLowerCase(), "png");
@@ -177,7 +176,4 @@ public class CartePanel extends JPanel implements GameListener {
         }
         return new ImageIcon(file.getAbsolutePath());
     }
-
-
-
 }

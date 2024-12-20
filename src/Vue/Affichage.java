@@ -291,7 +291,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
     public void initialiserBoutons(){
         JPanel button1Panel = new JPanel();
         button1Panel.setLayout(new BoxLayout(button1Panel, BoxLayout.X_AXIS));
-        JButton inventaire = new JButton("Inventaire");
+        JButton inventaire = new JButton("Inventory");
         inventaire.setFocusPainted(false);
         inventaire.addActionListener(new ActionListener() {
             @Override
@@ -312,7 +312,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
     
         button2Panel = new JPanel();
         button2Panel.setLayout(new BoxLayout(button2Panel, BoxLayout.X_AXIS));
-        JButton placeUsine = new JButton("Placer l'usine");
+        JButton placeUsine = new JButton("Place Factory");
         placeUsine.setFocusPainted(false);
         placeUsine.addActionListener(new ActionListener() {
             @Override   
@@ -330,7 +330,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
     
         JPanel button3Panel = new JPanel();
         button3Panel.setLayout(new BoxLayout(button3Panel, BoxLayout.X_AXIS));
-        JButton retourMenuButton = new JButton("Retour Menu");
+        JButton retourMenuButton = new JButton("Back Menu");
         retourMenuButton.setFocusPainted(false);
         retourMenuButton.addActionListener(new ActionListener() {
             @Override
@@ -359,9 +359,9 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
     }
     
     private void afficherBoiteDeDialogueFermeture() {
-        String[] options = {"Sauvegarder et Quitter", "Quitter", "Annuler"};
+        String[] options = {"Save and Quit", "Quit", "Cancel"};
         if(isRunning){
-            int choix = JOptionPane.showOptionDialog(this, "Voulez-vous sauvegarder avant de quitter ?", "Confirmer la fermeture",
+            int choix = JOptionPane.showOptionDialog(this, "Do you want to save before exiting?", "Confirm closing",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null,
                 options, options[0]
             );

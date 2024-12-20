@@ -17,7 +17,7 @@ public class InventairePanel extends JPanel implements UpdateInterface{
     private JPanel rightPanel;
     private JPanel borderPanel;
     private List<Recette> recettes = Recette.initialiserRecettes();
-    private boolean isProducing = false; // Indique si une production est en cours
+    private boolean isProducing = false;
 
 
     public InventairePanel(Player player) {
@@ -29,30 +29,27 @@ public class InventairePanel extends JPanel implements UpdateInterface{
         this.setBackground(Color.DARK_GRAY);
 
         // Calculer la taille de la cellule de base en fonction de la résolution
-        int baseCellSize = Math.min((int) (getWidth() * 0.08), 80); // 8% de la largeur de la fenêtre, max 80px
         leftPanel = new JPanel();
         leftPanel.setLayout(new GridLayout(0, 2, 5, 5));
         leftPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 50, 10));
         leftPanel.setBackground(Color.DARK_GRAY);
 
-        // Panneau droit avec texte "Recette"
+        // Panneau droit
         rightPanel = new JPanel();
         rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
         rightPanel.setBackground(Color.DARK_GRAY);
         rightPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 50, 0));
 
-        // Envelopper le panneau des recettes dans un JScrollPane
         JScrollPane rightScrollPane = new JScrollPane(rightPanel);
         rightScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
         rightScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         rightScrollPane.setBorder(null);
 
-        // Panneau de bordure de 150px à droite
         borderPanel = new JPanel();
         borderPanel.setPreferredSize(new Dimension(150, 0));
         borderPanel.setBackground(Color.DARK_GRAY);
 
-        // Utiliser JSplitPane pour diviser l'espace
+        // Diviser l'espace
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, new JScrollPane(leftPanel), rightScrollPane);
         splitPane.setDividerSize(0);
         splitPane.setBorder(null);
@@ -64,14 +61,11 @@ public class InventairePanel extends JPanel implements UpdateInterface{
         afficherRecettes(recettes);
     }
     
-    public void setPlayer(Player p) {
-        player = p;
-    }
+    public void setPlayer(Player p) {player = p;}
     public boolean isProducing(){return isProducing;}
 
     public void afficherInventaire() {
         leftPanel.removeAll();
-
         // Calculer la taille dynamique des slots
         int baseCellSize = Math.min((int) (getWidth() * 0.08), 80); // Calcul dynamique basé sur la taille du panneau
         Dimension slotSize = new Dimension(baseCellSize, baseCellSize); // Taille de chaque slot
@@ -93,7 +87,7 @@ public class InventairePanel extends JPanel implements UpdateInterface{
             leftPanel.add(machineSlot);
         }
 
-        // Ajouter des slots vides si nécessaire
+        // Ajouter des slots vides
         int totalSlots = 10;
         for (int i = resInvName.length + (machine != null ? 1 : 0); i < totalSlots; i++) {
             JPanel emptySlot = new JPanel();
@@ -141,7 +135,6 @@ public class InventairePanel extends JPanel implements UpdateInterface{
     public void afficherRecettes(List<Recette> recettes) {
         rightPanel.removeAll();
     
-        // Ajouter chaque recette dans le panneau de droite
         for (Recette recette : recettes) {
             JPanel recettePanel = new JPanel();
             recettePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -158,7 +151,6 @@ public class InventairePanel extends JPanel implements UpdateInterface{
             JLabel arrowLabel = new JLabel(new ImageIcon(new ImageIcon("assets/ArrowRight.png").getImage().getScaledInstance(30, 50, Image.SCALE_SMOOTH)));
             recettePanel.add(arrowLabel);
     
-            // Ajouter l'ingrédient final sans la quantité
             Resource finalIngredient = recette.getProduitFinal();
             if (finalIngredient != null) {
                 JPanel finalIngredientPanel = new JPanel();
@@ -170,12 +162,10 @@ public class InventairePanel extends JPanel implements UpdateInterface{
             }
     
             // Ajouter le bouton de production pour chaque recette
-            JButton produceButton = new JButton("Produire");
+            JButton produceButton = new JButton("Produce");
             produceButton.setBackground(new Color(221, 242, 172));
             produceButton.setForeground(Color.BLACK);
             produceButton.setFocusPainted(false);
-    
-            // Ajouter un ActionListener au bouton
             produceButton.addActionListener(e -> {
                 if (!isProducing) {
                     if (recette.isTempo()) {
@@ -189,10 +179,9 @@ public class InventairePanel extends JPanel implements UpdateInterface{
             recettePanel.add(produceButton);
             rightPanel.add(recettePanel);
     
-            // Ajouter une barre horizontale pour séparer les recettes
             JSeparator separator = new JSeparator(SwingConstants.HORIZONTAL);
-            separator.setForeground(Color.LIGHT_GRAY); // Couleur de la ligne
-            separator.setPreferredSize(new Dimension(rightPanel.getWidth(), 1)); // Ajuster la taille
+            separator.setForeground(Color.LIGHT_GRAY);
+            separator.setPreferredSize(new Dimension(rightPanel.getWidth(), 1));
             rightPanel.add(separator);
         }
         rightPanel.revalidate();
@@ -204,7 +193,6 @@ public class InventairePanel extends JPanel implements UpdateInterface{
         itemPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         itemPanel.setBackground(Color.DARK_GRAY);
     
-        // Chargement de l'image de l'ingrédient
         ImageIcon icon = new ImageIcon(new ImageIcon("assets/" + resourceName + ".png").getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH));
         JLabel ingredientLabel = new JLabel(icon);
         if(quantity == -1){

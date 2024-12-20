@@ -10,8 +10,7 @@ public class MenuPanel extends JPanel {
     private MenuButton newGame;
     private MenuButton settings;
     private MenuButton exit;
-
-    private ImageIcon logoIcon;  // ImageIcon pour le logo
+    private ImageIcon logoIcon;
 
     public MenuPanel(int xpos, int ypos, int width, int height) {
         logoIcon = new ImageIcon(getClass().getResource("/assets/Logo.png"));
@@ -23,8 +22,6 @@ public class MenuPanel extends JPanel {
 
         setPreferredSize(new Dimension(width, height));
         setBackground(Color.DARK_GRAY);
-
-        // Ajouter un listener pour la souris
         addMouseMotionListener(new MouseAdapter() {
             @Override
             public void mouseMoved(MouseEvent e) {
@@ -42,16 +39,11 @@ public class MenuPanel extends JPanel {
         super.paintComponent(g);
 
         if (logoIcon != null) {
-            // Taille de base du logo
             int logoSize = 200;
-
-            // Vérifier si BASE_CELL_SIZE est 50 et si l'écran n'est pas en 1920x1080
             if (Dimensions.BASE_CELL_SIZE == 50 &&
                 (Dimensions.screenWidth != 1920 || Dimensions.screenHeight != 1080)) {
-                logoSize = 150;  // Réduire la taille du logo pour un écran plus petit
+                logoSize = 150;
             }
-
-            // Redimensionner le logo
             Image logoImage = logoIcon.getImage().getScaledInstance(logoSize, logoSize, Image.SCALE_SMOOTH);
             ImageIcon scaledLogoIcon = new ImageIcon(logoImage);
 
@@ -60,14 +52,11 @@ public class MenuPanel extends JPanel {
             int y = 50;
             scaledLogoIcon.paintIcon(this, g, x, y);
         }
-
-        // Dessiner les boutons
         playButton.draw(g);
         newGame.draw(g);
         settings.draw(g);
         exit.draw(g);
     }
-
 
     public boolean isMouseOverPlay(Point point) {
         return playButton.getBounds().contains(point);

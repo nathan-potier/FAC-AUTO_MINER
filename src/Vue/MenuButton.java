@@ -26,18 +26,13 @@ public class MenuButton {
         imgs = new BufferedImage[2]; // Deux états : normal et survolé
 
         try {
-            // Charger les images depuis les ressources
             BufferedImage original1 = ImageIO.read(getClass().getResource(defaultImagePath));
             BufferedImage original2 = ImageIO.read(getClass().getResource(hoverImagePath));
-
-            // Redimensionner les images à la taille prédéfinie
             imgs[0] = resizeImage(original1, width, height);
             imgs[1] = resizeImage(original2, width, height);
         } catch (IOException e) {
             e.printStackTrace();
             System.err.println("Erreur lors du chargement des images.");
-
-            // Ajouter des images par défaut si le chargement échoue
             imgs[0] = createPlaceholderImage(Color.RED);
             imgs[1] = createPlaceholderImage(Color.ORANGE);
         }
@@ -66,24 +61,11 @@ public class MenuButton {
         g.drawImage(imgs[index], xPos - width / 2, yPos - height / 2, width, height, null);
     }
 
-    public void setMouseOver(boolean mouseOver) {
-        this.mouseOver = mouseOver;
-    }
+    public void setMouseOver(boolean mouseOver) {this.mouseOver = mouseOver;}
 
-    private void initBounds() {
+    private void initBounds(){
         bounds = new Rectangle(xPos - width / 2, yPos - height / 2, width, height);
     }
 
-    public Rectangle getBounds() {
-        return bounds;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-    
+    public Rectangle getBounds(){return bounds;}
 }

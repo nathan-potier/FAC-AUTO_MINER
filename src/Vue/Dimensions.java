@@ -17,13 +17,9 @@ public class Dimensions {
         int screenWidth = screenSize.width;
         int screenHeight = screenSize.height;
 
-        // Taille cible de 1920*1080
         double scaleFactorWidth = screenWidth / 1920.0;
         double scaleFactorHeight = screenHeight / 1080.0;
-
         double scaleFactor = Math.min(scaleFactorWidth, scaleFactorHeight);
-
-        // Calculer la taille des cellules en fonction du facteur d'échelle
         int cellSize = (int) (BASE_CELL_SIZE * scaleFactor);
 
         if (cellSize < 40) {

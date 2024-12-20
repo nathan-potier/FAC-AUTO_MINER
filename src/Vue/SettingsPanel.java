@@ -13,35 +13,27 @@ public class SettingsPanel extends JPanel {
     private boolean isFullScreen;
     private int controlMode = 0; // 1 = Mouse, 0 = Les deux
 
-    private SetMenuListener listener;  // Référence au listener pour notifier l'action
+    private SetMenuListener listener;
 
     // Variables temporaires pour les changements en attente
     private boolean tempFullScreen = false;
     private int tempControlMode = 0;
 
     public SettingsPanel(Affichage frame) {
-        // Configuration du JPanel principal
         setLayout(new BorderLayout());
         setBackground(Color.DARK_GRAY);
-
-        // Ajouter une bordure pour créer de l'espace autour des éléments
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        // Titre en haut
         JLabel title = new JLabel("SETTINGS", SwingConstants.CENTER);
         title.setForeground(Color.WHITE);
         title.setFont(new Font("Arial", Font.BOLD, 24));
         add(title, BorderLayout.NORTH);
 
-        // Panel pour les options (Full Screen et Control)
         JPanel topPanel = new JPanel();
         topPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
         topPanel.setBackground(Color.DARK_GRAY);
-
-        // Espacement entre le titre et les boutons
         topPanel.add(Box.createVerticalStrut(400));
 
-        // Option Full Screen avec BoxLayout vertical
         JPanel fullScreenOption = new JPanel();
         fullScreenOption.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
         fullScreenOption.setBackground(Color.DARK_GRAY);
@@ -64,7 +56,6 @@ public class SettingsPanel extends JPanel {
         fullScreenOption.add(Box.createVerticalStrut(10));
         fullScreenOption.add(fullScreenButton);
 
-        // Option Control avec BoxLayout vertical
         JPanel controlOption = new JPanel();
         controlOption.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
         controlOption.setBackground(Color.DARK_GRAY);
@@ -78,15 +69,9 @@ public class SettingsPanel extends JPanel {
         controlButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                tempControlMode = (tempControlMode + 1) % 3; // Passer à la prochaine option
-                switch (tempControlMode) {
-                    case 0:
-                        controlButton.setText("Mouse");
-                        break;
-                    case 1:
-                        controlButton.setText("Arrows and Mouse");
-                        break;
-                }
+                String[] controlModes = {"Mouse", "Arrows and Mouse"};
+                tempControlMode = (tempControlMode + 1) % controlModes.length; // Passer à la prochaine option
+                controlButton.setText(controlModes[tempControlMode]);
             }
         });
 
@@ -94,47 +79,26 @@ public class SettingsPanel extends JPanel {
         controlOption.add(Box.createVerticalStrut(10));
         controlOption.add(controlButton);
 
-        // Ajouter les options dans le topPanel
         topPanel.add(fullScreenOption);
         topPanel.add(controlOption);
 
-        // Ajouter le panneau topPanel dans le centre
         add(topPanel, BorderLayout.CENTER);
 
-        // Panneau pour les boutons en bas
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         bottomPanel.setBackground(Color.DARK_GRAY);
-
-        // Ajouter un espace sous les boutons
         bottomPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
 
-        // Message de confirmation
-        JLabel confirmationLabel = new JLabel("");
-        confirmationLabel.setForeground(Color.GREEN);
-        confirmationLabel.setFont(new Font("Arial", Font.PLAIN, 16));
-        confirmationLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        confirmationLabel.setVisible(false); // Masqué par défaut
-        bottomPanel.add(confirmationLabel);
-
-        // Bouton Save
         JButton saveButton = new JButton("Save Settings");
-        saveButton.setFocusPainted(false); // Désactiver le focus visuel
+        saveButton.setFocusPainted(false);
         saveButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                // Vérifier si le mode plein écran a changé
-                boolean fullScreenChanged = (tempFullScreen != isFullScreen);
-        
-                // Appliquer les modifications
+            public void actionPerformed(ActionEvent e) {     
                 isFullScreen = tempFullScreen;
                 controlMode = tempControlMode;
-        
-                // Sauvegarder l'état dans Game
+
                 Game game = frame.getGame();
                 game.setFullScreen(isFullScreen);
         
-
-            
                 frame.close();
                 if (isFullScreen) {
                     Dimensions.BASE_CELL_SIZE = 80; // Mode plein écran
@@ -144,28 +108,10 @@ public class SettingsPanel extends JPanel {
     
                 Affichage affichage = new Affichage(game);
                 affichage.setVisible(true);
-
-        
-                // Afficher le message de confirmation
-                confirmationLabel.setText("Preferences sauvegardées");
-                confirmationLabel.setVisible(true);
-        
-                // Supprimer le message après un court délai
-                Timer timer = new Timer(2000, new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        confirmationLabel.setVisible(false);
-                    }
-                });
-                timer.setRepeats(false);
-                timer.start();
             }
         });
-        
-
         bottomPanel.add(saveButton);
 
-        // Bouton Quitter
         JButton quitButton = new JButton("Back");
         quitButton.setFocusPainted(false); // Désactiver le focus visuel
         quitButton.addActionListener(new ActionListener() {
@@ -174,16 +120,11 @@ public class SettingsPanel extends JPanel {
                 listener.onRetourMenu();
             }
         });
-
         bottomPanel.add(quitButton);
-
         add(bottomPanel, BorderLayout.SOUTH);
     }
 
     public void setMenuListener(SetMenuListener listener) {
         this.listener = listener;
     }
-
-    
-
 }

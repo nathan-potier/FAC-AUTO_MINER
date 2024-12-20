@@ -42,10 +42,6 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
     private final int actionDelay = 50;  // Délai entre deux déplacements (en millisecondes)
     private long lastActionTime = 0;  // Dernière fois qu'une action a été effectuée
 
-    /**
-     * permet de savoir si la game à été lancer ou non ( utile pour le retour au menu pour 
-     * savoir si il est bon de construire la game ou juste d'afficher la game)
-    */
     private boolean isRunning = false;
 
     public Affichage(Game game) {
@@ -56,20 +52,18 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         int screenWidth = (int) screenSize.getWidth();
         int screenHeight = (int) screenSize.getHeight();
 
-        // Définir la taille de la fenêtre
+        // taille de la fenêtre
         width = 19 * Dimensions.calculateCellSize();
         height = 13 * Dimensions.calculateCellSize();
 
         // Ajuster la taille de la fenêtre pour qu'elle ne dépasse pas l'écran
-        if (width > screenWidth) {
-            width = screenWidth - 50;  // Ajouter une marge de sécurité
-        }
-        if (height > screenHeight) {
-            height = screenHeight - 50;  // Ajouter une marge de sécurité
-        }
+        if (width > screenWidth) {width = screenWidth - 50;}
+        if (height > screenHeight) {height = screenHeight - 50;}
 
         this.setTitle("AutoMiner");
-        setPreferredSize(new Dimension(width, height));
+        ImageIcon icon = new ImageIcon("assets/Logo.png");
+        this.setIconImage(icon.getImage());
+        this.setPreferredSize(new Dimension(width, height));
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
             @Override
@@ -78,7 +72,37 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
             }
         });
 
-        // Initialisation des composants
+        initialiserPanels();
+
+        settingsPanel.setMenuListener(this);
+        sauvegardePanel.setMenuListener(this);
+
+        cartePanel = new CartePanel(game.getWidth(), game.getHeight());
+        this.game.addGameListener(cartePanel);
+        usinePanel.setBounds((int) (screenWidth * 0.01), (int) (screenHeight * 0.05), 15 * Dimensions.calculateCellSize(), 10 * Dimensions.calculateCellSize()+100);
+        recolteusePanel.setBounds((int) (screenWidth * 0.01), (int) (screenHeight * 0.05), 15 * Dimensions.calculateCellSize(), 10 * Dimensions.calculateCellSize());
+        marketPanel.setBounds((int) (screenWidth * 0.01), (int) (screenHeight * 0.05), 15 * Dimensions.calculateCellSize(), 10 * Dimensions.calculateCellSize());
+
+        initialiserLayeredPanel();
+        
+        // Masquer les panneaux sauf la carte par défaut
+        masquerPanel();
+
+        initialiserBoutons();
+
+        gamePanel.add(menuPanel, BorderLayout.SOUTH);
+        gamePanel.add(layeredPane, BorderLayout.CENTER);
+        gamePanel.add(boutonPanel, BorderLayout.EAST);
+
+        this.add(gamePanel);
+        this.pack();
+        this.setLocationRelativeTo(null);
+        menuPanel.addMouseListener(this);
+        this.addMouseListener(this);
+        this.setLayout(null);
+    }
+
+    private void initialiserPanels(){
         gamePanel = new JPanel(new BorderLayout());
         layeredPane = new JLayeredPane();
         settingsPanel = new SettingsPanel(this);
@@ -89,27 +113,14 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         usinePanel = new UsinePanel();
         recolteusePanel = new RecolteusePanel();
         menuPanel = new MenuPanel(width / 2, height / 2, width, height);
-
-        ImageIcon icon = new ImageIcon("assets/Logo.png");
-        this.setIconImage(icon.getImage());
-
-        settingsPanel.setMenuListener(this);
-        sauvegardePanel.setMenuListener(this);
-
-        cartePanel = new CartePanel(game.getWidth(), game.getHeight());
-        this.game.addGameListener(cartePanel);
-        cartePanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 60, 0));
-        usinePanel.setBounds((int) (screenWidth * 0.01), (int) (screenHeight * 0.05), 15 * Dimensions.calculateCellSize(), 10 * Dimensions.calculateCellSize()+100);
-        recolteusePanel.setBounds((int) (screenWidth * 0.01), (int) (screenHeight * 0.05), 15 * Dimensions.calculateCellSize(), 10 * Dimensions.calculateCellSize());
-        marketPanel.setBounds((int) (screenWidth * 0.01), (int) (screenHeight * 0.05), 15 * Dimensions.calculateCellSize(), 10 * Dimensions.calculateCellSize());
-
-
+    }
+    
+    private void initialiserLayeredPanel(){
         // Configuration des panneaux dans le layeredPane
         cartePanel.setBounds(0, 0, width, height);
         inventairePanel.setBounds(0, 0, width, height);
         settingsPanel.setBounds(0, 0, width, height);
         sauvegardePanel.setBounds(0, 0, width, height);
-
 
         // Ajout des panneaux au layeredPane
         layeredPane.add(cartePanel, Integer.valueOf(1));
@@ -120,9 +131,9 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         layeredPane.add(recolteusePanel, Integer.valueOf(7));
         layeredPane.add(settingsPanel, Integer.valueOf(4));
         layeredPane.add(sauvegardePanel, Integer.valueOf(5));
-        
+    }
 
-        // Masquer les panneaux sauf la carte par défaut
+    private void masquerPanel(){
         inventairePanel.setVisible(false);
         usinePanel.setVisible(false);
         recolteusePanel.setVisible(false);
@@ -130,21 +141,6 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         settingsPanel.setVisible(false);
         sauvegardePanel.setVisible(false);
         boutonPanel.setVisible(false);
-
-        initialiserBoutons();
-
-        gamePanel.add(menuPanel, BorderLayout.SOUTH);
-        gamePanel.add(layeredPane, BorderLayout.CENTER);
-        gamePanel.add(boutonPanel, BorderLayout.EAST);
-
-        this.add(gamePanel);
-    
-        this.pack();
-        this.setLocationRelativeTo(null);
-
-        menuPanel.addMouseListener(this);
-        this.addMouseListener(this);
-        this.setLayout(null);
     }
 
     public void resetGame(){
@@ -248,19 +244,15 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
 
     public Position getCaseFromClick(MouseEvent e) {
         Point location = SwingUtilities.convertPoint(this, e.getPoint(), cartePanel);
-
         // Obtenir la position du clic dans les coordonnées du JPanel
         int x = location.x;
         int y = location.y;
-
         // Convertir ces coordonnées en indices de cellule sur la carte
         int gridX = x   / Dimensions.calculateCellSize(); // Diviser par la taille d'une cellule pour obtenir l'indice de la cellule
         int gridY = y  / Dimensions.calculateCellSize();
-
         return new Position(gridX, gridY);
     }
     
-
     @Override
     public void mousePressed(MouseEvent e) {
         if (listener != null && !menuBoutonClique){
@@ -355,7 +347,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
         boutonPanel.add(button2Panel);
         boutonPanel.add(Box.createVerticalStrut(20));
         boutonPanel.add(button3Panel);
-        int boutonPanelWidth = (int)(0.15 * width); // 15% de la largeur de la fenêtre
+        int boutonPanelWidth = (int)(0.15 * width);
         boutonPanel.setLayout(new BoxLayout(boutonPanel, BoxLayout.Y_AXIS));
         boutonPanel.setPreferredSize(new Dimension(boutonPanelWidth, height));
         boutonPanel.setBackground(Color.GRAY);
@@ -369,15 +361,9 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
     private void afficherBoiteDeDialogueFermeture() {
         String[] options = {"Sauvegarder et Quitter", "Quitter", "Annuler"};
         if(isRunning){
-            int choix = JOptionPane.showOptionDialog(
-                this,
-                "Voulez-vous sauvegarder avant de quitter ?",
-                "Confirmer la fermeture",
-                JOptionPane.DEFAULT_OPTION,
-                JOptionPane.WARNING_MESSAGE,
-                null,
-                options,
-                options[0]
+            int choix = JOptionPane.showOptionDialog(this, "Voulez-vous sauvegarder avant de quitter ?", "Confirmer la fermeture",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null,
+                options, options[0]
             );
             switch (choix) {
                 case 0:
@@ -402,8 +388,7 @@ public class Affichage extends JFrame implements VueGenerale, KeyListener, Mouse
     @Override
     public void transmettreMarket(){
         marketPanel.notificationUpdate();
-        marketPanel.setVisible(true);
-        
+        marketPanel.setVisible(true); 
     }
     @Override
     public void transmettreUsine(Usine u) {

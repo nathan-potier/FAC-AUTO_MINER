@@ -117,18 +117,6 @@ public class Usine extends Machine {
         }
     }
 
-    public void recupererRessource(Resource r) {
-        for(Resource resource : getStock().getResources()){
-            if(resource.equals(r)){
-                if(Game.getPlayer().collectQuantityResource(resource)){// Ajoute la ressource à l'inventaire
-                        getStock().removeResource(r, 1);
-                        if(resource.getQuantity() == 0){break;}
-                } 
-            }
-        }
-    }
-    
-
     public boolean ajouterRessource(Resource r){
         if (recetteEnCours != null && !isCooking){startProduction();}
         

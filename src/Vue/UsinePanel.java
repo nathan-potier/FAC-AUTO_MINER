@@ -240,42 +240,56 @@ public class UsinePanel extends JPanel implements UpdateInterface {
             emptyLabel.setFont(new Font("Arial", Font.ITALIC, 14));
             stockPanel.add(emptyLabel);
         } else {
-            // Change to GridLayout with 3 columns for production stock
-            stockPanel.setLayout(new GridLayout(0, 3)); // 0 rows means it will adjust based on content
-            
+            // Panneau pour les ressources
+            JPanel resourcesPanel = new JPanel();
+            resourcesPanel.setLayout(new GridLayout(0, 3)); // 0 rows means it will adjust based on content
+            resourcesPanel.setBackground(Color.DARK_GRAY);
+    
             for (Resource r : usine.getStock().getResources()) {
                 if (r.getQuantity() > 0) {
                     JPanel itemPanel = new JPanel();
                     itemPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
                     itemPanel.setBackground(Color.DARK_GRAY);
     
-                    ImageIcon icon = new ImageIcon(new ImageIcon("assets/" + r.getName() + ".png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH));
+                    ImageIcon icon = new ImageIcon(new ImageIcon("assets/" + r.getName() + ".png")
+                            .getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH));
                     JLabel itemLabel = new JLabel(icon);
                     itemLabel.setText(" " + r.getName() + " x" + r.getQuantity());
                     itemLabel.setForeground(Color.white);
                     itemLabel.setFont(new Font("Arial", Font.PLAIN, 14));
                     itemPanel.add(itemLabel);
     
-                    // Add "Prendre" button for each resource
-                    JButton takeResourceButton = new JButton("Prendre");
-                    takeResourceButton.setBackground(new Color(221, 242, 172));
-                    takeResourceButton.setForeground(Color.BLACK);
-                    takeResourceButton.setFocusPainted(false);
-                    takeResourceButton.addActionListener(e -> {
-                        usine.recupererRessource(r);
-                        updateAll();
-                    });
-    
-                    itemPanel.add(takeResourceButton);
-                    
-                    stockPanel.add(itemPanel);
+                    resourcesPanel.add(itemPanel);
                 }
             }
+    
+            // Panneau pour le bouton "Prendre"
+            JPanel buttonPanel = new JPanel();
+            buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+            buttonPanel.setBackground(Color.DARK_GRAY);
+    
+            JButton takeResourceButton = new JButton("Recuperer");
+            takeResourceButton.setBackground(new Color(221, 242, 172));
+            takeResourceButton.setForeground(Color.BLACK);
+            takeResourceButton.setFocusPainted(false);
+            takeResourceButton.setPreferredSize(new Dimension(100, 30)); // Taille réduite du bouton
+            takeResourceButton.addActionListener(e -> {
+                usine.recuperer();
+                updateAll();
+            });
+    
+            buttonPanel.add(takeResourceButton);
+    
+            // Ajout des deux panneaux dans stockPanel
+            stockPanel.setLayout(new BorderLayout());
+            stockPanel.add(resourcesPanel, BorderLayout.CENTER);
+            stockPanel.add(buttonPanel, BorderLayout.SOUTH);
         }
     
         stockPanel.revalidate();
         stockPanel.repaint();
     }
+    
     
     
 

@@ -64,7 +64,7 @@ public class Recette {
         ingredientsArmoire.add(new Clou(6));    // 6 clous
         ingredientsArmoire.add(new Scie(1));    // 1 scie
         ingredientsArmoire.add(new Marteau(1)); // 1 marteau
-        recettes.add(new Recette("Armoire", ingredientsArmoire, new Armoire(1)));
+        recettes.add(new Recette("Cupboard", ingredientsArmoire, new Cupboard(1)));
    
         return recettes;
     }

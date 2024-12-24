@@ -26,7 +26,7 @@ public class Market implements Savable{
         resourcesForSale.add(new Marteau(1)); // Marteau
         resourcesForSale.add(new Chaise(1)); // Chaise
         resourcesForSale.add(new Table(1));  // Table
-        resourcesForSale.add(new Armoire(1)); // Armoire
+        resourcesForSale.add(new Cupboard(1)); // Armoire
 
         // Ajouter des machines à la vente
         machinesForSale.add(new Usine("XL") );

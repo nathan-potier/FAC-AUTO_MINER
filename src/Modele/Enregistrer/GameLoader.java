@@ -308,7 +308,7 @@ public class GameLoader {
         // Meubles
         ENTITY_CREATORS.put("Chaise", args -> new Chaise((int) args[0], (Position) args[1]));
         ENTITY_CREATORS.put("Table", args -> new Table((int) args[0], (Position) args[1]));
-        ENTITY_CREATORS.put("Armoire", args -> new Armoire((int) args[0], (Position) args[1]));
+        ENTITY_CREATORS.put("Cupboard", args -> new Cupboard((int) args[0], (Position) args[1]));
         
         // Machines
         ENTITY_CREATORS.put("Usine", args -> {

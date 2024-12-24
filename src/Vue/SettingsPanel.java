@@ -11,13 +11,11 @@ import java.awt.event.ActionListener;
 public class SettingsPanel extends JPanel {
 
     private boolean isFullScreen;
-    private int controlMode = 0; // 1 = Mouse, 0 = Les deux
 
     private SetMenuListener listener;
 
-    // Variables temporaires pour les changements en attente
+    // Variable temporaire pour les changements en attente
     private boolean tempFullScreen = false;
-    private int tempControlMode = 0;
 
     public SettingsPanel(Affichage frame) {
         setLayout(new BorderLayout());
@@ -56,31 +54,7 @@ public class SettingsPanel extends JPanel {
         fullScreenOption.add(Box.createVerticalStrut(10));
         fullScreenOption.add(fullScreenButton);
 
-        JPanel controlOption = new JPanel();
-        controlOption.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
-        controlOption.setBackground(Color.DARK_GRAY);
-
-        JLabel controlLabel = new JLabel("Control: ");
-        controlLabel.setForeground(Color.WHITE);
-        controlLabel.setFont(new Font("Arial", Font.PLAIN, 18));
-
-        JButton controlButton = new JButton("Arrows");
-        controlButton.setFocusPainted(false); // Désactiver le focus visuel
-        controlButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String[] controlModes = {"Mouse", "Arrows and Mouse"};
-                tempControlMode = (tempControlMode + 1) % controlModes.length; // Passer à la prochaine option
-                controlButton.setText(controlModes[tempControlMode]);
-            }
-        });
-
-        controlOption.add(controlLabel);
-        controlOption.add(Box.createVerticalStrut(10));
-        controlOption.add(controlButton);
-
         topPanel.add(fullScreenOption);
-        topPanel.add(controlOption);
 
         add(topPanel, BorderLayout.CENTER);
 
@@ -94,7 +68,6 @@ public class SettingsPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {     
                 isFullScreen = tempFullScreen;
-                controlMode = tempControlMode;
 
                 Game game = frame.getGame();
                 game.setFullScreen(isFullScreen);
@@ -113,7 +86,7 @@ public class SettingsPanel extends JPanel {
         bottomPanel.add(saveButton);
 
         JButton quitButton = new JButton("Back");
-        quitButton.setFocusPainted(false); // Désactiver le focus visuel
+        quitButton.setFocusPainted(false);
         quitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

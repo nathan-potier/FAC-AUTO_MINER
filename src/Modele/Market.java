@@ -20,13 +20,14 @@ public class Market implements Savable{
         // Ajouter des ressources à la vente
         resourcesForSale.add(new Wood(1));   // Bois
         resourcesForSale.add(new Iron(1));   // Fer
-        resourcesForSale.add(new Clou(1));   // Clou
-        resourcesForSale.add(new Planche(1)); // Planche
-        resourcesForSale.add(new Pierre(1)); // Pierre
-        resourcesForSale.add(new Marteau(1)); // Marteau
-        resourcesForSale.add(new Chaise(1)); // Chaise
+        resourcesForSale.add(new Nail(1));   // Clou
+        resourcesForSale.add(new Plank(1)); // Planche
+        resourcesForSale.add(new Rock(1)); // Pierre
+        resourcesForSale.add(new Hammer(1)); // Marteau
+        resourcesForSale.add(new Chair(1)); // Chaise
         resourcesForSale.add(new Table(1));  // Table
         resourcesForSale.add(new Cupboard(1)); // Armoire
+        resourcesForSale.add(new Saw(1)); // Scie
 
         // Ajouter des machines à la vente
         machinesForSale.add(new Usine("XL") );

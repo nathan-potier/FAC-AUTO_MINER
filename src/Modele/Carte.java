@@ -198,7 +198,7 @@ public class Carte {
                     obj = new Iron(1, pos);
                     break;
                 case "pierre":
-                    obj = new Pierre(1, pos);
+                    obj = new Rock(1, pos);
                     break;
                 // Ajouter d'autres types d'objets ici si nécessaire
                 default:

@@ -299,14 +299,14 @@ public class GameLoader {
         // Ressources
         ENTITY_CREATORS.put("Wood", args -> new Wood((int) args[0], (Position) args[1]));
         ENTITY_CREATORS.put("Iron", args -> new Iron((int) args[0], (Position) args[1]));
-        ENTITY_CREATORS.put("Clou", args -> new Clou((int) args[0], (Position) args[1]));
-        ENTITY_CREATORS.put("Planche", args -> new Planche((int) args[0], (Position) args[1]));
-        ENTITY_CREATORS.put("Pierre", args -> new Pierre((int) args[0], (Position) args[1]));
-        ENTITY_CREATORS.put("Marteau", args -> new Marteau((int) args[0], (Position) args[1]));
-        ENTITY_CREATORS.put("Scie", args -> new Scie((int) args[0], (Position) args[1]));
+        ENTITY_CREATORS.put("Nail", args -> new Nail((int) args[0], (Position) args[1]));
+        ENTITY_CREATORS.put("Plank", args -> new Plank((int) args[0], (Position) args[1]));
+        ENTITY_CREATORS.put("Rock", args -> new Rock((int) args[0], (Position) args[1]));
+        ENTITY_CREATORS.put("Hammer", args -> new Hammer((int) args[0], (Position) args[1]));
+        ENTITY_CREATORS.put("Saw", args -> new Saw((int) args[0], (Position) args[1]));
         
         // Meubles
-        ENTITY_CREATORS.put("Chaise", args -> new Chaise((int) args[0], (Position) args[1]));
+        ENTITY_CREATORS.put("Chair", args -> new Chair((int) args[0], (Position) args[1]));
         ENTITY_CREATORS.put("Table", args -> new Table((int) args[0], (Position) args[1]));
         ENTITY_CREATORS.put("Cupboard", args -> new Cupboard((int) args[0], (Position) args[1]));
         

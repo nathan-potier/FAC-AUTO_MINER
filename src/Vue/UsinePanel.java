@@ -195,7 +195,13 @@ public class UsinePanel extends JPanel implements UpdateInterface {
     public void setUsine(Usine usine) {
         this.usine = usine;
         usine.setInterfaceUpdate(this);
-        nomTypeUsine.setText("Factory : " + usine.getOption());
+        String option = "";
+        if(usine.getOption().equals("")){
+            option = "Normal";
+        }else{
+            option = usine.getOption();
+        }
+        nomTypeUsine.setText("Factory : " + option);
         recetteComboBox.removeAllItems();
         for (String recette : usine.getTabRecettes()) {
             recetteComboBox.addItem(recette);

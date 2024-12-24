@@ -143,7 +143,13 @@ public class RecolteusePanel extends JPanel implements UpdateInterface {
             ressourceComboBox.setEnabled(false);
             
         }
-        nomTypeRecolteuse.setText("Harvester : " + recolteuse.getOption());
+        String option = "";
+        if(recolteuse.getOption().equals("")){
+            option = "Normal";
+        }else{
+            option = recolteuse.getOption();
+        }
+        nomTypeRecolteuse.setText("Harvester : " + option);
         recolteuse.setInterfaceUpdate(this);
         ressourceComboBox.removeAllItems();
         for (String RessourceCollectable : recolteuse.getRessourceCollectable()) {

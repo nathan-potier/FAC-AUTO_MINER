@@ -39,8 +39,10 @@ public abstract class Machine implements Savable{
                 return 150;
             case "Fragile":
                 return 50;
+            case "Polyvalente":
+                return 200;
             default:
-                return 100; // Polyvalente
+                return 100; 
         }
     }
     

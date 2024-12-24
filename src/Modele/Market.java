@@ -30,11 +30,13 @@ public class Market implements Savable{
         resourcesForSale.add(new Saw(1)); // Scie
 
         // Ajouter des machines à la vente
+        machinesForSale.add(new Usine("") );
         machinesForSale.add(new Usine("XL") );
         machinesForSale.add(new Usine("Rapide") );
         machinesForSale.add(new Usine("Polyvalente") );
         machinesForSale.add(new Usine("Fragile") );
         // Ajouter des machines à la vente
+        machinesForSale.add(new Recolteuse("") );
         machinesForSale.add(new Recolteuse("XL") );
         machinesForSale.add(new Recolteuse("Rapide") );
         machinesForSale.add(new Recolteuse("Polyvalente") );

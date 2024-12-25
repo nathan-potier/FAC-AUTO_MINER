@@ -22,7 +22,7 @@ Wood a la position 8,3
 Usine option-> Polyvalente a la position 10,3 Stock-> {} Inventaire-> {(Saw;1),(Nail;2),(Wood;20),} Recette->Cupboard
 Usine option-> Rapide a la position 11,3 Stock-> {} Inventaire-> {} Recette->Hammer
 Usine option-> Rapide a la position 12,3 Stock-> {} Inventaire-> {} Recette->Nail
-Usine option-> Rapide a la position 13,3 Stock-> {(Plank;1),(Plank;1),(Plank;1),(Plank;1),(Plank;1),(Plank;1),(Plank;1),(Plank;1),(Plank;1),(Plank;1),(Plank;1),} Inventaire-> {} Recette->Plank
+Usine option-> Rapide a la position 13,3 Stock-> {(Plank;20),(Iron;2),} Inventaire-> {} Recette->Plank
 Wood a la position 2,4
 Recolteuse option-> Polyvalente a la position 3,4 Stock-> {(Wood;20),} Inventaire-> {(Wood;20),} Recette->Wood
 Usine option-> Fragile a la position 10,4 Stock-> {} Inventaire-> {(Wood;1),} Recette->

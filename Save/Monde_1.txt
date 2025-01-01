@@ -1,8 +1,8 @@
 Joueur: 
 Position: 2,11
-Argent: 148353
+Argent: 148355
 Ressources du joueur:
-Wood:20
+Wood:19
 Iron:1
 Machines du joueur:
 Recolteuse option-> Polyvalente a la position 0,0 Stock-> {} Inventaire-> {} Recette->

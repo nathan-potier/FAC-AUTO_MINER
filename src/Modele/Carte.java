@@ -283,14 +283,12 @@ public class Carte {
                 Direction direction = Direction.getDirection(p.getPos(), nextPos);
     
                 if (direction == null) {
-                    System.out.println("Direction invalide.");
                     timer.stop(); // Arrêter le timer si une direction invalide est trouvée
                     return;
                 }
     
                 // Appeler la fonction de déplacement existante
                 if (!deplacer(p, direction)) {
-                    System.out.println("Impossible de continuer à cause d'un obstacle.");
                     timer.stop(); // Arrêter le timer si un obstacle est rencontré
                     return;
                 }

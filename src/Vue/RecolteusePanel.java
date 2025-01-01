@@ -109,6 +109,7 @@ public class RecolteusePanel extends JPanel implements UpdateInterface {
         JScrollPane scrollPane = new JScrollPane(stockPanel);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(20);
         parent.add(scrollPane, BorderLayout.CENTER);
     }
 

@@ -44,6 +44,7 @@ public class InventairePanel extends JPanel implements UpdateInterface{
         rightScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
         rightScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         rightScrollPane.setBorder(null);
+        rightScrollPane.getVerticalScrollBar().setUnitIncrement(20);
 
         borderPanel = new JPanel();
         borderPanel.setPreferredSize(new Dimension(150, 0));

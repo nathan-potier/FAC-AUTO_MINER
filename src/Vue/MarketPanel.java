@@ -64,11 +64,13 @@ public class MarketPanel extends JPanel implements UpdateInterface{
         buyScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         buyScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         buyScrollPane.setBorder(BorderFactory.createEmptyBorder());
+        buyScrollPane.getVerticalScrollBar().setUnitIncrement(20);
     
         JScrollPane sellScrollPane = new JScrollPane(sellPanel);
         sellScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         sellScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         sellScrollPane.setBorder(BorderFactory.createEmptyBorder());
+        sellScrollPane.getVerticalScrollBar().setUnitIncrement(20);
 
         centerPanel.add(buyScrollPane);
         centerPanel.add(sellScrollPane);

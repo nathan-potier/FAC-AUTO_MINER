@@ -126,7 +126,7 @@ public class UsinePanel extends JPanel implements UpdateInterface {
         JScrollPane scrollPane = new JScrollPane(stockPanel);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-    
+        scrollPane.getVerticalScrollBar().setUnitIncrement(20);
         parent.add(scrollPane, BorderLayout.CENTER);
     }
 
@@ -156,6 +156,7 @@ public class UsinePanel extends JPanel implements UpdateInterface {
         JScrollPane scrollPane = new JScrollPane(contentPanel);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(20);
         panel.add(scrollPane, BorderLayout.CENTER);
 
         if (title.contains("Inventory")) {

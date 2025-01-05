@@ -47,7 +47,7 @@ public class Recette {
         List<Resource> ingredientsScie = new ArrayList<>();
         ingredientsScie.add(new Wood(2));      // 2 bois
         ingredientsScie.add(new Iron(1));      // 1 fer
-        ingredientsMarteau.add(new Rock(3));   // 2 Pierre
+        ingredientsScie.add(new Rock(3));   // 2 Pierre
         recettes.add(new Recette("Saw", ingredientsScie, new Saw(1)));
     
         // Recette pour une planche (1 bois)

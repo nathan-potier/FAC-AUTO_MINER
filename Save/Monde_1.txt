@@ -1,43 +1,54 @@
 Joueur: 
 Position: 2,11
-Argent: 148355
+Argent: 100000
 Ressources du joueur:
-Wood:19
-Iron:1
+Wood:10
+Iron:10
+Nail:10
+Plank:10
+Rock:10
+Hammer:10
+Chair:10
+Table:10
+Cupboard:10
+Saw:10
 Machines du joueur:
-Recolteuse option-> Polyvalente a la position 0,0 Stock-> {} Inventaire-> {} Recette->
 Objets sur la carte:
-Iron a la position 2,0
-Recolteuse option-> Rapide a la position 8,0 Stock-> {(Wood;20),} Inventaire-> {(Wood;20),} Recette->Wood
-Usine option-> Rapide a la position 11,0 Stock-> {(Iron;2),(Wood;2),(Iron;2),(Wood;2),(Iron;2),(Wood;2),(Wood;20),} Inventaire-> {} Recette->Nail
-Market (14;0)
-Recolteuse option-> XL a la position 1,1 Stock-> {} Inventaire-> {} Recette->
-Usine option-> XL a la position 3,1 Stock-> {} Inventaire-> {} Recette->Chair
-Wood a la position 8,1
-Recolteuse option-> Fragile a la position 1,2 Stock-> {(Wood;20),} Inventaire-> {(Wood;20),} Recette->Wood
-Iron a la position 5,2
-Recolteuse option-> Fragile a la position 8,2 Stock-> {(Wood;20),} Inventaire-> {(Wood;20),} Recette->Wood
-Wood a la position 1,3
-Wood a la position 8,3
-Usine option-> Polyvalente a la position 10,3 Stock-> {} Inventaire-> {(Saw;1),(Nail;2),(Wood;20),} Recette->Cupboard
-Usine option-> Rapide a la position 11,3 Stock-> {} Inventaire-> {} Recette->Hammer
-Usine option-> Rapide a la position 12,3 Stock-> {} Inventaire-> {} Recette->Nail
-Usine option-> Rapide a la position 13,3 Stock-> {(Plank;20),(Iron;2),} Inventaire-> {} Recette->Plank
-Wood a la position 2,4
-Recolteuse option-> Polyvalente a la position 3,4 Stock-> {(Wood;20),} Inventaire-> {(Wood;20),} Recette->Wood
-Usine option-> Fragile a la position 10,4 Stock-> {} Inventaire-> {(Wood;1),} Recette->
-Wood a la position 0,5
-Iron a la position 2,6
-Wood a la position 11,6
-Recolteuse option-> XL a la position 12,6 Stock-> {(Wood;30),} Inventaire-> {(Wood;30),} Recette->Wood
-Recolteuse option-> Rapide a la position 11,7 Stock-> {(Wood;20),} Inventaire-> {(Wood;20),} Recette->Wood
-Wood a la position 12,7
-Rock a la position 1,8
-Wood a la position 13,9
-Recolteuse option-> XL a la position 4,10 Stock-> {(Wood;30),} Inventaire-> {(Wood;30),} Recette->Wood
+Usine option->  a la position 0,0 Stock-> {} Inventaire-> {} Recette->
+Usine option-> XL a la position 1,0 Stock-> {} Inventaire-> {} Recette->
+Usine option-> Rapide a la position 2,0 Stock-> {} Inventaire-> {} Recette->
+Usine option-> Polyvalente a la position 3,0 Stock-> {} Inventaire-> {} Recette->
+Usine option-> Fragile a la position 4,0 Stock-> {} Inventaire-> {} Recette->
+Recolteuse option->  a la position 6,0 Stock-> {} Inventaire-> {} Recette->
+Wood a la position 7,0
+Recolteuse option-> XL a la position 6,1 Stock-> {} Inventaire-> {} Recette->
+Rock a la position 7,1
+Recolteuse option-> Rapide a la position 6,2 Stock-> {} Inventaire-> {} Recette->
+Iron a la position 7,2
+Rock a la position 14,2
+Recolteuse option-> Polyvalente a la position 6,3 Stock-> {} Inventaire-> {} Recette->
+Wood a la position 7,3
+Recolteuse option-> Polyvalente a la position 14,3 Stock-> {(Rock;1),(Wood;5),} Inventaire-> {(Rock;1),(Wood;5),} Recette->Wood
+Recolteuse option-> Fragile a la position 6,4 Stock-> {} Inventaire-> {} Recette->
+Rock a la position 7,4
+Wood a la position 9,4
+Wood a la position 10,4
+Wood a la position 11,4
+Wood a la position 12,4
+Wood a la position 13,4
+Wood a la position 14,4
+Wood a la position 3,7
+Wood a la position 5,7
+Wood a la position 6,7
+Wood a la position 7,7
+Wood a la position 3,8
+Wood a la position 5,8
+Wood a la position 7,8
+Wood a la position 3,9
+Wood a la position 5,9
+Wood a la position 7,9
+Wood a la position 3,10
 Wood a la position 5,10
-Rock a la position 12,10
-Wood a la position 4,11
-Recolteuse option-> Rapide a la position 5,11 Stock-> {(Wood;20),} Inventaire-> {(Wood;20),} Recette->Wood
-Recolteuse option-> Rapide a la position 12,11 Stock-> {(Rock;20),} Inventaire-> {(Rock;20),} Recette->Rock
-Rock a la position 13,11
+Wood a la position 7,10
+Market (0;11)
+Wood a la position 3,11

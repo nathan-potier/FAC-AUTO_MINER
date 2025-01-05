@@ -65,7 +65,7 @@ Le jeu permet de sauvegarder l'état de la partie dans un fichier `Monde_n.txt` 
     ```bash
     javac -d bin -cp src src/Modele/*.java src/Vue/*.java src/Main.java
     ```
-    Sous windows : 
+    Sous Windows : 
     ```bash
     java -cp "bin;.;assets" Main
     ```

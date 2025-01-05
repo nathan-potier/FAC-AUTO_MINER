@@ -64,7 +64,14 @@ Le jeu permet de sauvegarder l'état de la partie dans un fichier `Monde_n.txt` 
 2. Compilez et exécutez le projet en se mettant dans le fichier Projet-Java :
     ```bash
     javac -d bin -cp src src/Modele/*.java src/Vue/*.java src/Main.java
+    ```
+    Sous windows : 
+    ```bash
     java -cp "bin;.;assets" Main
+    ```
+    Sous Linux : 
+    ```bash
+    java -cp "bin:.:assets" Main
     ```
 
 ## Structure du projet

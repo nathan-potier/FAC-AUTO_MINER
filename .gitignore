@@ -1,5 +1,6 @@
 # Ignorer le répertoire des fichiers compilés
-/bin/
+/bin/Modele
+/bin/Vue
 
 # Ignorer les fichiers générés par Java pour l'optimisation du bytecode
 *.class

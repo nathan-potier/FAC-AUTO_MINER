@@ -1,6 +1,5 @@
 package Vue;
 import java.util.ArrayList;
-
 import Modele.Position;
 
 public interface GameListener {

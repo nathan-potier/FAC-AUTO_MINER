@@ -1,66 +1,54 @@
 Joueur: 
 Position: 2,11
-Argent: 996919
+Argent: 100000
 Ressources du joueur:
-Iron:1
-Wood:11
+Wood:10
+Iron:10
+Nail:10
+Plank:10
+Rock:10
+Hammer:10
+Chair:10
+Table:10
+Cupboard:10
+Saw:10
 Machines du joueur:
-Marche position:
-(0;9)
 Objets sur la carte:
-Wood a la position 5,0
-Wood a la position 9,0
-Wood a la position 14,0
-Iron a la position 2,1
-Wood a la position 6,1
-Wood a la position 10,1
-Wood a la position 13,1
-Wood a la position 2,2
-Wood a la position 11,2
-Wood a la position 13,2
-Wood a la position 2,3
-Wood a la position 3,3
-Wood a la position 4,3
-Wood a la position 5,3
-Wood a la position 6,3
-Wood a la position 8,3
-Wood a la position 13,3
-Wood a la position 5,4
-Wood a la position 8,4
+Usine option->  a la position 0,0 Stock-> {} Inventaire-> {} Recette->
+Usine option-> XL a la position 1,0 Stock-> {} Inventaire-> {} Recette->
+Usine option-> Rapide a la position 2,0 Stock-> {} Inventaire-> {} Recette->
+Usine option-> Polyvalente a la position 3,0 Stock-> {} Inventaire-> {} Recette->
+Usine option-> Fragile a la position 4,0 Stock-> {} Inventaire-> {} Recette->
+Recolteuse option->  a la position 6,0 Stock-> {} Inventaire-> {} Recette->
+Wood a la position 7,0
+Recolteuse option-> XL a la position 6,1 Stock-> {} Inventaire-> {} Recette->
+Rock a la position 7,1
+Recolteuse option-> Rapide a la position 6,2 Stock-> {} Inventaire-> {} Recette->
+Iron a la position 7,2
+Rock a la position 14,2
+Recolteuse option-> Polyvalente a la position 6,3 Stock-> {} Inventaire-> {} Recette->
+Wood a la position 7,3
+Recolteuse option-> Polyvalente a la position 14,3 Stock-> {(Rock;1),(Wood;5),} Inventaire-> {(Rock;1),(Wood;5),} Recette->Wood
+Recolteuse option-> Fragile a la position 6,4 Stock-> {} Inventaire-> {} Recette->
+Rock a la position 7,4
+Wood a la position 9,4
+Wood a la position 10,4
+Wood a la position 11,4
 Wood a la position 12,4
 Wood a la position 13,4
-Wood a la position 1,5
-Wood a la position 7,5
-Wood a la position 9,5
-Wood a la position 10,5
-Wood a la position 0,6
-Wood a la position 4,6
-Wood a la position 5,6
-Wood a la position 7,6
-Wood a la position 11,6
-Iron a la position 12,6
-Wood a la position 14,6
+Wood a la position 14,4
+Wood a la position 3,7
 Wood a la position 5,7
 Wood a la position 6,7
 Wood a la position 7,7
-Wood a la position 8,7
-Wood a la position 12,7
-Wood a la position 6,8
-Wood a la position 9,8
-Wood a la position 14,8
-Wood a la position 2,9
+Wood a la position 3,8
+Wood a la position 5,8
+Wood a la position 7,8
+Wood a la position 3,9
 Wood a la position 5,9
-Wood a la position 6,9
-Wood a la position 8,9
-Wood a la position 14,9
-Wood a la position 2,10
+Wood a la position 7,9
+Wood a la position 3,10
 Wood a la position 5,10
-Wood a la position 0,11
-Iron a la position 1,11
-Wood a la position 4,11
-Wood a la position 10,11
-Wood a la position 12,11
-Wood a la position 14,11
-Machines sur la carte:
-Recolteuse option-> XL a la position 1,1 Stock-> {} Inventaire-> Recette->null
-Usine option-> XL a la position 3,1 Stock-> {} Inventaire-> Recette->
+Wood a la position 7,10
+Market (0;11)
+Wood a la position 3,11

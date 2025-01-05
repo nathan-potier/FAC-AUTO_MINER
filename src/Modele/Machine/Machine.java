@@ -1,15 +1,13 @@
 package Modele.Machine;
 
-import Modele.Resource.Recette;
 import Modele.Resource.Resource;
 import Vue.UpdateInterface;
 
 import Modele.*;
 
-public abstract class Machine {
+public abstract class Machine implements Savable{
     private String type; // "usine" ou "récolteuse"
     private Inventory stockProd = new Inventory(); // stock de ce qui est recolté ou produit
-    private Player player;
     private int prix;
     private Position pos;
     private int tempFabriq;
@@ -19,12 +17,12 @@ public abstract class Machine {
     private String option;
     private UpdateInterface update;
 
-    public Machine(String type, Position pos, String option, Inventory stockProd, Player player) {
+    public Machine(String type, Position pos, String option, Inventory stockProd) {
         if (stockProd != null){
             this.stockProd = stockProd;
         }
         this.type = type;
-        this.player = player;
+    
         this.prix = getPrix(option);
         this.pos = pos;
         this.tempFabriq = getTempFabriq(option);
@@ -35,33 +33,44 @@ public abstract class Machine {
         
     }
     public static int getPrix(String type) {
-        return switch (type) {
-            case "XL", "Rapide" -> 150;
-            case "Fragile" -> 50;
-            default -> 100; // Polyvalente
-            
-        };
+        switch (type) {
+            case "XL":
+            case "Rapide":
+                return 150;
+            case "Fragile":
+                return 50;
+            case "Polyvalente":
+                return 200;
+            default:
+                return 100; 
+        }
     }
-
+    
     public static int getTempFabriq(String type) {
-        return switch (type) {
-            case "Rapide" -> 2;
-            default -> 5;
-        };
+        switch (type) {
+            case "Rapide":
+                return 6;
+            default:
+                return 10;
+        }
     }
-
+    
     public static int getLimiteStock(String type) {
-        return switch (type) {
-            case "XL" -> 30;
-            default -> 20;
-        };
+        switch (type) {
+            case "XL":
+                return 30;
+            default:
+                return 20;
+        }
     }
-
+    
     public static boolean isModifiable(String type) {
-        return switch (type) {
-            case "Polyvalente" -> true;
-            default -> false;
-        };
+        switch (type) {
+            case "Polyvalente":
+                return true;
+            default:
+                return false;
+        }
     }
 
     public static boolean fonctionneBien(String type) {
@@ -76,17 +85,23 @@ public abstract class Machine {
     public String getOption(){return option;}
     public Inventory getStock() {return stockProd;}
     public boolean getIsModifiable(){return modifiable;}
+    public int getTempFabriq(){return tempFabriq;}
+    public boolean getFonctionneBien(){return fonctionneBien;}
 
     public void setInterfaceUpdate(UpdateInterface update){this.update = update;}
+    public UpdateInterface getInterfaceUpdate(){return update;}
 
-    public Player getPlayer(){return player;}
+
 
     public void ajouterAustock(Resource ressourceProduite) {
         for (Resource resource : stockProd.getResources()){
             resource.setLimiteStock(limiteStock); 
         }
         stockProd.addResource(ressourceProduite);
-        update.notificationUpdate();
+        if (update != null){
+            update.notificationUpdate();
+        }
+
     }
     
 
@@ -97,17 +112,7 @@ public abstract class Machine {
 
     public void produire() {}
 
-    // Méthode de récolte spécifique aux récolteuses
-    public void recolter(Resource ressource) {
-        if ("recolteuse".equals(type)) {
-            // Logique de récolte pour ajouter la ressource au stock
-            ajouterAustock(ressource);
-        }
-    }
 
-    public void afficherStock() {
-        System.out.println(stockProd);
-    }
 
     public String getStockSTR(){
         String res = "";
@@ -120,10 +125,24 @@ public abstract class Machine {
     public abstract String getResourcesSTR();
     public abstract String getNomRecetteEnCours();
     public abstract Machine getClone();
+    public abstract void setMap(Carte map);
+    public abstract void stopWorking();
     public void setPos(Position pos){this.pos = pos;}
     @Override
     public String toString(){
         return getName() + " " + getOption() + " " + getPosition();
+    }
+
+    @Override
+    public String saveAsString() {
+        return type + " option-> " + option + " a la position " + pos.getX() + "," + pos.getY() +
+                " Stock-> {" + getStockSTR() + "} Inventaire-> {" + getResourcesSTR() + "} Recette->" + getNomRecetteEnCours();
+    }
+    @Override
+    public void addToGrid(Cell[][] grid) {
+
+        grid[pos.getY()][pos.getX()] = new Cell<>(pos, this);
+
     }
     
 }

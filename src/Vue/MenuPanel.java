@@ -10,12 +10,11 @@ public class MenuPanel extends JPanel {
     private MenuButton newGame;
     private MenuButton settings;
     private MenuButton exit;
-
-    private ImageIcon logoIcon;  // ImageIcon pour le logo
+    private ImageIcon logoIcon;
 
     public MenuPanel(int xpos, int ypos, int width, int height) {
         logoIcon = new ImageIcon(getClass().getResource("/assets/Logo.png"));
-        
+
         playButton = new MenuButton(180, 110, xpos - 115, ypos + 10, "/assets/PlayDefault.png", "/assets/PlayHover.png");
         newGame = new MenuButton(180, 110, xpos + 100, ypos + 10, "/assets/NewGameDefault.png", "/assets/NewGameHover.png");
         settings = new MenuButton(180, 110, xpos - 115, ypos + 120, "/assets/SettingDefault.png", "/assets/SettingHover.png");
@@ -23,8 +22,6 @@ public class MenuPanel extends JPanel {
 
         setPreferredSize(new Dimension(width, height));
         setBackground(Color.DARK_GRAY);
-
-        // Ajouter un listener pour la souris
         addMouseMotionListener(new MouseAdapter() {
             @Override
             public void mouseMoved(MouseEvent e) {
@@ -42,7 +39,12 @@ public class MenuPanel extends JPanel {
         super.paintComponent(g);
 
         if (logoIcon != null) {
-            Image logoImage = logoIcon.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+            int logoSize = 200;
+            if (Dimensions.BASE_CELL_SIZE == 50 &&
+                (Dimensions.screenWidth != 1920 || Dimensions.screenHeight != 1080)) {
+                logoSize = 150;
+            }
+            Image logoImage = logoIcon.getImage().getScaledInstance(logoSize, logoSize, Image.SCALE_SMOOTH);
             ImageIcon scaledLogoIcon = new ImageIcon(logoImage);
 
             int logoWidth = scaledLogoIcon.getIconWidth();
@@ -50,7 +52,6 @@ public class MenuPanel extends JPanel {
             int y = 50;
             scaledLogoIcon.paintIcon(this, g, x, y);
         }
-
         playButton.draw(g);
         newGame.draw(g);
         settings.draw(g);
@@ -73,3 +74,4 @@ public class MenuPanel extends JPanel {
         return exit.getBounds().contains(point);
     }
 }
+

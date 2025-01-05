@@ -1,14 +1,13 @@
 package Vue;
 
-import javax.swing.*;
-import javax.swing.border.LineBorder;
-import java.awt.*;
-
-import Modele.Player;
 import Modele.Machine.Machine;
+import Modele.Player;
 import Modele.Resource.Recette;
 import Modele.Resource.Resource;
+import java.awt.*;
 import java.util.List;
+import javax.swing.*;
+import javax.swing.border.LineBorder;
 
 public class InventairePanel extends JPanel implements UpdateInterface{
 
@@ -41,8 +40,8 @@ public class InventairePanel extends JPanel implements UpdateInterface{
         rightPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 50, 0));
 
         JScrollPane rightScrollPane = new JScrollPane(rightPanel);
-        rightScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-        rightScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        rightScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        rightScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);        
         rightScrollPane.setBorder(null);
         rightScrollPane.getVerticalScrollBar().setUnitIncrement(20);
 

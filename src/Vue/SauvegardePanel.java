@@ -96,7 +96,7 @@ public class SauvegardePanel extends JPanel {
 
                     JLabel sauvegardeLabel = new JLabel(sauvegarde);
                     sauvegardeLabel.setForeground(Color.WHITE);
-                    sauvegardeLabel.setFont(new Font("Arial", Font.PLAIN, 18));
+                    sauvegardeLabel.setFont(new Font("Arial", Font.PLAIN, 25));
 
                     JButton jouerButton = new JButton("Play");
                     jouerButton.setFocusPainted(false);

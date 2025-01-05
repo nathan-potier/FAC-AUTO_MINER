@@ -174,6 +174,7 @@ public class Carte {
     public void verifSpawnAffichage(){
         if(getElementAt(Spawn.getPos()) == null){
             grid[Spawn.getPos().getY()][Spawn.getPos().getX()] = new Cell<>(Spawn.getPos(), spawn);
+            game.updateAffichage(false);
         }
     }
 
